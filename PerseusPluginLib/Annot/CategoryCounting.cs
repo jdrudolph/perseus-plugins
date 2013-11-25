@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -28,11 +28,11 @@ namespace PerseusPluginLib.Annot{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int minCount = param.GetIntParam("Min. count").Value;
 			int selCol = param.GetSingleChoiceParam("Selection").Value;
@@ -137,14 +137,14 @@ namespace PerseusPluginLib.Annot{
 			return y;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString){
 			List<string> choice = mdata.CategoryColumnNames;
 			int[] selection = ArrayUtils.ConsecutiveInts(choice.Count);
 			string[] sel = ArrayUtils.Concat(mdata.CategoryColumnNames.ToArray(), "<None>");
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Categories"){Values = choice, Value = selection}, new IntParam("Min. count", 1),
-					new SingleChoiceParam("Selection"){Values = sel, Value = sel.Length - 1}, new StringParam("Value", "+")
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Categories"){Values = choice, Value = selection}, new IntParamWf("Min. count", 1),
+					new SingleChoiceParamWf("Selection"){Values = sel, Value = sel.Length - 1}, new StringParamWf("Value", "+")
 				});
 		}
 	}

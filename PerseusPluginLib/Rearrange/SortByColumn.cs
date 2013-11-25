@@ -1,7 +1,6 @@
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -25,11 +24,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int ind = param.GetSingleChoiceParam("Column").Value;
 			bool descending = param.GetBoolParam("Descending").Value;
@@ -50,12 +49,12 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] choice = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Column"){Values = choice, Help = "Select here the column that should be used for sorting."},
-					new BoolParam("Descending"){Help = "If checked the values will be sorted largest to smallest."}
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Column"){Values = choice, Help = "Select here the column that should be used for sorting."},
+					new BoolParamWf("Descending"){Help = "If checked the values will be sorted largest to smallest."}
 				});
 		}
 	}

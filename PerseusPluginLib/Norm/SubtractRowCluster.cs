@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -26,11 +25,11 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			string[][] col = mdata.GetCategoryColumnAt(param.GetSingleChoiceParam("Indicator column").Value);
 			string term = param.GetStringParam("Value").Value;
@@ -76,11 +75,11 @@ namespace PerseusPluginLib.Norm{
 			return false;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Indicator column"){Values = mdata.CategoryColumnNames},
-					new StringParam("Value", "+")
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Indicator column"){Values = mdata.CategoryColumnNames},
+					new StringParamWf("Value", "+")
 					{Help = "Rows matching this term in the indicator column will be used as control for the normalization."}
 				});
 		}

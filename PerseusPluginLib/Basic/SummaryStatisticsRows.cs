@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -79,13 +78,13 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams xp = param.GetSingleChoiceWithSubParams("Expression column selection");
+				SingleChoiceWithSubParamsWf xp = param.GetSingleChoiceWithSubParams("Expression column selection");
 			bool groups = xp.Value == 2;
 			string[] groupNames = null;
 			int[][] colIndsGroups = null;
@@ -164,22 +163,22 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new List<Parameter>{
-					new SingleChoiceWithSubParams("Expression column selection"){
+				new ParametersWf(new List<ParameterWf>{
+					new SingleChoiceWithSubParamsWf("Expression column selection"){
 						Values = new[]{"Use all expression columns", "Select columns", "Within groups"},
 						SubParams =
 							new[]{
-								new Parameters(),
-								new Parameters(new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount))
+								new ParametersWf(),
+								new ParametersWf(new MultiChoiceParamWf("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount))
 								{Values = mdata.ExpressionColumnNames, Repeats = false}),
-								new Parameters(new SingleChoiceParam("Group"){Values = mdata.CategoryRowNames})
+								new ParametersWf(new SingleChoiceParamWf("Group"){Values = mdata.CategoryRowNames})
 							},
 						ParamNameWidth = 136,
 						TotalWidth = 731
 					},
-					new MultiChoiceParam("Calculate", ArrayUtils.ConsecutiveInts(procNames.Length)){Values = procNames}
+					new MultiChoiceParamWf("Calculate", ArrayUtils.ConsecutiveInts(procNames.Length)){Values = procNames}
 				});
 		}
 	}

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
@@ -19,11 +18,11 @@ namespace PerseusPluginLib.Export{
 		public float DisplayOrder { get { return 0; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
+		public void Export(ParametersWf parameters, IMatrixData data, ProcessInfo processInfo) {
 			string filename = parameters.GetFileParam("File name").Value;
 			StreamWriter writer;
 			try{
@@ -179,9 +178,9 @@ namespace PerseusPluginLib.Export{
 			return false;
 		}
 
-		public Parameters GetParameters(IMatrixData matrixData, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData matrixData, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{new FileParam("File name"){Filter = "Tab separated file (*.txt)|*.txt", Save = true}});
+				new ParametersWf(new ParameterWf[] { new FileParamWf("File name") { Filter = "Tab separated file (*.txt)|*.txt", Save = true } });
 		}
 
 		private const int maxlen = 30000;

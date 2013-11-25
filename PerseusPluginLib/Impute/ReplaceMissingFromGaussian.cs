@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using BasicLib.Num;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -37,11 +36,11 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			double width = param.GetDoubleParam("Width").Value;
 			double shift = param.GetDoubleParam("Down shift").Value;
@@ -53,21 +52,21 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new DoubleParam("Width", 0.3){
+				new ParametersWf(new ParameterWf[]{
+					new DoubleParamWf("Width", 0.3){
 						Help =
 							"The width of the gaussian distibution relative to the standard deviation of measured values. A value of 0.5 " +
 								"would mean that the width of the distribution used for drawing random numbers is half od the standard " +
 								"deviation of the data."
 					},
-					new DoubleParam("Down shift", 1.8){
+					new DoubleParamWf("Down shift", 1.8){
 						Help =
 							"The amount by which the distribution used for the random numbers is shifted downwards. This is in units of the" +
 								" standard deviation if the valid data."
 					},
-					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each columns"}}
+					new SingleChoiceParamWf("Mode", 1){Values = new[]{"Total matrix", "Separately for each columns"}}
 				});
 		}
 

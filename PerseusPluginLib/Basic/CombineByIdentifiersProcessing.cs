@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using BasicLib.Data;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Basic{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			bool keepEmpty = param.GetBoolParam("Keep rows without ID").Value;
 			AverageType atype = GetAverageType(param.GetSingleChoiceParam("Average type for expression columns").Value);
@@ -316,18 +316,18 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] averageTypeChoice = new[]{"Sum", "Mean", "Median", "Maximum", "Minimum"};
-			List<Parameter> parameters = new List<Parameter>{
-				new SingleChoiceParam("ID column")
+			List<ParameterWf> parameters = new List<ParameterWf>{
+				new SingleChoiceParamWf("ID column")
 				{Values = mdata.StringColumnNames, Help = "Column containing IDs that are going to be clustered."},
-				new BoolParam("Keep rows without ID"),
-				new SingleChoiceParam("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
+				new BoolParamWf("Keep rows without ID"),
+				new SingleChoiceParamWf("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
 			};
 			foreach (string n in mdata.NumericColumnNames){
-				parameters.Add(new SingleChoiceParam("Average type for " + n){Values = averageTypeChoice, Value = 2});
+				parameters.Add(new SingleChoiceParamWf("Average type for " + n) { Values = averageTypeChoice, Value = 2 });
 			}
-			return new Parameters(parameters);
+			return new ParametersWf(parameters);
 		}
 	}
 }

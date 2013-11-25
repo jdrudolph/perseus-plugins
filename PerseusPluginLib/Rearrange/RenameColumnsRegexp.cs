@@ -1,8 +1,7 @@
 using System.Drawing;
 using System.Text.RegularExpressions;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -26,11 +25,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			string regexStr = param.GetStringParam("Regular expression").Value;
 			Regex regex = new Regex(regexStr);
@@ -45,10 +44,10 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new StringParam("Regular expression"){
+				new ParametersWf(new ParameterWf[]{
+					new StringParamWf("Regular expression"){
 						Help =
 							"The regular expression that determines how the new column names are created from the old " +
 								"column names. As an example if you want to transform 'Ratio H/L Normalized Something' " +

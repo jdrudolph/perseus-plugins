@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
-using BasicLib.Param;
-using BasicLib.Util;
+using BasicLib.ParamWf;
 
 namespace PerseusApi.Generic{
 	/// <summary>
@@ -32,16 +31,12 @@ namespace PerseusApi.Generic{
 		/// The context help that will appear in the parameter form on a second tab.
 		/// </summary>
 		string HelpDescription { get; }
-		/// <summary>
-		/// Specifies whether the help string should be interpreted as plain text, html or rtf.
-		/// </summary>
-		DocumentType HelpDescriptionType { get; }
 
 		/// <summary>
 		/// Specifies the maximal number of threads that this acticity can make use of simultaneously.
 		/// </summary>
 		/// <param name="parameters">The parameters of the activity. The maximal usable number of threads might depend on the parameter settings.</param>
 		/// <returns></returns>
-		int GetMaxThreads(Parameters parameters);
+		int GetMaxThreads(ParametersWf parameters);
 	}
 }

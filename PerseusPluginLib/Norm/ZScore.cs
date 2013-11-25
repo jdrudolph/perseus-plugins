@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -34,13 +33,13 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return int.MaxValue;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
+				SingleChoiceWithSubParamsWf access = param.GetSingleChoiceWithSubParams("Matrix access");
 			bool rows = access.Value == 0;
 			int groupInd;
 			if (rows){
@@ -97,18 +96,18 @@ namespace PerseusPluginLib.Norm{
 			return result.ToArray();
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceWithSubParams("Matrix access"){
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceWithSubParamsWf("Matrix access"){
 						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
 						SubParams =
 							new[]{
-								new Parameters(new SingleChoiceParam("Grouping"){
+								new ParametersWf(new SingleChoiceParamWf("Grouping"){
 									Values = ArrayUtils.Concat(new[]{"<No grouping>"}, mdata.CategoryRowNames),
 									Help = "The z-scoring will be done separately in groups if a grouping is specified here."
 								}),
-								new Parameters()
+								new ParametersWf()
 							},
 						Help = "Specifies if the z-scoring is performed on the rows or the columns of the matrix."
 					}

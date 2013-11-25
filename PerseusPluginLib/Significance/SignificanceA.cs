@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using BasicLib.Num;
 using BasicLib.Num.Test;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -42,11 +41,11 @@ namespace PerseusPluginLib.Significance{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param.GetMultiChoiceParam("Columns").Value;
 			int truncIndex = param.GetSingleChoiceParam("Use for truncation").Value;
@@ -109,25 +108,25 @@ namespace PerseusPluginLib.Significance{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			List<string> choice = mdata.ExpressionColumnNames;
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Columns")
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Columns")
 					{Values = choice, Help = "Columns for which the Significance A should be calculated."},
-					new SingleChoiceParam("Side"){
+					new SingleChoiceParamWf("Side"){
 						Values = new[]{"both", "right", "left"},
 						Help =
 							"'Both' stands for the two-sided test in which the the null hypothesis can be rejected regardless of the direction" +
 								" of the effect. 'Left' and 'right' are the respective one sided tests."
 					},
-					new SingleChoiceParam("Use for truncation"){
+					new SingleChoiceParamWf("Use for truncation"){
 						Value = 1, Values = new[]{"P value", "Benjamini-Hochberg FDR"},
 						Help =
 							"Choose here whether the truncation should be based on the p values or if the Benjamini Hochberg correction for " +
 								"multiple hypothesis testing should be applied."
 					},
-					new DoubleParam("Threshold value", 0.05){
+					new DoubleParamWf("Threshold value", 0.05){
 						Help =
 							"Rows with a test result below this value are reported as significant. Depending on the choice made above this " +
 								"threshold value is applied to the p value or to the Benjamini Hochberg FDR."

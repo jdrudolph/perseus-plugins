@@ -1,7 +1,6 @@
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -18,27 +17,23 @@ namespace PerseusPluginLib.Impute{
 		public string Heading { get { return "Imputation"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 1; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			float value = (float) param.GetDoubleParam("Value").Value;
 			ReplaceMissingsByVal(value, mdata);
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]
-				{new DoubleParam("Value", 0){Help = "The value that is going to be filled in for missing values."}});
+				new ParametersWf(new ParameterWf[] { new DoubleParamWf("Value", 0) { Help = "The value that is going to be filled in for missing values." } });
 		}
 
 		public static void ReplaceMissingsByVal(float value, IMatrixData data){

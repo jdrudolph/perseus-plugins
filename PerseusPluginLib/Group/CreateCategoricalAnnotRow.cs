@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Parse;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Group{
 	public class CreateCategoricalAnnotRow : IMatrixProcessing{
@@ -32,14 +30,14 @@ namespace PerseusPluginLib.Group{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams scwsp = param.GetSingleChoiceWithSubParams("Action");
-			Parameters spar = scwsp.GetSubParameters();
+				SingleChoiceWithSubParamsWf scwsp = param.GetSingleChoiceWithSubParams("Action");
+				ParametersWf spar = scwsp.GetSubParameters();
 			switch (scwsp.Value){
 				case 0:
 					ProcessDataCreate(mdata, spar);
@@ -68,8 +66,8 @@ namespace PerseusPluginLib.Group{
 			}
 		}
 
-		private static string ProcessDataReadFromFile(IMatrixData mdata, Parameters param){
-			FileParam fp = param.GetFileParam("Input file");
+		private static string ProcessDataReadFromFile(IMatrixData mdata, ParametersWf param) {
+			FileParamWf fp = param.GetFileParam("Input file");
 			string filename = fp.Value;
 			string[] colNames = TabSep.GetColumnNames(filename, '\t');
 			int nameIndex = GetNameIndex(colNames);
@@ -112,8 +110,8 @@ namespace PerseusPluginLib.Group{
 			return -1;
 		}
 
-		private static void ProcessDataWriteTemplateFile(IMatrixData mdata, Parameters param){
-			FileParam fp = param.GetFileParam("Output file");
+		private static void ProcessDataWriteTemplateFile(IMatrixData mdata, ParametersWf param) {
+			FileParamWf fp = param.GetFileParam("Output file");
 			StreamWriter writer = new StreamWriter(fp.Value);
 			writer.WriteLine("Name\tNew grouping");
 			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
@@ -123,7 +121,7 @@ namespace PerseusPluginLib.Group{
 			writer.Close();
 		}
 
-		private static void ProcessDataRename(IMatrixData mdata, Parameters param){
+		private static void ProcessDataRename(IMatrixData mdata, ParametersWf param) {
 			int groupColInd = param.GetSingleChoiceParam("Category row").Value;
 			string newName = param.GetStringParam("New name").Value;
 			string newDescription = param.GetStringParam("New description").Value;
@@ -131,15 +129,15 @@ namespace PerseusPluginLib.Group{
 			mdata.CategoryRowDescriptions[groupColInd] = newDescription;
 		}
 
-		private static void ProcessDataDelete(IMatrixData mdata, Parameters param){
+		private static void ProcessDataDelete(IMatrixData mdata, ParametersWf param) {
 			int groupColInd = param.GetSingleChoiceParam("Category row").Value;
 			mdata.RemoveCategoryRowAt(groupColInd);
 		}
 
-		private static void ProcessDataEdit(IMatrixData mdata, Parameters param){
-			SingleChoiceWithSubParams s = param.GetSingleChoiceWithSubParams("Category row");
+		private static void ProcessDataEdit(IMatrixData mdata, ParametersWf param) {
+			SingleChoiceWithSubParamsWf s = param.GetSingleChoiceWithSubParams("Category row");
 			int groupColInd = s.Value;
-			Parameters sp = s.GetSubParameters();
+			ParametersWf sp = s.GetSubParameters();
 			string[][] newRow = new string[mdata.ExpressionColumnCount][];
 			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
 				string t = mdata.ExpressionColumnNames[i];
@@ -167,29 +165,29 @@ namespace PerseusPluginLib.Group{
             return true;
         }
 
-		public Parameters GetEditParameters(IMatrixData mdata){
-			Parameters[] subParams = new Parameters[mdata.CategoryRowCount];
+		public ParametersWf GetEditParameters(IMatrixData mdata) {
+			ParametersWf[] subParams = new ParametersWf[mdata.CategoryRowCount];
 			for (int i = 0; i < subParams.Length; i++){
 				subParams[i] = GetEditParameters(mdata, i);
 			}
-			List<Parameter> par = new List<Parameter>{
-				new SingleChoiceWithSubParams("Category row")
+			List<ParameterWf> par = new List<ParameterWf>{
+				new SingleChoiceWithSubParamsWf("Category row")
 				{Values = mdata.CategoryRowNames, SubParams = subParams, Help = "Select the category row that should be edited."}
 			};
-			return new Parameters(par);
+			return new ParametersWf(par);
 		}
 
-		public Parameters GetEditParameters(IMatrixData mdata, int ind){
-			List<Parameter> par = new List<Parameter>();
+		public ParametersWf GetEditParameters(IMatrixData mdata, int ind) {
+			List<ParameterWf> par = new List<ParameterWf>();
 			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
 				string t = mdata.ExpressionColumnNames[i];
 				string help = "Specify a category value for the column '" + t + "'.";
-				par.Add(new StringParam(t, StringUtils.Concat(";", mdata.GetCategoryRowAt(ind)[i])){Help = help});
+				par.Add(new StringParamWf(t, StringUtils.Concat(";", mdata.GetCategoryRowAt(ind)[i])) { Help = help });
 			}
-			return new Parameters(par);
+			return new ParametersWf(par);
 		}
 
-		private static void ProcessDataCreate(IMatrixData mdata, Parameters param){
+		private static void ProcessDataCreate(IMatrixData mdata, ParametersWf param) {
 			string name = param.GetStringParam("Row name").Value;
 			string[][] groupCol = new string[mdata.ExpressionColumnCount][];
 			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
@@ -200,9 +198,9 @@ namespace PerseusPluginLib.Group{
 			mdata.AddCategoryRow(name, name, groupCol);
 		}
 
-        private static void ProcessDataCreateFromGoupNames(IMatrixData mdata, Parameters param, ProcessInfo processInfo){
-            SingleChoiceWithSubParams scwsp = param.GetSingleChoiceWithSubParams("Pattern");
-            Parameters spar = scwsp.GetSubParameters();
+		private static void ProcessDataCreateFromGoupNames(IMatrixData mdata, ParametersWf param, ProcessInfo processInfo) {
+			SingleChoiceWithSubParamsWf scwsp = param.GetSingleChoiceWithSubParams("Pattern");
+			ParametersWf spar = scwsp.GetSubParameters();
             string regexString = "";
             string replacement = "";
             switch (scwsp.Value) { 
@@ -239,8 +237,8 @@ namespace PerseusPluginLib.Group{
             mdata.AddCategoryRow("Grouping", "", groupNames.ToArray());
         }
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			SingleChoiceWithSubParams scwsp = new SingleChoiceWithSubParams("Action"){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+			SingleChoiceWithSubParamsWf scwsp = new SingleChoiceWithSubParamsWf("Action") {
 				Values = new[]{"Create", "Create from experiment name", "Edit", "Rename", "Delete", "Write template file", "Read from file"},
 				SubParams =
 					new[]{
@@ -250,50 +248,47 @@ namespace PerseusPluginLib.Group{
 					},
 				ParamNameWidth = 136, TotalWidth = 731
 			};
-			return new Parameters(new Parameter[]{scwsp});
+			return new ParametersWf(new ParameterWf[] { scwsp });
 		}
 
-		public Parameters GetDeleteParameters(IMatrixData mdata){
-			List<Parameter> par = new List<Parameter>{
-				new SingleChoiceParam("Category row")
+		public ParametersWf GetDeleteParameters(IMatrixData mdata) {
+			List<ParameterWf> par = new List<ParameterWf>{
+				new SingleChoiceParamWf("Category row")
 				{Values = mdata.CategoryRowNames, Help = "Select the category row that should be deleted."}
 			};
-			return new Parameters(par);
+			return new ParametersWf(par);
 		}
 
-		public Parameters GetRenameParameters(IMatrixData mdata){
-			List<Parameter> par = new List<Parameter>{
-				new SingleChoiceParam("Category row")
+		public ParametersWf GetRenameParameters(IMatrixData mdata) {
+			List<ParameterWf> par = new List<ParameterWf>{
+				new SingleChoiceParamWf("Category row")
 				{Values = mdata.CategoryRowNames, Help = "Select the category row that should be renamed."},
-				new StringParam("New name"), new StringParam("New description")
+				new StringParamWf("New name"), new StringParamWf("New description")
 			};
-			return new Parameters(par);
+			return new ParametersWf(par);
 		}
 
-        public Parameters GetReadFromFileParameters(IMatrixData mdata){
-			List<Parameter> par = new List<Parameter>
-			{new FileParam("Input file"){Filter = "Tab separated file (*.txt)|*.txt", Save = false}};
-			return new Parameters(par);
+		public ParametersWf GetReadFromFileParameters(IMatrixData mdata) {
+			List<ParameterWf> par = new List<ParameterWf> { new FileParamWf("Input file") { Filter = "Tab separated file (*.txt)|*.txt", Save = false } };
+			return new ParametersWf(par);
 		}
 
-		public Parameters GetWriteTemplateFileParameters(IMatrixData mdata){
-			List<Parameter> par = new List<Parameter>
-			{new FileParam("Output file", "Groups.txt"){Filter = "Tab separated file (*.txt)|*.txt", Save = true}};
-			return new Parameters(par);
+		public ParametersWf GetWriteTemplateFileParameters(IMatrixData mdata) {
+			List<ParameterWf> par = new List<ParameterWf> { new FileParamWf("Output file", "Groups.txt") { Filter = "Tab separated file (*.txt)|*.txt", Save = true } };
+			return new ParametersWf(par);
 		}
 
-		public Parameters GetCreateParameters(IMatrixData mdata){
-			List<Parameter> par = new List<Parameter>
-			{new StringParam("Row name"){Value = "Group1", Help = "Name of the new category annotation row."}};
+		public ParametersWf GetCreateParameters(IMatrixData mdata) {
+			List<ParameterWf> par = new List<ParameterWf> { new StringParamWf("Row name") { Value = "Group1", Help = "Name of the new category annotation row." } };
 			foreach (string t in mdata.ExpressionColumnNames){
 				string help = "Specify a value for the column '" + t + "'.";
-				par.Add(new StringParam(t){Value = t, Help = help});
+				par.Add(new StringParamWf(t) { Value = t, Help = help });
 			}
-			return new Parameters(par);
+			return new ParametersWf(par);
 		}
 
         /// <remarks>author: Marco Hein</remarks>>
-        public Parameters GetCreateFromExperimentNamesParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetCreateFromExperimentNamesParameters(IMatrixData mdata, ref string errorString) {
             List<string[]> selectableRegexes = GetSelectableRegexes();            
             List<string> vals = new List<string>();
             foreach (string[] s in selectableRegexes){
@@ -301,15 +296,15 @@ namespace PerseusPluginLib.Group{
             }
             vals.Add("match regular expression");
             vals.Add("replace regular expression");
-            List<Parameters> subparams = new List<Parameters>();
+			List<ParametersWf> subparams = new List<ParametersWf>();
             for (int i = 0; i < selectableRegexes.Count; i++){
-                subparams.Add(new Parameters(new Parameter[] { }));
+				subparams.Add(new ParametersWf(new ParameterWf[] { }));
             }
-            subparams.Add(new Parameters(new Parameter[] { new StringParam("Regex", "") }));
-            subparams.Add(new Parameters(new Parameter[] { new StringParam("Regex", ""), new StringParam("Replace with","")}));
+			subparams.Add(new ParametersWf(new ParameterWf[] { new StringParamWf("Regex", "") }));
+			subparams.Add(new ParametersWf(new ParameterWf[] { new StringParamWf("Regex", ""), new StringParamWf("Replace with", "") }));
             return
-                new Parameters(new Parameter[]{
-					new SingleChoiceWithSubParams("Pattern", 0)
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceWithSubParamsWf("Pattern", 0)
 					{Values = vals, SubParams = subparams, ParamNameWidth = 100, TotalWidth = 400}
 				});
         }

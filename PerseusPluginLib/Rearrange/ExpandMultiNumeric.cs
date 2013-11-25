@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] multiNumCols = param1.GetMultiChoiceParam("Multi-numeric columns").Value;
 			Array.Sort(multiNumCols);
@@ -201,14 +201,14 @@ namespace PerseusPluginLib.Rearrange{
 			return count;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Multi-numeric columns"){
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Multi-numeric columns"){
 						Values = mdata.MultiNumericColumnNames, Value = new int[0],
 						Help = "Select here the multi-numeric colums that should be expanded."
 					},
-					new MultiChoiceParam("String columns"){
+					new MultiChoiceParamWf("String columns"){
 						Values = mdata.StringColumnNames, Value = new int[0],
 						Help = "Select here the string colums that should be expanded."
 					}

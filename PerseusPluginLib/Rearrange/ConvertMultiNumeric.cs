@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -38,11 +37,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param1.GetMultiChoiceParam("Columns").Value;
 			int[] ops = param1.GetMultiChoiceParam("Operation").Value;
@@ -61,16 +60,16 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			IList<string> values = mdata.MultiNumericColumnNames;
 			int[] sel = ArrayUtils.ConsecutiveInts(values.Count);
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Operation"){
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Operation"){
 						Values = names,
 						Help = "How should the numbers in a cell of the multi-numeric columns be transformed to a single number?"
 					},
-					new MultiChoiceParam("Columns"){
+					new MultiChoiceParamWf("Columns"){
 						Values = values, Value = sel,
 						Help = "Select here the multi-numeric colums that should be converted to numeric columns."
 					}

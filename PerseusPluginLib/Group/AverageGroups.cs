@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -34,28 +33,28 @@ namespace PerseusPluginLib.Group{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			if (mdata.CategoryRowCount == 0){
 				errorString = "No grouping is loaded.";
 				return null;
 			}
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames},
-					new SingleChoiceParam("Average type"){
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Grouping"){Values = mdata.CategoryRowNames},
+					new SingleChoiceParamWf("Average type"){
 						Values = new[]{"median", "mean", "sum", "geometric mean"},
 						Help = "Select wether median or mean should be used for the averaging."
 					},
-					new IntParam("Min. valid values per group", 1), new BoolParam("Keep original data", false),
-					new BoolParam("Add standard deviation")
+					new IntParamWf("Min. valid values per group", 1), new BoolParamWf("Keep original data", false),
+					new BoolParamWf("Add standard deviation")
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int avType = param.GetSingleChoiceParam("Average type").Value;
 			if (mdata.CategoryRowCount == 0){

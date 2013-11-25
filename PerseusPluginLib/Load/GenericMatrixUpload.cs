@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Parse;
 using BasicLib.Util;
 using PerseusApi.Generic;
@@ -28,11 +28,11 @@ namespace PerseusPluginLib.Load{
 		}
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void LoadData(IMatrixData matrixData, Parameters parameters, ProcessInfo processInfo){
+		public void LoadData(IMatrixData matrixData, ParametersWf parameters, ProcessInfo processInfo) {
 			PerseusLoadMatrixParam par = (PerseusLoadMatrixParam) parameters.GetParam("File");
 			string filename = par.Filename;
 			if (string.IsNullOrEmpty(filename)){
@@ -288,9 +288,9 @@ namespace PerseusPluginLib.Load{
 			return result;
 		}
 
-		public Parameters GetParameters(ref string errorString){
+		public ParametersWf GetParameters(ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
+				new ParametersWf(new ParameterWf[]{
 					new PerseusLoadMatrixParam("File"){
 						Filter = "Text (Tab delimited) (*.txt)|*.txt|CSV (Comma delimited) (*.csv)|*.csv",
 						Help = "Please specify here the name of the file to be uploaded including its full path."

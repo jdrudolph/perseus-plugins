@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -43,11 +43,11 @@ namespace PerseusPluginLib.Combine{
 			return index == 0 ? "Base matrix" : "Other matrix";
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public IMatrixData ProcessData(IMatrixData[] inputData, Parameters parameters, ref IMatrixData[] supplTables,
+		public IMatrixData ProcessData(IMatrixData[] inputData, ParametersWf parameters, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			IMatrixData mdata1 = inputData[0];
 			IMatrixData mdata2 = inputData[1];
@@ -211,7 +211,7 @@ namespace PerseusPluginLib.Combine{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData[] inputData, ref string errString){
+		public ParametersWf GetParameters(IMatrixData[] inputData, ref string errString) {
 			IMatrixData matrixData1 = inputData[0];
 			IMatrixData matrixData2 = inputData[1];
 			List<string> controlChoice1 = matrixData1.StringColumnNames;
@@ -239,40 +239,40 @@ namespace PerseusPluginLib.Combine{
 			List<string> exCol = matrixData2.ExpressionColumnNames;
 			int[] exSel = new int[0];
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Matching column 1")
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Matching column 1")
 					{Values = controlChoice1, Value = index1, Help = "The column in the first matrix that is used for matching rows."},
-					new SingleChoiceParam("Matching column 2")
+					new SingleChoiceParamWf("Matching column 2")
 					{Values = controlChoice2, Value = index2, Help = "The column in the second matrix that is used for matching rows."}
 					,
-					new BoolParam("Indicator"){
+					new BoolParamWf("Indicator"){
 						Help =
 							"If checked, a categorical column will be added in which it is indicated by a '+' if at least one row of the second " +
 								"matrix matches."
 					},
-					new MultiChoiceParam("Expression columns"){
+					new MultiChoiceParamWf("Expression columns"){
 						Value = exSel, Values = exCol,
 						Help = "Expression columns of the second matrix that should be added to the first matrix."
 					},
-					new SingleChoiceParam("Combine expression values"){
+					new SingleChoiceParamWf("Combine expression values"){
 						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
 						Help =
 							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
 								"expression values be combined?"
 					},
-					new MultiChoiceParam("Categorical columns"){
+					new MultiChoiceParamWf("Categorical columns"){
 						Values = catCol, Value = catSel,
 						Help = "Categorical columns of the second matrix that should be added to the first matrix."
 					},
-					new MultiChoiceParam("String columns"){
+					new MultiChoiceParamWf("String columns"){
 						Values = textCol, Value = textSel,
 						Help = "String columns of the second matrix that should be added to the first matrix."
 					},
-					new MultiChoiceParam("Numerical columns"){
+					new MultiChoiceParamWf("Numerical columns"){
 						Values = numCol, Value = numSel,
 						Help = "Numerical columns of the second matrix that should be added to the first matrix."
 					},
-					new SingleChoiceParam("Combine numerical values"){
+					new SingleChoiceParamWf("Combine numerical values"){
 						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
 						Help =
 							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +

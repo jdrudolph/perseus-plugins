@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -35,7 +35,7 @@ namespace PerseusPluginLib.Combine{
 			return index == 0 ? "Base matrix" : "Other matrix";
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
@@ -82,7 +82,7 @@ namespace PerseusPluginLib.Combine{
 			return result.ToArray();
 		}
 
-		public IMatrixData ProcessData(IMatrixData[] inputData, Parameters param, ref IMatrixData[] supplTables,
+		public IMatrixData ProcessData(IMatrixData[] inputData, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			IMatrixData mdata1 = inputData[0];
 			IMatrixData mdata2 = inputData[1];
@@ -220,8 +220,8 @@ namespace PerseusPluginLib.Combine{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData[] inputData, ref string errString){
-			return new Parameters();
+		public ParametersWf GetParameters(IMatrixData[] inputData, ref string errString) {
+			return new ParametersWf();
 		}
 	}
 }

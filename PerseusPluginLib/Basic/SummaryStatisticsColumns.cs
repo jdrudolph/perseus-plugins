@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -37,26 +36,26 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new List<Parameter>{
-					new MultiChoiceParam("Columns"){
+				new ParametersWf(new List<ParameterWf>{
+					new MultiChoiceParamWf("Columns"){
 						Value = ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount),
 						Values =
 							ArrayUtils.Concat(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames),
 								mdata.MultiNumericColumnNames),
 						Help = "Specify here the columns for which the summary statistics quantities should be calculated."
 					},
-					new MultiChoiceParam("Calculate", ArrayUtils.ConsecutiveInts(SummaryStatisticsRows.procNames.Length))
+					new MultiChoiceParamWf("Calculate", ArrayUtils.ConsecutiveInts(SummaryStatisticsRows.procNames.Length))
 					{Values = SummaryStatisticsRows.procNames, Help = "Select here which quantities should be calculated."}
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param.GetMultiChoiceParam("Columns").Value;
 			HashSet<int> w = ArrayUtils.ToHashSet(param.GetMultiChoiceParam("Calculate").Value);

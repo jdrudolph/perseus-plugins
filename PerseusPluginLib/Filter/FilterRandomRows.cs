@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using BasicLib.Num;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -27,17 +27,16 @@ namespace PerseusPluginLib.Filter{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]
-				{new IntParam("Number of rows", mdata.RowCount), PerseusPluginUtils.GetFilterModeParam(true)});
+				new ParametersWf(new ParameterWf[] { new IntParamWf("Number of rows", mdata.RowCount), PerseusPluginUtils.GetFilterModeParam(true) });
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int nrows = param.GetIntParam("Number of rows").Value;
 			nrows = Math.Min(nrows, mdata.RowCount);

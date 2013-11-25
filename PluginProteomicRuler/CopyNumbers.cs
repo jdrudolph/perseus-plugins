@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -54,14 +53,14 @@ namespace PluginProteomicRuler{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
 		private const double avogadro = 6.02214129e23;
 		private const double basePairWeight = 615.8771;
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] outputColumns = param.GetMultiChoiceParam("Output").Value;
 			int proteinIdColumnInd = param.GetSingleChoiceParam("Protein IDs").Value;
@@ -351,14 +350,14 @@ namespace PluginProteomicRuler{
 			return validValues.ToArray();
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Protein IDs"){
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Protein IDs"){
 						Help = "Specify the column containing the protein IDs", Values = mdata.StringColumnNames,
 						Value = Match(mdata.StringColumnNames.ToArray(), new[]{"Protein ID"}, false, true, true)[0]
 					},
-					new MultiChoiceParam("Intensities"){
+					new MultiChoiceParamWf("Intensities"){
 						Help =
 							"Specify the columns that contain the intensities to be used for copy number estimation. If several columns " +
 								"are selected, the method will calculate the median.",
@@ -367,7 +366,7 @@ namespace PluginProteomicRuler{
 							Match(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames), new[]{"intensit"}, false, true,
 								false)
 					},
-					new SingleChoiceWithSubParams("Averaging mode", 0){
+					new SingleChoiceWithSubParamsWf("Averaging mode", 0){
 						Values =
 							new string[]{
 								"All columns separately", "Same normalization for all columns", "Same normalization within groups",
@@ -375,56 +374,56 @@ namespace PluginProteomicRuler{
 							},
 						Help = "Select how multiple columns will be treated",
 						SubParams =
-							new List<Parameters>(){
-								new Parameters(new Parameter[]{}), new Parameters(new Parameter[]{}),
-								new Parameters(new Parameter[]{
-									new SingleChoiceParam("Grouping"){
+							new List<ParametersWf>(){
+								new ParametersWf(new ParameterWf[]{}), new ParametersWf(new ParameterWf[]{}),
+								new ParametersWf(new ParameterWf[]{
+									new SingleChoiceParamWf("Grouping"){
 										Values = mdata.CategoryRowNames,
 										Value = Match(mdata.CategoryRowNames.ToArray(), new[]{"group"}, false, true, true)[0]
 									}
 								}),
-								new Parameters(new Parameter[]{})
+								new ParametersWf(new ParameterWf[]{})
 							}
 					},
-					new BoolWithSubParams("Logarithmized", false){
+					new BoolWithSubParamsWf("Logarithmized", false){
 						Help = "Specify whether the intensities are logarithmized in the selected columns.",
-						SubParamsFalse = new Parameters(new Parameter[]{}),
+						SubParamsFalse = new ParametersWf(new ParameterWf[]{}),
 						SubParamsTrue =
-							new Parameters(new Parameter[]
-							{new SingleChoiceParam("log base"){Values = new[]{"2", "natural", "10"}, Value = 0}})
+							new ParametersWf(new ParameterWf[]
+							{new SingleChoiceParamWf("log base"){Values = new[]{"2", "natural", "10"}, Value = 0}})
 					},
-					new SingleChoiceParam("Molecular masses"){
+					new SingleChoiceParamWf("Molecular masses"){
 						Values = mdata.NumericColumnNames,
 						Value = Match(mdata.NumericColumnNames.ToArray(), new[]{"weight"}, false, true, true)[0]
 					},
-					new BoolWithSubParams("Detectability correction", false){
+					new BoolWithSubParamsWf("Detectability correction", false){
 						Help =
 							"Without correction, the algorithm assumes linearity between the signal and the mass of the proteins.\n" +
 								"Optionally select protein-specific correction factors such as the number of theoretical peptides.",
-						SubParamsFalse = new Parameters(new Parameter[]{}),
+						SubParamsFalse = new ParametersWf(new ParameterWf[]{}),
 						SubParamsTrue =
-							new Parameters(new Parameter[]{
-								new SingleChoiceParam("Correction factor"){
+							new ParametersWf(new ParameterWf[]{
+								new SingleChoiceParamWf("Correction factor"){
 									Values = mdata.NumericColumnNames,
 									Value = Match(mdata.NumericColumnNames.ToArray(), new[]{"theoretical"}, false, true, true)[0]
 								}
 							})
 					},
-					new SingleChoiceWithSubParams("Scaling mode", 1){
+					new SingleChoiceWithSubParamsWf("Scaling mode", 1){
 						Help = "Select how the absolute values should be scaled.",
 						Values = new[]{"Total protein amount", "Histone proteomic ruler"},
 						SubParams =
-							new List<Parameters>(){
-								new Parameters(new Parameter[]{
-									new DoubleParam("Protein amount per cell [pg]", 200)
+							new List<ParametersWf>(){
+								new ParametersWf(new ParameterWf[]{
+									new DoubleParamWf("Protein amount per cell [pg]", 200)
 									{Help = "Specify the amount of protein per cell in picograms."}
 								}),
-								new Parameters(new Parameter[]{new DoubleParam("Ploidy", 2){}})
+								new ParametersWf(new ParameterWf[]{new DoubleParamWf("Ploidy", 2){}})
 							}
 					},
-					new DoubleParam("Total cellular protein concentration [g/l]", 200)
+					new DoubleParamWf("Total cellular protein concentration [g/l]", 200)
 					{Help = "Specify the expected total protein concentration (typically 200-300 g/l)."},
-					new MultiChoiceParam("Output"){
+					new MultiChoiceParamWf("Output"){
 						Help = "Select the desired output",
 						Values =
 							new[]{

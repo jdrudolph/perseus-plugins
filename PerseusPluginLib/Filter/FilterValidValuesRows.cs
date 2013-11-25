@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -47,22 +47,22 @@ namespace PerseusPluginLib.Filter{
 				"The matrix of expression values is constrained to contain only these rows/columns that fulfil the requirement.";
 		} }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters){
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			const bool rows = true;
 			int minValids = param.GetIntParam("Min. number of values").Value;
-			SingleChoiceWithSubParams modeParam = param.GetSingleChoiceWithSubParams("Mode");
+			SingleChoiceWithSubParamsWf modeParam = param.GetSingleChoiceWithSubParams("Mode");
 			int modeInd = modeParam.Value;
 			if (modeInd != 0 && mdata.CategoryRowNames.Count == 0){
 				processInfo.ErrString = "No grouping is defined.";
 				return;
 			}
-			SingleChoiceWithSubParams x = param.GetSingleChoiceWithSubParams("Values should be");
-			Parameters subParams = x.GetSubParameters();
+			SingleChoiceWithSubParamsWf x = param.GetSingleChoiceWithSubParams("Values should be");
+			ParametersWf subParams = x.GetSubParameters();
 			int shouldBeIndex = x.Value;
 			FilteringMode filterMode;
 			double threshold = double.NaN;
@@ -109,7 +109,7 @@ namespace PerseusPluginLib.Filter{
 			}
 		}
 
-		private static void NonzeroFilterGroup(int minValids, IMatrixData mdata, Parameters param, bool oneGroup,
+		private static void NonzeroFilterGroup(int minValids, IMatrixData mdata, ParametersWf param, bool oneGroup,
 			double threshold, double threshold2, FilteringMode filterMode, IList<string[]> groupCol){
 			List<int> valids = new List<int>();
 			string[] groupVals = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
@@ -144,7 +144,7 @@ namespace PerseusPluginLib.Filter{
 			return result;
 		}
 
-		private static void NonzeroFilter1(bool rows, int minValids, IMatrixData mdata, Parameters param, double threshold,
+		private static void NonzeroFilter1(bool rows, int minValids, IMatrixData mdata, ParametersWf param, double threshold,
 			double threshold2, FilteringMode filterMode){
 			if (rows){
 				List<int> valids = new List<int>();
@@ -197,37 +197,37 @@ namespace PerseusPluginLib.Filter{
 			throw new Exception("Never get here.");
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			Parameters[] subParams = new Parameters[3];
-			subParams[0] = new Parameters(new Parameter[0]);
-			subParams[1] = new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}});
-			subParams[2] = new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}});
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+			ParametersWf[] subParams = new ParametersWf[3];
+			subParams[0] = new ParametersWf(new ParameterWf[0]);
+			subParams[1] = new ParametersWf(new ParameterWf[] { new SingleChoiceParamWf("Grouping") { Values = mdata.CategoryRowNames } });
+			subParams[2] = new ParametersWf(new ParameterWf[] { new SingleChoiceParamWf("Grouping") { Values = mdata.CategoryRowNames } });
 			return
-				new Parameters(new Parameter[]{
-					new IntParam("Min. number of values", 3)
+				new ParametersWf(new ParameterWf[]{
+					new IntParamWf("Min. number of values", 3)
 					{Help = "If a row/column has less than the specified number of valid values it will be discarded in the output."},
-					new SingleChoiceWithSubParams("Mode")
+					new SingleChoiceWithSubParamsWf("Mode")
 					{Values = new[]{"In total", "In each group", "In at least one group"}, SubParams = subParams},
-					new SingleChoiceWithSubParams("Values should be"){
+					new SingleChoiceWithSubParamsWf("Values should be"){
 						Values = new[]{"Valid", "Greater than", "Greater or equal", "Less than", "Less or equal", "Between", "Outside"},
 						SubParams =
 							new[]{
-								new Parameters(new Parameter[0]),
-								new Parameters(new Parameter[]
-								{new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."}}),
-								new Parameters(new Parameter[]
-								{new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."}}),
-								new Parameters(new Parameter[]
-								{new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}}),
-								new Parameters(new Parameter[]
-								{new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}}),
-								new Parameters(new Parameter[]{
-									new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
-									new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
+								new ParametersWf(new ParameterWf[0]),
+								new ParametersWf(new ParameterWf[]
+								{new DoubleParamWf("Minimum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+								new ParametersWf(new ParameterWf[]
+								{new DoubleParamWf("Minimum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+								new ParametersWf(new ParameterWf[]
+								{new DoubleParamWf("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+								new ParametersWf(new ParameterWf[]
+								{new DoubleParamWf("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+								new ParametersWf(new ParameterWf[]{
+									new DoubleParamWf("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
+									new DoubleParamWf("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
 								}),
-								new Parameters(new Parameter[]{
-									new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
-									new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
+								new ParametersWf(new ParameterWf[]{
+									new DoubleParamWf("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
+									new DoubleParamWf("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
 								})
 							}
 					},

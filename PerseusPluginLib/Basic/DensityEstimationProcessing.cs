@@ -1,6 +1,6 @@
 using System.Drawing;
 using BasicLib.Num;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -37,11 +37,11 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] colIndx = param.GetMultiChoiceParam("x").Value;
 			int[] colIndy = param.GetMultiChoiceParam("y").Value;
@@ -186,28 +186,28 @@ namespace PerseusPluginLib.Basic{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] vals = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
 			int[] sel1 = vals.Length > 0 ? new[]{0} : new int[0];
 			int[] sel2 = vals.Length > 1 ? new[]{1} : (vals.Length > 0 ? new[]{0} : new int[0]);
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("x", sel1){
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("x", sel1){
 						Values = vals, Repeats = true,
 						Help =
 							"Colums for the first dimension. Multiple choices can be made leading to the creation of multiple density maps."
 					}
 					,
-					new MultiChoiceParam("y", sel2){
+					new MultiChoiceParamWf("y", sel2){
 						Values = vals, Repeats = true,
 						Help = "Colums for the second dimension. The number has to be the same as for the 'Column 1' parameter."
 					},
-					new IntParam("Number of points", 300){
+					new IntParamWf("Number of points", 300){
 						Help =
 							"This parameter defines the resolution of the density map. It specifies the number of pixels per dimension. Large " +
 								"values may lead to increased computing times."
 					},
-					new SingleChoiceParam("Distribution type"){Values = new[]{"P(x,y)", "P(y|x)", "P(x|y)", "P(x,y)/(P(x)*P(y))"}}
+					new SingleChoiceParamWf("Distribution type"){Values = new[]{"P(x,y)", "P(y|x)", "P(x|y)", "P(x,y)/(P(x)*P(y))"}}
 				});
 		}
 	}

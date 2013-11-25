@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -32,11 +31,11 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int numQuantiles = param.GetIntParam("Number of quantiles").Value;
 			int[] colInds = param.GetMultiChoiceParam("Columns").Value;
@@ -67,13 +66,13 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			List<string> values = mdata.ExpressionColumnNames;
 			return
-				new Parameters(new Parameter[]{
-					new IntParam("Number of quantiles", 5)
+				new ParametersWf(new ParameterWf[]{
+					new IntParamWf("Number of quantiles", 5)
 					{Help = "This defines the number of quantiles that each column is going to be divided into."},
-					new MultiChoiceParam("Columns"){
+					new MultiChoiceParamWf("Columns"){
 						Value = ArrayUtils.ConsecutiveInts(values.Count), Values = values,
 						Help = "Please select here the columns that should be transformed into quantiles."
 					}

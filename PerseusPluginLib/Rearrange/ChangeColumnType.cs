@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -21,21 +20,18 @@ namespace PerseusPluginLib.Rearrange{
 		public string Heading { get { return "Matrix rearrangements"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams sp = param.GetSingleChoiceWithSubParams("Source type");
-			Parameters subParams = sp.GetSubParameters();
+				SingleChoiceWithSubParamsWf sp = param.GetSingleChoiceWithSubParams("Source type");
+				ParametersWf subParams = sp.GetSubParameters();
 			int[] colInds = subParams.GetMultiChoiceParam("Columns").Value;
 			int which = subParams.GetSingleChoiceParam("Target type").Value;
 			switch (sp.Value){
@@ -356,28 +352,28 @@ namespace PerseusPluginLib.Rearrange{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] choice = new[]{"Expression", "Numerical", "Categorical", "String"};
-			List<Parameters> subParams = new List<Parameters>{
+			List<ParametersWf> subParams = new List<ParametersWf>{
 				GetSubParams(mdata.ExpressionColumnNames, GetExpressionSelection()),
 				GetSubParams(mdata.NumericColumnNames, GetNumericSelection()),
 				GetSubParams(mdata.CategoryColumnNames, GetCategoricalSelection()),
 				GetSubParams(mdata.StringColumnNames, GetStringSelection())
 			};
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceWithSubParams("Source type"){
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceWithSubParamsWf("Source type"){
 						Values = choice, Help = "What is the original type of the column(s) whose type should be changed?",
 						SubParams = subParams, ParamNameWidth = 136, TotalWidth = 731
 					}
 				});
 		}
 
-		private static Parameters GetSubParams(IList<string> values, IList<string> options){
+		private static ParametersWf GetSubParams(IList<string> values, IList<string> options) {
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Columns"){Values = values, Help = "Select here the column whose type should be changed."},
-					new SingleChoiceParam("Target type", 0)
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Columns"){Values = values, Help = "Select here the column whose type should be changed."},
+					new SingleChoiceParamWf("Target type", 0)
 					{Values = options, Help = "The type that these columns will have in the result table."}
 				});
 		}

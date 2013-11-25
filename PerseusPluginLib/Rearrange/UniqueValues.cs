@@ -1,8 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -31,11 +30,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] stringCols = param1.GetMultiChoiceParam("String columns").Value;
 			if (stringCols.Length == 0){
@@ -55,10 +54,10 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("String columns"){
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("String columns"){
 						Values = mdata.StringColumnNames, Value = new int[0],
 						Help = "Select here the string colums that should be expanded."
 					}

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
-using BasicLib.Util;
-using PerseusApi;
+using BasicLib.ParamWf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -20,26 +18,22 @@ namespace PerseusPluginLib.Basic{
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3.5f; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("First column", 0){Values = mdata.CategoryColumnNames},
-					new SingleChoiceParam("Second column", 0){Values = mdata.CategoryColumnNames}
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("First column", 0){Values = mdata.CategoryColumnNames},
+					new SingleChoiceParamWf("Second column", 0){Values = mdata.CategoryColumnNames}
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			if (mdata.CategoryColumnCount < 2){
 				processInfo.ErrString = "There are less than two categorical columns available.";

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -31,11 +30,11 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return int.MaxValue;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			bool rows = param.GetSingleChoiceParam("Matrix access").Value == 0;
 			double min = param.GetDoubleParam("Minimum").Value;
@@ -43,14 +42,14 @@ namespace PerseusPluginLib.Norm{
 			MapToInterval1(rows, mdata, min, max, processInfo.NumThreads);
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Matrix access"){
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Matrix access"){
 						Values = new[]{"Rows", "Columns"},
 						Help = "Specifies if the analysis is performed on the rows or the columns of the matrix."
 					},
-					new DoubleParam("Minimum", 0), new DoubleParam("Maximum", 1)
+					new DoubleParamWf("Minimum", 0), new DoubleParamWf("Maximum", 1)
 				});
 		}
 

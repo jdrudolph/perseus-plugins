@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -26,11 +26,11 @@ namespace PerseusPluginLib.Basic{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			string colName = param.GetStringParam("Name of new column").Value;
 			int[] columns = param.GetMultiChoiceParam("Categories").Value;
@@ -97,16 +97,16 @@ namespace PerseusPluginLib.Basic{
 			stringCols = stringCols1.ToArray();
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] choice = ArrayUtils.Concat(mdata.CategoryColumnNames, mdata.StringColumnNames);
 			int[] selection = new int[0];
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Categories")
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Categories")
 					{Value = selection, Values = choice, Help = "Search these columns for the search terms specified."},
-					new MultiStringParam("Search terms"){Help = "Look for these terms in the selected columns"},
-					new StringParam("Name of new column"),
-					new BoolParam("Inverse"){Help = "If true, those rows are indicated which do not contain any of the search terms."}
+					new MultiStringParamWf("Search terms"){Help = "Look for these terms in the selected columns"},
+					new StringParamWf("Name of new column"),
+					new BoolParamWf("Inverse"){Help = "If true, those rows are indicated which do not contain any of the search terms."}
 				});
 		}
 	}

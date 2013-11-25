@@ -1,7 +1,6 @@
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -25,11 +24,11 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int colIndex = param.GetSingleChoiceParam("Control column").Value;
 			if (colIndex < mdata.ExpressionColumnCount){
@@ -39,9 +38,9 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] controlChoice = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
-			return new Parameters(new Parameter[]{new SingleChoiceParam("Control column"){Values = controlChoice}});
+			return new ParametersWf(new ParameterWf[] { new SingleChoiceParamWf("Control column") { Values = controlChoice } });
 		}
 
 		public static void DivideByColumnNum(IMatrixData data, int index){

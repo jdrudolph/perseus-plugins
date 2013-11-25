@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using BasicLib.Num;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -26,11 +26,11 @@ namespace PerseusPluginLib.Basic{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData data, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			bool falseAreIndicated = param.GetSingleChoiceParam("Indicated are").Value == 0;
 			int catCol = param.GetSingleChoiceParam("In column").Value;
@@ -182,15 +182,15 @@ namespace PerseusPluginLib.Basic{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] numChoice = ArrayUtils.Concat(mdata.NumericColumnNames, mdata.ExpressionColumnNames);
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Indicated are"){Values = new[]{"False", "True"}},
-					new SingleChoiceParam("In column"){Values = mdata.CategoryColumnNames}, new StringParam("Indicator"){Value = "+"},
-					new MultiChoiceParam("Scores"){Value = new[]{0}, Values = numChoice},
-					new BoolParam("Large values are good"){Value = true},
-					new MultiChoiceParam("Display quantity"){Values = PerformanceColumnType.AllTypeNames}
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Indicated are"){Values = new[]{"False", "True"}},
+					new SingleChoiceParamWf("In column"){Values = mdata.CategoryColumnNames}, new StringParamWf("Indicator"){Value = "+"},
+					new MultiChoiceParamWf("Scores"){Value = new[]{0}, Values = numChoice},
+					new BoolParamWf("Large values are good"){Value = true},
+					new MultiChoiceParamWf("Display quantity"){Values = PerformanceColumnType.AllTypeNames}
 				});
 		}
 

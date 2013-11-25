@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -33,11 +32,11 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData data, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] exColInds = param.GetMultiChoiceParam("Expression columns").Value;
 			int[] numColInds = param.GetMultiChoiceParam("Numerical columns").Value;
@@ -59,31 +58,31 @@ namespace PerseusPluginLib.Rearrange{
 			data.StringColumnDescriptions = ArrayUtils.SubList(data.StringColumnDescriptions, textColInds);
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			List<string> exCols = mdata.ExpressionColumnNames;
 			List<string> numCols = mdata.NumericColumnNames;
 			List<string> multiNumCols = mdata.MultiNumericColumnNames;
 			List<string> catCols = mdata.CategoryColumnNames;
 			List<string> textCols = mdata.StringColumnNames;
 			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Expression columns"){
+				new ParametersWf(new ParameterWf[]{
+					new MultiChoiceParamWf("Expression columns"){
 						Value = ArrayUtils.ConsecutiveInts(exCols.Count), Values = exCols,
 						Help = "Specify here the new order in which the expression columns should appear."
 					},
-					new MultiChoiceParam("Numerical columns"){
+					new MultiChoiceParamWf("Numerical columns"){
 						Value = ArrayUtils.ConsecutiveInts(numCols.Count), Values = numCols,
 						Help = "Specify here the new order in which the numerical columns should appear."
 					},
-					new MultiChoiceParam("Multi-numerical columns"){
+					new MultiChoiceParamWf("Multi-numerical columns"){
 						Value = ArrayUtils.ConsecutiveInts(multiNumCols.Count), Values = multiNumCols,
 						Help = "Specify here the new order in which the numerical columns should appear."
 					},
-					new MultiChoiceParam("Categorical columns"){
+					new MultiChoiceParamWf("Categorical columns"){
 						Value = ArrayUtils.ConsecutiveInts(catCols.Count), Values = catCols,
 						Help = "Specify here the new order in which the categorical columns should appear."
 					},
-					new MultiChoiceParam("Text columns"){
+					new MultiChoiceParamWf("Text columns"){
 						Value = ArrayUtils.ConsecutiveInts(textCols.Count), Values = textCols,
 						Help = "Specify here the new order in which the text columns should appear."
 					}

@@ -1,11 +1,11 @@
 using System;
 using System.Windows.Forms;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
 
 namespace PerseusPluginLib.Load{
 	[Serializable]
-	public class PerseusLoadMatrixParam : Parameter{
+	public class PerseusLoadMatrixParam : ParameterWf {
 		public string Filter { get; set; }
 		public string[] Value { get; set; }
 		public string[] Default { get; private set; }

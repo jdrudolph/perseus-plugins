@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Param;
+using BasicLib.ParamWf;
 using BasicLib.Util;
-using PerseusApi;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -27,13 +26,13 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters){
+		public int GetMaxThreads(ParametersWf parameters) {
 			return int.MaxValue;
 		}
 
-		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceParam access = param.GetSingleChoiceParam("Matrix access");
+				SingleChoiceParamWf access = param.GetSingleChoiceParam("Matrix access");
 			bool rows = access.Value == 0;
 			int what = param.GetSingleChoiceParam("Divide by what").Value;
 			DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
@@ -91,14 +90,14 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Matrix access"){
+				new ParametersWf(new ParameterWf[]{
+					new SingleChoiceParamWf("Matrix access"){
 						Values = new[]{"Rows", "Columns"},
 						Help = "Specifies if the analysis is performed on the rows or the columns of the matrix."
 					},
-					new SingleChoiceParam("Divide by what")
+					new SingleChoiceParamWf("Divide by what")
 					{Values = new[]{"Mean", "Median", "Most frequent value", "Tukey's biweight"}, Value = 1}
 				});
 		}
