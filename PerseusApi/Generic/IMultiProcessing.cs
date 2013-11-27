@@ -1,6 +1,4 @@
-﻿using BasicLib.Util;
-
-namespace PerseusApi.Generic {
+﻿namespace PerseusApi.Generic {
 	public interface IMultiProcessing : IActivityWithHeading {
 		string HelpOutput { get; }
 		string[] HelpSupplTables { get; }

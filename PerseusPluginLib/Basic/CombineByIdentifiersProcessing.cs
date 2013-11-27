@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BasicLib.Data;
-using BasicLib.ParamWf;
-using BasicLib.Util;
+using BaseLib.Data;
+using BaseLib.ParamWf;
+using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;

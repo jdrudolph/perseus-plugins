@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using BasicLib.ParamWf;
+using BaseLib.ParamWf;
 
 namespace PerseusApi.Generic{
 	/// <summary>

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
-using BasicLib.ParamWf;
-using BasicLib.Util;
+using BaseLib.ParamWf;
+using BaseLib.Util;
 
 namespace PerseusPluginLib.Load{
 	[Serializable]

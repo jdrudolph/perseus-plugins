@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BasicLib">
-      <HintPath>..\..\plugin-dev\DLLs\BasicLib.dll</HintPath>
+    <Reference Include="BaseLib">
+      <HintPath>..\DLLs\BaseLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

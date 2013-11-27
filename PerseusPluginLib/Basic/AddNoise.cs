@@ -1,7 +1,7 @@
 using System.Drawing;
-using BasicLib.Num;
-using BasicLib.ParamWf;
-using BasicLib.Util;
+using BaseLib.Num;
+using BaseLib.ParamWf;
+using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;

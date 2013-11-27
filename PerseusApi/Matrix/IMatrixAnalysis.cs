@@ -1,5 +1,5 @@
 using System;
-using BasicLib.ParamWf;
+using BaseLib.ParamWf;
 using PerseusApi.Generic;
 
 namespace PerseusApi.Matrix{

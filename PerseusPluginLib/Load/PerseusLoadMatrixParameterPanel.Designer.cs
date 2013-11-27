@@ -25,7 +25,7 @@ namespace PerseusPluginLib.Load{
 		private void InitializeComponent() {
 			this.textBox = new System.Windows.Forms.TextBox();
 			this.button = new System.Windows.Forms.Button();
-			this.multiListSelector1 = new BasicLib.Forms.Select.MultiListSelector();
+			this.multiListSelector1 = new BaseLib.Forms.Select.MultiListSelector();
 			this.SuspendLayout();
 			// 
 			// textBox
@@ -76,6 +76,6 @@ namespace PerseusPluginLib.Load{
 
 		private System.Windows.Forms.TextBox textBox;
 		private System.Windows.Forms.Button button;
-		private BasicLib.Forms.Select.MultiListSelector multiListSelector1;
+		private BaseLib.Forms.Select.MultiListSelector multiListSelector1;
 	}
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using BasicLib.Parse;
-using BasicLib.Util;
+using BaseLib.Parse;
+using BaseLib.Util;
 
 namespace PerseusPluginLib.Load{
 	public partial class PerseusLoadMatrixParameterPanel : UserControl{

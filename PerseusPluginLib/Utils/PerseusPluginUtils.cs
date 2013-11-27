@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BasicLib.ParamWf;
-using BasicLib.Util;
+using BaseLib.ParamWf;
+using BaseLib.Util;
 using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Utils{

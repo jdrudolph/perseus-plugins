@@ -28,7 +28,7 @@
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.removeSelectedRowsButton = new System.Windows.Forms.ToolStripButton();
 			this.keepSelectedRowsButton = new System.Windows.Forms.ToolStripButton();
-			this.matrixDataGridView = new BasicLib.Forms.Table.TableView();
+			this.matrixDataGridView = new BaseLib.Forms.Table.TableView();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -104,6 +104,6 @@
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton removeSelectedRowsButton;
 		private System.Windows.Forms.ToolStripButton keepSelectedRowsButton;
-		private BasicLib.Forms.Table.TableView matrixDataGridView;
+		private BaseLib.Forms.Table.TableView matrixDataGridView;
 	}
 }

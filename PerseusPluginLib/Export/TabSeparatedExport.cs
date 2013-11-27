@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using BasicLib.ParamWf;
-using BasicLib.Util;
+using BaseLib.ParamWf;
+using BaseLib.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;

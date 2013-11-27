@@ -1,4 +1,4 @@
-﻿using BasicLib.ParamWf;
+﻿using BaseLib.ParamWf;
 
 namespace PerseusApi.Generic{
 	public interface IVisualization : IActivity{
