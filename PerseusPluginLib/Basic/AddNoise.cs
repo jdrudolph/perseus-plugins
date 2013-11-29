@@ -1,6 +1,6 @@
-using System.Drawing;
+using System.Windows.Media;
 using BaseLib.Num;
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class AddNoise : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Modulate the data with gaussian noise."; } }
 		public string HelpOutput { get { return "Same as input matrix with random noise added to the expression columns."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -25,11 +25,11 @@ namespace PerseusPluginLib.Basic{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			Random2 rand = new Random2();
 			double std = param.GetDoubleParam("Standard deviation").Value;
@@ -40,9 +40,9 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[] { new DoubleParamWf("Standard deviation", 0.1) { Help = "Standard deviation of the noise distribution." } });
+				new Parameters(new Parameter[] { new DoubleParam("Standard deviation", 0.1) { Help = "Standard deviation of the noise distribution." } });
 		}
 	}
 }

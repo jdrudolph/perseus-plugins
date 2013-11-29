@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Parse;
 using BaseLib.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Load{
 	public class GenericMatrixUpload : IMatrixUpload{
 		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.uploadGeneric; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.uploadGeneric); } }
 		public string Name { get { return "Generic matrix upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
@@ -28,11 +29,11 @@ namespace PerseusPluginLib.Load{
 		}
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void LoadData(IMatrixData matrixData, ParametersWf parameters, ProcessInfo processInfo) {
+		public void LoadData(IMatrixData matrixData, Parameters parameters, ProcessInfo processInfo) {
 			PerseusLoadMatrixParam par = (PerseusLoadMatrixParam) parameters.GetParam("File");
 			string filename = par.Filename;
 			if (string.IsNullOrEmpty(filename)){
@@ -288,9 +289,9 @@ namespace PerseusPluginLib.Load{
 			return result;
 		}
 
-		public ParametersWf GetParameters(ref string errorString) {
+		public Parameters GetParameters(ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
+				new Parameters(new Parameter[]{
 					new PerseusLoadMatrixParam("File"){
 						Filter = "Text (Tab delimited) (*.txt)|*.txt|CSV (Comma delimited) (*.csv)|*.csv",
 						Help = "Please specify here the name of the file to be uploaded including its full path."

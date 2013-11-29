@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Norm{
 	public class ZScore : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.zscoreButton_Image; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.zscoreButton_Image); } }
 		public string Name { get { return "Z-score"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }
@@ -33,13 +34,13 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return int.MaxValue;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParamsWf access = param.GetSingleChoiceWithSubParams("Matrix access");
+				SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
 			bool rows = access.Value == 0;
 			int groupInd;
 			if (rows){
@@ -96,18 +97,18 @@ namespace PerseusPluginLib.Norm{
 			return result.ToArray();
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceWithSubParamsWf("Matrix access"){
+				new Parameters(new Parameter[]{
+					new SingleChoiceWithSubParams("Matrix access"){
 						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
 						SubParams =
 							new[]{
-								new ParametersWf(new SingleChoiceParamWf("Grouping"){
+								new Parameters(new SingleChoiceParam("Grouping"){
 									Values = ArrayUtils.Concat(new[]{"<No grouping>"}, mdata.CategoryRowNames),
 									Help = "The z-scoring will be done separately in groups if a grouping is specified here."
 								}),
-								new ParametersWf()
+								new Parameters()
 							},
 						Help = "Specifies if the z-scoring is performed on the rows or the columns of the matrix."
 					}

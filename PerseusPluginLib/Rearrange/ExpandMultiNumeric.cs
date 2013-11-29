@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class ExpandMultiNumeric : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return "Distribute multiple values per cell in a multi-numeric column over multiple rows. For each row in the" +
@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param1, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] multiNumCols = param1.GetMultiChoiceParam("Multi-numeric columns").Value;
 			Array.Sort(multiNumCols);
@@ -201,14 +201,14 @@ namespace PerseusPluginLib.Rearrange{
 			return count;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new MultiChoiceParamWf("Multi-numeric columns"){
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("Multi-numeric columns"){
 						Values = mdata.MultiNumericColumnNames, Value = new int[0],
 						Help = "Select here the multi-numeric colums that should be expanded."
 					},
-					new MultiChoiceParamWf("String columns"){
+					new MultiChoiceParam("String columns"){
 						Values = mdata.StringColumnNames, Value = new int[0],
 						Help = "Select here the string colums that should be expanded."
 					}

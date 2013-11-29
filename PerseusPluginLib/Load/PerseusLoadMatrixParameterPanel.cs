@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using BaseLib.Parse;
 using BaseLib.Util;
 
 namespace PerseusPluginLib.Load{
-	public partial class PerseusLoadMatrixParameterPanel : UserControl{
+	public partial class PerseusLoadMatrixParameterPanel : System.Windows.Controls.UserControl{
 		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		private static readonly HashSet<string> categoricalCols =
@@ -97,20 +96,20 @@ namespace PerseusPluginLib.Load{
 		}
 
 		private void ButtonClick(object sender, EventArgs e){
-			OpenFileDialog ofd = new OpenFileDialog();
+			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 			if (Filter != null && !Filter.Equals("")){
 				ofd.Filter = Filter;
 			}
-			if (ofd.ShowDialog() != DialogResult.OK){
+			if (!ofd.ShowDialog().Value){
 				return;
 			}
 			string filename = ofd.FileName;
 			if (string.IsNullOrEmpty(filename)){
-				MessageBox.Show("Please specify a filename");
+				System.Windows.MessageBox.Show("Please specify a filename");
 				return;
 			}
 			if (!File.Exists(filename)){
-				MessageBox.Show("File '" + filename + "' does not exist.");
+				System.Windows.MessageBox.Show("File '" + filename + "' does not exist.");
 				return;
 			}
 			UpdateFile(filename);
@@ -125,7 +124,7 @@ namespace PerseusPluginLib.Load{
 			try{
 				colNames = TabSep.GetColumnNames(filename, commentPrefix, commentPrefixExceptions, annotationRows, separator);
 			} catch (Exception){
-				MessageBox.Show("Could not open the file '" + filename + "'. It is probably opened by another program.");
+				System.Windows.MessageBox.Show("Could not open the file '" + filename + "'. It is probably opened by another program.");
 				return;
 			}
 			string[] colDescriptions = null;
@@ -149,7 +148,7 @@ namespace PerseusPluginLib.Load{
 			}
 			string msg = TabSep.CanOpen(filename);
 			if (msg != null){
-				MessageBox.Show(msg);
+				System.Windows.MessageBox.Show(msg);
 				return;
 			}
 			multiListSelector1.Init(colNames);
@@ -233,6 +232,6 @@ namespace PerseusPluginLib.Load{
 			return isSilac ? 'd' : 's';
 		}
 
-		public override string Text { get { return textBox.Text; } set { textBox.Text = value; } }
+		public string Text { get { return textBox.Text; } set { textBox.Text = value; } }
 	}
 }

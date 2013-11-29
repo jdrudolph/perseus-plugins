@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class RenameColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "New names can be specified for each expression column. The new names are typed in explicitly."; } }
 		public string HelpOutput { get { return "Same matrix but with the new expression column names."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -25,11 +25,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			List<string> expressionColumnNames = new List<string>();
 			HashSet<string> taken = new HashSet<string>();
@@ -93,29 +93,29 @@ namespace PerseusPluginLib.Rearrange{
 			mdata.MultiNumericColumnNames = multiNumericColumnNames;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			List<ParameterWf> par = new List<ParameterWf>();
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			List<Parameter> par = new List<Parameter>();
 			foreach (string t in mdata.ExpressionColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParamWf(t) { Value = t, Help = help });
+				par.Add(new StringParam(t) { Value = t, Help = help });
 			}
 			foreach (string t in mdata.NumericColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParamWf(t) { Value = t, Help = help });
+				par.Add(new StringParam(t) { Value = t, Help = help });
 			}
 			foreach (string t in mdata.CategoryColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParamWf(t) { Value = t, Help = help });
+				par.Add(new StringParam(t) { Value = t, Help = help });
 			}
 			foreach (string t in mdata.StringColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParamWf(t) { Value = t, Help = help });
+				par.Add(new StringParam(t) { Value = t, Help = help });
 			}
 			foreach (string t in mdata.MultiNumericColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParamWf(t) { Value = t, Help = help });
+				par.Add(new StringParam(t) { Value = t, Help = help });
 			}
-			return new ParametersWf(par);
+			return new Parameters(par);
 		}
 	}
 }

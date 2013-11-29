@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterTextualColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Only those rows are kept that have a value in the textual column that matches the search string."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -26,11 +26,11 @@ namespace PerseusPluginLib.Filter{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int colInd = param.GetSingleChoiceParam("Column").Value;
 			string searchString = param.GetStringParam("Search string").Value;
@@ -77,14 +77,14 @@ namespace PerseusPluginLib.Filter{
 			return matchWholeWord ? searchString.Equals(word) : word.Contains(searchString);
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceParamWf("Column")
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("Column")
 					{Values = mdata.StringColumnNames, Help = "The text column that the filtering should be based on."},
-					new StringParamWf("Search string"){Help = "String that is searched in the specified column."},
-					new BoolParamWf("Match case"), new BoolParamWf("Match whole word"){Value = true},
-					new SingleChoiceParamWf("Mode"){
+					new StringParam("Search string"){Help = "String that is searched in the specified column."},
+					new BoolParam("Match case"), new BoolParam("Match whole word"){Value = true},
+					new SingleChoiceParam("Mode"){
 						Values = new[]{"Remove matching rows", "Keep matching rows"},
 						Help =
 							"If 'Remove matching rows' is selected, rows matching the criteria will be removed while " +

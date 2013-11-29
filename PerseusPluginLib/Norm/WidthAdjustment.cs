@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class WidthAdjustment : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return "The first, second and third quartile (q1, q2, q3) are calculated from the " +
@@ -32,11 +32,11 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			float[,] vals = mdata.ExpressionValues;
 			double[] dm = new double[mdata.ExpressionColumnCount];
@@ -69,8 +69,8 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			return new ParametersWf(new ParameterWf[0]);
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			return new Parameters(new Parameter[0]);
 		}
 	}
 }

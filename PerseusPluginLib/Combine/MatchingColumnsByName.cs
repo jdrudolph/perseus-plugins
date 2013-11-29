@@ -1,17 +1,18 @@
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Combine{
 	public class MatchingColumnsByName : IMatrixMultiProcessing{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.combineButton_Image; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.combineButton_Image); } }
 		public string Name { get { return "Matching columns by name"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -4; } }
@@ -35,7 +36,7 @@ namespace PerseusPluginLib.Combine{
 			return index == 0 ? "Base matrix" : "Other matrix";
 		}
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
@@ -82,7 +83,7 @@ namespace PerseusPluginLib.Combine{
 			return result.ToArray();
 		}
 
-		public IMatrixData ProcessData(IMatrixData[] inputData, ParametersWf param, ref IMatrixData[] supplTables,
+		public IMatrixData ProcessData(IMatrixData[] inputData, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			IMatrixData mdata1 = inputData[0];
 			IMatrixData mdata2 = inputData[1];
@@ -220,8 +221,8 @@ namespace PerseusPluginLib.Combine{
 			return result;
 		}
 
-		public ParametersWf GetParameters(IMatrixData[] inputData, ref string errString) {
-			return new ParametersWf();
+		public Parameters GetParameters(IMatrixData[] inputData, ref string errString) {
+			return new Parameters();
 		}
 	}
 }

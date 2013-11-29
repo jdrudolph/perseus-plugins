@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CombineCategoricalColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Combine the terms in two categorical columns to form a new categorical column."; } }
 		public string HelpOutput { get { return "A new categorical column is generated with combined terms."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -21,19 +21,19 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceParamWf("First column", 0){Values = mdata.CategoryColumnNames},
-					new SingleChoiceParamWf("Second column", 0){Values = mdata.CategoryColumnNames}
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("First column", 0){Values = mdata.CategoryColumnNames},
+					new SingleChoiceParam("Second column", 0){Values = mdata.CategoryColumnNames}
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			if (mdata.CategoryColumnCount < 2){
 				processInfo.ErrString = "There are less than two categorical columns available.";

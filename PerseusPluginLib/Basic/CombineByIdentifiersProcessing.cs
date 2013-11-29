@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows.Media;
 using BaseLib.Data;
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -19,7 +19,7 @@ namespace PerseusPluginLib.Basic{
 
 	public class CombineByIdentifiersProcessing : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Basic{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			bool keepEmpty = param.GetBoolParam("Keep rows without ID").Value;
 			AverageType atype = GetAverageType(param.GetSingleChoiceParam("Average type for expression columns").Value);
@@ -316,18 +316,18 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] averageTypeChoice = new[]{"Sum", "Mean", "Median", "Maximum", "Minimum"};
-			List<ParameterWf> parameters = new List<ParameterWf>{
-				new SingleChoiceParamWf("ID column")
+			List<Parameter> parameters = new List<Parameter>{
+				new SingleChoiceParam("ID column")
 				{Values = mdata.StringColumnNames, Help = "Column containing IDs that are going to be clustered."},
-				new BoolParamWf("Keep rows without ID"),
-				new SingleChoiceParamWf("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
+				new BoolParam("Keep rows without ID"),
+				new SingleChoiceParam("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
 			};
 			foreach (string n in mdata.NumericColumnNames){
-				parameters.Add(new SingleChoiceParamWf("Average type for " + n) { Values = averageTypeChoice, Value = 2 });
+				parameters.Add(new SingleChoiceParam("Average type for " + n) { Values = averageTypeChoice, Value = 2 });
 			}
-			return new ParametersWf(parameters);
+			return new Parameters(parameters);
 		}
 	}
 }

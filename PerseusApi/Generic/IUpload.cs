@@ -1,4 +1,4 @@
-﻿using BaseLib.ParamWf;
+﻿using BaseLib.Param;
 
 namespace PerseusApi.Generic{
 	public interface IUpload : IActivity{
@@ -7,6 +7,6 @@ namespace PerseusApi.Generic{
 		/// </summary>
 		/// <param name="errString">Set this to a value != null if an error occured. The error string will be displayed to the user.</param>
 		/// <returns>The set of parameters.</returns>
-		ParametersWf GetParameters(ref string errString);
+		Parameters GetParameters(ref string errString);
 	}
 }

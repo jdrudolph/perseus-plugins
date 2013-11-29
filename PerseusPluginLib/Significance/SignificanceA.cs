@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows.Media;
 using BaseLib.Num;
 using BaseLib.Num.Test;
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -13,7 +13,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Significance{
 	public class SignificanceA : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
@@ -41,11 +41,11 @@ namespace PerseusPluginLib.Significance{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param.GetMultiChoiceParam("Columns").Value;
 			int truncIndex = param.GetSingleChoiceParam("Use for truncation").Value;
@@ -108,25 +108,25 @@ namespace PerseusPluginLib.Significance{
 			return result;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			List<string> choice = mdata.ExpressionColumnNames;
 			return
-				new ParametersWf(new ParameterWf[]{
-					new MultiChoiceParamWf("Columns")
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("Columns")
 					{Values = choice, Help = "Columns for which the Significance A should be calculated."},
-					new SingleChoiceParamWf("Side"){
+					new SingleChoiceParam("Side"){
 						Values = new[]{"both", "right", "left"},
 						Help =
 							"'Both' stands for the two-sided test in which the the null hypothesis can be rejected regardless of the direction" +
 								" of the effect. 'Left' and 'right' are the respective one sided tests."
 					},
-					new SingleChoiceParamWf("Use for truncation"){
+					new SingleChoiceParam("Use for truncation"){
 						Value = 1, Values = new[]{"P value", "Benjamini-Hochberg FDR"},
 						Help =
 							"Choose here whether the truncation should be based on the p values or if the Benjamini Hochberg correction for " +
 								"multiple hypothesis testing should be applied."
 					},
-					new DoubleParamWf("Threshold value", 0.05){
+					new DoubleParam("Threshold value", 0.05){
 						Help =
 							"Rows with a test result below this value are reported as significant. Depending on the choice made above this " +
 								"threshold value is applied to the p value or to the Benjamini Hochberg FDR."

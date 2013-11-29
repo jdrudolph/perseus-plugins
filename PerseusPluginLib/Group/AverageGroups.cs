@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -12,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.average; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.average); } }
 		public string HelpDescription{
 			get{
 				return
@@ -33,28 +33,28 @@ namespace PerseusPluginLib.Group{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			if (mdata.CategoryRowCount == 0){
 				errorString = "No grouping is loaded.";
 				return null;
 			}
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceParamWf("Grouping"){Values = mdata.CategoryRowNames},
-					new SingleChoiceParamWf("Average type"){
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames},
+					new SingleChoiceParam("Average type"){
 						Values = new[]{"median", "mean", "sum", "geometric mean"},
 						Help = "Select wether median or mean should be used for the averaging."
 					},
-					new IntParamWf("Min. valid values per group", 1), new BoolParamWf("Keep original data", false),
-					new BoolParamWf("Add standard deviation")
+					new IntParam("Min. valid values per group", 1), new BoolParam("Keep original data", false),
+					new BoolParam("Add standard deviation")
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int avType = param.GetSingleChoiceParam("Average type").Value;
 			if (mdata.CategoryRowCount == 0){

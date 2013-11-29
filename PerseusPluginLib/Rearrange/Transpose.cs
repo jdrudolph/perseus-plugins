@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class Transpose : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return
@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int nameCol = param.GetSingleChoiceParam("New column names").Value;
 			List<string> colNames;
@@ -116,10 +116,10 @@ namespace PerseusPluginLib.Rearrange{
 			return succ;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceParamWf("New column names"){
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("New column names"){
 						Values = mdata.StringColumnNames,
 						Help = "Select the column that should become the column names of the transposed matrix."
 					}

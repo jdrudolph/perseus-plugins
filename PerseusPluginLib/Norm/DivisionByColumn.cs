@@ -1,5 +1,5 @@
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class DivisionByColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Divide all columns by the specified column."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -24,11 +24,11 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int colIndex = param.GetSingleChoiceParam("Control column").Value;
 			if (colIndex < mdata.ExpressionColumnCount){
@@ -38,9 +38,9 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] controlChoice = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
-			return new ParametersWf(new ParameterWf[] { new SingleChoiceParamWf("Control column") { Values = controlChoice } });
+			return new Parameters(new Parameter[] { new SingleChoiceParam("Control column") { Values = controlChoice } });
 		}
 
 		public static void DivideByColumnNum(IMatrixData data, int index){

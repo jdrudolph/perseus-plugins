@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -15,7 +15,7 @@ namespace PerseusPluginLib.Rearrange{
 			x => x.Length, x => ArrayUtils.Sum(x), x => ArrayUtils.Product(x), x => ArrayUtils.Mean(x), x => ArrayUtils.Median(x)
 		};
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return
@@ -37,11 +37,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param1, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param1.GetMultiChoiceParam("Columns").Value;
 			int[] ops = param1.GetMultiChoiceParam("Operation").Value;
@@ -60,16 +60,16 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			IList<string> values = mdata.MultiNumericColumnNames;
 			int[] sel = ArrayUtils.ConsecutiveInts(values.Count);
 			return
-				new ParametersWf(new ParameterWf[]{
-					new MultiChoiceParamWf("Operation"){
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("Operation"){
 						Values = names,
 						Help = "How should the numbers in a cell of the multi-numeric columns be transformed to a single number?"
 					},
-					new MultiChoiceParamWf("Columns"){
+					new MultiChoiceParam("Columns"){
 						Values = values, Value = sel,
 						Help = "Select here the multi-numeric colums that should be converted to numeric columns."
 					}

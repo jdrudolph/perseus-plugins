@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using BaseLib.ParamWf;
+﻿using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Quality{
 	public class FilterQuality : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -24,15 +24,15 @@ namespace PerseusPluginLib.Quality{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			return new ParametersWf(new ParameterWf[] { new DoubleParamWf("Threshold", 0) });
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			return new Parameters(new Parameter[] { new DoubleParam("Threshold", 0) });
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			if (!mdata.HasQuality){
 				processInfo.ErrString = "No quality data loaded.";

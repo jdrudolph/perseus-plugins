@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PluginMy{
 	public class FilterDe : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Rows containing D or E in the specified columns are discarded."; } }
 		public string HelpOutput { get { return "Filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -25,11 +26,11 @@ namespace PluginMy{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int colIndex = param.GetSingleChoiceParam("Column with second last AA").Value;
 			string aas = param.GetStringParam("Amino acids").Value;
@@ -66,10 +67,10 @@ namespace PluginMy{
 			return true;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			return new ParametersWf(new ParameterWf[]{
-				new SingleChoiceParamWf("Column with second last AA"){Values = mdata.CategoryColumnNames},
- 				new StringParamWf("Amino acids", "DE") 
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			return new Parameters(new Parameter[]{
+				new SingleChoiceParam("Column with second last AA"){Values = mdata.CategoryColumnNames},
+ 				new StringParam("Amino acids", "DE") 
 			});
 		}
 	}

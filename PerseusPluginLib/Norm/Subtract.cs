@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -11,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class Subtract : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "The specified quantity calculated on each row/column is subtracted from each value."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -27,13 +27,13 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return int.MaxValue;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParamsWf access = param.GetSingleChoiceWithSubParams("Matrix access");
+				SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
 			bool rows = access.Value == 0;
 			int groupInd;
 			if (rows){
@@ -92,20 +92,20 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceWithSubParamsWf("Matrix access"){
+				new Parameters(new Parameter[]{
+					new SingleChoiceWithSubParams("Matrix access"){
 						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
 						SubParams =
 							new[]{
-								new ParametersWf(new SingleChoiceParamWf("Grouping")
+								new Parameters(new SingleChoiceParam("Grouping")
 								{Values = ArrayUtils.Concat(new[]{"<No grouping>"}, mdata.CategoryRowNames)}),
-								new ParametersWf()
+								new Parameters()
 							},
 						Help = "Specifies if the subtraction is performed on the rows or the columns of the matrix."
 					},
-					new SingleChoiceParamWf("Subtract what"){
+					new SingleChoiceParam("Subtract what"){
 						Values = new[]{
 							"Mean", "Median", "Most frequent value", "Tukey's biweight"
 						},

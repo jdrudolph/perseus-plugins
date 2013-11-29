@@ -1,11 +1,11 @@
 using System;
-using System.Windows.Forms;
-using BaseLib.ParamWf;
+using System.Windows;
+using BaseLib.Param;
 using BaseLib.Util;
 
 namespace PerseusPluginLib.Load{
 	[Serializable]
-	public class PerseusLoadMatrixParam : ParameterWf {
+	public class PerseusLoadMatrixParam : Parameter{
 		public string Filter { get; set; }
 		public string[] Value { get; set; }
 		public string[] Default { get; private set; }
@@ -68,7 +68,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		public override float Height { get { return 770; } }
-		protected override Control Control{
+		protected override FrameworkElement Control{
 			get{
 				string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
 				return new PerseusLoadMatrixParameterPanel(items){Filter = Filter, Value = Value};

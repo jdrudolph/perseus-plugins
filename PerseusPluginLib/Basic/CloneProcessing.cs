@@ -1,15 +1,16 @@
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Basic{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.sheepButton_Image; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.sheepButton_Image); } }
 		public string HelpDescription { get { return "A copy of the input matrix is generated."; } }
 		public string HelpOutput { get { return "Same as input matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -25,15 +26,15 @@ namespace PerseusPluginLib.Basic{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo) {}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			return new ParametersWf(new ParameterWf[] { });
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			return new Parameters(new Parameter[] { });
 		}
 	}
 }

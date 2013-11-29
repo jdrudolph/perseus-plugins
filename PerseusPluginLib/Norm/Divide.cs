@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class Divide : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Divide all values by the specified quantity calculated on each row/column."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -26,13 +26,13 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return int.MaxValue;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceParamWf access = param.GetSingleChoiceParam("Matrix access");
+				SingleChoiceParam access = param.GetSingleChoiceParam("Matrix access");
 			bool rows = access.Value == 0;
 			int what = param.GetSingleChoiceParam("Divide by what").Value;
 			DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
@@ -90,14 +90,14 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceParamWf("Matrix access"){
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("Matrix access"){
 						Values = new[]{"Rows", "Columns"},
 						Help = "Specifies if the analysis is performed on the rows or the columns of the matrix."
 					},
-					new SingleChoiceParamWf("Divide by what")
+					new SingleChoiceParam("Divide by what")
 					{Values = new[]{"Mean", "Median", "Most frequent value", "Tukey's biweight"}, Value = 1}
 				});
 		}

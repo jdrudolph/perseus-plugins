@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using BaseLib.ParamWf;
+﻿using System.Windows.Media;
+using BaseLib.Param;
 
 namespace PerseusApi.Generic{
 	/// <summary>
@@ -26,7 +26,7 @@ namespace PerseusApi.Generic{
 		/// <summary>
 		/// The image for the shortcut button.
 		/// </summary>
-		Image ButtonImage { get; }
+		ImageSource ButtonImage { get; }
 		/// <summary>
 		/// The context help that will appear in the parameter form on a second tab.
 		/// </summary>
@@ -37,6 +37,6 @@ namespace PerseusApi.Generic{
 		/// </summary>
 		/// <param name="parameters">The parameters of the activity. The maximal usable number of threads might depend on the parameter settings.</param>
 		/// <returns></returns>
-		int GetMaxThreads(ParametersWf parameters);
+		int GetMaxThreads(Parameters parameters);
 	}
 }

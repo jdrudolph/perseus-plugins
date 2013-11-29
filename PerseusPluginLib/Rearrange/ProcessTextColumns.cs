@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text.RegularExpressions;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class ProcessTextColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Values in string columns can be manipulated according to a regular expression."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string HelpOutput { get { return ""; } }
@@ -26,11 +26,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			string regexStr = param.GetStringParam("Regular expression").Value;
 			Regex regex = new Regex(regexStr);
@@ -47,11 +47,11 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new MultiChoiceParamWf("Columns"){Values = mdata.StringColumnNames},
-					new StringParamWf("Regular expression", "^([^;]+)")
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("Columns"){Values = mdata.StringColumnNames},
+					new StringParam("Regular expression", "^([^;]+)")
 				});
 		}
 	}

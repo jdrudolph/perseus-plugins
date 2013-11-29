@@ -1,8 +1,8 @@
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using PerseusApi.Generic;
 
 namespace PerseusApi.Matrix{
 	public interface IMatrixUpload : IMatrixActivity, IUpload{
-		void LoadData(IMatrixData matrixData, ParametersWf parameters, ProcessInfo processInfo);
+		void LoadData(IMatrixData matrixData, Parameters parameters, ProcessInfo processInfo);
 	}
 }

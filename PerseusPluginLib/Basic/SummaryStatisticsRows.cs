@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -53,7 +54,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string Name { get { return "Summary statistics (rows)"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
@@ -78,13 +79,13 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParamsWf xp = param.GetSingleChoiceWithSubParams("Expression column selection");
+				SingleChoiceWithSubParams xp = param.GetSingleChoiceWithSubParams("Expression column selection");
 			bool groups = xp.Value == 2;
 			string[] groupNames = null;
 			int[][] colIndsGroups = null;
@@ -163,22 +164,22 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new List<ParameterWf>{
-					new SingleChoiceWithSubParamsWf("Expression column selection"){
+				new Parameters(new List<Parameter>{
+					new SingleChoiceWithSubParams("Expression column selection"){
 						Values = new[]{"Use all expression columns", "Select columns", "Within groups"},
 						SubParams =
 							new[]{
-								new ParametersWf(),
-								new ParametersWf(new MultiChoiceParamWf("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount))
+								new Parameters(),
+								new Parameters(new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount))
 								{Values = mdata.ExpressionColumnNames, Repeats = false}),
-								new ParametersWf(new SingleChoiceParamWf("Group"){Values = mdata.CategoryRowNames})
+								new Parameters(new SingleChoiceParam("Group"){Values = mdata.CategoryRowNames})
 							},
 						ParamNameWidth = 136,
 						TotalWidth = 731
 					},
-					new MultiChoiceParamWf("Calculate", ArrayUtils.ConsecutiveInts(procNames.Length)){Values = procNames}
+					new MultiChoiceParam("Calculate", ArrayUtils.ConsecutiveInts(procNames.Length)){Values = procNames}
 				});
 		}
 	}

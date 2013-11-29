@@ -1,17 +1,18 @@
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows.Media;
 using BaseLib.Num;
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingFromGaussian : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.histo; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.histo); } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string HelpOutput { get { return ""; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
@@ -36,11 +37,11 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			double width = param.GetDoubleParam("Width").Value;
 			double shift = param.GetDoubleParam("Down shift").Value;
@@ -52,21 +53,21 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new DoubleParamWf("Width", 0.3){
+				new Parameters(new Parameter[]{
+					new DoubleParam("Width", 0.3){
 						Help =
 							"The width of the gaussian distibution relative to the standard deviation of measured values. A value of 0.5 " +
 								"would mean that the width of the distribution used for drawing random numbers is half od the standard " +
 								"deviation of the data."
 					},
-					new DoubleParamWf("Down shift", 1.8){
+					new DoubleParam("Down shift", 1.8){
 						Help =
 							"The amount by which the distribution used for the random numbers is shifted downwards. This is in units of the" +
 								" standard deviation if the valid data."
 					},
-					new SingleChoiceParamWf("Mode", 1){Values = new[]{"Total matrix", "Separately for each columns"}}
+					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each columns"}}
 				});
 		}
 

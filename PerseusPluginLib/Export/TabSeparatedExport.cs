@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.saveGeneric; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.saveGeneric); } }
 		public string HelpDescription { get { return ""; } }
 		public string Name { get { return "Generic export"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void Export(ParametersWf parameters, IMatrixData data, ProcessInfo processInfo) {
+		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo) {
 			string filename = parameters.GetFileParam("File name").Value;
 			StreamWriter writer;
 			try{
@@ -178,9 +179,9 @@ namespace PerseusPluginLib.Export{
 			return false;
 		}
 
-		public ParametersWf GetParameters(IMatrixData matrixData, ref string errorString) {
+		public Parameters GetParameters(IMatrixData matrixData, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[] { new FileParamWf("File name") { Filter = "Tab separated file (*.txt)|*.txt", Save = true } });
+				new Parameters(new Parameter[] { new FileParam("File name") { Filter = "Tab separated file (*.txt)|*.txt", Save = true } });
 		}
 
 		private const int maxlen = 30000;

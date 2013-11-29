@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterCategoricalRow : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Those columns are kept or removed that have the specified value in the selected categorical row."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -26,28 +26,28 @@ namespace PerseusPluginLib.Filter{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			ParametersWf[] subParams = new ParametersWf[mdata.CategoryRowCount];
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			Parameters[] subParams = new Parameters[mdata.CategoryRowCount];
 			for (int i = 0; i < mdata.CategoryRowCount; i++) {
 				string[] values = mdata.GetCategoryRowValuesAt(i);
 				int[] sel = values.Length == 1 ? new[]{0} : new int[0];
 				subParams[i] =
-					new ParametersWf(new ParameterWf[]{
-						new MultiChoiceParamWf("Values", sel)
+					new Parameters(new Parameter[]{
+						new MultiChoiceParam("Values", sel)
 						{Values = values, Help = "The value that should be present to discard/keep the corresponding row."}
 					});
 			}
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceWithSubParamsWf("Row"){
+				new Parameters(new Parameter[]{
+					new SingleChoiceWithSubParams("Row"){
 						Values = mdata.CategoryRowNames, SubParams = subParams,
 						Help = "The categorical row that the filtering should be based on.", ParamNameWidth = 50, TotalWidth = 731
 					},
-					new SingleChoiceParamWf("Mode"){
+					new SingleChoiceParam("Mode"){
 						Values = new[]{"Remove matching columns", "Keep matching columns"},
 						Help =
 							"If 'Remove matching columns' is selected, rows having the values specified above will be removed while " +
@@ -57,15 +57,15 @@ namespace PerseusPluginLib.Filter{
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParamsWf p = param.GetSingleChoiceWithSubParams("Row");
+				SingleChoiceWithSubParams p = param.GetSingleChoiceWithSubParams("Row");
 			int colInd = p.Value;
 			if (colInd < 0){
 				processInfo.ErrString = "No categorical rows available.";
 				return;
 			}
-			MultiChoiceParamWf mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
+			MultiChoiceParam mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
 			int[] inds = mcp.Value;
 			if (inds.Length == 0){
 				processInfo.ErrString = "Please select at least one term for filtering.";

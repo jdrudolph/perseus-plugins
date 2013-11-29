@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class SubtractRowCluster : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "Subtract the average pattern of the selected rows from all rows."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -25,11 +25,11 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			string[][] col = mdata.GetCategoryColumnAt(param.GetSingleChoiceParam("Indicator column").Value);
 			string term = param.GetStringParam("Value").Value;
@@ -75,11 +75,11 @@ namespace PerseusPluginLib.Norm{
 			return false;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new SingleChoiceParamWf("Indicator column"){Values = mdata.CategoryColumnNames},
-					new StringParamWf("Value", "+")
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("Indicator column"){Values = mdata.CategoryColumnNames},
+					new StringParam("Value", "+")
 					{Help = "Rows matching this term in the indicator column will be used as control for the normalization."}
 				});
 		}

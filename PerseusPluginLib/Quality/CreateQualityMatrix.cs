@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Quality{
 	public class CreateQualityMatrix : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -26,22 +26,22 @@ namespace PerseusPluginLib.Quality{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] reducedExpColNames = ReduceNames(mdata.ExpressionColumnNames);
-			List<ParameterWf> p = new List<ParameterWf>();
+			List<Parameter> p = new List<Parameter>();
 			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				SingleChoiceParamWf scp = new SingleChoiceParamWf(mdata.ExpressionColumnNames[i])
+				SingleChoiceParam scp = new SingleChoiceParam(mdata.ExpressionColumnNames[i])
 				{Values = mdata.NumericColumnNames, Value = GetSelectedValue(mdata.NumericColumnNames, reducedExpColNames[i])};
 				p.Add(scp);
 			}
-			return new ParametersWf(p);
+			return new Parameters(p);
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			float[,] q = new float[mdata.RowCount,mdata.ExpressionColumnCount];
 			for (int j = 0; j < mdata.ExpressionColumnCount; j++){

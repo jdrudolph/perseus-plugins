@@ -1,6 +1,6 @@
-﻿using System.Drawing;
-using System.Linq;
-using BaseLib.ParamWf;
+﻿using System.Linq;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class UniqueValues : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return "Values in the selected string columns are made unique. The strings are " +
@@ -30,11 +30,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param1, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] stringCols = param1.GetMultiChoiceParam("String columns").Value;
 			if (stringCols.Length == 0){
@@ -54,10 +54,10 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[]{
-					new MultiChoiceParamWf("String columns"){
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("String columns"){
 						Values = mdata.StringColumnNames, Value = new int[0],
 						Help = "Select here the string colums that should be expanded."
 					}

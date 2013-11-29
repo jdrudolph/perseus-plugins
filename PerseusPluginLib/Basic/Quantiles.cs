@@ -1,16 +1,17 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Basic{
 	public class Quantiles : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.quantiles; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.quantiles); } }
 		public string Name { get { return "Quantiles"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
@@ -31,11 +32,11 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int numQuantiles = param.GetIntParam("Number of quantiles").Value;
 			int[] colInds = param.GetMultiChoiceParam("Columns").Value;
@@ -66,13 +67,13 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			List<string> values = mdata.ExpressionColumnNames;
 			return
-				new ParametersWf(new ParameterWf[]{
-					new IntParamWf("Number of quantiles", 5)
+				new Parameters(new Parameter[]{
+					new IntParam("Number of quantiles", 5)
 					{Help = "This defines the number of quantiles that each column is going to be divided into."},
-					new MultiChoiceParamWf("Columns"){
+					new MultiChoiceParam("Columns"){
 						Value = ArrayUtils.ConsecutiveInts(values.Count), Values = values,
 						Help = "Please select here the columns that should be transformed into quantiles."
 					}

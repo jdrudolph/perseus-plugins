@@ -1,7 +1,7 @@
 using System;
-using System.Drawing;
+using System.Windows.Media;
 using BaseLib.Num;
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -11,7 +11,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterRandomRows : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpDescription { get { return "A given number of rows is kept based on random decisions."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -27,16 +27,16 @@ namespace PerseusPluginLib.Filter{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new ParameterWf[] { new IntParamWf("Number of rows", mdata.RowCount), PerseusPluginUtils.GetFilterModeParam(true) });
+				new Parameters(new Parameter[] { new IntParam("Number of rows", mdata.RowCount), PerseusPluginUtils.GetFilterModeParam(true) });
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int nrows = param.GetIntParam("Number of rows").Value;
 			nrows = Math.Min(nrows, mdata.RowCount);

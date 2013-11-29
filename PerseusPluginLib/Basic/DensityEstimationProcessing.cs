@@ -1,11 +1,12 @@
-using System.Drawing;
+using System.Windows.Media;
 using BaseLib.Num;
-using BaseLib.ParamWf;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
+using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Basic{
 	public class DensityEstimationProcessing : IMatrixProcessing{
@@ -13,7 +14,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayOrder { get { return -3; } }
 		public bool IsActive { get { return true; } }
 		public bool HasButton { get { return true; } }
-		public Image ButtonImage { get { return Resources.density_Image; } }
+		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.density_Image); } }
 		public string Heading { get { return "Basic"; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
@@ -37,11 +38,11 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] colIndx = param.GetMultiChoiceParam("x").Value;
 			int[] colIndy = param.GetMultiChoiceParam("y").Value;
@@ -186,28 +187,28 @@ namespace PerseusPluginLib.Basic{
 			return result;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			string[] vals = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
 			int[] sel1 = vals.Length > 0 ? new[]{0} : new int[0];
 			int[] sel2 = vals.Length > 1 ? new[]{1} : (vals.Length > 0 ? new[]{0} : new int[0]);
 			return
-				new ParametersWf(new ParameterWf[]{
-					new MultiChoiceParamWf("x", sel1){
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("x", sel1){
 						Values = vals, Repeats = true,
 						Help =
 							"Colums for the first dimension. Multiple choices can be made leading to the creation of multiple density maps."
 					}
 					,
-					new MultiChoiceParamWf("y", sel2){
+					new MultiChoiceParam("y", sel2){
 						Values = vals, Repeats = true,
 						Help = "Colums for the second dimension. The number has to be the same as for the 'Column 1' parameter."
 					},
-					new IntParamWf("Number of points", 300){
+					new IntParam("Number of points", 300){
 						Help =
 							"This parameter defines the resolution of the density map. It specifies the number of pixels per dimension. Large " +
 								"values may lead to increased computing times."
 					},
-					new SingleChoiceParamWf("Distribution type"){Values = new[]{"P(x,y)", "P(y|x)", "P(x|y)", "P(x,y)/(P(x)*P(y))"}}
+					new SingleChoiceParam("Distribution type"){Values = new[]{"P(x,y)", "P(y|x)", "P(x|y)", "P(x,y)/(P(x)*P(y))"}}
 				});
 		}
 	}

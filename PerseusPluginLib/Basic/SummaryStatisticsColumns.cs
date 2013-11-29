@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class SummaryStatisticsColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string Name { get { return "Summary statistics (columns)"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
@@ -36,26 +36,26 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
-				new ParametersWf(new List<ParameterWf>{
-					new MultiChoiceParamWf("Columns"){
+				new Parameters(new List<Parameter>{
+					new MultiChoiceParam("Columns"){
 						Value = ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount),
 						Values =
 							ArrayUtils.Concat(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames),
 								mdata.MultiNumericColumnNames),
 						Help = "Specify here the columns for which the summary statistics quantities should be calculated."
 					},
-					new MultiChoiceParamWf("Calculate", ArrayUtils.ConsecutiveInts(SummaryStatisticsRows.procNames.Length))
+					new MultiChoiceParam("Calculate", ArrayUtils.ConsecutiveInts(SummaryStatisticsRows.procNames.Length))
 					{Values = SummaryStatisticsRows.procNames, Help = "Select here which quantities should be calculated."}
 				});
 		}
 
-		public void ProcessData(IMatrixData mdata, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param.GetMultiChoiceParam("Columns").Value;
 			HashSet<int> w = ArrayUtils.ToHashSet(param.GetMultiChoiceParam("Calculate").Value);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
-using BaseLib.ParamWf;
+using System.Windows.Media;
+using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +10,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Rearrange{
 	public class RemoveEmptyColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Image ButtonImage { get { return null; } }
+		public ImageSource ButtonImage { get { return null; } }
 		public string HelpOutput { get { return "Same matrix but with empty columns removed."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
@@ -26,11 +26,11 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(ParametersWf parameters) {
+		public int GetMaxThreads(Parameters parameters) {
 			return 1;
 		}
 
-		public void ProcessData(IMatrixData data, ParametersWf param, ref IMatrixData[] supplTables,
+		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] exColInds = GetValidExCols(data);
 			int[] numColInds = GetValidNumCols(data);
@@ -157,8 +157,8 @@ namespace PerseusPluginLib.Rearrange{
 			return true;
 		}
 
-		public ParametersWf GetParameters(IMatrixData mdata, ref string errorString) {
-			return new ParametersWf();
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			return new Parameters();
 		}
 	}
 }
