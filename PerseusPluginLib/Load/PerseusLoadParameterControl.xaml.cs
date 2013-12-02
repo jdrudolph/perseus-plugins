@@ -1,11 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Controls;
 using BaseLib.Parse;
 using BaseLib.Util;
 
-namespace PerseusPluginLib.Load{
-	public partial class PerseusLoadMatrixParameterPanel : System.Windows.Controls.UserControl{
+namespace PerseusPluginLib.Load {
+	/// <summary>
+	/// Interaction logic for PerseusLoadParameterControl.xaml
+	/// </summary>
+	public partial class PerseusLoadParameterControl : UserControl {
 		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		private static readonly HashSet<string> categoricalCols =
@@ -46,18 +50,19 @@ namespace PerseusPluginLib.Load{
 				"mass deviations [da]", "mass deviations [ppm]"
 			});
 		public string Filter { get; set; }
-		public PerseusLoadMatrixParameterPanel() : this(new string[0]) {}
-		public PerseusLoadMatrixParameterPanel(IList<string> items) : this(items, null) {}
+		public PerseusLoadParameterControl() : this(new string[0]) {}
+		public PerseusLoadParameterControl(IList<string> items) : this(items, null) {}
 
-		public PerseusLoadMatrixParameterPanel(IList<string> items, string filename){
+
+		public PerseusLoadParameterControl(IList<string> items, string filename){
 			InitializeComponent();
-			multiListSelector1.Init(items, new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"});
+			multiListSelector1.Init(items, new[] { "Expression", "Numerical", "Categorical", "Text", "Multi-numerical" });
 			if (!string.IsNullOrEmpty(filename)){
 				UpdateFile(filename);
 			}
 		}
 
-		public string Filename { get { return textBox.Text; } }
+		public string Filename { get { return textBox1.Text; } }
 		public int[] ExpressionColumnIndices { get { return multiListSelector1.GetSelectedIndices(0); } }
 		public int[] NumericalColumnIndices { get { return multiListSelector1.GetSelectedIndices(1); } }
 		public int[] CategoryColumnIndices { get { return multiListSelector1.GetSelectedIndices(2); } }
@@ -76,7 +81,7 @@ namespace PerseusPluginLib.Load{
 				return result;
 			}
 			set{
-				textBox.Text = value[0];
+				textBox1.Text = value[0];
 				multiListSelector1.items = value[1].Length > 0 ? value[1].Split(';') : new string[0];
 				for (int i = 0; i < 5; i++){
 					foreach (int ind in GetIndices(value[i + 2])){
@@ -116,7 +121,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		internal void UpdateFile(string filename){
-			textBox.Text = filename;
+			textBox1.Text = filename;
 			bool csv = filename.ToLower().EndsWith(".csv");
 			char separator = csv ? ',' : '\t';
 			string[] colNames;
@@ -232,6 +237,6 @@ namespace PerseusPluginLib.Load{
 			return isSilac ? 'd' : 's';
 		}
 
-		public string Text { get { return textBox.Text; } set { textBox.Text = value; } }
+		public string Text { get { return textBox1.Text; } set { textBox1.Text = value; } }
 	}
 }

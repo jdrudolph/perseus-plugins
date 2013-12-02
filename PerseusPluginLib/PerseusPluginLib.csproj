@@ -86,8 +86,9 @@
     <Compile Include="Impute\ReplaceMissingFromGaussian.cs" />
     <Compile Include="Load\GenericMatrixUpload.cs" />
     <Compile Include="Load\PerseusLoadMatrixParam.cs" />
-    <Compile Include="Load\PerseusLoadMatrixParameterPanel.cs" />
-    <Compile Include="Load\PerseusLoadMatrixParameterPanel.Designer.cs" />
+    <Compile Include="Load\PerseusLoadParameterControl.xaml.cs">
+      <DependentUpon>PerseusLoadParameterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Manual\MatrixDataTable.cs" />
     <Compile Include="Manual\SelectRowsManually.cs" />
     <Compile Include="Manual\SelectRowsManuallyControl.cs">
@@ -142,7 +143,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Load\PerseusLoadMatrixParameterPanel.resx" />
     <EmbeddedResource Include="Manual\SelectRowsManuallyControl.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -198,7 +198,12 @@
   <ItemGroup>
     <None Include="Resources\average.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Load\PerseusLoadParameterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

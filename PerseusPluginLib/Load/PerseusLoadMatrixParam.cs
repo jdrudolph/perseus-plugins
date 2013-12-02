@@ -43,12 +43,12 @@ namespace PerseusPluginLib.Load{
 		public override bool IsModified { get { return !Value.Equals(Default); } }
 
 		public override void SetValueFromControl(){
-			PerseusLoadMatrixParameterPanel tb = (PerseusLoadMatrixParameterPanel) control;
+			PerseusLoadParameterControl tb = (PerseusLoadParameterControl) control;
 			Value = tb.Value;
 		}
 
 		public override void UpdateControlFromValue(){
-			PerseusLoadMatrixParameterPanel lfp = (PerseusLoadMatrixParameterPanel) control;
+			PerseusLoadParameterControl lfp = (PerseusLoadParameterControl) control;
 			lfp.Value = Value;
 		}
 
@@ -63,7 +63,7 @@ namespace PerseusPluginLib.Load{
 			if (control == null){
 				return;
 			}
-			PerseusLoadMatrixParameterPanel tb = (PerseusLoadMatrixParameterPanel) control;
+			PerseusLoadParameterControl tb = (PerseusLoadParameterControl) control;
 			tb.UpdateFile(filename);
 		}
 
@@ -71,7 +71,7 @@ namespace PerseusPluginLib.Load{
 		protected override FrameworkElement Control{
 			get{
 				string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
-				return new PerseusLoadMatrixParameterPanel(items){Filter = Filter, Value = Value};
+				return new PerseusLoadParameterControl(items){Filter = Filter, Value = Value};
 			}
 		}
 		public string Filename { get { return Value[0]; } }

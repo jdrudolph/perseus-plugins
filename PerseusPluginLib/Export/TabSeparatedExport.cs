@@ -14,7 +14,7 @@ namespace PerseusPluginLib.Export{
 		public bool HasButton { get { return true; } }
 		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.saveGeneric); } }
 		public string HelpDescription { get { return ""; } }
-		public string Name { get { return "Generic export"; } }
+		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
