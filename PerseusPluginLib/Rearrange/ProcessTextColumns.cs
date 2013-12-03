@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
     public class ProcessTextColumns : IMatrixProcessing{
         public bool HasButton { get { return false; } }
-        public ImageSource ButtonImage { get { return null; } }
+        public ImageSource DisplayImage { get { return null; } }
         public string HelpDescription { get { return "Values in string columns can be manipulated according to a regular expression."; } }
         public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
         public string HelpOutput { get { return ""; } }
@@ -18,7 +18,7 @@ namespace PerseusPluginLib.Rearrange{
         public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
         public int NumSupplTables { get { return 0; } }
         public string Name { get { return "Process text column"; } }
-        public string Heading { get { return "Matrix rearrangements"; } }
+        public string Heading { get { return "Rearrange"; } }
         public bool IsActive { get { return true; } }
         public float DisplayOrder { get { return 22; } }
         public string[] HelpDocuments { get { return new string[0]; } }
