@@ -15,7 +15,7 @@ namespace PerseusPluginLib.Rearrange{
 			x => x.Length, x => ArrayUtils.Sum(x), x => ArrayUtils.Product(x), x => ArrayUtils.Mean(x), x => ArrayUtils.Median(x)
 		};
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return
@@ -24,7 +24,7 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 		public string Name { get { return "Convert multi-numeric column"; } }
-		public string Heading { get { return "Matrix rearrangements"; } }
+		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 17; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

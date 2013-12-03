@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Group {
 	public class JoinTermsInCategoricalRow : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "The selected terms in the categorical row will be joined to one term."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
@@ -19,7 +19,7 @@ namespace PerseusPluginLib.Group {
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Join terms in categorical row"; } }
-		public string Heading { get { return "Annotation rows"; } }
+		public string Heading { get { return "Annot. rows"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 20; } }
 		public string[] HelpDocuments { get { return new string[0]; } }

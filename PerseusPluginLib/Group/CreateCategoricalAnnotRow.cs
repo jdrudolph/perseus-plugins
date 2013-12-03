@@ -15,13 +15,13 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Group{
 	public class CreateCategoricalAnnotRow : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.groupButton_Image); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.groupButton_Image); } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return "Same matrix with groups added."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Categorical annotation rows"; } }
-		public string Heading { get { return "Annotation rows"; } }
+		public string Heading { get { return "Annot. rows"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 1; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

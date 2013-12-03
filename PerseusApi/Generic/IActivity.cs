@@ -24,11 +24,11 @@ namespace PerseusApi.Generic{
 		/// </summary>
 		bool HasButton { get; }
 		/// <summary>
-		/// The image for the shortcut button.
+		/// The image for the menu entry and the shortcut button.
 		/// </summary>
-		ImageSource ButtonImage { get; }
+		ImageSource DisplayImage { get; }
 		/// <summary>
-		/// The context help that will appear in the parameter form on a second tab.
+		/// The context help that will appear in tool tips.
 		/// </summary>
 		string HelpDescription { get; }
 

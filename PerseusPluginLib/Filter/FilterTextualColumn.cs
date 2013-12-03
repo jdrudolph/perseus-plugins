@@ -10,7 +10,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterTextualColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Only those rows are kept that have a value in the textual column that matches the search string."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

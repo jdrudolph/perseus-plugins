@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class DivisionByColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Divide all columns by the specified column."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

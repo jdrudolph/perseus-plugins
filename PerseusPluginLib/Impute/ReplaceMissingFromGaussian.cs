@@ -12,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingFromGaussian : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.histo); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.histo); } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string HelpOutput { get { return ""; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }

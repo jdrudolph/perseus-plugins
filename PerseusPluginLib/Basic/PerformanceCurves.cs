@@ -11,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class PerformanceCurves : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string Name { get { return "Performance curves"; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

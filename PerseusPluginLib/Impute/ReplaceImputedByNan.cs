@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Impute{
 	public class ReplaceImputedByNan : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Replaces all values that have been imputed with NaN."; } }
 		public string HelpOutput { get { return "Same matrix but with imputed values deleted."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

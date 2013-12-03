@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class Divide : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Divide all values by the specified quantity calculated on each row/column."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

@@ -22,7 +22,7 @@ namespace PerseusPluginLib.Filter{
 
 	public class FilterValidValuesRows : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.missingsButton_Image); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.missingsButton_Image); } }
 		public string Name { get { return "Filter rows based on valid values"; } }
 		public string Heading { get { return "Filter rows"; } }
 		public bool IsActive { get { return true; } }

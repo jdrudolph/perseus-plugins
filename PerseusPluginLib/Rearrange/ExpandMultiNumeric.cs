@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class ExpandMultiNumeric : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return "Distribute multiple values per cell in a multi-numeric column over multiple rows. For each row in the" +
@@ -22,7 +22,7 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 		public string Name { get { return "Expand multi-numeric and string columns"; } }
-		public string Heading { get { return "Matrix rearrangements"; } }
+		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 12; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

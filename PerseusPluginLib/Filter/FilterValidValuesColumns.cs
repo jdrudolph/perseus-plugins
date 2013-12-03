@@ -11,7 +11,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterValidValuesColumns : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string Name { get { return "Filter columns based on valid values"; } }
 		public string Heading { get { return "Filter columns"; } }
 		public bool IsActive { get { return true; } }

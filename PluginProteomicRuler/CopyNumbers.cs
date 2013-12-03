@@ -11,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PluginProteomicRuler{
 	public class CopyNumbers : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return "Estimate cellular copy numbers from protein intensities using the proteomic ruler approach.\n\n" +

@@ -11,13 +11,13 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Rearrange{
 	public class ColumnGroupingToMultipleRows : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Column grouping to multiple rows"; } }
-		public string Heading { get { return "Matrix rearrangements"; } }
+		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 20; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

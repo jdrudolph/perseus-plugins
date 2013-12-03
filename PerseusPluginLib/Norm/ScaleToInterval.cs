@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class ScaleToInterval : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string Name { get { return "Scale to interval"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }

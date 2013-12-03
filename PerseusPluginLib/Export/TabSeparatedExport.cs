@@ -12,12 +12,11 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.saveGeneric); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.saveGeneric); } }
 		public string HelpDescription { get { return ""; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

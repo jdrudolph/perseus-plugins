@@ -12,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Combine{
 	public class MatchingColumnsByName : IMatrixMultiProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.combineButton_Image); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.combineButton_Image); } }
 		public string Name { get { return "Matching columns by name"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -4; } }

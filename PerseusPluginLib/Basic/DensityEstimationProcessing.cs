@@ -14,7 +14,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayOrder { get { return -3; } }
 		public bool IsActive { get { return true; } }
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.density_Image); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.density_Image); } }
 		public string Heading { get { return "Basic"; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

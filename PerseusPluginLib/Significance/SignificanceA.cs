@@ -13,7 +13,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Significance{
 	public class SignificanceA : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
@@ -37,7 +37,7 @@ namespace PerseusPluginLib.Significance{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Significance A"; } }
-		public string Heading { get { return "Significance A/B"; } }
+		public string Heading { get { return "Significance"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }
 

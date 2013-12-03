@@ -13,7 +13,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Norm{
 	public class ZScore : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.zscoreButton_Image); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.zscoreButton_Image); } }
 		public string Name { get { return "Z-score"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }

@@ -12,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.average); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.average); } }
 		public string HelpDescription{
 			get{
 				return
@@ -23,7 +23,7 @@ namespace PerseusPluginLib.Group{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Average groups"; } }
-		public string Heading { get { return "Annotation rows"; } }
+		public string Heading { get { return "Annot. rows"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

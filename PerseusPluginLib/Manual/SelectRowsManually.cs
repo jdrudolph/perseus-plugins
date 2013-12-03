@@ -11,7 +11,7 @@ namespace PerseusPluginLib.Manual{
 	public class SelectRowsManually : IMatrixAnalysis{
 		public string HelpDescription { get { return ""; } }
 		public bool HasButton { get { return true; } }
-		public ImageSource ButtonImage { get { return PerseusPluginUtils.LoadBitmap(Resources.hand); } }
+		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.hand); } }
 		public string Heading { get { return "Manual editing"; } }
 		public string Name { get { return "Select rows manually"; } }
 		public bool IsActive { get { return true; } }

@@ -12,20 +12,16 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Annot{
 	public class CategoryCounting : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Category counting"; } }
-		public string Heading { get { return "Annotation columns"; } }
+		public string Heading { get { return "Annot. columns"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {

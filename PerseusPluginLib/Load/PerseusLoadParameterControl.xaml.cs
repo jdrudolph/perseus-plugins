@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using BaseLib.Parse;
 using BaseLib.Util;
@@ -100,26 +101,6 @@ namespace PerseusPluginLib.Load {
 			return result;
 		}
 
-		private void ButtonClick(object sender, EventArgs e){
-			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
-			if (Filter != null && !Filter.Equals("")){
-				ofd.Filter = Filter;
-			}
-			if (!ofd.ShowDialog().Value){
-				return;
-			}
-			string filename = ofd.FileName;
-			if (string.IsNullOrEmpty(filename)){
-				System.Windows.MessageBox.Show("Please specify a filename");
-				return;
-			}
-			if (!File.Exists(filename)){
-				System.Windows.MessageBox.Show("File '" + filename + "' does not exist.");
-				return;
-			}
-			UpdateFile(filename);
-		}
-
 		internal void UpdateFile(string filename){
 			textBox1.Text = filename;
 			bool csv = filename.ToLower().EndsWith(".csv");
@@ -129,7 +110,7 @@ namespace PerseusPluginLib.Load {
 			try{
 				colNames = TabSep.GetColumnNames(filename, commentPrefix, commentPrefixExceptions, annotationRows, separator);
 			} catch (Exception){
-				System.Windows.MessageBox.Show("Could not open the file '" + filename + "'. It is probably opened by another program.");
+				MessageBox.Show("Could not open the file '" + filename + "'. It is probably opened by another program.");
 				return;
 			}
 			string[] colDescriptions = null;
@@ -153,7 +134,7 @@ namespace PerseusPluginLib.Load {
 			}
 			string msg = TabSep.CanOpen(filename);
 			if (msg != null){
-				System.Windows.MessageBox.Show(msg);
+				MessageBox.Show(msg);
 				return;
 			}
 			multiListSelector1.Init(colNames);
@@ -238,5 +219,25 @@ namespace PerseusPluginLib.Load {
 		}
 
 		public string Text { get { return textBox1.Text; } set { textBox1.Text = value; } }
+
+		private void Button1_OnClick(object sender, RoutedEventArgs e){
+			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+			if (Filter != null && !Filter.Equals("")) {
+				ofd.Filter = Filter;
+			}
+			if (!ofd.ShowDialog().Value) {
+				return;
+			}
+			string filename = ofd.FileName;
+			if (string.IsNullOrEmpty(filename)) {
+				MessageBox.Show("Please specify a filename");
+				return;
+			}
+			if (!File.Exists(filename)) {
+				MessageBox.Show("File '" + filename + "' does not exist.");
+				return;
+			}
+			UpdateFile(filename);
+		}
 	}
 }

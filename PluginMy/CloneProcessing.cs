@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PluginMy{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "A copy of the input matrix is generated."; } }
 		public string HelpOutput { get { return "Same as input matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CombineCategoricalColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Combine the terms in two categorical columns to form a new categorical column."; } }
 		public string HelpOutput { get { return "A new categorical column is generated with combined terms."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

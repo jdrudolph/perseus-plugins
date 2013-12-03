@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class AddNoise : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Modulate the data with gaussian noise."; } }
 		public string HelpOutput { get { return "Same as input matrix with random noise added to the expression columns."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

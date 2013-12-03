@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	internal class Rank : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "The values in each row/column are replaced by ranks."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class SortByColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource ButtonImage { get { return null; } }
+		public ImageSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Simple sorting by a column."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string HelpOutput { get { return "The same matrix but sorted by the specified column."; } }
@@ -17,7 +17,7 @@ namespace PerseusPluginLib.Rearrange{
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Sort by column"; } }
-		public string Heading { get { return "Matrix rearrangements"; } }
+		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 6; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
