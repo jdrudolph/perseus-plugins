@@ -5,17 +5,17 @@ using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Parse;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Load{
 	public class GenericMatrixUpload : IMatrixUpload{
 		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.uploadGeneric); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.uploadGeneric); } }
 		public string Name { get { return "Generic matrix upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }

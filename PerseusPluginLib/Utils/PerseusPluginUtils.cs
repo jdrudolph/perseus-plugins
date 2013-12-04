@@ -288,10 +288,5 @@ namespace PerseusPluginLib.Utils{
 			}
 			return result;
 		}
-
-		public static ImageSource LoadBitmap(System.Drawing.Bitmap source) {
-			return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(source.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
-				BitmapSizeOptions.FromEmptyOptions());
-		}
 	}
 }

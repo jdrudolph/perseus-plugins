@@ -1,16 +1,16 @@
 using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Basic{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.sheepButton_Image); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.sheepButton_Image); } }
 		public string HelpDescription { get { return "A copy of the input matrix is generated."; } }
 		public string HelpOutput { get { return "Same as input matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

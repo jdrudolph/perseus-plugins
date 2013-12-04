@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -22,7 +23,7 @@ namespace PerseusPluginLib.Filter{
 
 	public class FilterValidValuesRows : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.missingsButton_Image); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.missingsButton_Image); } }
 		public string Name { get { return "Filter rows based on valid values"; } }
 		public string Heading { get { return "Filter rows"; } }
 		public bool IsActive { get { return true; } }

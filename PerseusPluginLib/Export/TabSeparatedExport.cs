@@ -4,15 +4,15 @@ using System.IO;
 using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.saveGeneric); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.saveGeneric); } }
 		public string HelpDescription { get { return ""; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }

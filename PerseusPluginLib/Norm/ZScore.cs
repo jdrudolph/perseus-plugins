@@ -4,16 +4,16 @@ using System.Linq;
 using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Norm{
 	public class ZScore : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.zscoreButton_Image); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.zscoreButton_Image); } }
 		public string Name { get { return "Z-score"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }

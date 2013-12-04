@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -12,7 +13,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.average); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.average); } }
 		public string HelpDescription{
 			get{
 				return

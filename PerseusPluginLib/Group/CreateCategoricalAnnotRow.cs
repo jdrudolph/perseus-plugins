@@ -6,16 +6,16 @@ using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Parse;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Group{
 	public class CreateCategoricalAnnotRow : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.groupButton_Image); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.groupButton_Image); } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return "Same matrix with groups added."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

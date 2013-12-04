@@ -3,16 +3,16 @@ using System.Linq;
 using System.Windows.Media;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
-using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Combine{
 	public class MatchingColumnsByName : IMatrixMultiProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return PerseusPluginUtils.LoadBitmap(Resources.combineButton_Image); } }
+		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.combineButton_Image); } }
 		public string Name { get { return "Matching columns by name"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -4; } }
