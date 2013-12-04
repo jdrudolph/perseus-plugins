@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using BaseLib.Wpf;
@@ -12,7 +13,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.saveGeneric); } }
+		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.saveGeneric); } }
 		public string HelpDescription { get { return ""; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }

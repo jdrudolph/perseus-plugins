@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Num;
 using BaseLib.Num.Test;
 using BaseLib.Param;
@@ -13,7 +14,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Significance{
 	public class SignificanceA : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource DisplayImage { get { return null; } }
+		public BitmapSource DisplayImage { get { return null; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }

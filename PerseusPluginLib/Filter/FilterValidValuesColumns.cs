@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -11,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterValidValuesColumns : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public ImageSource DisplayImage { get { return null; } }
+		public BitmapSource DisplayImage { get { return null; } }
 		public string Name { get { return "Filter columns based on valid values"; } }
 		public string Heading { get { return "Filter columns"; } }
 		public bool IsActive { get { return true; } }

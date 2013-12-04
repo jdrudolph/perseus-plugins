@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using BaseLib.Wpf;
@@ -11,7 +12,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Basic{
 	public class Quantiles : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.quantiles); } }
+		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.quantiles); } }
 		public string Name { get { return "Quantiles"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }

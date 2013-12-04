@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CombineCategoricalColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource DisplayImage { get { return null; } }
+		public BitmapSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Combine the terms in two categorical columns to form a new categorical column."; } }
 		public string HelpOutput { get { return "A new categorical column is generated with combined terms."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

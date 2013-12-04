@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -54,7 +55,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		public bool HasButton { get { return false; } }
-		public ImageSource DisplayImage { get { return null; } }
+		public BitmapSource DisplayImage { get { return null; } }
 		public string Name { get { return "Summary statistics (rows)"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }

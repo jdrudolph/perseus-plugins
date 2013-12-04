@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PluginMy{
 	public class FilterDe : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public ImageSource DisplayImage { get { return null; } }
+		public BitmapSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Rows containing D or E in the specified columns are discarded."; } }
 		public string HelpOutput { get { return "Filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

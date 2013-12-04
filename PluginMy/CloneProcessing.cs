@@ -1,4 +1,5 @@
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -8,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PluginMy{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public ImageSource DisplayImage { get { return null; } }
+		public BitmapSource DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "A copy of the input matrix is generated."; } }
 		public string HelpOutput { get { return "Same as input matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

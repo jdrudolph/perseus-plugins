@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using BaseLib.Wpf;
@@ -12,7 +13,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Combine{
 	public class MatchingRowsByName : IMatrixMultiProcessing{
 		public bool HasButton { get { return true; } }
-		public ImageSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.combineButton_Image); } }
+		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.combineButton_Image); } }
 		public string Name { get { return "Matching rows by name"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -5; } }

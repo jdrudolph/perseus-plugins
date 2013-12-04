@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+﻿using System.Windows.Media.Imaging;
 using BaseLib.Param;
 
 namespace PerseusApi.Generic{
@@ -26,7 +26,7 @@ namespace PerseusApi.Generic{
 		/// <summary>
 		/// The image for the menu entry and the shortcut button.
 		/// </summary>
-		ImageSource DisplayImage { get; }
+		BitmapSource DisplayImage { get; }
 		/// <summary>
 		/// The context help that will appear in tool tips.
 		/// </summary>
