@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class SummaryStatisticsColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string Name { get { return "Summary statistics (columns)"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -14,7 +15,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.average); } }
+		public Bitmap DisplayImage { get { return Resources.average; } }
 		public string HelpDescription{
 			get{
 				return

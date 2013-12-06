@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -11,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Rearrange{
 	public class ReorderColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpOutput { get { return "Same matrix but with columns in the new order."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

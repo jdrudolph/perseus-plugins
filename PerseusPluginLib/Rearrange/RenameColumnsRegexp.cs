@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class RenameColumnsRegexp : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Rename expression columns with the help of matching part of the name by a regular expression."; } }
 		public string HelpOutput { get { return ""; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

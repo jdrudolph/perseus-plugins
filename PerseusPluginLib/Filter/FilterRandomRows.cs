@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Num;
@@ -12,7 +13,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterRandomRows : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "A given number of rows is kept based on random decisions."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

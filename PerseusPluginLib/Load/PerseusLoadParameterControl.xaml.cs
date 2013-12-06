@@ -48,7 +48,7 @@ namespace PerseusPluginLib.Load {
 			});
 		private static readonly HashSet<string> multiNumericCols =
 			new HashSet<string>(new[]{
-				"mass deviations [da]", "mass deviations [ppm]"
+				"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"
 			});
 		public string Filter { get; set; }
 		public PerseusLoadParameterControl() : this(new string[0]) {}

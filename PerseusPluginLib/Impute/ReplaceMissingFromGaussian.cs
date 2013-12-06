@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Num;
@@ -13,7 +14,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingFromGaussian : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.histo); } }
+		public Bitmap DisplayImage { get { return Resources.histo; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string HelpOutput { get { return ""; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }

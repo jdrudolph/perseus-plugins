@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
@@ -16,7 +17,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Group{
 	public class CreateCategoricalAnnotRow : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.groupButton_Image); } }
+		public Bitmap DisplayImage { get { return Resources.groupButton_Image; } }
 		public string HelpDescription { get { return ""; } }
 		public string HelpOutput { get { return "Same matrix with groups added."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

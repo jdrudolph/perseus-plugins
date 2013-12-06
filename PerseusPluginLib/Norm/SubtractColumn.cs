@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class SubtractColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Subtract the specified column from all other columns."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -24,7 +25,7 @@ namespace PerseusPluginLib.Filter{
 
 	public class FilterValidValuesRows : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.missingsButton_Image); } }
+		public Bitmap DisplayImage { get { return Resources.missingsButton_Image; } }
 		public string Name { get { return "Filter rows based on valid values"; } }
 		public string Heading { get { return "Filter rows"; } }
 		public bool IsActive { get { return true; } }

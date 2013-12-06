@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	internal class Rank : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "The values in each row/column are replaced by ranks."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -11,7 +12,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CombineAnnotations : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Search multiple categorical or string columns for the occurence of a set of terms."; } }
 		public string HelpOutput { get { return "A new categorical column is generated indicating the presence of any of these terms."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

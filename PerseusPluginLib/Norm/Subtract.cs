@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -12,7 +13,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class Subtract : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "The specified quantity calculated on each row/column is subtracted from each value."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Num;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class AddNoise : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Modulate the data with gaussian noise."; } }
 		public string HelpOutput { get { return "Same as input matrix with random noise added to the expression columns."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

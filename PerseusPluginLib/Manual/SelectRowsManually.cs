@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -12,7 +13,7 @@ namespace PerseusPluginLib.Manual{
 	public class SelectRowsManually : IMatrixAnalysis{
 		public string HelpDescription { get { return ""; } }
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.hand); } }
+		public Bitmap DisplayImage { get { return Resources.hand; } }
 		public string Heading { get { return "Manual editing"; } }
 		public string Name { get { return "Select rows manually"; } }
 		public bool IsActive { get { return true; } }

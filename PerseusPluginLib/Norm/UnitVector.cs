@@ -11,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class UnitVector : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return

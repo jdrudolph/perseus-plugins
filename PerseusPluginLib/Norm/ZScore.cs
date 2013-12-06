@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,7 +15,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Norm{
 	public class ZScore : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.zscoreButton_Image); } }
+		public Bitmap DisplayImage { get { return Resources.zscoreButton_Image; } }
 		public string Name { get { return "Z-score"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }

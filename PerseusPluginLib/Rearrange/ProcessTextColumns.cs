@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
     public class ProcessTextColumns : IMatrixProcessing{
         public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
         public string HelpDescription { get { return "Values in string columns can be manipulated according to a regular expression."; } }
         public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
         public string HelpOutput { get { return ""; } }

@@ -11,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PluginMy{
 	public class FilterDe : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Rows containing D or E in the specified columns are discarded."; } }
 		public string HelpOutput { get { return "Filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -12,7 +13,7 @@ using PerseusApi.Matrix;
 namespace PluginProteomicRuler{
 	public class CopyNumbers : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return "Estimate cellular copy numbers from protein intensities using the proteomic ruler approach.\n\n" +

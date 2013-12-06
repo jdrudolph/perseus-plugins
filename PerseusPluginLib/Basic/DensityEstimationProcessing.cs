@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Num;
@@ -15,7 +16,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayOrder { get { return -3; } }
 		public bool IsActive { get { return true; } }
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.density_Image); } }
+		public Bitmap DisplayImage { get { return Resources.density_Image; } }
 		public string Heading { get { return "Basic"; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class RenameColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "New names can be specified for each expression column. The new names are typed in explicitly."; } }
 		public string HelpOutput { get { return "Same matrix but with the new expression column names."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }

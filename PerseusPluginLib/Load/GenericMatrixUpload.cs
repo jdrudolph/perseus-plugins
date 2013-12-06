@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,7 +17,7 @@ namespace PerseusPluginLib.Load{
 		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.uploadGeneric); } }
+		public Bitmap DisplayImage { get { return Resources.uploadGeneric; } }
 		public string Name { get { return "Generic matrix upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }

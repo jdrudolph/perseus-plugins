@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -13,7 +14,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Combine{
 	public class MatchingColumnsByName : IMatrixMultiProcessing{
 		public bool HasButton { get { return true; } }
-		public BitmapSource DisplayImage { get { return WpfUtils.LoadBitmap(Resources.combineButton_Image); } }
+		public Bitmap DisplayImage { get { return Resources.combineButton_Image; } }
 		public string Name { get { return "Matching columns by name"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -4; } }

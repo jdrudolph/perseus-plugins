@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using BaseLib.Param;
@@ -16,7 +17,7 @@ namespace PerseusPluginLib.Rearrange{
 			x => x.Length, x => ArrayUtils.Sum(x), x => ArrayUtils.Product(x), x => ArrayUtils.Mean(x), x => ArrayUtils.Median(x)
 		};
 		public bool HasButton { get { return false; } }
-		public BitmapSource DisplayImage { get { return null; } }
+		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription{
 			get{
 				return
