@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Forms.Integration;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 
@@ -12,8 +13,8 @@ namespace PerseusPluginLib.Manual{
 			this.mdata = mdata;
 		}
 
-		public Control GetControl(Action<string> updateStatusLabel, Action<IData> newData) {
-			return new SelectRowsManuallyControl(mdata, newData);
+		public UIElement CreateUiElement(Action<string> updateStatusLabel, Action<IData> newData){
+			return new WindowsFormsHost { Child = new SelectRowsManuallyControl(mdata, newData) };
 		}
 
 		public string Heading { get { return "Select rows manually"; } }

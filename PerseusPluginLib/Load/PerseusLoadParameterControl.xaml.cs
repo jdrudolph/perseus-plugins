@@ -6,11 +6,11 @@ using System.Windows.Controls;
 using BaseLib.Parse;
 using BaseLib.Util;
 
-namespace PerseusPluginLib.Load {
+namespace PerseusPluginLib.Load{
 	/// <summary>
 	/// Interaction logic for PerseusLoadParameterControl.xaml
 	/// </summary>
-	public partial class PerseusLoadParameterControl : UserControl {
+	public partial class PerseusLoadParameterControl : UserControl{
 		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		private static readonly HashSet<string> categoricalCols =
@@ -27,9 +27,8 @@ namespace PerseusPluginLib.Load {
 				"protein ids", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl", "ensg", "ensp", "enst",
 				"mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name", "names", "proteins",
 				"positions within proteins", "leading proteins", "md sequence", "md proteins", "md gene names", "md protein names",
-				"dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names", "name","dn sequence"
+				"dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names", "name", "dn sequence"
 			});
-
 		private static readonly HashSet<string> numericCols =
 			new HashSet<string>(new[]{
 				"length", "position", "total position", "peptides (seq)", "razor peptides (seq)", "unique peptides (seq)",
@@ -43,21 +42,18 @@ namespace PerseusPluginLib.Load {
 				"ms/ms count", "ms/ms m/z", "md base scan number", "md mass error", "md time difference", "dp mass difference",
 				"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number"
 				, "dp cluster index", "dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
-				"dp cluster size reverse", "dp peptide length difference", "dn score","dn normalized score","dn nterm mass","dn cterm mass",
-				"dn score diff"
+				"dp cluster size reverse", "dp peptide length difference", "dn score", "dn normalized score", "dn nterm mass",
+				"dn cterm mass", "dn score diff"
 			});
 		private static readonly HashSet<string> multiNumericCols =
-			new HashSet<string>(new[]{
-				"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"
-			});
+			new HashSet<string>(new[]{"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"});
 		public string Filter { get; set; }
 		public PerseusLoadParameterControl() : this(new string[0]) {}
 		public PerseusLoadParameterControl(IList<string> items) : this(items, null) {}
 
-
 		public PerseusLoadParameterControl(IList<string> items, string filename){
 			InitializeComponent();
-			multiListSelector1.Init(items, new[] { "Expression", "Numerical", "Categorical", "Text", "Multi-numerical" });
+			multiListSelector1.Init(items, new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"});
 			if (!string.IsNullOrEmpty(filename)){
 				UpdateFile(filename);
 			}
@@ -182,15 +178,15 @@ namespace PerseusPluginLib.Load {
 					multiListSelector1.SetSelected(3, i, true);
 					continue;
 				}
-				if (numericCols.Contains(colNames[i].ToLower())) {
+				if (numericCols.Contains(colNames[i].ToLower())){
 					multiListSelector1.SetSelected(1, i, true);
 					continue;
 				}
-				if (multiNumericCols.Contains(colNames[i].ToLower())) {
+				if (multiNumericCols.Contains(colNames[i].ToLower())){
 					multiListSelector1.SetSelected(4, i, true);
 					continue;
 				}
-				switch (guessedType) {
+				switch (guessedType){
 					case 's':
 						if (colNames[i].StartsWith("Norm. Intensity")){
 							multiListSelector1.SetSelected(0, i, true);
@@ -222,18 +218,18 @@ namespace PerseusPluginLib.Load {
 
 		private void Button1_OnClick(object sender, RoutedEventArgs e){
 			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
-			if (Filter != null && !Filter.Equals("")) {
+			if (Filter != null && !Filter.Equals("")){
 				ofd.Filter = Filter;
 			}
-			if (!ofd.ShowDialog().Value) {
+			if (!ofd.ShowDialog().Value){
 				return;
 			}
 			string filename = ofd.FileName;
-			if (string.IsNullOrEmpty(filename)) {
+			if (string.IsNullOrEmpty(filename)){
 				MessageBox.Show("Please specify a filename");
 				return;
 			}
-			if (!File.Exists(filename)) {
+			if (!File.Exists(filename)){
 				MessageBox.Show("File '" + filename + "' does not exist.");
 				return;
 			}

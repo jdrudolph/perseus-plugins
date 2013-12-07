@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Windows;
 
 namespace PerseusApi.Generic{
 	/// <summary>
@@ -11,6 +11,6 @@ namespace PerseusApi.Generic{
 		/// </summary>
 		/// <returns></returns>
 		string Heading { get; }
-		Control GetControl(Action<string> updateStatus, Action<IData> newData);
+		UIElement CreateUiElement(Action<string> updateStatus, Action<IData> newData);
 	}
 }
