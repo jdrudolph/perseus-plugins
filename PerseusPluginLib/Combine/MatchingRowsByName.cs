@@ -43,8 +43,78 @@ namespace PerseusPluginLib.Combine{
 			return index == 0 ? "Base matrix" : "Other matrix";
 		}
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
+		}
+
+		public Parameters GetParameters(IMatrixData[] inputData, ref string errString){
+			IMatrixData matrixData1 = inputData[0];
+			IMatrixData matrixData2 = inputData[1];
+			List<string> controlChoice1 = matrixData1.StringColumnNames;
+			int index1 = 0;
+			for (int i = 0; i < controlChoice1.Count; i++){
+				if (controlChoice1[i].ToLower().Contains("uniprot")){
+					index1 = i;
+					break;
+				}
+			}
+			List<string> controlChoice2 = matrixData2.StringColumnNames;
+			int index2 = 0;
+			for (int i = 0; i < controlChoice2.Count; i++){
+				if (controlChoice2[i].ToLower().Contains("uniprot")){
+					index2 = i;
+					break;
+				}
+			}
+			List<string> numCol = matrixData2.NumericColumnNames;
+			int[] numSel = new int[0];
+			List<string> catCol = matrixData2.CategoryColumnNames;
+			int[] catSel = new int[0];
+			List<string> textCol = matrixData2.StringColumnNames;
+			int[] textSel = new int[0];
+			List<string> exCol = matrixData2.ExpressionColumnNames;
+			int[] exSel = new int[0];
+			return
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("Matching column 1")
+					{Values = controlChoice1, Value = index1, Help = "The column in the first matrix that is used for matching rows."},
+					new SingleChoiceParam("Matching column 2")
+					{Values = controlChoice2, Value = index2, Help = "The column in the second matrix that is used for matching rows."}
+					,
+					new BoolParam("Indicator"){
+						Help =
+							"If checked, a categorical column will be added in which it is indicated by a '+' if at least one row of the second " +
+								"matrix matches."
+					},
+					new MultiChoiceParam("Expression columns"){
+						Value = exSel, Values = exCol,
+						Help = "Expression columns of the second matrix that should be added to the first matrix."
+					},
+					new SingleChoiceParam("Combine expression values"){
+						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
+						Help =
+							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
+								"expression values be combined?"
+					},
+					new MultiChoiceParam("Categorical columns"){
+						Values = catCol, Value = catSel,
+						Help = "Categorical columns of the second matrix that should be added to the first matrix."
+					},
+					new MultiChoiceParam("String columns"){
+						Values = textCol, Value = textSel,
+						Help = "String columns of the second matrix that should be added to the first matrix."
+					},
+					new MultiChoiceParam("Numerical columns"){
+						Values = numCol, Value = numSel,
+						Help = "Numerical columns of the second matrix that should be added to the first matrix."
+					},
+					new SingleChoiceParam("Combine numerical values"){
+						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum", "Keep separate"},
+						Help =
+							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
+								"numerical values be combined?"
+					}
+				});
 		}
 
 		public IMatrixData ProcessData(IMatrixData[] inputData, Parameters parameters, ref IMatrixData[] supplTables,
@@ -136,26 +206,50 @@ namespace PerseusPluginLib.Combine{
 				}
 				{
 					int[] numCols = parameters.GetMultiChoiceParam("Numerical columns").Value;
-					double[][] newNumericalColumns = new double[numCols.Length][];
-					string[] newNumColNames = new string[numCols.Length];
-					for (int i = 0; i < numCols.Length; i++){
-						double[] oldCol = mdata2.NumericColumns[numCols[i]];
-						newNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
-						newNumericalColumns[i] = new double[mdata1.RowCount];
-						for (int j = 0; j < mdata1.RowCount; j++){
-							int[] inds = indexMap[j];
-							List<double> values = new List<double>();
-							foreach (int ind in inds){
-								double v = oldCol[ind];
-								if (!double.IsNaN(v)){
-									values.Add(v);
+					if (avNumerical != null){
+						double[][] newNumericalColumns = new double[numCols.Length][];
+						string[] newNumColNames = new string[numCols.Length];
+						for (int i = 0; i < numCols.Length; i++){
+							double[] oldCol = mdata2.NumericColumns[numCols[i]];
+							newNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
+							newNumericalColumns[i] = new double[mdata1.RowCount];
+							for (int j = 0; j < mdata1.RowCount; j++){
+								int[] inds = indexMap[j];
+								List<double> values = new List<double>();
+								foreach (int ind in inds){
+									double v = oldCol[ind];
+									if (!double.IsNaN(v)){
+										values.Add(v);
+									}
 								}
+								newNumericalColumns[i][j] = values.Count == 0 ? double.NaN : avNumerical(values.ToArray());
 							}
-							newNumericalColumns[i][j] = values.Count == 0 ? double.NaN : avNumerical(values.ToArray());
 						}
-					}
-					for (int i = 0; i < numCols.Length; i++){
-						result.AddNumericColumn(newNumColNames[i], "", newNumericalColumns[i]);
+						for (int i = 0; i < numCols.Length; i++){
+							result.AddNumericColumn(newNumColNames[i], "", newNumericalColumns[i]);
+						}
+					} else{
+						double[][][] newMultiNumericalColumns = new double[numCols.Length][][];
+						string[] newMultiNumColNames = new string[numCols.Length];
+						for (int i = 0; i < numCols.Length; i++){
+							double[] oldCol = mdata2.NumericColumns[numCols[i]];
+							newMultiNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
+							newMultiNumericalColumns[i] = new double[mdata1.RowCount][];
+							for (int j = 0; j < mdata1.RowCount; j++){
+								int[] inds = indexMap[j];
+								List<double> values = new List<double>();
+								foreach (int ind in inds){
+									double v = oldCol[ind];
+									if (!double.IsNaN(v)){
+										values.Add(v);
+									}
+								}
+								newMultiNumericalColumns[i][j] = values.ToArray();
+							}
+						}
+						for (int i = 0; i < numCols.Length; i++){
+							result.AddMultiNumericColumn(newMultiNumColNames[i], "", newMultiNumericalColumns[i]);
+						}
 					}
 				}
 				{
@@ -209,76 +303,6 @@ namespace PerseusPluginLib.Combine{
 				}
 			result.Origin = "Combination";
 			return result;
-		}
-
-		public Parameters GetParameters(IMatrixData[] inputData, ref string errString) {
-			IMatrixData matrixData1 = inputData[0];
-			IMatrixData matrixData2 = inputData[1];
-			List<string> controlChoice1 = matrixData1.StringColumnNames;
-			int index1 = 0;
-			for (int i = 0; i < controlChoice1.Count; i++){
-				if (controlChoice1[i].ToLower().Contains("uniprot")){
-					index1 = i;
-					break;
-				}
-			}
-			List<string> controlChoice2 = matrixData2.StringColumnNames;
-			int index2 = 0;
-			for (int i = 0; i < controlChoice2.Count; i++){
-				if (controlChoice2[i].ToLower().Contains("uniprot")){
-					index2 = i;
-					break;
-				}
-			}
-			List<string> numCol = matrixData2.NumericColumnNames;
-			int[] numSel = new int[0];
-			List<string> catCol = matrixData2.CategoryColumnNames;
-			int[] catSel = new int[0];
-			List<string> textCol = matrixData2.StringColumnNames;
-			int[] textSel = new int[0];
-			List<string> exCol = matrixData2.ExpressionColumnNames;
-			int[] exSel = new int[0];
-			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Matching column 1")
-					{Values = controlChoice1, Value = index1, Help = "The column in the first matrix that is used for matching rows."},
-					new SingleChoiceParam("Matching column 2")
-					{Values = controlChoice2, Value = index2, Help = "The column in the second matrix that is used for matching rows."}
-					,
-					new BoolParam("Indicator"){
-						Help =
-							"If checked, a categorical column will be added in which it is indicated by a '+' if at least one row of the second " +
-								"matrix matches."
-					},
-					new MultiChoiceParam("Expression columns"){
-						Value = exSel, Values = exCol,
-						Help = "Expression columns of the second matrix that should be added to the first matrix."
-					},
-					new SingleChoiceParam("Combine expression values"){
-						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
-						Help =
-							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
-								"expression values be combined?"
-					},
-					new MultiChoiceParam("Categorical columns"){
-						Values = catCol, Value = catSel,
-						Help = "Categorical columns of the second matrix that should be added to the first matrix."
-					},
-					new MultiChoiceParam("String columns"){
-						Values = textCol, Value = textSel,
-						Help = "String columns of the second matrix that should be added to the first matrix."
-					},
-					new MultiChoiceParam("Numerical columns"){
-						Values = numCol, Value = numSel,
-						Help = "Numerical columns of the second matrix that should be added to the first matrix."
-					},
-					new SingleChoiceParam("Combine numerical values"){
-						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
-						Help =
-							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
-								"numerical values be combined?"
-					}
-				});
 		}
 
 		private static bool AvImp(IEnumerable<bool> b){
@@ -382,6 +406,8 @@ namespace PerseusPluginLib.Combine{
 					return ArrayUtils.Max;
 				case 4:
 					return ArrayUtils.Sum;
+				case 5:
+					return null;
 				default:
 					throw new Exception("Never get here.");
 			}
