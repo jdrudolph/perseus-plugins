@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Num;
 using BaseLib.Num.Test;
 using BaseLib.Param;
@@ -22,7 +20,13 @@ namespace PerseusPluginLib.Significance{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string[] HelpSupplTables { get { return new string[0]; } }
+		public int NumSupplTables { get { return 0; } }
+		public string Name { get { return "Significance A"; } }
+		public string Heading { get { return "Basic"; } }
+		public bool IsActive { get { return true; } }
+		public float DisplayOrder { get { return 100; } }
+		public string HelpDescription {
 			get{
 				return
 					"Determines which values are significant outliers relative to a certain population. For details see Cox and Mann " +
@@ -36,12 +40,6 @@ namespace PerseusPluginLib.Significance{
 						"indicating by '+' if a row is significant.";
 			}
 		}
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Significance A"; } }
-		public string Heading { get { return "Significance"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

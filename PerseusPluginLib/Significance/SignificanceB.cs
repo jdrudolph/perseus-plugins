@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Num;
 using BaseLib.Num.Test;
 using BaseLib.Param;
@@ -22,7 +20,13 @@ namespace PerseusPluginLib.Significance{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string[] HelpSupplTables { get { return new string[0]; } }
+		public int NumSupplTables { get { return 0; } }
+		public string Name { get { return "Significance B"; } }
+		public string Heading { get { return "Basic"; } }
+		public bool IsActive { get { return true; } }
+		public float DisplayOrder { get { return 101; } }
+		public string HelpDescription {
 			get{
 				return
 					"Same as Significance A, but intensity-dependent. For details see Cox and Mann (2008) Nat. Biotech. 26, 1367-72.";
@@ -35,8 +39,6 @@ namespace PerseusPluginLib.Significance{
 						"indicating by '+' if a row is significant.";
 			}
 		}
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;
@@ -147,9 +149,5 @@ namespace PerseusPluginLib.Significance{
 				});
 		}
 
-		public string Name { get { return "Significance B"; } }
-		public string Heading { get { return "Significance"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 4; } }
 	}
 }
