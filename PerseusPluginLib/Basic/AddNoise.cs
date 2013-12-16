@@ -1,6 +1,4 @@
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Num;
 using BaseLib.Param;
 using BaseLib.Util;
@@ -22,7 +20,7 @@ namespace PerseusPluginLib.Basic{
 		public string Name { get { return "Add noise"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 101; } }
+		public float DisplayOrder { get { return 200; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }

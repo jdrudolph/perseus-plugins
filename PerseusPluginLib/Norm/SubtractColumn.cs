@@ -1,6 +1,4 @@
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
