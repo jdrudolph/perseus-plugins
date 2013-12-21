@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Utils{
 	public static class PerseusPluginUtils{
-		public static SingleChoiceParam GetFilterModeParam(bool column) {
+		public static SingleChoiceParam GetFilterModeParam(bool column){
 			return new SingleChoiceParam("Filter mode")
 			{Values = new[]{"Reduce matrix", column ? "Add categorical column" : "Add categorical row"}};
 		}
 
-		private static SingleChoiceParam GetModeParam1() {
-			return new SingleChoiceParam("Mode") {
+		private static SingleChoiceParam GetModeParam1(){
+			return new SingleChoiceParam("Mode"){
 				Values = new[]{"Remove matching rows", "Keep matching rows"},
 				Help =
 					"If 'Remove matching rows' is selected, rows having the value specified above will be removed while " +
@@ -23,8 +20,8 @@ namespace PerseusPluginLib.Utils{
 			};
 		}
 
-		private static SingleChoiceParam GetModeParam2() {
-			return new SingleChoiceParam("Mode") {
+		private static SingleChoiceParam GetModeParam2(){
+			return new SingleChoiceParam("Mode"){
 				Values = new[]{"Mark matching rows", "Mark non-matching rows"},
 				Help =
 					"If 'Mark matching rows' is selected, rows having the value specified above will be indicated with a '+' in the output column. " +
@@ -32,16 +29,16 @@ namespace PerseusPluginLib.Utils{
 			};
 		}
 
-		internal static SingleChoiceWithSubParams GetFilterModeParamNew() {
-			SingleChoiceWithSubParams p = new SingleChoiceWithSubParams("Filter mode") {
+		internal static SingleChoiceWithSubParams GetFilterModeParamNew(){
+			SingleChoiceWithSubParams p = new SingleChoiceWithSubParams("Filter mode"){
 				Values = new[]{"Reduce matrix", "Add categorical column", "Split matrix"},
 				SubParams =
-					new List<Parameters>(new[] { new Parameters(GetModeParam1()), new Parameters(GetModeParam2()), new Parameters() })
+					new List<Parameters>(new[]{new Parameters(GetModeParam1()), new Parameters(GetModeParam2()), new Parameters()})
 			};
 			return p;
 		}
 
-		public static void FilterRows(IMatrixData mdata, Parameters parameters, int[] rows) {
+		public static void FilterRows(IMatrixData mdata, Parameters parameters, int[] rows){
 			bool reduceMatrix = GetReduceMatrix(parameters);
 			if (reduceMatrix){
 				mdata.ExtractExpressionRows(rows);
@@ -56,11 +53,11 @@ namespace PerseusPluginLib.Utils{
 			}
 		}
 
-		private static bool GetReduceMatrix(Parameters parameters) {
+		private static bool GetReduceMatrix(Parameters parameters){
 			return parameters.GetSingleChoiceParam("Filter mode").Value == 0;
 		}
 
-		public static void FilterColumns(IMatrixData mdata, Parameters parameters, int[] cols) {
+		public static void FilterColumns(IMatrixData mdata, Parameters parameters, int[] cols){
 			bool reduceMatrix = GetReduceMatrix(parameters);
 			if (reduceMatrix){
 				mdata.ExtractExpressionColumns(cols);
@@ -211,7 +208,7 @@ namespace PerseusPluginLib.Utils{
 			return result.ToArray();
 		}
 
-		private static int GetIndexOf(IMatrixData data, string categoryName){
+		public static int GetIndexOf(IMatrixData data, string categoryName){
 			for (int i = 0; i < data.CategoryColumnNames.Count; i++){
 				if (data.CategoryColumnNames[i].Equals(categoryName)){
 					return i;

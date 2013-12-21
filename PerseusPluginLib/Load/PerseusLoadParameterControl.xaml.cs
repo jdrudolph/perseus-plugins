@@ -20,7 +20,7 @@ namespace PerseusPluginLib.Load{
 				, "microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact"
 				, "corum", "motifs", "best motif", "reverse", "contaminant", "only identified by site", "type", "amino acid",
 				"raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification",
-				"fraction"
+				"fraction", "dp cluster index"
 			});
 		private static readonly HashSet<string> textualCols =
 			new HashSet<string>(new[]{
@@ -41,7 +41,7 @@ namespace PerseusPluginLib.Load{
 				"number of scans", "number of isotopic peaks", "pif", "fraction of total spectrum", "base peak fraction",
 				"ms/ms count", "ms/ms m/z", "md base scan number", "md mass error", "md time difference", "dp mass difference",
 				"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number"
-				, "dp cluster index", "dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
+				, "dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
 				"dp cluster size reverse", "dp peptide length difference", "dn score", "dn normalized score", "dn nterm mass",
 				"dn cterm mass", "dn score diff"
 			});
