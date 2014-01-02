@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using BaseLib.Param;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -18,9 +20,30 @@ namespace PerseusPluginLib.Load{
 		}
 
 		public Parameters GetParameters(ref string errString){
-			return new Parameters();
+			return
+				new Parameters(new Parameter[]{
+					new FileParam("File"){
+						Filter = "Text (Tab delimited) (*.txt)|*.txt|CSV (Comma delimited) (*.csv)|*.csv|All files (*.*)|*.*",
+						Help = "Please specify here the name of the file to be uploaded including its full path."
+					}
+				});
 		}
 
-		public void LoadData(IMatrixData matrixData, Parameters parameters, ProcessInfo processInfo) {}
+		public void LoadData(IMatrixData mdata, Parameters parameters, ProcessInfo processInfo){
+			string filename = parameters.GetFileParam("File").Value;
+			List<string> lines = new List<string>();
+			StreamReader reader = new StreamReader(filename);
+			string line;
+			while ((line = reader.ReadLine()) != null){
+				lines.Add(line);
+			}
+			reader.Close();
+			mdata.SetData("", "", new List<string>(), new List<string>(), new float[lines.Count,0], new bool[lines.Count,0],
+				new float[lines.Count,0], "", true, new List<string>(new[]{"All data"}),
+				new List<string>(new[]{"Complete file in one text column."}), new List<string[]>(new[]{lines.ToArray()}),
+				new List<string>(), new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(),
+				new List<double[]>(), new List<string>(), new List<string>(), new List<double[][]>(), new List<string>(),
+				new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>());
+		}
 	}
 }

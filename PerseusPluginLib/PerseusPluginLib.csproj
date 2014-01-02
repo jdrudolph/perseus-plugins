@@ -85,6 +85,7 @@
     <Compile Include="Impute\ReplaceImputedByNan.cs" />
     <Compile Include="Impute\ReplaceMissingByConstant.cs" />
     <Compile Include="Impute\ReplaceMissingFromGaussian.cs" />
+    <Compile Include="Load\BinaryUpload.cs" />
     <Compile Include="Load\GenericMatrixUpload.cs" />
     <Compile Include="Load\PerseusLoadMatrixParam.cs" />
     <Compile Include="Load\PerseusLoadParameterControl.xaml.cs">
@@ -208,6 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\raw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\binary.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
