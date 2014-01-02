@@ -90,6 +90,7 @@
     <Compile Include="Load\PerseusLoadParameterControl.xaml.cs">
       <DependentUpon>PerseusLoadParameterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Load\UnstructuredTxtUpload.cs" />
     <Compile Include="Manual\MatrixDataTable.cs" />
     <Compile Include="Manual\SelectRowsManually.cs" />
     <Compile Include="Manual\SelectRowsManuallyControl.cs">
@@ -204,6 +205,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\raw.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

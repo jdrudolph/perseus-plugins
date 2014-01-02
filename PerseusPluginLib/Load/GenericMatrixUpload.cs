@@ -26,10 +26,19 @@ namespace PerseusPluginLib.Load{
 						"using the export as a tab-separated .txt file.";
 			}
 		}
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
+		}
+
+		public Parameters GetParameters(ref string errorString) {
+			return
+				new Parameters(new Parameter[]{
+					new PerseusLoadMatrixParam("File"){
+						Filter = "Text (Tab delimited) (*.txt)|*.txt|CSV (Comma delimited) (*.csv)|*.csv",
+						Help = "Please specify here the name of the file to be uploaded including its full path."
+					}
+				});
 		}
 
 		public void LoadData(IMatrixData matrixData, Parameters parameters, ProcessInfo processInfo) {
@@ -132,7 +141,7 @@ namespace PerseusPluginLib.Load{
 				if (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){
 					continue;
 				}
-				string[] w = line.Split(separator);
+				string[] w = SplitLine(line, separator);
 				for (int i = 0; i < expressionColIndices.Count; i++){
 					if (expressionColIndices[i] >= w.Length){
 						expressionValues[count, i] = float.NaN;
@@ -246,6 +255,39 @@ namespace PerseusPluginLib.Load{
 			status("");
 		}
 
+		private static string[] SplitLine(string line, char separator){
+			line = line.Trim(new[]{' '});
+			bool inQuote = false;
+			List<int> sepInds = new List<int>();
+			for (int i = 0; i < line.Length; i++){
+				char c = line[i];
+				if (c == '\"'){
+					if (inQuote){
+						if (i == line.Length - 1 || line[i + 1] == separator){
+							inQuote = false;
+						}
+					} else{
+						if (i == 0 || line[i - 1] == separator){
+							inQuote = true;
+						}
+					}
+				} else if (c == separator && !inQuote){
+					sepInds.Add(i);
+				}
+			}
+			string[] w = StringUtils.SplitAtIndices(line, sepInds);
+			for (int i = 0; i < w.Length; i++){
+				string s = w[i].Trim();
+				if (s.Length > 1){
+					if (s[0] == '\"' && s[s.Length - 1] == '\"'){
+						s = s.Substring(1, s.Length - 2);
+					}
+				}
+				w[i] = s;
+			}
+			return w;
+		}
+
 		private static string RemoveSplitWhitespace(string s){
 			if (!s.Contains(";")){
 				return s.Trim();
@@ -287,16 +329,6 @@ namespace PerseusPluginLib.Load{
 				}
 			}
 			return result;
-		}
-
-		public Parameters GetParameters(ref string errorString) {
-			return
-				new Parameters(new Parameter[]{
-					new PerseusLoadMatrixParam("File"){
-						Filter = "Text (Tab delimited) (*.txt)|*.txt|CSV (Comma delimited) (*.csv)|*.csv",
-						Help = "Please specify here the name of the file to be uploaded including its full path."
-					}
-				});
 		}
 	}
 }

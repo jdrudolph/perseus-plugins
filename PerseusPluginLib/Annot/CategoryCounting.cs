@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -28,6 +26,17 @@ namespace PerseusPluginLib.Annot{
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;
+		}
+
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+			List<string> choice = mdata.CategoryColumnNames;
+			int[] selection = ArrayUtils.ConsecutiveInts(choice.Count);
+			string[] sel = ArrayUtils.Concat(mdata.CategoryColumnNames.ToArray(), "<None>");
+			return
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("Categories"){Values = choice, Value = selection}, new IntParam("Min. count", 1),
+					new SingleChoiceParam("Selection"){Values = sel, Value = sel.Length - 1}, new StringParam("Value", "+")
+				});
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
@@ -133,17 +142,6 @@ namespace PerseusPluginLib.Annot{
 			Array.Sort(y);
 			y = ArrayUtils.Remove(y, "");
 			return y;
-		}
-
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			List<string> choice = mdata.CategoryColumnNames;
-			int[] selection = ArrayUtils.ConsecutiveInts(choice.Count);
-			string[] sel = ArrayUtils.Concat(mdata.CategoryColumnNames.ToArray(), "<None>");
-			return
-				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Categories"){Values = choice, Value = selection}, new IntParam("Min. count", 1),
-					new SingleChoiceParam("Selection"){Values = sel, Value = sel.Length - 1}, new StringParam("Value", "+")
-				});
 		}
 	}
 }
