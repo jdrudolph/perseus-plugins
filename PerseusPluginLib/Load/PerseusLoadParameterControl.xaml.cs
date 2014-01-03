@@ -5,14 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using BaseLib.Parse;
 using BaseLib.Util;
+using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Load{
 	/// <summary>
 	/// Interaction logic for PerseusLoadParameterControl.xaml
 	/// </summary>
 	public partial class PerseusLoadParameterControl : UserControl{
-		private static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
-		private static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 		private static readonly HashSet<string> categoricalCols =
 			new HashSet<string>(new[]{
 				"pfam names", "gocc names", "gomf names", "gobp names", "kegg pathway names", "chromosome", "strand",
@@ -20,14 +19,15 @@ namespace PerseusPluginLib.Load{
 				, "microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact"
 				, "corum", "motifs", "best motif", "reverse", "contaminant", "only identified by site", "type", "amino acid",
 				"raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification",
-				"fraction", "dp cluster index"
+				"fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id"
 			});
 		private static readonly HashSet<string> textualCols =
 			new HashSet<string>(new[]{
 				"protein ids", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl", "ensg", "ensp", "enst",
 				"mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name", "names", "proteins",
 				"positions within proteins", "leading proteins", "md sequence", "md proteins", "md gene names", "md protein names",
-				"dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names", "name", "dn sequence"
+				"dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names", "name", "dn sequence",
+				"title", "volume", "number", "pages"
 			});
 		private static readonly HashSet<string> numericCols =
 			new HashSet<string>(new[]{
@@ -43,7 +43,12 @@ namespace PerseusPluginLib.Load{
 				"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number"
 				, "dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
 				"dp cluster size reverse", "dp peptide length difference", "dn score", "dn normalized score", "dn nterm mass",
-				"dn cterm mass", "dn score diff"
+				"dn cterm mass", "dn score diff", "views", "estimated minutes watched", "average view duration",
+				"average percentage viewed", "subscriber views", "subscriber minutes watched", "clicks", "clickable impressions",
+				"click through rate", "closes", "closable impressions", "close rate", "impressions", "likes", "likes added",
+				"likes removed", "dislikes", "dislikes added", "dislikes removed", "shares", "comments", "favorites",
+				"favorites added", "favorites removed", "subscribers", "subscribers gained", "subscribers lost",
+				"average view duration (minutes)"
 			});
 		private static readonly HashSet<string> multiNumericCols =
 			new HashSet<string>(new[]{"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"});
@@ -104,7 +109,8 @@ namespace PerseusPluginLib.Load{
 			string[] colNames;
 			Dictionary<string, string[]> annotationRows = new Dictionary<string, string[]>();
 			try{
-				colNames = TabSep.GetColumnNames(filename, commentPrefix, commentPrefixExceptions, annotationRows, separator);
+				colNames = TabSep.GetColumnNames(filename, PerseusUtils.commentPrefix, PerseusUtils.commentPrefixExceptions,
+					annotationRows, separator);
 			} catch (Exception){
 				MessageBox.Show("Could not open the file '" + filename + "'. It is probably opened by another program.");
 				return;
