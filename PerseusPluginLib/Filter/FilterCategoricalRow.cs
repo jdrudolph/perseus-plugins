@@ -8,7 +8,7 @@ using PerseusApi.Matrix;
 using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Filter{
-	public class FilterCategoricalRow : IMatrixProcessing {
+	public class FilterCategoricalRow : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Those columns are kept or removed that have the specified value in the selected categorical row."; } }
@@ -26,13 +26,13 @@ namespace PerseusPluginLib.Filter{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[mdata.CategoryRowCount];
-			for (int i = 0; i < mdata.CategoryRowCount; i++) {
+			for (int i = 0; i < mdata.CategoryRowCount; i++){
 				string[] values = mdata.GetCategoryRowValuesAt(i);
 				int[] sel = values.Length == 1 ? new[]{0} : new int[0];
 				subParams[i] =
@@ -59,7 +59,7 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParams p = param.GetSingleChoiceWithSubParams("Row");
+			SingleChoiceWithSubParams p = param.GetSingleChoiceWithSubParams("Row");
 			int colInd = p.Value;
 			if (colInd < 0){
 				processInfo.ErrString = "No categorical rows available.";
@@ -72,8 +72,9 @@ namespace PerseusPluginLib.Filter{
 				return;
 			}
 			string[] values = new string[inds.Length];
+			string[] v = mdata.GetCategoryRowValuesAt(colInd);
 			for (int i = 0; i < values.Length; i++){
-				values[i] = mdata.GetCategoryRowValuesAt(colInd)[inds[i]];
+				values[i] = v[inds[i]];
 			}
 			HashSet<string> value = new HashSet<string>(values);
 			bool remove = param.GetSingleChoiceParam("Mode").Value == 0;

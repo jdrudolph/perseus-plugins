@@ -73,8 +73,9 @@ namespace PerseusPluginLib.Filter{
 				return;
 			}
 			string[] values = new string[inds.Length];
+			string[] v = mdata.GetCategoryColumnValuesAt(colInd);
 			for (int i = 0; i < values.Length; i++){
-				values[i] = mdata.GetCategoryColumnValuesAt(colInd)[inds[i]];
+				values[i] = v[inds[i]];
 			}
 			HashSet<string> value = new HashSet<string>(values);
 			bool remove = param.GetSingleChoiceParam("Mode").Value == 0;
