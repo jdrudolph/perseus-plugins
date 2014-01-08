@@ -27,11 +27,11 @@ namespace PerseusPluginLib.Filter{
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[mdata.CategoryColumnCount];
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
 				string[] values = mdata.GetCategoryColumnValuesAt(i);
@@ -60,7 +60,7 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParams p = param.GetSingleChoiceWithSubParams("Column");
+			SingleChoiceWithSubParams p = param.GetSingleChoiceWithSubParams("Column");
 			int colInd = p.Value;
 			if (colInd < 0){
 				processInfo.ErrString = "No categorical columns available.";
