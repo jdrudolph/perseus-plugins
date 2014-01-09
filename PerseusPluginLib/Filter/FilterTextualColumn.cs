@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using BaseLib.Param;
-using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -13,9 +12,6 @@ namespace PerseusPluginLib.Filter{
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Only those rows are kept that have a value in the textual column that matches the search string."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Filter rows based on text column"; } }
@@ -23,7 +19,6 @@ namespace PerseusPluginLib.Filter{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 2; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {

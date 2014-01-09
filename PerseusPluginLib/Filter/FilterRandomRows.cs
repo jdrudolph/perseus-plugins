@@ -14,9 +14,6 @@ namespace PerseusPluginLib.Filter{
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "A given number of rows is kept based on random decisions."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Filter rows based on random sampling"; } }
@@ -24,7 +21,6 @@ namespace PerseusPluginLib.Filter{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 10; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {

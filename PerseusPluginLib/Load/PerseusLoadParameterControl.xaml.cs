@@ -19,7 +19,8 @@ namespace PerseusPluginLib.Load{
 				, "microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact"
 				, "corum", "motifs", "best motif", "reverse", "contaminant", "only identified by site", "type", "amino acid",
 				"raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification",
-				"fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id"
+				"fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
+				"identified", "fragmentation", "mass analyzer", "labeling state"
 			});
 		private static readonly HashSet<string> textualCols =
 			new HashSet<string>(new[]{
@@ -27,7 +28,7 @@ namespace PerseusPluginLib.Load{
 				"mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name", "names", "proteins",
 				"positions within proteins", "leading proteins", "md sequence", "md proteins", "md gene names", "md protein names",
 				"dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names", "name", "dn sequence",
-				"title", "volume", "number", "pages"
+				"title", "volume", "number", "pages", "modified sequence"
 			});
 		private static readonly HashSet<string> numericCols =
 			new HashSet<string>(new[]{
@@ -48,7 +49,17 @@ namespace PerseusPluginLib.Load{
 				"click through rate", "closes", "closable impressions", "close rate", "impressions", "likes", "likes added",
 				"likes removed", "dislikes", "dislikes added", "dislikes removed", "shares", "comments", "favorites",
 				"favorites added", "favorites removed", "subscribers", "subscribers gained", "subscribers lost",
-				"average view duration (minutes)"
+				"average view duration (minutes)", "scan number", "ion injection time", "total ion current", "base peak intensity",
+				"elapsed time", "precursor full scan number", "precursor intensity", "precursor apex fraction",
+				"precursor apex offset", "precursor apex offset time", "scan event number", "scan index", "ms scan index",
+				"ms scan number", "agc fill", "parent intensity fraction", "intens comp factor", "ctcd comp", "rawovftt",
+				"cycle time", "dead time", "basepeak intensity", "mass calibration", "peak length", "isotope pattern length",
+				"multiplet length", "peaks / s", "single peaks / s", "isotope patterns / s", "single isotope patterns / s",
+				"multiplets / s", "identified multiplets / s", "multiplet identification rate [%]", "ms/ms / s",
+				"identified ms/ms / s", "ms/ms identification rate [%]", "mass fractional part", "mass deficit",
+				"mass precision [ppm]", "max intensity m/z 1", "retention length (fwhm)", "min scan number", "max scan number",
+				"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count",
+
 			});
 		private static readonly HashSet<string> multiNumericCols =
 			new HashSet<string>(new[]{"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"});
