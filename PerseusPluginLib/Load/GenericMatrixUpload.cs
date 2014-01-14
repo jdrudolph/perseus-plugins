@@ -12,7 +12,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Load{
 	public class GenericMatrixUpload : IMatrixUpload{
 		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.uploadGeneric; } }
+		public Bitmap DisplayImage { get { return Resources.upload64; } }
 		public string Name { get { return "Generic matrix upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }

@@ -1,5 +1,5 @@
 ﻿namespace PerseusApi.Generic{
-	public interface IFromMatrix : IActivity{
+	public interface IFromMatrix : IActivityWithHeading {
 		string HelpOutput { get; }
 		string[] HelpSupplTables { get; }
 		int NumSupplTables { get; }

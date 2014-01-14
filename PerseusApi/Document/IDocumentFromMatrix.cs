@@ -2,9 +2,9 @@
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 
-namespace PerseusApi.Document {
-	public interface IDocumentFromMatrix : IDocumentActivity, IFromMatrix {
-		IDocumentData ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
+namespace PerseusApi.Document{
+	public interface IDocumentFromMatrix : IDocumentActivity, IFromMatrix{
+		void ProcessData(IMatrixData inData, IDocumentData outData, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo);
 
 		/// <summary>

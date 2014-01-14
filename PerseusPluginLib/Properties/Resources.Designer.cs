@@ -223,6 +223,16 @@ namespace PerseusPluginLib.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap upload64 {
+            get {
+                object obj = ResourceManager.GetObject("upload64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap uploadGeneric {
             get {
                 object obj = ResourceManager.GetObject("uploadGeneric", resourceCulture);
