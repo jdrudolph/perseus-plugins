@@ -11,7 +11,7 @@ namespace PerseusApi.Utils{
 		public static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		public static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 
-		public static void LoadData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
+		public static void LoadMatrixData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
 			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, TextReader reader,
 			int nrows, string origin, char separator){
 			string[] colDescriptions = null;
@@ -49,11 +49,11 @@ namespace PerseusApi.Utils{
 					return;
 				}
 			}
-			LoadData(colNames, colDescriptions, eInds, cInds, nInds, tInds, mInds, origin, mdata, annotationRows,
+			LoadMatrixData(colNames, colDescriptions, eInds, cInds, nInds, tInds, mInds, origin, mdata, annotationRows,
 				processInfo.Progress, processInfo.Status, separator, reader, nrows);
 		}
 
-		private static void LoadData(IList<string> colNames, IList<string> colDescriptions, IList<int> expressionColIndices,
+		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions, IList<int> expressionColIndices,
 			IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices, IList<int> multiNumColIndices,
 			string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows, Action<int> progress,
 			Action<string> status, char separator, TextReader reader, int nrows){

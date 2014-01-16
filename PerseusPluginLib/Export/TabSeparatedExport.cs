@@ -11,17 +11,17 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.saveGeneric; } }
-		public string HelpDescription { get { return ""; } }
+		public Bitmap DisplayImage { get { return Resources.Save_icon; } }
+		public string HelpDescription { get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
-		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo) {
+		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
 			string filename = parameters.GetFileParam("File name").Value;
 			StreamWriter writer;
 			try{
@@ -177,9 +177,9 @@ namespace PerseusPluginLib.Export{
 			return false;
 		}
 
-		public Parameters GetParameters(IMatrixData matrixData, ref string errorString) {
+		public Parameters GetParameters(IMatrixData matrixData, ref string errorString){
 			return
-				new Parameters(new Parameter[] { new FileParam("File name") { Filter = "Tab separated file (*.txt)|*.txt", Save = true } });
+				new Parameters(new Parameter[]{new FileParam("File name"){Filter = "Tab separated file (*.txt)|*.txt", Save = true}});
 		}
 
 		private const int maxlen = 30000;

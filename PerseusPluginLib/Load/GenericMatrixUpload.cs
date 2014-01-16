@@ -69,7 +69,7 @@ namespace PerseusPluginLib.Load{
 			int[] nInds = par.NumericalColumnIndices;
 			int[] tInds = par.TextColumnIndices;
 			int[] mInds = par.MultiNumericalColumnIndices;
-			PerseusUtils.LoadData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader, nrows,
+			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader, nrows,
 				origin, separator);
 		}
 	}
