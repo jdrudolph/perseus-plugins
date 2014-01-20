@@ -28,7 +28,7 @@ namespace PerseusPluginLib.Norm{
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			double[] controlValues = SubtractColumn.GetControlValues(mdata, param);
-			Func<double, double, double> f = (x, y) => (x - y);
+			Func<double, double, double> f = (x, y) => (x / y);
 			int[] exCols;
 			int[] numCols;
 			SubtractColumn.GetCols(mdata, param, out exCols, out numCols);
