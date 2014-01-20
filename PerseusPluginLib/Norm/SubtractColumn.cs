@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using BaseLib.Param;
 using BaseLib.Util;
@@ -11,9 +13,6 @@ namespace PerseusPluginLib.Norm{
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Subtract the specified column from all other columns."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Subtract column"; } }
@@ -21,72 +20,82 @@ namespace PerseusPluginLib.Norm{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int colIndex = param.GetSingleChoiceParam("Control column").Value;
-			if (colIndex < mdata.ExpressionColumnCount){
-				DivideByColumn(mdata, colIndex);
-			} else{
-				DivideByColumnNum(mdata, colIndex - mdata.ExpressionColumnCount);
+			double[] controlValues = GetControlValues(mdata, param);
+			Func<double, double, double> f = (x, y) => (x - y);
+			int[] exCols;
+			int[] numCols;
+			GetCols(mdata, param, out exCols, out numCols);
+			foreach (int exCol in exCols){
+				ApplyExp(exCol, mdata, f, controlValues);
+			}
+			foreach (int numCol in numCols){
+				ApplyNum(numCol, mdata, f, controlValues);
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public static void ApplyExp(int exCol, IMatrixData mdata, Func<double, double, double> func,
+			IList<double> controlValues){
+			for (int i = 0; i < mdata.RowCount; i++){
+				mdata[i, exCol] = (float) func(mdata[i, exCol], controlValues[i]);
+			}
+		}
+
+		public static void ApplyNum(int numCol, IMatrixData mdata, Func<double, double, double> func,
+			IList<double> controlValues){
+			for (int i = 0; i < mdata.RowCount; i++){
+				mdata.NumericColumns[numCol][i] = (float) func(mdata.NumericColumns[numCol][i], controlValues[i]);
+			}
+		}
+
+		public static void GetCols(IMatrixData mdata, Parameters param, out int[] exCols, out int[] numCols) {
+			List<int> exCols1 = new List<int>();
+			List<int> numCols1 = new List<int>();
+			int[] cols = param.GetMultiChoiceParam("Columns").Value;
+			foreach (int col in cols){
+				if (col < mdata.ExpressionColumnCount){
+					exCols1.Add(col);
+				} else{
+					numCols1.Add(col - mdata.ExpressionColumnCount);
+				}
+			}
+			exCols = exCols1.ToArray();
+			numCols = numCols1.ToArray();
+		}
+
+		public static double[] GetControlValues(IMatrixData mdata, Parameters param){
+			int controlIndex = param.GetSingleChoiceParam("Control column").Value;
+			if (controlIndex < mdata.ExpressionColumnCount){
+				return ArrayUtils.ToDoubles(mdata.GetExpressionColumn(controlIndex));
+			}
+			controlIndex -= mdata.ExpressionColumnCount;
+			return mdata.NumericColumns[controlIndex];
+		}
+
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			string[] values = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
+			int[] sel = ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount);
 			string[] controlChoice = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
-			return new Parameters(new Parameter[] { new SingleChoiceParam("Control column") { Values = controlChoice } });
-		}
-
-		public static void DivideByColumnNum(IMatrixData data, int index){
-			int p = data.RowCount;
-			int n = data.ExpressionColumnCount;
-			float[,] newEx = new float[p,n];
-			double[] numCol = data.NumericColumns[index];
-			for (int i = 0; i < p; i++){
-				for (int j = 0; j < n; j++){
-					newEx[i, j] = (float) (data[i, j] - numCol[index]);
-				}
-			}
-			data.ExpressionValues = newEx;
-		}
-
-		public static void DivideByColumn(IMatrixData data, int index){
-			int p = data.RowCount;
-			int n = data.ExpressionColumnCount;
-			float[,] newEx = new float[p,n - 1];
-			for (int i = 0; i < p; i++){
-				for (int j = 0; j < index; j++){
-					newEx[i, j] = data[i, j] - data[i, index];
-				}
-				for (int j = index + 1; j < n; j++){
-					newEx[i, j - 1] = data[i, j] - data[i, index];
-				}
-			}
-			bool[,] newImp = new bool[p,n - 1];
-			for (int i = 0; i < p; i++){
-				for (int j = 0; j < index; j++){
-					newImp[i, j] = data.IsImputed[i, j] || data.IsImputed[i, index];
-				}
-				for (int j = index + 1; j < n; j++){
-					newImp[i, j - 1] = data.IsImputed[i, j] || data.IsImputed[i, index];
-				}
-			}
-			data.ExpressionValues = newEx;
-			data.IsImputed = newImp;
-			data.ExpressionColumnNames.RemoveAt(index);
-			data.ExpressionColumnDescriptions.RemoveAt(index);
-			for (int i = 0; i < data.CategoryRowCount; i++){
-				data.SetCategoryRowAt(ArrayUtils.RemoveAtIndex(data.GetCategoryRowAt(i), index), i);
-			}
-			for (int i = 0; i < data.NumericRowCount; i++){
-				data.NumericColumns[i] = ArrayUtils.RemoveAtIndex(data.NumericColumns[i], index);
-			}
+			return
+				new Parameters(new Parameter[]{
+					new MultiChoiceParam("Columns"){
+						Values = values, Value = sel,
+						Help =
+							"Select here the expression and/or numeric colums from which the values in the 'control column' " +
+								"will be subtracted."
+					},
+					new SingleChoiceParam("Control column"){
+						Values = controlChoice,
+						Help = "The values in this column will be " + "subtracted from all columns selected in the field 'Columns'"
+					}
+				});
 		}
 	}
 }

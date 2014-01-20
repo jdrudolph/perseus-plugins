@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
-using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -18,21 +15,15 @@ namespace PerseusPluginLib.Combine{
 		public string Name { get { return "Matching columns by name"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -4; } }
-		public string DataType1 { get { return "First matrix"; } }
-		public string DataType2 { get { return "Second matrix"; } }
 		public string HelpOutput { get { return ""; } }
 		public string HelpDescription { get { return ""; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int MinNumInput { get { return 2; } }
 		public int MaxNumInput { get { return 2; } }
-		public string Heading { get { return null; } }
+		public string Heading { get { return "Basic"; } }
 
 		public string GetInputName(int index) {
 			return index == 0 ? "Base matrix" : "Other matrix";

@@ -27,17 +27,13 @@ namespace PerseusPluginLib.Combine{
 						"for textual and categorical columns.";
 			}
 		}
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int MinNumInput { get { return 2; } }
 		public int MaxNumInput { get { return 2; } }
-		public string Heading { get { return null; } }
+		public string Heading { get { return "Basic"; } }
 
 		public string GetInputName(int index){
 			return index == 0 ? "Base matrix" : "Other matrix";
