@@ -25,12 +25,12 @@ namespace PerseusPluginLib.Norm{
 		public int NumDocuments { get { return 0; } }
 		public string HelpDescription{
 			get{
-				return
-					"A linear transformation is applied to the values in each row/column such that the minima and maxima coincide with the specified values.";
+				return "A linear transformation is applied to the values in each row/column such that the minima " +
+					"and maxima coincide with the specified values.";
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return int.MaxValue;
 		}
 
@@ -42,7 +42,7 @@ namespace PerseusPluginLib.Norm{
 			MapToInterval1(rows, mdata, min, max, processInfo.NumThreads);
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Matrix access"){
@@ -61,35 +61,35 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		private static void Calc1(int i, IMatrixData data, double min, double max) {
+		private static void Calc1(int i, IMatrixData data, double min, double max){
 			List<double> vals = new List<double>();
-			for (int j = 0; j < data.ExpressionColumnCount; j++) {
+			for (int j = 0; j < data.ExpressionColumnCount; j++){
 				double q = data[i, j];
-				if (!double.IsNaN(q) && !double.IsInfinity(q)) {
+				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double mind;
 			double maxd;
 			ArrayUtils.MinMax(vals, out mind, out maxd);
-			for (int j = 0; j < data.ExpressionColumnCount; j++) {
-				data[i, j] = (float)(min + (max - min) / (maxd - mind) * (data[i, j] - mind));
+			for (int j = 0; j < data.ExpressionColumnCount; j++){
+				data[i, j] = (float) (min + (max - min)/(maxd - mind)*(data[i, j] - mind));
 			}
 		}
 
-		private static void Calc2(int j, IMatrixData data, double min, double max) {
+		private static void Calc2(int j, IMatrixData data, double min, double max){
 			List<double> vals = new List<double>();
-			for (int i = 0; i < data.RowCount; i++) {
+			for (int i = 0; i < data.RowCount; i++){
 				double q = data[i, j];
-				if (!double.IsNaN(q) && !double.IsInfinity(q)) {
+				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double mind;
 			double maxd;
 			ArrayUtils.MinMax(vals, out mind, out maxd);
-			for (int i = 0; i < data.RowCount; i++) {
-				data[i, j] = (float)(min + (max - min) / (maxd - mind) * (data[i, j] - mind));
+			for (int i = 0; i < data.RowCount; i++){
+				data[i, j] = (float) (min + (max - min)/(maxd - mind)*(data[i, j] - mind));
 			}
 		}
 	}

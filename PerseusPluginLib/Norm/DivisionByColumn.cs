@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using BaseLib.Param;
 using BaseLib.Util;
@@ -27,17 +26,7 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			double[] controlValues = SubtractColumn.GetControlValues(mdata, param);
-			Func<double, double, double> f = (x, y) => (x / y);
-			int[] exCols;
-			int[] numCols;
-			SubtractColumn.GetCols(mdata, param, out exCols, out numCols);
-			foreach (int exCol in exCols){
-				SubtractColumn.ApplyExp(exCol, mdata, f, controlValues);
-			}
-			foreach (int numCol in numCols){
-				SubtractColumn.ApplyNum(numCol, mdata, f, controlValues);
-			}
+			SubtractColumn.ProcessData(mdata, param, (x, y) => (x/y));
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){

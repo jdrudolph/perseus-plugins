@@ -27,16 +27,19 @@ namespace PerseusPluginLib.Norm{
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
-			ref IDocumentData[] documents, ProcessInfo processInfo){
+			ref IDocumentData[] documents, ProcessInfo processInfo) {
+			ProcessData(mdata, param, (x, y) => (x - y));
+		}
+
+		public static void ProcessData(IMatrixData mdata, Parameters param, Func<double, double, double> f) {
 			double[] controlValues = GetControlValues(mdata, param);
-			Func<double, double, double> f = (x, y) => (x - y);
 			int[] exCols;
 			int[] numCols;
 			GetCols(mdata, param, out exCols, out numCols);
-			foreach (int exCol in exCols){
+			foreach (int exCol in exCols) {
 				ApplyExp(exCol, mdata, f, controlValues);
 			}
-			foreach (int numCol in numCols){
+			foreach (int numCol in numCols) {
 				ApplyNum(numCol, mdata, f, controlValues);
 			}
 		}
