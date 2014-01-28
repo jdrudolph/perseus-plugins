@@ -11,12 +11,12 @@ namespace PerseusPluginLib.Load{
 	/// <summary>
 	/// Interaction logic for PerseusLoadParameterControl.xaml
 	/// </summary>
-	public partial class PerseusLoadMatrixParameterControl : UserControl{
+	public partial class PerseusLoadMatrixControl : UserControl{
 		public string Filter { get; set; }
-		public PerseusLoadMatrixParameterControl() : this(new string[0]) {}
-		public PerseusLoadMatrixParameterControl(IList<string> items) : this(items, null) {}
+		public PerseusLoadMatrixControl() : this(new string[0]) {}
+		public PerseusLoadMatrixControl(IList<string> items) : this(items, null) {}
 
-		public PerseusLoadMatrixParameterControl(IList<string> items, string filename) {
+		public PerseusLoadMatrixControl(IList<string> items, string filename){
 			InitializeComponent();
 			MultiListSelector1.Init(items, new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"});
 			if (!string.IsNullOrEmpty(filename)){
@@ -52,6 +52,7 @@ namespace PerseusPluginLib.Load{
 				}
 			}
 		}
+		public string Text { get { return TextBox1.Text; } set { TextBox1.Text = value; } }
 
 		private static IEnumerable<int> GetIndices(string s){
 			string[] q = s.Length > 0 ? s.Split(';') : new string[0];
@@ -106,8 +107,6 @@ namespace PerseusPluginLib.Load{
 				PerseusUtils.SelectHeuristic(colNames, MultiListSelector1);
 			}
 		}
-
-		public string Text { get { return TextBox1.Text; } set { TextBox1.Text = value; } }
 
 		private void Button1_OnClick(object sender, RoutedEventArgs e){
 			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();

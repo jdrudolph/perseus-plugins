@@ -88,8 +88,8 @@
     <Compile Include="Load\BinaryUpload.cs" />
     <Compile Include="Load\GenericMatrixUpload.cs" />
     <Compile Include="Load\PerseusLoadMatrixParam.cs" />
-    <Compile Include="Load\PerseusLoadMatrixParameterControl.xaml.cs">
-      <DependentUpon>PerseusLoadMatrixParameterControl.xaml</DependentUpon>
+    <Compile Include="Load\PerseusLoadMatrixControl.xaml.cs">
+      <DependentUpon>PerseusLoadMatrixControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Load\UnstructuredTxtUpload.cs" />
     <Compile Include="Manual\MatrixDataTable.cs" />
@@ -202,7 +202,7 @@
     <None Include="Resources\average.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Load\PerseusLoadMatrixParameterControl.xaml">
+    <Page Include="Load\PerseusLoadMatrixControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
