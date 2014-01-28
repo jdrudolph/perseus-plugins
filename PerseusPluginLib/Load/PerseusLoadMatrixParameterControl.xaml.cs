@@ -11,12 +11,12 @@ namespace PerseusPluginLib.Load{
 	/// <summary>
 	/// Interaction logic for PerseusLoadParameterControl.xaml
 	/// </summary>
-	public partial class PerseusLoadParameterControl : UserControl{
+	public partial class PerseusLoadMatrixParameterControl : UserControl{
 		public string Filter { get; set; }
-		public PerseusLoadParameterControl() : this(new string[0]) {}
-		public PerseusLoadParameterControl(IList<string> items) : this(items, null) {}
+		public PerseusLoadMatrixParameterControl() : this(new string[0]) {}
+		public PerseusLoadMatrixParameterControl(IList<string> items) : this(items, null) {}
 
-		public PerseusLoadParameterControl(IList<string> items, string filename){
+		public PerseusLoadMatrixParameterControl(IList<string> items, string filename) {
 			InitializeComponent();
 			MultiListSelector1.Init(items, new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"});
 			if (!string.IsNullOrEmpty(filename)){
