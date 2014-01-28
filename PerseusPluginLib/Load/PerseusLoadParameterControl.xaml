@@ -16,9 +16,9 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="80"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="textBox1" Grid.Column="0"></TextBox>
-            <Button x:Name="button1" Grid.Column="1" Content="Select" Click="Button1_OnClick"></Button>
+            <TextBox x:Name="TextBox1" Grid.Column="0"></TextBox>
+            <Button x:Name="Button1" Grid.Column="1" Content="Select" Click="Button1_OnClick"></Button>
         </Grid>
-        <wpf:MultiListSelectorControl x:Name="multiListSelector1" Grid.Row="1"/>
+        <wpf:MultiListSelectorControl x:Name="MultiListSelector1" Grid.Row="1"/>
     </Grid>
 </UserControl>
