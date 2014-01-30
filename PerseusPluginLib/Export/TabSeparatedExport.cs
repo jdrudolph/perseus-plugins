@@ -185,7 +185,7 @@ namespace PerseusPluginLib.Export{
 		private const int maxlen = 30000;
 
 		private static string Trunc(string s){
-			return s.Length <= maxlen ? s : s.Substring(0, maxlen);
+			return s == null ? "" : s.Length <= maxlen ? s : s.Substring(0, maxlen);
 		}
 	}
 }
