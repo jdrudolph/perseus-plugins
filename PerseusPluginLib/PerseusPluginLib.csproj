@@ -59,7 +59,7 @@
     <Compile Include="Basic\CombineAnnotations.cs" />
     <Compile Include="Basic\CombineByIdentifiersProcessing.cs" />
     <Compile Include="Basic\AddNoise.cs" />
-    <Compile Include="Basic\CombineCategoricalColumns.cs" />
+    <Compile Include="Rearrange\CombineCategoricalColumns.cs" />
     <Compile Include="Basic\DensityEstimationProcessing.cs" />
     <Compile Include="Basic\PerformanceCurves.cs" />
     <Compile Include="Basic\Quantiles.cs" />
@@ -72,8 +72,8 @@
     <Compile Include="Basic\PerformanceColumnTypeTpNp.cs" />
     <Compile Include="Basic\SummaryStatisticsColumns.cs" />
     <Compile Include="Basic\SummaryStatisticsRows.cs" />
-    <Compile Include="Combine\MatchingColumnsByName.cs" />
-    <Compile Include="Combine\MatchingRowsByName.cs" />
+    <Compile Include="Join\MatchingColumnsByName.cs" />
+    <Compile Include="Join\MatchingRowsByName.cs" />
     <Compile Include="Export\TabSeparatedExport.cs" />
     <Compile Include="Filter\FilterRandomRows.cs" />
     <Compile Include="Filter\FilterValidValuesColumns.cs" />

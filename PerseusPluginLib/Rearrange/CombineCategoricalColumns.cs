@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 
-namespace PerseusPluginLib.Basic{
+namespace PerseusPluginLib.Rearrange{
 	public class CombineCategoricalColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
@@ -17,9 +15,9 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Combine categorical columns"; } }
-		public string Heading { get { return "Basic"; } }
+		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3.5f; } }
+		public float DisplayOrder { get { return 17.5f; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 

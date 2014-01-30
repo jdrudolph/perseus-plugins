@@ -8,7 +8,7 @@ using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
 
-namespace PerseusPluginLib.Combine{
+namespace PerseusPluginLib.Join{
 	public class MatchingColumnsByName : IMatrixMultiProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.combineButton_Image; } }
