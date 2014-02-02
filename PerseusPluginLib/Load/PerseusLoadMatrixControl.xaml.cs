@@ -108,7 +108,7 @@ namespace PerseusPluginLib.Load{
 			}
 		}
 
-		private void Button1_OnClick(object sender, RoutedEventArgs e){
+		private void SelectButton_OnClick(object sender, RoutedEventArgs e) {
 			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 			if (Filter != null && !Filter.Equals("")){
 				ofd.Filter = Filter;
@@ -126,6 +126,7 @@ namespace PerseusPluginLib.Load{
 				return;
 			}
 			UpdateFile(filename);
+			TextBox1.Focus();
 		}
 	}
 }
