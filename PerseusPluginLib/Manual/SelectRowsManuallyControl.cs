@@ -13,7 +13,6 @@ namespace PerseusPluginLib.Manual{
 			InitializeComponent();
 			this.mdata = mdata;
 			this.createNewMatrix = createNewMatrix;
-			matrixDataGridView.HasRemoveRowsMenuItems = false;
 			matrixDataGridView.TableModel = new MatrixDataTable(mdata);
 		}
 
