@@ -59,6 +59,7 @@
     <Compile Include="Basic\CombineAnnotations.cs" />
     <Compile Include="Basic\CombineByIdentifiersProcessing.cs" />
     <Compile Include="Basic\AddNoise.cs" />
+    <Compile Include="Rearrange\CollapseEvidenceFile.cs" />
     <Compile Include="Rearrange\CombineCategoricalColumns.cs" />
     <Compile Include="Basic\DensityEstimationProcessing.cs" />
     <Compile Include="Basic\PerformanceCurves.cs" />
