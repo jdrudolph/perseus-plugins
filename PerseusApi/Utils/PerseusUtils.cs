@@ -58,7 +58,8 @@ namespace PerseusApi.Utils{
 				"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count"
 			});
 		public static readonly HashSet<string> multiNumericColDefaultNames =
-			new HashSet<string>(new[]{"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"});
+			new HashSet<string>(new[]
+			{"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)", "protein group ids"});
 		public static readonly HashSet<string> commentPrefix = new HashSet<string>(new[]{"#", "!"});
 		public static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 
