@@ -30,6 +30,7 @@ namespace PerseusApi.Matrix{
 		List<string> CategoryColumnDescriptions { get; set; }
 		List<string[][]> CategoryColumns { set; }
 		string[][] GetCategoryColumnAt(int index);
+		string[] GetCategoryColumnEntryAt(int index, int row);
 		string[] GetCategoryColumnValuesAt(int index);
 		void SetCategoryColumnAt(string[][] vals, int index);
 		void RemoveCategoryColumnAt(int index);
@@ -56,6 +57,7 @@ namespace PerseusApi.Matrix{
 		List<string> CategoryRowDescriptions { get; set; }
 		List<string[][]> CategoryRows { set; }
 		string[][] GetCategoryRowAt(int index);
+		string[] GetCategoryRowEntryAt(int index, int column);
 		string[] GetCategoryRowValuesAt(int index);
 		void SetCategoryRowAt(string[][] vals, int index);
 		void RemoveCategoryRowAt(int index);

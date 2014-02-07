@@ -128,7 +128,7 @@ namespace PerseusPluginLib.Export{
 					words.Add(Trunc("" + data[j, i]));
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
-					string[] q = data.GetCategoryColumnAt(i)[j] ?? new string[0];
+					string[] q = data.GetCategoryColumnEntryAt(i,j) ?? new string[0];
 					words.Add(Trunc((q.Length > 0 ? StringUtils.Concat(";", q) : "")));
 				}
 				for (int i = 0; i < data.NumericColumnCount; i++){

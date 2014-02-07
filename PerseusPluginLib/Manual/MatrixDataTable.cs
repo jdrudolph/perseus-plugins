@@ -60,7 +60,7 @@ namespace PerseusPluginLib.Manual{
 				rowData.Add(NumUtils.RoundSignificantDigits(mdata[row, i], 6));
 			}
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
-				rowData.Add(StringUtils.Concat(";", mdata.GetCategoryColumnAt(i)[row] ?? new string[0]));
+				rowData.Add(StringUtils.Concat(";", mdata.GetCategoryColumnEntryAt(i,row) ?? new string[0]));
 			}
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
 				rowData.Add(NumUtils.RoundSignificantDigits(mdata.NumericColumns[i][row], 6));

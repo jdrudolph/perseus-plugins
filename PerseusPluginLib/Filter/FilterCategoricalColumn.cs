@@ -74,11 +74,10 @@ namespace PerseusPluginLib.Filter{
 			}
 			HashSet<string> value = new HashSet<string>(values);
 			bool remove = param.GetSingleChoiceParam("Mode").Value == 0;
-			string[][] cats = mdata.GetCategoryColumnAt(colInd);
 			List<int> valids = new List<int>();
-			for (int i = 0; i < cats.Length; i++){
+			for (int i = 0; i < mdata.RowCount; i++){
 				bool valid = true;
-				foreach (string w in cats[i]){
+				foreach (string w in mdata.GetCategoryColumnEntryAt(colInd,i)){
 					if (value.Contains(w)){
 						valid = false;
 						break;

@@ -87,7 +87,7 @@ namespace PerseusPluginLib.Rearrange{
 						numC[k][count + j] = mdata.NumericColumns[k][i];
 					}
 					for (int k = 0; k < mdata.CategoryColumnCount; k++){
-						catC[k][count + j] = mdata.GetCategoryColumnAt(k)[i];
+						catC[k][count + j] = mdata.GetCategoryColumnEntryAt(k,i);
 					}
 				}
 				for (int k = 0; k < mdata.MultiNumericColumnCount; k++){

@@ -54,9 +54,8 @@ namespace PerseusPluginLib.Basic{
 			}
 			bool[] indicator = new bool[mdata.RowCount];
 			foreach (int col in catCols){
-				string[][] cat = mdata.GetCategoryColumnAt(col);
-				for (int i = 0; i < cat.Length; i++){
-					foreach (string s in cat[i]){
+				for (int i = 0; i < mdata.RowCount; i++){
+					foreach (string s in mdata.GetCategoryColumnEntryAt(col,i)){
 						foreach (string s1 in word){
 							if (s.ToLower().Contains(s1)){
 								indicator[i] = true;

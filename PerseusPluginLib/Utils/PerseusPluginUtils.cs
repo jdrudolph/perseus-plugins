@@ -152,7 +152,7 @@ namespace PerseusPluginLib.Utils{
 			int index = GetIndexOfCol(data, categoryName);
 			List<int> result = new List<int>();
 			for (int i = 0; i < data.ExpressionColumnCount; i++){
-				string[] s = data.GetCategoryRowAt(index)[i];
+				string[] s = data.GetCategoryRowEntryAt(index, i);
 				foreach (string s1 in s){
 					if (s1.Equals(value)){
 						result.Add(i);
@@ -167,7 +167,7 @@ namespace PerseusPluginLib.Utils{
 			int index = GetIndexOfCol(data, categoryName);
 			List<int> result = new List<int>();
 			for (int i = 0; i < data.ExpressionColumnCount; i++){
-				string[] s = data.GetCategoryRowAt(index)[i];
+				string[] s = data.GetCategoryRowEntryAt(index, i);
 				foreach (string s1 in s){
 					if (values.Contains(s1)){
 						result.Add(i);
@@ -182,7 +182,7 @@ namespace PerseusPluginLib.Utils{
 			int index = GetIndexOf(data, categoryName);
 			List<int> result = new List<int>();
 			for (int i = 0; i < data.RowCount; i++){
-				string[] s = data.GetCategoryColumnAt(index)[i];
+				string[] s = data.GetCategoryColumnEntryAt(index, i);
 				foreach (string s1 in s){
 					if (s1.Equals(value)){
 						result.Add(i);
@@ -197,7 +197,7 @@ namespace PerseusPluginLib.Utils{
 			int index = GetIndexOf(data, categoryName);
 			List<int> result = new List<int>();
 			for (int i = 0; i < data.RowCount; i++){
-				string[] s = data.GetCategoryColumnAt(index)[i];
+				string[] s = data.GetCategoryColumnEntryAt(index, i);
 				foreach (string s1 in s){
 					if (values.Contains(s1)){
 						result.Add(i);

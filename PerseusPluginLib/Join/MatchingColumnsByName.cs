@@ -25,11 +25,11 @@ namespace PerseusPluginLib.Join{
 		public int MaxNumInput { get { return 2; } }
 		public string Heading { get { return "Basic"; } }
 
-		public string GetInputName(int index) {
+		public string GetInputName(int index){
 			return index == 0 ? "Base matrix" : "Other matrix";
 		}
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
@@ -86,116 +86,116 @@ namespace PerseusPluginLib.Join{
 			Dictionary<string, int> dic1;
 			Dictionary<string, int> dic2;
 			string[] expColNames = SpecialSort(mdata1.ExpressionColumnNames, mdata2.ExpressionColumnNames, out dic1, out dic2);
-			float[,] ex = new float[nrows, expColNames.Length];
-			for (int i = 0; i < ex.GetLength(0); i++) {
-				for (int j = 0; j < ex.GetLength(1); j++) {
+			float[,] ex = new float[nrows,expColNames.Length];
+			for (int i = 0; i < ex.GetLength(0); i++){
+				for (int j = 0; j < ex.GetLength(1); j++){
 					ex[i, j] = float.NaN;
 				}
 			}
-			for (int i = 0; i < expColNames.Length; i++) {
-				if (dic1.ContainsKey(expColNames[i])) {
+			for (int i = 0; i < expColNames.Length; i++){
+				if (dic1.ContainsKey(expColNames[i])){
 					int ind = dic1[expColNames[i]];
-					for (int j = 0; j < nrows1; j++) {
+					for (int j = 0; j < nrows1; j++){
 						ex[j, i] = mdata1[j, ind];
 					}
 				}
-				if (dic2.ContainsKey(expColNames[i])) {
+				if (dic2.ContainsKey(expColNames[i])){
 					int ind = dic2[expColNames[i]];
-					for (int j = 0; j < nrows2; j++) {
+					for (int j = 0; j < nrows2; j++){
 						ex[nrows1 + j, i] = mdata2[j, ind];
 					}
 				}
 			}
 			string[] numColNames = SpecialSort(mdata1.NumericColumnNames, mdata2.NumericColumnNames, out dic1, out dic2);
 			List<double[]> numCols = new List<double[]>();
-			for (int i = 0; i < numColNames.Length; i++) {
+			for (int i = 0; i < numColNames.Length; i++){
 				numCols.Add(new double[nrows]);
-				for (int j = 0; j < nrows; j++) {
+				for (int j = 0; j < nrows; j++){
 					numCols[numCols.Count - 1][j] = double.NaN;
 				}
 			}
-			for (int i = 0; i < numColNames.Length; i++) {
-				if (dic1.ContainsKey(numColNames[i])) {
+			for (int i = 0; i < numColNames.Length; i++){
+				if (dic1.ContainsKey(numColNames[i])){
 					int ind = dic1[numColNames[i]];
-					for (int j = 0; j < nrows1; j++) {
+					for (int j = 0; j < nrows1; j++){
 						numCols[i][j] = mdata1.NumericColumns[ind][j];
 					}
 				}
-				if (dic2.ContainsKey(numColNames[i])) {
+				if (dic2.ContainsKey(numColNames[i])){
 					int ind = dic2[numColNames[i]];
-					for (int j = 0; j < nrows2; j++) {
+					for (int j = 0; j < nrows2; j++){
 						numCols[i][nrows1 + j] = mdata2.NumericColumns[ind][j];
 					}
 				}
 			}
 			string[] stringColNames = SpecialSort(mdata1.StringColumnNames, mdata2.StringColumnNames, out dic1, out dic2);
 			List<string[]> stringCols = new List<string[]>();
-			for (int i = 0; i < stringColNames.Length; i++) {
+			for (int i = 0; i < stringColNames.Length; i++){
 				stringCols.Add(new string[nrows]);
-				for (int j = 0; j < nrows; j++) {
+				for (int j = 0; j < nrows; j++){
 					stringCols[stringCols.Count - 1][j] = "";
 				}
 			}
-			for (int i = 0; i < stringColNames.Length; i++) {
-				if (dic1.ContainsKey(stringColNames[i])) {
+			for (int i = 0; i < stringColNames.Length; i++){
+				if (dic1.ContainsKey(stringColNames[i])){
 					int ind = dic1[stringColNames[i]];
-					for (int j = 0; j < nrows1; j++) {
+					for (int j = 0; j < nrows1; j++){
 						stringCols[i][j] = mdata1.StringColumns[ind][j];
 					}
 				}
-				if (dic2.ContainsKey(stringColNames[i])) {
+				if (dic2.ContainsKey(stringColNames[i])){
 					int ind = dic2[stringColNames[i]];
-					for (int j = 0; j < nrows2; j++) {
+					for (int j = 0; j < nrows2; j++){
 						stringCols[i][nrows1 + j] = mdata2.StringColumns[ind][j];
 					}
 				}
 			}
 			string[] catColNames = SpecialSort(mdata1.CategoryColumnNames, mdata2.CategoryColumnNames, out dic1, out dic2);
 			List<string[][]> catCols = new List<string[][]>();
-			for (int i = 0; i < catColNames.Length; i++) {
+			for (int i = 0; i < catColNames.Length; i++){
 				catCols.Add(new string[nrows][]);
-				for (int j = 0; j < nrows; j++) {
+				for (int j = 0; j < nrows; j++){
 					catCols[catCols.Count - 1][j] = new string[0];
 				}
 			}
-			for (int i = 0; i < catColNames.Length; i++) {
-				if (dic1.ContainsKey(catColNames[i])) {
+			for (int i = 0; i < catColNames.Length; i++){
+				if (dic1.ContainsKey(catColNames[i])){
 					int ind = dic1[stringColNames[i]];
-					for (int j = 0; j < nrows1; j++) {
-						catCols[i][j] = mdata1.GetCategoryColumnAt(ind)[j];
+					for (int j = 0; j < nrows1; j++){
+						catCols[i][j] = mdata1.GetCategoryColumnEntryAt(ind, j);
 					}
 				}
-				if (dic2.ContainsKey(catColNames[i])) {
+				if (dic2.ContainsKey(catColNames[i])){
 					int ind = dic2[catColNames[i]];
-					for (int j = 0; j < nrows2; j++) {
-						catCols[i][nrows1 + j] = mdata2.GetCategoryColumnAt(ind)[j];
+					for (int j = 0; j < nrows2; j++){
+						catCols[i][nrows1 + j] = mdata2.GetCategoryColumnEntryAt(ind, j);
 					}
 				}
 			}
 			string[] multiNumColNames = SpecialSort(mdata1.MultiNumericColumnNames, mdata2.MultiNumericColumnNames, out dic1,
 				out dic2);
 			List<double[][]> multiNumCols = new List<double[][]>();
-			for (int i = 0; i < multiNumColNames.Length; i++) {
+			for (int i = 0; i < multiNumColNames.Length; i++){
 				multiNumCols.Add(new double[nrows][]);
-				for (int j = 0; j < nrows; j++) {
+				for (int j = 0; j < nrows; j++){
 					multiNumCols[multiNumCols.Count - 1][j] = new double[0];
 				}
 			}
-			for (int i = 0; i < multiNumColNames.Length; i++) {
-				if (dic1.ContainsKey(multiNumColNames[i])) {
+			for (int i = 0; i < multiNumColNames.Length; i++){
+				if (dic1.ContainsKey(multiNumColNames[i])){
 					int ind = dic1[multiNumColNames[i]];
-					for (int j = 0; j < nrows1; j++) {
+					for (int j = 0; j < nrows1; j++){
 						multiNumCols[i][j] = mdata1.MultiNumericColumns[ind][j];
 					}
 				}
-				if (dic2.ContainsKey(multiNumColNames[i])) {
+				if (dic2.ContainsKey(multiNumColNames[i])){
 					int ind = dic2[multiNumColNames[i]];
-					for (int j = 0; j < nrows2; j++) {
+					for (int j = 0; j < nrows2; j++){
 						multiNumCols[i][nrows1 + j] = mdata2.MultiNumericColumns[ind][j];
 					}
 				}
 			}
-			IMatrixData result = (IMatrixData)mdata1.CreateNewInstance();
+			IMatrixData result = (IMatrixData) mdata1.CreateNewInstance();
 			result.ExpressionColumnNames = new List<string>(expColNames);
 			result.ExpressionColumnDescriptions = result.ExpressionColumnNames;
 			result.ExpressionValues = ex;
@@ -214,7 +214,7 @@ namespace PerseusPluginLib.Join{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData[] inputData, ref string errString) {
+		public Parameters GetParameters(IMatrixData[] inputData, ref string errString){
 			return new Parameters();
 		}
 	}
