@@ -71,6 +71,7 @@ namespace PerseusPluginLib.Load{
 			int[] mInds = par.MultiNumericalColumnIndices;
 			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader, nrows,
 				origin, separator);
+			GC.Collect();
 		}
 	}
 }

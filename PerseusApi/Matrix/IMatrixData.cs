@@ -29,6 +29,10 @@ namespace PerseusApi.Matrix{
 		List<string> CategoryColumnNames { get; set; }
 		List<string> CategoryColumnDescriptions { get; set; }
 		List<string[][]> CategoryColumns { set; }
+		/// <summary>
+		/// For performance reasons, please do not call this inside a loop when iterating over the elements. 
+		/// Use <code>GetCategoryColumnEntryAt</code> instead.
+		/// </summary>
 		string[][] GetCategoryColumnAt(int index);
 		string[] GetCategoryColumnEntryAt(int index, int row);
 		string[] GetCategoryColumnValuesAt(int index);
@@ -56,6 +60,10 @@ namespace PerseusApi.Matrix{
 		List<string> CategoryRowNames { get; set; }
 		List<string> CategoryRowDescriptions { get; set; }
 		List<string[][]> CategoryRows { set; }
+		/// <summary>
+		/// For performance reasons, please do not call this inside a loop when iterating over the elements. 
+		/// Use <code>GetCategoryRowEntryAt</code> instead.
+		/// </summary>
 		string[][] GetCategoryRowAt(int index);
 		string[] GetCategoryRowEntryAt(int index, int column);
 		string[] GetCategoryRowValuesAt(int index);
