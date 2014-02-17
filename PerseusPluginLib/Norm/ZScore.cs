@@ -33,22 +33,43 @@ namespace PerseusPluginLib.Norm{
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 
-		public int GetMaxThreads(Parameters parameters) {
+		public int GetMaxThreads(Parameters parameters){
 			return int.MaxValue;
+		}
+
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			Parameters rowParams =
+				new Parameters(new Parameter[]{
+					new SingleChoiceParam("Grouping"){
+						Values = ArrayUtils.Concat(new[]{"<No grouping>"}, mdata.CategoryRowNames),
+						Help = "The z-scoring will be done separately in groups if a grouping is specified here."
+					},
+					new BoolParam("Keep original data")
+				});
+			return
+				new Parameters(new Parameter[]{
+					new SingleChoiceWithSubParams("Matrix access"){
+						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
+						SubParams = new[]{rowParams, new Parameters()},
+						Help = "Specifies if the z-scoring is performed on the rows or the columns of the matrix."
+					}
+				});
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
+			SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
 			bool rows = access.Value == 0;
 			int groupInd;
+			bool keepOrig = false;
 			if (rows){
 				groupInd = access.GetSubParameters().GetSingleChoiceParam("Grouping").Value - 1;
+				keepOrig = access.GetSubParameters().GetBoolParam("Keep original data").Value;
 			} else{
 				groupInd = -1;
 			}
 			if (groupInd < 0){
-				Zscore(rows, mdata, processInfo.NumThreads);
+				Zscore(rows, mdata, processInfo.NumThreads, keepOrig);
 			} else{
 				string[][] catRow = mdata.GetCategoryRowAt(groupInd);
 				foreach (string[] t in catRow){
@@ -57,11 +78,11 @@ namespace PerseusPluginLib.Norm{
 						return;
 					}
 				}
-				ZscoreGroups(mdata, catRow, processInfo.NumThreads);
+				ZscoreGroups(mdata, catRow, processInfo.NumThreads, keepOrig);
 			}
 		}
 
-		private static void ZscoreGroups(IMatrixData data, IList<string[]> catRow, int nthreads){
+		private static void ZscoreGroups(IMatrixData data, IList<string[]> catRow, int nthreads, bool keepOrig) {
 			string[] groupVals = ArrayUtils.UniqueValuesPreserveOrder(catRow);
 			foreach (int[] inds in groupVals.Select(groupVal => GetIndices(catRow, groupVal))){
 				ZscoreGroup(data, inds, nthreads);
@@ -96,25 +117,7 @@ namespace PerseusPluginLib.Norm{
 			return result.ToArray();
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			return
-				new Parameters(new Parameter[]{
-					new SingleChoiceWithSubParams("Matrix access"){
-						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
-						SubParams =
-							new[]{
-								new Parameters(new SingleChoiceParam("Grouping"){
-									Values = ArrayUtils.Concat(new[]{"<No grouping>"}, mdata.CategoryRowNames),
-									Help = "The z-scoring will be done separately in groups if a grouping is specified here."
-								}),
-								new Parameters()
-							},
-						Help = "Specifies if the z-scoring is performed on the rows or the columns of the matrix."
-					}
-				});
-		}
-
-		public static void Zscore(bool rows, IMatrixData data, int nthreads){
+		public static void Zscore(bool rows, IMatrixData data, int nthreads, bool keepOrig) {
 			if (rows){
 				new ThreadDistributor(nthreads, data.RowCount, i => Calc1(i, data)).Start();
 			} else{
