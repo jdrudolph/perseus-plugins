@@ -12,9 +12,6 @@ namespace PerseusPluginLib.Rearrange{
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "New names can be specified for each expression column. The new names are typed in explicitly."; } }
 		public string HelpOutput { get { return "Same matrix but with the new expression column names."; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Rename columns"; } }
@@ -22,7 +19,6 @@ namespace PerseusPluginLib.Rearrange{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {

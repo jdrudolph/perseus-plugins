@@ -55,7 +55,7 @@ namespace PerseusPluginLib.Rearrange{
 			string[] proteinChoice = ArrayUtils.Concat(mdata.MultiNumericColumnNames, mdata.StringColumnNames);
 			int proteinInd = 0;
 			for (int i = 0; i < proteinChoice.Length; i++){
-				if (proteinChoice[i].ToLower().Equals("intensity")){
+				if (proteinChoice[i].ToLower().Equals("protein group ids")){
 					proteinInd = i;
 					break;
 				}

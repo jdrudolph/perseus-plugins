@@ -12,9 +12,6 @@ namespace PerseusPluginLib.Rearrange{
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "Rename expression columns with the help of matching part of the name by a regular expression."; } }
 		public string HelpOutput { get { return ""; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Rename columns [reg. ex.]"; } }
@@ -22,7 +19,6 @@ namespace PerseusPluginLib.Rearrange{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 1; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {

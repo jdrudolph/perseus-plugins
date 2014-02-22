@@ -12,9 +12,6 @@ namespace PerseusPluginLib.Norm{
 		public Bitmap DisplayImage { get { return null; } }
 		public string HelpDescription { get { return "The values in each row/column are replaced by ranks."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Rank"; } }
@@ -22,7 +19,6 @@ namespace PerseusPluginLib.Norm{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -9; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters) {
