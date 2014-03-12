@@ -14,7 +14,7 @@ namespace PerseusPluginLib.Quality{
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Filter quality"; } }
 		public string Heading { get { return "Quality"; } }
-		public bool IsActive { get { return true; } }
+		public bool IsActive { get { return false; } }
 		public float DisplayOrder { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
