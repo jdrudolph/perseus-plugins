@@ -12,7 +12,7 @@ namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.Save_icon; } }
-		public string HelpDescription { get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; } }
+		public string Description { get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }

@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Load{
 		public string Name { get { return "Binary upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 12; } }
-		public string HelpDescription { get { return "Load all bytes from a binary file and display them as hexadecimal numbers."; } }
+		public string Description { get { return "Load all bytes from a binary file and display them as hexadecimal numbers."; } }
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

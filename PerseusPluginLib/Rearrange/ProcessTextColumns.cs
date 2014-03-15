@@ -10,7 +10,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class ProcessTextColumns : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "Values in string columns can be manipulated according to a regular expression."; } }
+		public string Description { get { return "Values in string columns can be manipulated according to a regular expression."; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

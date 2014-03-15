@@ -25,7 +25,7 @@ namespace PerseusPluginLib.Impute{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"Missing values will be replaced by random numbers that are drawn from a normal distribution. The parameters of this" +

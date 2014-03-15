@@ -11,7 +11,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class CollapseEvidenceFile : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return ""; } }
+		public string Description { get { return ""; } }
 		public string Name { get { return "Collapse MaxQuant evidence file"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }

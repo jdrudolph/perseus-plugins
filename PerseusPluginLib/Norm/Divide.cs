@@ -11,7 +11,7 @@ namespace PerseusPluginLib.Norm{
 	public class Divide : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "Divide all values by the specified quantity calculated on each row/column."; } }
+		public string Description { get { return "Divide all values by the specified quantity calculated on each row/column."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

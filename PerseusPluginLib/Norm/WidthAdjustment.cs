@@ -10,7 +10,7 @@ namespace PerseusPluginLib.Norm{
 	public class WidthAdjustment : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "The first, second and third quartile (q1, q2, q3) are calculated from the " +
 					"distribution of all values. The second quartile (which is the median) is subtracted from each value " +

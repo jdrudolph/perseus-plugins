@@ -18,7 +18,7 @@ namespace PerseusPluginLib.Rearrange{
 		public string Name { get { return "Remove empty columns"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3.5f; } }
-		public string HelpDescription { get { return "Columns containing no values or only invalid values will be removed."; } }
+		public string Description { get { return "Columns containing no values or only invalid values will be removed."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 

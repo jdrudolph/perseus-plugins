@@ -20,7 +20,7 @@ namespace PerseusPluginLib.Rearrange{
 		public float DisplayOrder { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"The order of the columns as they appear in the matrix can be changed. Columns can also be omitted. For example, " +

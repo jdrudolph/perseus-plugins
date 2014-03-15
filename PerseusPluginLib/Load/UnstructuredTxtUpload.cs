@@ -15,7 +15,7 @@ namespace PerseusPluginLib.Load{
 		public string Name { get { return "Raw upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 10; } }
-		public string HelpDescription { get { return "Load all lines from a text file and put them into a single text column."; } }
+		public string Description { get { return "Load all lines from a text file and put them into a single text column."; } }
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

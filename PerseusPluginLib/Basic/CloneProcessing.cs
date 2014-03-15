@@ -13,7 +13,7 @@ namespace PerseusPluginLib.Basic{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.sheepButton_Image; } }
-		public string HelpDescription { get { return "A copy of the input matrix is generated."; } }
+		public string Description { get { return "A copy of the input matrix is generated."; } }
 		public string HelpOutput { get { return "Same as input matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }

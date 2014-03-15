@@ -27,7 +27,7 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"Expression columns are transformed into quantiles. These can than for instance used in subsequent enrichment analysis.";

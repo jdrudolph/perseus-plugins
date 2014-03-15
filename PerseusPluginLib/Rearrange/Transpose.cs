@@ -10,7 +10,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class Transpose : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"The matrix of expression values is being transposed, i.e. rows become columns and columns become rows.";

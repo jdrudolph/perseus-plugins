@@ -21,7 +21,7 @@ namespace PerseusPluginLib.Norm{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"The mean of each row/column is subtracted from each value. The result is then divided by the standard deviation of the row/column.";

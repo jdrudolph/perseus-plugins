@@ -31,7 +31,7 @@ namespace PerseusPluginLib.Filter{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"Rows/columns of the expression matrix are filtered to contain at least the specified numbers of entries that are " +

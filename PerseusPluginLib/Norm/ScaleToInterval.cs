@@ -19,7 +19,7 @@ namespace PerseusPluginLib.Norm{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "A linear transformation is applied to the values in each row/column such that the minima " +
 					"and maxima coincide with the specified values.";

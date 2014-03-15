@@ -8,7 +8,7 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Manual{
 	public class SelectRowsManually : IMatrixAnalysis{
-		public string HelpDescription { get { return ""; } }
+		public string Description { get { return ""; } }
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.hand; } }
 		public string Heading { get { return "Manual editing"; } }

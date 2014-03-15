@@ -10,7 +10,7 @@ namespace PerseusPluginLib.Filter{
 	public class FilterCategoricalRow : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "Those columns are kept or removed that have the specified value in the selected categorical row."; } }
+		public string Description { get { return "Those columns are kept or removed that have the specified value in the selected categorical row."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

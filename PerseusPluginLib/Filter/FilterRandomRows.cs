@@ -12,7 +12,7 @@ namespace PerseusPluginLib.Filter{
 	public class FilterRandomRows : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "A given number of rows is kept based on random decisions."; } }
+		public string Description { get { return "A given number of rows is kept based on random decisions."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

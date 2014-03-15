@@ -15,7 +15,7 @@ namespace PerseusPluginLib.Group{
 	public class CreateCategoricalAnnotRow : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.groupButton_Image; } }
-		public string HelpDescription { get { return ""; } }
+		public string Description { get { return ""; } }
 		public string HelpOutput { get { return "Same matrix with groups added."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

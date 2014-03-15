@@ -13,7 +13,7 @@ namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.average; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"Expression columns are averaged over groups. This requires that at least one categorical annotation row is defined.";

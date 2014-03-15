@@ -12,7 +12,7 @@ namespace PerseusPluginLib.Norm{
 	public class Subtract : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "The specified quantity calculated on each row/column is subtracted from each value."; } }
+		public string Description { get { return "The specified quantity calculated on each row/column is subtracted from each value."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

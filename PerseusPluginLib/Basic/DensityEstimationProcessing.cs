@@ -26,7 +26,7 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "The density of data points in two dimensions is calculated. Each data point is smoothed out" +
 					" by a suitable Gaussian kernel.";

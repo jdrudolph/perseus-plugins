@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Load{
 		public string Name { get { return "Generic matrix upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"Load data from a tab-separated file. The first row should contain the column names, also separated by tab characters. " +

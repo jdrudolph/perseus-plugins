@@ -66,7 +66,7 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription { get{
+		public string Description { get{
 			return
 				"A set of simple descriptive quantities are calculated that help summarizing the expression data in each row.";
 		} }

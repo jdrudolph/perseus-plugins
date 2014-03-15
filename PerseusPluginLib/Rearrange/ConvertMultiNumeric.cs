@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Rearrange{
 		};
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"Creates for the specified multi-numeric columns a numeric column containing the result of the specified operation " +

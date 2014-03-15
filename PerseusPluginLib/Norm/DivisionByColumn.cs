@@ -9,7 +9,7 @@ namespace PerseusPluginLib.Norm{
 	public class DivisionByColumn : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "Divide all columns by the specified column."; } }
+		public string Description { get { return "Divide all columns by the specified column."; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

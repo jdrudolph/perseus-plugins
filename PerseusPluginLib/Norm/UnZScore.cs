@@ -19,7 +19,7 @@ namespace PerseusPluginLib.Norm{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "Providing the means and standard deviations used in a z-score transformation the data is " +
 					"transformed back to what it was before z-scoring.";

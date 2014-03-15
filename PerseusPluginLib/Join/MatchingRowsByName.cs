@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Join{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -5; } }
 		public string HelpOutput { get { return ""; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return
 					"The base matrix is copied. Rows of the second matrix are associated with rows of the base matrix via matching " +

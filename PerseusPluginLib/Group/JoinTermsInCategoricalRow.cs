@@ -10,7 +10,7 @@ namespace PerseusPluginLib.Group {
 	public class JoinTermsInCategoricalRow : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "The selected terms in the categorical row will be joined to one term."; } }
+		public string Description { get { return "The selected terms in the categorical row will be joined to one term."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

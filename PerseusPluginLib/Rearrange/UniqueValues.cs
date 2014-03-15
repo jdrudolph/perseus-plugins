@@ -10,7 +10,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class UniqueValues : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "Values in the selected string columns are made unique. The strings are " +
 					"interpreted as separated by semicolons. These semicolon-separated values are made unique.";

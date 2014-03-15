@@ -11,7 +11,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class ExpandMultiNumeric : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "Distribute multiple values per cell in a multi-numeric column over multiple rows. For each row in the" +
 					" original matrix there will be as many rows created as there are numbers in the cell of the multi-numeric " +

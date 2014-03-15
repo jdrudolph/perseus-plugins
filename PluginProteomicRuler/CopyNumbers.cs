@@ -12,7 +12,7 @@ namespace PluginProteomicRuler{
 	public class CopyNumbers : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription{
+		public string Description{
 			get{
 				return "Estimate cellular copy numbers from protein intensities using the proteomic ruler approach.\n\n" +
 					"Requirements:\nA deep proteomic dataset of either " + String.Join(", ", SupportedOrganismNames()) +

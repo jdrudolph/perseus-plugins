@@ -11,7 +11,7 @@ namespace PerseusPluginLib.Filter{
 	public class FilterCategoricalColumn : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.filter2; } }
-		public string HelpDescription { get { return "Those rows are kept or removed that have the specified value in the selected categorical column."; } }
+		public string Description { get { return "Those rows are kept or removed that have the specified value in the selected categorical column."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

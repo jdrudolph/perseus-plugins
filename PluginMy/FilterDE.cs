@@ -12,7 +12,7 @@ namespace PluginMy{
 	public class FilterDe : IMatrixProcessing {
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string HelpDescription { get { return "Rows containing D or E in the specified columns are discarded."; } }
+		public string Description { get { return "Rows containing D or E in the specified columns are discarded."; } }
 		public string HelpOutput { get { return "Filtered matrix."; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
