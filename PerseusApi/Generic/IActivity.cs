@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using BaseLib.Api;
 using BaseLib.Param;
 
 namespace PerseusApi.Generic{
@@ -6,32 +6,7 @@ namespace PerseusApi.Generic{
     /// This interface is the base from which all other activities are derived. 
     /// It provides properties that are common to all activities. 
     /// </summary>
-    public interface IActivity{
-        /// <summary>
-        /// This is the name that appears in the drop-down menu of Perseus to start this activity.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// The context help that will appear in tool tips etc. 
-        /// </summary>
-        string Description { get; }
-
-        /// <summary>
-        /// This number controls the order in which activities are displayed in the drop down menu in Perseus.
-        /// </summary>
-        float DisplayOrder { get; }
-
-        /// <summary>
-        /// If false is returned, the activity will not be available.
-        /// </summary>
-        bool IsActive { get; }
-
-        /// <summary>
-        /// The image for the menu entry and the shortcut button.
-        /// </summary>
-        Bitmap DisplayImage { get; }
-
+    public interface IActivity : INamedListItem{
         /// <summary>
         /// A shortcut button will be displayed in the top button row. This also requires that an image is returned by <code>ButtonImage</code>>. 
         /// </summary>

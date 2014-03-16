@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
-using BaseLib.Wpf;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -12,7 +9,7 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Basic{
 	public class Quantiles : IMatrixProcessing{
-		public bool HasButton { get { return true; } }
+		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return Resources.quantiles; } }
 		public string Name { get { return "Quantiles"; } }
 		public string Heading { get { return "Basic"; } }
@@ -21,11 +18,7 @@ namespace PerseusPluginLib.Basic{
 		public string HelpOutput { get { return "For each selected expression coulumn a categorical column is added containing the quantile information."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Description{
 			get{

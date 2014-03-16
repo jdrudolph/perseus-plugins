@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -16,11 +14,7 @@ namespace PerseusPluginLib.Basic{
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return -6; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Description{
 			get{

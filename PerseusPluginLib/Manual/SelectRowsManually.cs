@@ -11,10 +11,10 @@ namespace PerseusPluginLib.Manual{
 		public string Description { get { return ""; } }
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.hand; } }
-		public string Heading { get { return "Manual editing"; } }
+		public string Heading { get { return null; } }
 		public string Name { get { return "Select rows manually"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayOrder { get { return 2; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 
 		public int GetMaxThreads(Parameters parameters) {

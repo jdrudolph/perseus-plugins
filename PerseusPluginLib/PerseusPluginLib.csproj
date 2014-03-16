@@ -43,6 +43,9 @@
     <Reference Include="BaseLib">
       <HintPath>..\DLLs\BaseLib.dll</HintPath>
     </Reference>
+    <Reference Include="NumPluginSvm">
+      <HintPath>..\DLLs\NumPluginSvm.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
