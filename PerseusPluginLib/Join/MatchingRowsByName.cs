@@ -436,8 +436,11 @@ namespace PerseusPluginLib.Join{
 			HashSet<string> taken = new HashSet<string>(expressionColumnNames);
 			for (int i = 0; i < newExColNames.Count; i++){
 				if (taken.Contains(newExColNames[i])){
-					newExColNames[i] += "_1";
-				}
+				    newExColNames[i] += "_1";
+				    taken.Add(newExColNames[i]);
+				} else{
+                    taken.Add(newExColNames[i]);
+                }
 			}
 		}
 	}

@@ -66,7 +66,7 @@ namespace PerseusPluginLib.Impute{
 							"The amount by which the distribution used for the random numbers is shifted downwards. This is in units of the" +
 								" standard deviation if the valid data."
 					},
-					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each columns"}}
+					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}}
 				});
 		}
 
