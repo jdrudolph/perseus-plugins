@@ -5,6 +5,7 @@ using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
+using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Rearrange{
 	public class Transpose : IMatrixProcessing{
@@ -43,7 +44,7 @@ namespace PerseusPluginLib.Rearrange{
 				HashSet<string> taken = new HashSet<string>();
 				colNames = new List<string>();
 				foreach (string n in mdata.StringColumns[nameCol]){
-					string n1 = GetNextAvailableName(n, taken);
+                    string n1 = PerseusUtils.GetNextAvailableName(n, taken);
 					taken.Add(n1);
 					colNames.Add(n1);
 				}
@@ -77,39 +78,6 @@ namespace PerseusPluginLib.Rearrange{
 				result.Add(mdata.GetCategoryColumnAt(i));
 			}
 			return result;
-		}
-
-		private static string GetNextAvailableName(string s, ICollection<string> taken) {
-			if (!taken.Contains(s)){
-				return s;
-			}
-			while (true){
-				s = GetNext(s);
-				if (!taken.Contains(s)){
-					return s;
-				}
-			}
-		}
-
-		private static string GetNext(string s){
-			if (!HasNumberExtension(s)){
-				return s + "_1";
-			}
-			int x = s.LastIndexOf('_');
-			string s1 = s.Substring(x + 1);
-			int num = int.Parse(s1);
-			return s.Substring(0, x) + (num + 1);
-		}
-
-		private static bool HasNumberExtension(string s){
-			int x = s.LastIndexOf('_');
-			if (x < 0){
-				return false;
-			}
-			string s1 = s.Substring(x + 1);
-			int num;
-			bool succ = int.TryParse(s1, out num);
-			return succ;
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
