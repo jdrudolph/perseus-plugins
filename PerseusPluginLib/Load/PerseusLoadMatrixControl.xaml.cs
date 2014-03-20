@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using BaseLib.Parse;
 using BaseLib.Util;
 using PerseusApi.Utils;
@@ -11,7 +10,7 @@ namespace PerseusPluginLib.Load{
 	/// <summary>
 	/// Interaction logic for PerseusLoadParameterControl.xaml
 	/// </summary>
-	public partial class PerseusLoadMatrixControl : UserControl{
+	public partial class PerseusLoadMatrixControl{
 		public string Filter { get; set; }
 		public PerseusLoadMatrixControl() : this(new string[0]) {}
 		public PerseusLoadMatrixControl(IList<string> items) : this(items, null) {}

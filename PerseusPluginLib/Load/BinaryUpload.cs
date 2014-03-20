@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using BaseLib.Param;
 using BaseLib.Util;
+using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
@@ -32,7 +33,8 @@ namespace PerseusPluginLib.Load{
 				});
 		}
 
-		public void LoadData(IMatrixData mdata, Parameters parameters, ProcessInfo processInfo){
+        public void LoadData(IMatrixData mdata, Parameters parameters, ref IMatrixData[] supplTables, ref IDocumentData[] documents, ProcessInfo processInfo)
+        {
 			string filename = parameters.GetFileParam("File").Value;
 			BinaryReader reader = FileUtils.GetBinaryReader(filename);
 			byte[] x = reader.ReadBytes((int) reader.BaseStream.Length);
