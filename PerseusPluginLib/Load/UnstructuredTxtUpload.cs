@@ -37,6 +37,10 @@ namespace PerseusPluginLib.Load{
                        "multiple text columns.";
             }
         }
+        public string[] HelpSupplTables { get { return new string[0]; } }
+        public int NumSupplTables { get { return 0; } }
+        public string[] HelpDocuments { get { return new string[0]; } }
+        public int NumDocuments { get { return 0; } }
 
         public int GetMaxThreads(Parameters parameters){
             return 1;

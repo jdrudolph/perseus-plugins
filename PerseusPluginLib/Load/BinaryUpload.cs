@@ -18,6 +18,10 @@ namespace PerseusPluginLib.Load{
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 12; } }
 		public string Description { get { return "Load all bytes from a binary file and display them as hexadecimal numbers."; } }
+        public string[] HelpSupplTables { get { return new string[0]; } }
+        public int NumSupplTables { get { return 0; } }
+        public string[] HelpDocuments { get { return new string[0]; } }
+        public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

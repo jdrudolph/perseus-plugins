@@ -13,13 +13,13 @@ namespace PerseusPluginLib.Filter{
 		public Bitmap DisplayImage { get { return Resources.filter2; } }
 		public string Description { get { return "Those rows are kept or removed that have the specified value in the selected categorical column."; } }
 		public string HelpOutput { get { return "The filtered matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Filter rows based on categorical column"; } }
 		public string Heading { get { return "Filter rows"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
+        public string[] HelpSupplTables { get { return new string[0]; } }
+        public int NumSupplTables { get { return 0; } }
+        public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 
 		public int GetMaxThreads(Parameters parameters){
