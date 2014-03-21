@@ -5,6 +5,7 @@ using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
+using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Rearrange{
 	public class DuplicateColumns : IMatrixProcessing{
@@ -32,25 +33,37 @@ namespace PerseusPluginLib.Rearrange{
 			if (exColInds.Length > 0){
 				int ncol = data.ExpressionColumnCount;
 				data.ExtractExpressionColumns(ArrayUtils.Concat(ArrayUtils.ConsecutiveInts(data.ExpressionColumnCount), exColInds));
+				HashSet<string> taken = new HashSet<string>(data.ExpressionColumnNames);
 				for (int i = 0; i < exColInds.Length; i++){
-					data.ExpressionColumnNames[ncol + i] += "_Copy";
+					string s = PerseusUtils.GetNextAvailableName(data.ExpressionColumnNames[ncol + i], taken);
+					data.ExpressionColumnNames[ncol + i] = s;
+					taken.Add(s);
 				}
 			}
 			foreach (int ind in numColInds){
-				data.AddNumericColumn(data.NumericColumnNames[ind] + "_Copy", data.NumericColumnDescriptions[ind],
-				                      (double[]) data.NumericColumns[ind].Clone());
+				HashSet<string> taken = new HashSet<string>(data.NumericColumnNames);
+				string s = PerseusUtils.GetNextAvailableName(data.NumericColumnNames[ind], taken);
+				data.AddNumericColumn(s, data.NumericColumnDescriptions[ind], (double[]) data.NumericColumns[ind].Clone());
+				taken.Add(s);
 			}
 			foreach (int ind in multiNumColInds){
-				data.AddMultiNumericColumn(data.MultiNumericColumnNames[ind] + "_Copy", data.MultiNumericColumnDescriptions[ind],
+				HashSet<string> taken = new HashSet<string>(data.MultiNumericColumnNames);
+				string s = PerseusUtils.GetNextAvailableName(data.MultiNumericColumnNames[ind], taken);
+				data.AddMultiNumericColumn(s, data.MultiNumericColumnDescriptions[ind],
 				                           (double[][]) data.MultiNumericColumns[ind].Clone());
+				taken.Add(s);
 			}
 			foreach (int ind in catColInds){
-				data.AddCategoryColumn(data.CategoryColumnNames[ind] + "_Copy", data.CategoryColumnDescriptions[ind],
-				                       data.GetCategoryColumnAt(ind));
+				HashSet<string> taken = new HashSet<string>(data.CategoryColumnNames);
+				string s = PerseusUtils.GetNextAvailableName(data.CategoryColumnNames[ind], taken);
+				data.AddCategoryColumn(s, data.CategoryColumnDescriptions[ind], data.GetCategoryColumnAt(ind));
+				taken.Add(s);
 			}
 			foreach (int ind in textColInds){
-				data.AddStringColumn(data.StringColumnNames[ind] + "_Copy", data.StringColumnDescriptions[ind],
-				                     (string[]) data.StringColumns[ind].Clone());
+				HashSet<string> taken = new HashSet<string>(data.StringColumnNames);
+				string s = PerseusUtils.GetNextAvailableName(data.StringColumnNames[ind], taken);
+				data.AddStringColumn(s, data.StringColumnDescriptions[ind], (string[]) data.StringColumns[ind].Clone());
+				taken.Add(s);
 			}
 		}
 

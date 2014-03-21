@@ -452,7 +452,7 @@ namespace PerseusApi.Utils{
             int x = s.LastIndexOf('_');
             string s1 = s.Substring(x + 1);
             int num = int.Parse(s1);
-            return s.Substring(0, x) + (num + 1);
+            return s.Substring(0, x + 1) + (num + 1);
         }
 
         private static bool HasNumberExtension(string s){
