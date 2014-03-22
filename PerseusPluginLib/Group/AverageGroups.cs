@@ -13,27 +13,25 @@ namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.average; } }
+		public string HelpOutput { get { return "Averaged expression matrix containing as many columns as there were groups defined."; } }
+		public string[] HelpSupplTables { get { return new string[0]; } }
+		public int NumSupplTables { get { return 0; } }
+		public string Name { get { return "Average categories"; } }
+		public string Heading { get { return "Annot. rows"; } }
+		public bool IsActive { get { return true; } }
+		public float DisplayOrder { get { return 3; } }
+		public string[] HelpDocuments { get { return new string[0]; } }
+		public int NumDocuments { get { return 0; } }
+		public int GetMaxThreads(Parameters parameters) { return 1; }
+
 		public string Description{
 			get{
 				return
 					"Expression columns are averaged over groups. This requires that at least one categorical annotation row is defined.";
 			}
 		}
-		public string HelpOutput { get { return "Averaged expression matrix containing as many columns as there were groups defined."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Average groups"; } }
-		public string Heading { get { return "Annot. rows"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
-
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			if (mdata.CategoryRowCount == 0){
 				errorString = "No grouping is loaded.";
 				return null;
@@ -78,10 +76,10 @@ namespace PerseusPluginLib.Group{
 				default:
 					throw new Exception("Never get here.");
 			}
-			if (sdev) {
+			if (sdev){
 				AddStandardDeviation(groupColInd, validVals, mdata);
 			}
-			if (keep) {
+			if (keep){
 				FillMatrixKeep(groupColInd, validVals, mdata, func);
 			} else{
 				FillMatrixDontKeep(groupColInd, validVals, mdata, func);
@@ -132,9 +130,9 @@ namespace PerseusPluginLib.Group{
 			}
 		}
 
-		public static List<string> GetEmpty(IEnumerable<string> x){
+		public static List<string> GetEmpty(string[] x){
 			List<string> result = new List<string>();
-			foreach (string s in x){
+			for (int i = 0; i < x.Length; i++){
 				result.Add("");
 			}
 			return result;
