@@ -21,10 +21,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayOrder { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -49,7 +46,7 @@ namespace PerseusPluginLib.Basic{
 			bool[] indicator = new bool[mdata.RowCount];
 			foreach (int col in catCols){
 				for (int i = 0; i < mdata.RowCount; i++){
-					foreach (string s in mdata.GetCategoryColumnEntryAt(col,i)){
+					foreach (string s in mdata.GetCategoryColumnEntryAt(col, i)){
 						foreach (string s1 in word){
 							if (s.ToLower().Contains(s1)){
 								indicator[i] = true;
@@ -92,13 +89,16 @@ namespace PerseusPluginLib.Basic{
 			stringCols = stringCols1.ToArray();
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] choice = ArrayUtils.Concat(mdata.CategoryColumnNames, mdata.StringColumnNames);
 			int[] selection = new int[0];
 			return
 				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Categories")
-					{Value = selection, Values = choice, Help = "Search these columns for the search terms specified."},
+					new MultiChoiceParam("Categories"){
+						Value = selection,
+						Values = choice,
+						Help = "Search these columns for the search terms specified."
+					},
 					new MultiStringParam("Search terms"){Help = "Look for these terms in the selected columns"},
 					new StringParam("Name of new column"),
 					new BoolParam("Inverse"){Help = "If true, those rows are indicated which do not contain any of the search terms."}

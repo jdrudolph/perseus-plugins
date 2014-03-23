@@ -22,14 +22,12 @@ namespace PerseusPluginLib.Filter{
 		public float DisplayOrder { get { return 10; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
-
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
-				new Parameters(new Parameter[] { new IntParam("Number of rows", mdata.RowCount), PerseusPluginUtils.GetFilterModeParam(true) });
+				new Parameters(new Parameter[]
+				{new IntParam("Number of rows", mdata.RowCount), PerseusPluginUtils.GetFilterModeParam(true)});
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,

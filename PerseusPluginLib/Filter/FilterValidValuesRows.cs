@@ -31,6 +31,8 @@ namespace PerseusPluginLib.Filter{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public int GetMaxThreads(Parameters parameters) { return 1; }
+
 		public string Description{
 			get{
 				return
@@ -38,14 +40,11 @@ namespace PerseusPluginLib.Filter{
 						"valid in the specified way.";
 			}
 		}
+
 		public string HelpOutput { get{
 			return
 				"The matrix of expression values is constrained to contain only these rows/columns that fulfil the requirement.";
 		} }
-
-		public int GetMaxThreads(Parameters parameters){
-			return 1;
-		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -129,11 +128,11 @@ namespace PerseusPluginLib.Filter{
 			PerseusPluginUtils.FilterRows(mdata, param, valids.ToArray());
 		}
 
-		internal static int[][] CalcGroupInds(string[] groupVals, IList<string[]> groupCol) {
+		internal static int[][] CalcGroupInds(string[] groupVals, IList<string[]> groupCol){
 			int[][] result = new int[groupCol.Count][];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = new int[groupCol[i].Length];
-				for (int j = 0; j < result[i].Length; j++) {
+				for (int j = 0; j < result[i].Length; j++){
 					result[i][j] = Array.BinarySearch(groupVals, groupCol[i][j]);
 				}
 			}
@@ -193,17 +192,20 @@ namespace PerseusPluginLib.Filter{
 			throw new Exception("Never get here.");
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[3];
 			subParams[0] = new Parameters(new Parameter[0]);
-			subParams[1] = new Parameters(new Parameter[] { new SingleChoiceParam("Grouping") { Values = mdata.CategoryRowNames } });
-			subParams[2] = new Parameters(new Parameter[] { new SingleChoiceParam("Grouping") { Values = mdata.CategoryRowNames } });
+			subParams[1] = new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}});
+			subParams[2] = new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}});
 			return
 				new Parameters(new Parameter[]{
-					new IntParam("Min. number of values", 3)
-					{Help = "If a row/column has less than the specified number of valid values it will be discarded in the output."},
-					new SingleChoiceWithSubParams("Mode")
-					{Values = new[]{"In total", "In each group", "In at least one group"}, SubParams = subParams},
+					new IntParam("Min. number of values", 3){
+						Help = "If a row/column has less than the specified number of valid values it will be discarded in the output."
+					},
+					new SingleChoiceWithSubParams("Mode"){
+						Values = new[]{"In total", "In each group", "In at least one group"},
+						SubParams = subParams
+					},
 					new SingleChoiceWithSubParams("Values should be"){
 						Values = new[]{"Valid", "Greater than", "Greater or equal", "Less than", "Less or equal", "Between", "Outside"},
 						SubParams =

@@ -20,10 +20,7 @@ namespace PerseusPluginLib.Filter{
 		public float DisplayOrder { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters){
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[mdata.CategoryRowCount];
@@ -32,15 +29,20 @@ namespace PerseusPluginLib.Filter{
 				int[] sel = values.Length == 1 ? new[]{0} : new int[0];
 				subParams[i] =
 					new Parameters(new Parameter[]{
-						new MultiChoiceParam("Values", sel)
-						{Values = values, Help = "The value that should be present to discard/keep the corresponding row."}
+						new MultiChoiceParam("Values", sel){
+							Values = values,
+							Help = "The value that should be present to discard/keep the corresponding row."
+						}
 					});
 			}
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceWithSubParams("Row"){
-						Values = mdata.CategoryRowNames, SubParams = subParams,
-						Help = "The categorical row that the filtering should be based on.", ParamNameWidth = 50, TotalWidth = 731
+						Values = mdata.CategoryRowNames,
+						SubParams = subParams,
+						Help = "The categorical row that the filtering should be based on.",
+						ParamNameWidth = 50,
+						TotalWidth = 731
 					},
 					new SingleChoiceParam("Mode"){
 						Values = new[]{"Remove matching columns", "Keep matching columns"},

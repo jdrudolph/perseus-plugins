@@ -18,21 +18,10 @@ namespace PerseusPluginLib.Annot{
 			selectCount = ArrayUtils.SubArray(selectCount, o);
 		}
 
-		public string GetType1At(int i){
-			return allCategoryType1[i];
-		}
-
-		public string GetName1At(int i){
-			return allCategory1[i];
-		}
-
-		public int GetTotalCountAt(int i){
-			return allTotalCount[i];
-		}
-
-		public int GetSelectCountAt(int i){
-			return selectCount[i];
-		}
+		public string GetType1At(int i) { return allCategoryType1[i]; }
+		public string GetName1At(int i) { return allCategory1[i]; }
+		public int GetTotalCountAt(int i) { return allTotalCount[i]; }
+		public int GetSelectCountAt(int i) { return selectCount[i]; }
 
 		public void Add(string categoryName1, string[] allTerms, int[] allTotal, int[] selectTotal){
 			for (int i = 0; i < allTerms.Length; i++){

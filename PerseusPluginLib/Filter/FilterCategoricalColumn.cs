@@ -17,14 +17,11 @@ namespace PerseusPluginLib.Filter{
 		public string Heading { get { return "Filter rows"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
-        public string[] HelpSupplTables { get { return new string[0]; } }
-        public int NumSupplTables { get { return 0; } }
-        public string[] HelpDocuments { get { return new string[0]; } }
+		public string[] HelpSupplTables { get { return new string[0]; } }
+		public int NumSupplTables { get { return 0; } }
+		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters){
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[mdata.CategoryColumnCount];
@@ -33,15 +30,20 @@ namespace PerseusPluginLib.Filter{
 				int[] sel = values.Length == 1 ? new[]{0} : new int[0];
 				subParams[i] =
 					new Parameters(new Parameter[]{
-						new MultiChoiceParam("Values", sel)
-						{Values = values, Help = "The value that should be present to discard/keep the corresponding row."}
+						new MultiChoiceParam("Values", sel){
+							Values = values,
+							Help = "The value that should be present to discard/keep the corresponding row."
+						}
 					});
 			}
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceWithSubParams("Column"){
-						Values = mdata.CategoryColumnNames, SubParams = subParams,
-						Help = "The categorical column that the filtering should be based on.", ParamNameWidth = 50, TotalWidth = 731
+						Values = mdata.CategoryColumnNames,
+						SubParams = subParams,
+						Help = "The categorical column that the filtering should be based on.",
+						ParamNameWidth = 50,
+						TotalWidth = 731
 					},
 					new SingleChoiceParam("Mode"){
 						Values = new[]{"Remove matching rows", "Keep matching rows"},
@@ -77,7 +79,7 @@ namespace PerseusPluginLib.Filter{
 			List<int> valids = new List<int>();
 			for (int i = 0; i < mdata.RowCount; i++){
 				bool valid = true;
-				foreach (string w in mdata.GetCategoryColumnEntryAt(colInd,i)){
+				foreach (string w in mdata.GetCategoryColumnEntryAt(colInd, i)){
 					if (value.Contains(w)){
 						valid = false;
 						break;

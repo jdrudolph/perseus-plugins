@@ -16,10 +16,7 @@ namespace PerseusPluginLib.Export{
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters){
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
 			string filename = parameters.GetFileParam("File name").Value;
@@ -128,7 +125,7 @@ namespace PerseusPluginLib.Export{
 					words.Add(Trunc("" + data[j, i]));
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
-					string[] q = data.GetCategoryColumnEntryAt(i,j) ?? new string[0];
+					string[] q = data.GetCategoryColumnEntryAt(i, j) ?? new string[0];
 					words.Add(Trunc((q.Length > 0 ? StringUtils.Concat(";", q) : "")));
 				}
 				for (int i = 0; i < data.NumericColumnCount; i++){
@@ -183,9 +180,6 @@ namespace PerseusPluginLib.Export{
 		}
 
 		private const int maxlen = 30000;
-
-		private static string Trunc(string s){
-			return s == null ? "" : s.Length <= maxlen ? s : s.Substring(0, maxlen);
-		}
+		private static string Trunc(string s) { return s == null ? "" : s.Length <= maxlen ? s : s.Substring(0, maxlen); }
 	}
 }

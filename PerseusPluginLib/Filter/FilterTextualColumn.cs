@@ -20,10 +20,7 @@ namespace PerseusPluginLib.Filter{
 		public float DisplayOrder { get { return 2; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -72,11 +69,13 @@ namespace PerseusPluginLib.Filter{
 			return matchWholeWord ? searchString.Equals(word) : word.Contains(searchString);
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Column")
-					{Values = mdata.StringColumnNames, Help = "The text column that the filtering should be based on."},
+					new SingleChoiceParam("Column"){
+						Values = mdata.StringColumnNames,
+						Help = "The text column that the filtering should be based on."
+					},
 					new StringParam("Search string"){Help = "String that is searched in the specified column."},
 					new BoolParam("Match case"), new BoolParam("Match whole word"){Value = true},
 					new SingleChoiceParam("Mode"){

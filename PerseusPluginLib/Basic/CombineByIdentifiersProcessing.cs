@@ -30,10 +30,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayOrder { get { return 20; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -82,7 +79,7 @@ namespace PerseusPluginLib.Basic{
 					string[][] d = ArrayUtils.SubArray(c, rowInds[k]);
 					newCol[k] = Average(d);
 				}
-				mdata.SetCategoryColumnAt(newCol,i);
+				mdata.SetCategoryColumnAt(newCol, i);
 			}
 			for (int i = 0; i < mdata.StringColumnCount; i++){
 				string[] c = mdata.StringColumns[i];
@@ -104,9 +101,7 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		private static double[] Average(IList<double[]> d){
-			return d.Count == 0 ? new double[0] : d[0];
-		}
+		private static double[] Average(IList<double[]> d) { return d.Count == 0 ? new double[0] : d[0]; }
 
 		private static string Average(IList<string> s){
 			if (s.Count == 0){
@@ -129,9 +124,7 @@ namespace PerseusPluginLib.Basic{
 			return StringUtils.Concat(";", w);
 		}
 
-		private static string[] Average(IList<string[]> s){
-			return ArrayUtils.UniqueValues(ArrayUtils.Concat(s));
-		}
+		private static string[] Average(IList<string[]> s) { return ArrayUtils.UniqueValues(ArrayUtils.Concat(s)); }
 
 		private static double Average(IEnumerable<double> c, AverageType atype){
 			List<double> g = new List<double>();
@@ -312,16 +305,18 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] averageTypeChoice = new[]{"Sum", "Mean", "Median", "Maximum", "Minimum"};
 			List<Parameter> parameters = new List<Parameter>{
-				new SingleChoiceParam("ID column")
-				{Values = mdata.StringColumnNames, Help = "Column containing IDs that are going to be clustered."},
+				new SingleChoiceParam("ID column"){
+					Values = mdata.StringColumnNames,
+					Help = "Column containing IDs that are going to be clustered."
+				},
 				new BoolParam("Keep rows without ID"),
 				new SingleChoiceParam("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
 			};
 			foreach (string n in mdata.NumericColumnNames){
-				parameters.Add(new SingleChoiceParam("Average type for " + n) { Values = averageTypeChoice, Value = 2 });
+				parameters.Add(new SingleChoiceParam("Average type for " + n){Values = averageTypeChoice, Value = 2});
 			}
 			return new Parameters(parameters);
 		}
