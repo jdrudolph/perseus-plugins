@@ -20,35 +20,27 @@ namespace PerseusPluginLib.Load{
 		}
 
 		public override string StringValue { get { return StringUtils.Concat(";", Value); } set { Value = value.Split(';'); } }
+
 		public string[] Value2{
 			get{
 				SetValueFromControl();
 				return Value;
 			}
 		}
+
 		public override bool IsDropTarget { get { return true; } }
-
-		public override void Drop(string x){
-			UpdateFile(x);
-		}
-
-		public override void ResetValue(){
-			Value = Default;
-		}
-
-		public override void ResetDefault(){
-			Default = Value;
-		}
-
+		public override void Drop(string x) { UpdateFile(x); }
+		public override void ResetValue() { Value = Default; }
+		public override void ResetDefault() { Default = Value; }
 		public override bool IsModified { get { return !Value.Equals(Default); } }
 
 		public override void SetValueFromControl(){
-			PerseusLoadMatrixControl tb = (PerseusLoadMatrixControl)control;
+			PerseusLoadMatrixControl tb = (PerseusLoadMatrixControl) control;
 			Value = tb.Value;
 		}
 
 		public override void UpdateControlFromValue(){
-			PerseusLoadMatrixControl lfp = (PerseusLoadMatrixControl)control;
+			PerseusLoadMatrixControl lfp = (PerseusLoadMatrixControl) control;
 			lfp.Value = Value;
 		}
 
@@ -63,17 +55,19 @@ namespace PerseusPluginLib.Load{
 			if (control == null){
 				return;
 			}
-			PerseusLoadMatrixControl tb = (PerseusLoadMatrixControl)control;
+			PerseusLoadMatrixControl tb = (PerseusLoadMatrixControl) control;
 			tb.UpdateFile(filename);
 		}
 
 		public override float Height { get { return 770; } }
-		protected override FrameworkElement Control{
+
+		protected override UIElement Control{
 			get{
 				string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
-				return new PerseusLoadMatrixControl(items) { Filter = Filter, Value = Value };
+				return new PerseusLoadMatrixControl(items){Filter = Filter, Value = Value};
 			}
 		}
+
 		public string Filename { get { return Value[0]; } }
 		public string[] Items { get { return Value[1].Length > 0 ? Value[1].Split(';') : new string[0]; } }
 
@@ -94,8 +88,13 @@ namespace PerseusPluginLib.Load{
 		public int[] MultiNumericalColumnIndices { get { return GetIntValues(4); } }
 
 		public override object Clone(){
-			return new PerseusLoadMatrixParam(Name)
-			{Help = Help, Visible = Visible, Filter = Filter, Default = Default, Value = Value};
+			return new PerseusLoadMatrixParam(Name){
+				Help = Help,
+				Visible = Visible,
+				Filter = Filter,
+				Default = Default,
+				Value = Value
+			};
 		}
 	}
 }
