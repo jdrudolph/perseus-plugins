@@ -22,15 +22,12 @@ namespace PerseusPluginLib.Rearrange{
 		public float DisplayOrder { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParams sp = param.GetSingleChoiceWithSubParams("Source type");
-				Parameters subParams = sp.GetSubParameters();
+			SingleChoiceWithSubParams sp = param.GetSingleChoiceWithSubParams("Source type");
+			Parameters subParams = sp.GetSubParameters();
 			int[] colInds = subParams.GetMultiChoiceParam("Columns").Value;
 			int which = subParams.GetSingleChoiceParam("Target type").Value;
 			switch (sp.Value){
@@ -38,10 +35,18 @@ namespace PerseusPluginLib.Rearrange{
 					ExpressionToNumeric(colInds, mdata);
 					break;
 				case 1:
-					if (which == 0){
-						NumericToCategorical(colInds, mdata);
-					} else{
-						NumericToExpression(colInds, mdata);
+					switch (which){
+						case 0:
+							NumericToCategorical(colInds, mdata);
+							break;
+						case 1:
+							NumericToExpression(colInds, mdata);
+							break;
+						case 2:
+							NumericToString(colInds, mdata);
+							break;
+						default:
+							throw new Exception("Never get here");
 					}
 					break;
 				case 2:
@@ -123,6 +128,27 @@ namespace PerseusPluginLib.Rearrange{
 			mdata.StringColumns = ArrayUtils.SubList(mdata.StringColumns, inds);
 			mdata.StringColumnNames = ArrayUtils.SubList(mdata.StringColumnNames, inds);
 			mdata.StringColumnDescriptions = ArrayUtils.SubList(mdata.StringColumnDescriptions, inds);
+		}
+
+		private static void NumericToString(IList<int> colInds, IMatrixData mdata){
+			int[] inds = ArrayUtils.Complement(colInds, mdata.NumericColumnCount);
+			string[] name = ArrayUtils.SubArray(mdata.NumericColumnNames, colInds);
+			string[] description = ArrayUtils.SubArray(mdata.NumericColumnDescriptions, colInds);
+			double[][] num = ArrayUtils.SubArray(mdata.NumericColumns, colInds);
+			string[][] newString = new string[num.Length][];
+			for (int j = 0; j < num.Length; j++){
+				newString[j] = new string[num[j].Length];
+				for (int i = 0; i < newString[j].Length; i++){
+					double x = num[j][i];
+					newString[j][i] = "" + x;
+				}
+			}
+			mdata.StringColumnNames.AddRange(name);
+			mdata.StringColumnDescriptions.AddRange(description);
+			mdata.StringColumns.AddRange(newString);
+			mdata.NumericColumns = ArrayUtils.SubList(mdata.NumericColumns, inds);
+			mdata.NumericColumnNames = ArrayUtils.SubList(mdata.NumericColumnNames, inds);
+			mdata.NumericColumnDescriptions = ArrayUtils.SubList(mdata.NumericColumnDescriptions, inds);
 		}
 
 		private static void StringToMultiNumerical(IList<int> colInds, IMatrixData mdata){
@@ -226,7 +252,7 @@ namespace PerseusPluginLib.Rearrange{
 					}
 				}
 			}
-			mdata.AddCategoryColumns(names,descriptions, newCat);
+			mdata.AddCategoryColumns(names, descriptions, newCat);
 			mdata.NumericColumns = ArrayUtils.SubList(mdata.NumericColumns, inds);
 			mdata.NumericColumnNames = ArrayUtils.SubList(mdata.NumericColumnNames, inds);
 			mdata.NumericColumnDescriptions = ArrayUtils.SubList(mdata.NumericColumnDescriptions, inds);
@@ -268,7 +294,7 @@ namespace PerseusPluginLib.Rearrange{
 			mdata.NumericColumnNames = ArrayUtils.SubList(mdata.NumericColumnNames, inds);
 			mdata.NumericColumnDescriptions = ArrayUtils.SubList(mdata.NumericColumnDescriptions, inds);
 			for (int i = 0; i < mdata.CategoryRowCount; i++){
-				mdata.SetCategoryRowAt(ExtendCategoryRow(mdata.GetCategoryRowAt(i), num.Length),i);
+				mdata.SetCategoryRowAt(ExtendCategoryRow(mdata.GetCategoryRowAt(i), num.Length), i);
 			}
 			for (int i = 0; i < mdata.NumericRows.Count; i++){
 				mdata.NumericRows[i] = ExtendNumericRow(mdata.NumericRows[i], num.Length);
@@ -313,7 +339,7 @@ namespace PerseusPluginLib.Rearrange{
 			mdata.StringColumnNames = ArrayUtils.SubList(mdata.StringColumnNames, inds);
 			mdata.StringColumnDescriptions = ArrayUtils.SubList(mdata.StringColumnDescriptions, inds);
 			for (int i = 0; i < mdata.CategoryRowCount; i++){
-				mdata.SetCategoryRowAt(ExtendCategoryRow(mdata.GetCategoryRowAt(i), str.Length),i);
+				mdata.SetCategoryRowAt(ExtendCategoryRow(mdata.GetCategoryRowAt(i), str.Length), i);
 			}
 			for (int i = 0; i < mdata.NumericRows.Count; i++){
 				mdata.NumericRows[i] = ExtendNumericRow(mdata.NumericRows[i], str.Length);
@@ -351,8 +377,8 @@ namespace PerseusPluginLib.Rearrange{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			string[] choice = new[]{"Expression", "Numerical", "Categorical", "String"};
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			string[] choice = new[]{"Expression", "Numerical", "Categorical", "Text"};
 			List<Parameters> subParams = new List<Parameters>{
 				GetSubParams(mdata.ExpressionColumnNames, GetExpressionSelection()),
 				GetSubParams(mdata.NumericColumnNames, GetNumericSelection()),
@@ -362,35 +388,29 @@ namespace PerseusPluginLib.Rearrange{
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceWithSubParams("Source type"){
-						Values = choice, Help = "What is the original type of the column(s) whose type should be changed?",
-						SubParams = subParams, ParamNameWidth = 136, TotalWidth = 731
+						Values = choice,
+						Help = "What is the original type of the column(s) whose type should be changed?",
+						SubParams = subParams,
+						ParamNameWidth = 136,
+						TotalWidth = 731
 					}
 				});
 		}
 
-		private static Parameters GetSubParams(IList<string> values, IList<string> options) {
+		private static Parameters GetSubParams(IList<string> values, IList<string> options){
 			return
 				new Parameters(new Parameter[]{
 					new MultiChoiceParam("Columns"){Values = values, Help = "Select here the column whose type should be changed."},
-					new SingleChoiceParam("Target type", 0)
-					{Values = options, Help = "The type that these columns will have in the result table."}
+					new SingleChoiceParam("Target type", 0){
+						Values = options,
+						Help = "The type that these columns will have in the result table."
+					}
 				});
 		}
 
-		private static string[] GetStringSelection(){
-			return new[]{"Categorical", "Expression", "Numerical", "Multi numerical"};
-		}
-
-		private static string[] GetCategoricalSelection(){
-			return new[]{"Numerical", "String"};
-		}
-
-		private static string[] GetExpressionSelection(){
-			return new[]{"Numerical"};
-		}
-
-		private static string[] GetNumericSelection(){
-			return new[]{"Categorical", "Expression"};
-		}
+		private static string[] GetStringSelection() { return new[]{"Categorical", "Expression", "Numerical", "Multi numerical"}; }
+		private static string[] GetCategoricalSelection() { return new[]{"Numerical", "Text"}; }
+		private static string[] GetExpressionSelection() { return new[]{"Numerical"}; }
+		private static string[] GetNumericSelection() { return new[]{"Categorical", "Expression", "Text"}; }
 	}
 }
