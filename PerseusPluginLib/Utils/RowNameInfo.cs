@@ -10,10 +10,7 @@ namespace PerseusPluginLib.Utils{
 		public int Name2ColumnIndex { get; set; }
 		public int DescriptionColumnIndex { get; set; }
 		private readonly IMatrixData mdata;
-
-		public RowNameInfo(IMatrixData mdata){
-			this.mdata = mdata;
-		}
+		public RowNameInfo(IMatrixData mdata) { this.mdata = mdata; }
 
 		public string[] GetRowNames(){
 			string[] result = new string[mdata.RowCount];
@@ -23,9 +20,7 @@ namespace PerseusPluginLib.Utils{
 			return result;
 		}
 
-		public string[] GetNameSelection(){
-			return ArrayUtils.Concat(mdata.StringColumnNames, mdata.CategoryColumnNames);
-		}
+		public string[] GetNameSelection() { return ArrayUtils.Concat(mdata.StringColumnNames, mdata.CategoryColumnNames); }
 
 		private string GetRowName(int ind, int nameColumnIndex, bool cutNames){
 			if (nameColumnIndex < 0){
@@ -42,9 +37,8 @@ namespace PerseusPluginLib.Utils{
 			}
 			int indi = nameColumnIndex - mdata.StringColumnCount;
 			if (indi < mdata.CategoryColumnCount && indi >= 0){
-				string[][] q = mdata.GetCategoryColumnAt(indi);
-				if (ind >= 0 && ind < q.Length){
-					string[] w = q[ind];
+				if (ind >= 0 && ind < mdata.RowCount){
+					string[] w = mdata.GetCategoryColumnEntryAt(indi, ind);
 					if (cutNames){
 						return w.Length > 0 ? w[0] : "";
 					}
@@ -54,16 +48,8 @@ namespace PerseusPluginLib.Utils{
 			return "";
 		}
 
-		public string GetRowName(int ind){
-			return GetRowName(ind, NameColumnIndex, CutNames);
-		}
-
-		public string GetRowName2(int ind){
-			return GetRowName(ind, Name2ColumnIndex, CutNames2);
-		}
-
-		public string GetRowDescription(int ind){
-			return GetRowName(ind, DescriptionColumnIndex, CutDescriptions);
-		}
+		public string GetRowName(int ind) { return GetRowName(ind, NameColumnIndex, CutNames); }
+		public string GetRowName2(int ind) { return GetRowName(ind, Name2ColumnIndex, CutNames2); }
+		public string GetRowDescription(int ind) { return GetRowName(ind, DescriptionColumnIndex, CutDescriptions); }
 	}
 }
