@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Group{
 		public string HelpOutput { get { return "Averaged expression matrix containing as many columns as there were groups defined."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Average categories"; } }
+		public string Name { get { return "Average groups"; } }
 		public string Heading { get { return "Annot. rows"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }

@@ -17,7 +17,7 @@ namespace PerseusApi.Utils{
 				, "corum", "motifs", "best motif", "reverse", "contaminant", "only identified by site", "type", "amino acid",
 				"raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification",
 				"fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
-				"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode"
+				"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition"
 			});
 
 		public static readonly HashSet<string> textualColDefaultNames =
