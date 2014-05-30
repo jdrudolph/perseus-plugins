@@ -370,8 +370,6 @@ namespace PerseusApi.Utils{
 						case "M":
 							mls.SetSelected(4, i, true);
 							break;
-						default:
-							throw new Exception("Unknown type: " + colTypes[i]);
 					}
 				}
 			}

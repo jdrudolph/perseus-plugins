@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using BaseLib.Param;
 using BaseLib.Parse;
+using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -37,7 +38,7 @@ namespace PerseusPluginLib.Load{
 			return
 				new Parameters(new Parameter[]{
 					new PerseusLoadMatrixParam("File"){
-						Filter = "Text (Tab delimited) (*.txt)|*.txt|CSV (Comma delimited) (*.csv)|*.csv",
+						Filter = "Text (Tab delimited) (*.txt)|*.txt;*.txt.gz|CSV (Comma delimited) (*.csv)|*.csv;*.csv.gz",
 						Help = "Please specify here the name of the file to be uploaded including its full path."
 					}
 				});
@@ -55,7 +56,8 @@ namespace PerseusPluginLib.Load{
 				processInfo.ErrString = "File '" + filename + "' does not exist.";
 				return;
 			}
-			bool csv = filename.ToLower().EndsWith(".csv");
+			string ftl = filename.ToLower();
+			bool csv = ftl.EndsWith(".csv") || ftl.EndsWith(".csv.gz");
 			char separator = csv ? ',' : '\t';
 			string[] colNames;
 			Dictionary<string, string[]> annotationRows = new Dictionary<string, string[]>();
@@ -66,7 +68,7 @@ namespace PerseusPluginLib.Load{
 				processInfo.ErrString = "Could not open the file '" + filename + "'. It is probably opened in another program.";
 				return;
 			}
-			TextReader reader = new StreamReader(filename);
+			TextReader reader = FileUtils.GetReader(filename);
 			int nrows = TabSep.GetRowCount(filename, 0, PerseusUtils.commentPrefix, PerseusUtils.commentPrefixExceptions);
 			string origin = filename;
 			int[] eInds = par.ExpressionColumnIndices;

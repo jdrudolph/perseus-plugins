@@ -217,7 +217,7 @@ namespace PerseusPluginLib.Utils{
 			return -1;
 		}
 
-		private static int GetIndexOfCol(IMatrixData data, string categoryName){
+		public static int GetIndexOfCol(IMatrixData data, string categoryName){
 			for (int i = 0; i < data.CategoryRowNames.Count; i++){
 				if (data.CategoryRowNames[i].Equals(categoryName)){
 					return i;

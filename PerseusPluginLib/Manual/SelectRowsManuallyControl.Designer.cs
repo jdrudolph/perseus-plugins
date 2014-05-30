@@ -68,7 +68,6 @@
 			this.matrixDataGridView.ColumnFooterHeight = 0;
 			this.matrixDataGridView.ColumnHeaderHeight = 47;
 			this.matrixDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.matrixDataGridView.HasFilter = false;
 			this.matrixDataGridView.HasHelp = true;
 			this.matrixDataGridView.Location = new System.Drawing.Point(0, 25);
 			this.matrixDataGridView.Margin = new System.Windows.Forms.Padding(0);
