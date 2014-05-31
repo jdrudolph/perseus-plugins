@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Combine annotations"; } }
-		public string Heading { get { return "Basic"; } }
+		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }

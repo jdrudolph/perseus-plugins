@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Basic{
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
-		public string Description { get { return ""; } }
+		public string Description { get { return "Calculate predicitive performance measures like precision-recall or ROC curves."; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayOrder { get { return 10; } }
 		public string[] HelpDocuments { get { return new string[0]; } }

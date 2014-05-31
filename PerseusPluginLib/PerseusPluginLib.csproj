@@ -107,7 +107,6 @@
     <Compile Include="Quality\CreateQualityMatrix.cs" />
     <Compile Include="Quality\FilterQuality.cs" />
     <Compile Include="Rearrange\ChangeColumnType.cs" />
-    <Compile Include="Rearrange\ColumnGroupingToMultipleRows.cs" />
     <Compile Include="Rearrange\ConvertMultiNumeric.cs" />
     <Compile Include="Rearrange\DuplicateColumns.cs" />
     <Compile Include="Rearrange\ProcessTextColumns.cs" />

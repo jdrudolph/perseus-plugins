@@ -12,7 +12,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class ChangeColumnType : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return ""; } }
+		public string Description { get { return "Convert the type of selected columns to another desired type."; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
