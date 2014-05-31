@@ -16,10 +16,11 @@ namespace PerseusPluginLib.Impute{
 		public string Name { get { return "Replace imputed values by NaN"; } }
 		public string Heading { get { return "Imputation"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 1; } }
+		public float DisplayRank { get { return 1; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

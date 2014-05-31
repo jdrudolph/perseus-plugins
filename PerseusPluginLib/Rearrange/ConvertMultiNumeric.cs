@@ -26,12 +26,13 @@ namespace PerseusPluginLib.Rearrange{
 		public string Name { get { return "Convert multi-numeric column"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 17; } }
+		public float DisplayRank { get { return 17; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string HelpOutput { get { return "If n multi-numeric columns are selected, n numeric columns will be added to the matrix."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

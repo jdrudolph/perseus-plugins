@@ -15,9 +15,10 @@ namespace PerseusPluginLib.Quality{
 		public string Name { get { return "Filter quality"; } }
 		public string Heading { get { return "Quality"; } }
 		public bool IsActive { get { return false; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

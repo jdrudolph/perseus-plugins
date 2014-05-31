@@ -18,5 +18,10 @@ namespace PerseusApi.Generic{
         /// <param name="parameters">The parameters of the activity. The maximal usable number of threads might depend on the parameter settings.</param>
         /// <returns></returns>
         int GetMaxThreads(Parameters parameters);
-    }
+
+		/// <summary>
+		/// Link to a URL providing further information, documentation, advice about this activity. 
+		/// </summary>
+		string Url { get; }
+	}
 }

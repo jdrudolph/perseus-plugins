@@ -14,8 +14,9 @@ namespace PerseusPluginLib.Manual{
 		public string Heading { get { return null; } }
 		public string Name { get { return "Select rows manually"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 2; } }
+		public float DisplayRank { get { return 2; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

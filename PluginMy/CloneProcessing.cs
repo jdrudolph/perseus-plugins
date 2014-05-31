@@ -1,6 +1,4 @@
 using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using BaseLib.Param;
 using BaseLib.Util;
 using PerseusApi.Document;
@@ -21,10 +19,11 @@ namespace PluginMy{
 		public string Name { get { return "Subtract constant"; } }
 		public string Heading { get { return "My plugins"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 100; } }
+		public float DisplayRank { get { return 100; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

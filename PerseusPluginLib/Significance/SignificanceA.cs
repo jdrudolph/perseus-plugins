@@ -25,8 +25,10 @@ namespace PerseusPluginLib.Significance{
 		public string Name { get { return "Significance A"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 100; } }
-		public string Description {
+		public float DisplayRank { get { return 100; } }
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return
 					"Determines which values are significant outliers relative to a certain population. For details see Cox and Mann " +

@@ -13,13 +13,15 @@ namespace PerseusPluginLib.Norm{
 		public string Name { get { return "Un-Z-score"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 50; } }
+		public float DisplayRank { get { return 50; } }
 		public string HelpOutput { get { return "Normalized expression matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description{
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return "Providing the means and standard deviations used in a z-score transformation the data is " +
 					"transformed back to what it was before z-scoring.";

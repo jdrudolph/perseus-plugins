@@ -16,9 +16,10 @@ namespace PerseusPluginLib.Group{
 		public string Name { get { return "Numerical annotation rows"; } }
 		public string Heading { get { return "Annot. rows"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 2; } }
+		public float DisplayRank { get { return 2; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

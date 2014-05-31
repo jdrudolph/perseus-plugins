@@ -17,11 +17,12 @@ namespace PerseusPluginLib.Rearrange{
 		public string Heading { get { return "Rearrange"; } }
 		public string Name { get { return "Duplicate columns"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3; } }
+		public float DisplayRank { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
 		public string Description { get { return "Columns of all types can be duplicated."; } }
+		public string Url { get { return null; } }
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 		                        ref IDocumentData[] documents, ProcessInfo processInfo){

@@ -17,10 +17,12 @@ namespace PerseusPluginLib.Rearrange{
 		public string Heading { get { return "Rearrange"; } }
 		public string Name { get { return "Reorder/remove columns"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3; } }
+		public float DisplayRank { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description{
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return
 					"The order of the columns as they appear in the matrix can be changed. Columns can also be omitted. For example, " +

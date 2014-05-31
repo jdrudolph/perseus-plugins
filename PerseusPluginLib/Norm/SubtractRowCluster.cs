@@ -17,9 +17,10 @@ namespace PerseusPluginLib.Norm{
 		public string Name { get { return "Subtract row cluster"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

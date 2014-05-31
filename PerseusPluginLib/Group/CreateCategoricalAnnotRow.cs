@@ -22,10 +22,11 @@ namespace PerseusPluginLib.Group{
 		public string Name { get { return "Categorical annotation rows"; } }
 		public string Heading { get { return "Annot. rows"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 1; } }
+		public float DisplayRank { get { return 1; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){

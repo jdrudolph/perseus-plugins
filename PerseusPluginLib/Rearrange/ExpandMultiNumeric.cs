@@ -24,12 +24,13 @@ namespace PerseusPluginLib.Rearrange{
 		public string Name { get { return "Expand multi-numeric and string columns"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 12; } }
+		public float DisplayRank { get { return 12; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string HelpOutput { get { return "Columns are the same. The number of rows increases due to the expansion."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

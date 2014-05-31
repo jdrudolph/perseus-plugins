@@ -16,12 +16,13 @@ namespace PerseusPluginLib.Load{
 		public Bitmap DisplayImage { get { return Resources.binary; } }
 		public string Name { get { return "Binary upload"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 12; } }
+		public float DisplayRank { get { return 12; } }
 		public string Description { get { return "Load all bytes from a binary file and display them as hexadecimal numbers."; } }
         public string[] HelpSupplTables { get { return new string[0]; } }
         public int NumSupplTables { get { return 0; } }
         public string[] HelpDocuments { get { return new string[0]; } }
         public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

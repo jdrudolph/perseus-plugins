@@ -27,10 +27,11 @@ namespace PerseusPluginLib.Basic{
 		public string Name { get { return "Combine rows by identifiers"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return false; } }
-		public float DisplayOrder { get { return 20; } }
+		public float DisplayRank { get { return 20; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){

@@ -57,10 +57,14 @@ namespace PerseusPluginLib.Basic{
 		public string Name { get { return "Summary statistics (rows)"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return -5; } }
+		public float DisplayRank { get { return -5; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description { get{
+		public string Url { get { return null; } }
+		public string Description
+		{
+			get
+			{
 			return
 				"A set of simple descriptive quantities are calculated that help summarizing the expression data in each row.";
 		} }

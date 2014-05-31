@@ -25,8 +25,10 @@ namespace PerseusPluginLib.Significance{
 		public string Name { get { return "Significance B"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 101; } }
-		public string Description {
+		public float DisplayRank { get { return 101; } }
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return
 					"Same as Significance A, but intensity-dependent. For details see Cox and Mann (2008) Nat. Biotech. 26, 1367-72.";

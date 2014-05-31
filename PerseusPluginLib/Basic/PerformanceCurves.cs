@@ -18,9 +18,10 @@ namespace PerseusPluginLib.Basic{
 		public int NumSupplTables { get { return 0; } }
 		public string Description { get { return "Calculate predicitive performance measures like precision-recall or ROC curves."; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 10; } }
+		public float DisplayRank { get { return 10; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

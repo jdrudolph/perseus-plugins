@@ -18,10 +18,11 @@ namespace PerseusPluginLib.Basic{
 		public string Name { get { return "Combine annotations"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3; } }
+		public float DisplayRank { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){

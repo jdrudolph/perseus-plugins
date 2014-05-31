@@ -13,13 +13,15 @@ namespace PerseusPluginLib.Norm{
 		public string Name { get { return "Scale to interval"; } }
 		public string Heading { get { return "Normalization"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return -7; } }
+		public float DisplayRank { get { return -7; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description{
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return "A linear transformation is applied to the values in each row/column such that the minima " +
 					"and maxima coincide with the specified values.";

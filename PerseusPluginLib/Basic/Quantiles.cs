@@ -14,13 +14,15 @@ namespace PerseusPluginLib.Basic{
 		public string Name { get { return "Quantiles"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return -4; } }
+		public float DisplayRank { get { return -4; } }
 		public string HelpOutput { get { return "For each selected expression coulumn a categorical column is added containing the quantile information."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description{
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return
 					"Expression columns are transformed into quantiles. These can than for instance used in subsequent enrichment analysis.";

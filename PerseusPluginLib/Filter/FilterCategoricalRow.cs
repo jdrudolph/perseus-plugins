@@ -17,10 +17,11 @@ namespace PerseusPluginLib.Filter{
 		public string Name { get { return "Filter columns based on categorical row"; } }
 		public string Heading { get { return "Filter columns"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[mdata.CategoryRowCount];

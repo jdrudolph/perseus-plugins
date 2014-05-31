@@ -15,8 +15,9 @@ namespace PerseusPluginLib.Export{
 		public string Description { get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayRank { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
 			string filename = parameters.GetFileParam("File name").Value;

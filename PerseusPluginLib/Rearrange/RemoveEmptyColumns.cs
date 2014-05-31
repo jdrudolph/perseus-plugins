@@ -17,10 +17,11 @@ namespace PerseusPluginLib.Rearrange{
 		public string Heading { get { return "Rearrange"; } }
 		public string Name { get { return "Remove empty columns"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 3.5f; } }
+		public float DisplayRank { get { return 3.5f; } }
 		public string Description { get { return "Columns containing no values or only invalid values will be removed."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

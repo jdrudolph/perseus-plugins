@@ -13,7 +13,7 @@ namespace PerseusPluginLib.Basic{
 		public string Name { get { return "Summary statistics (columns)"; } }
 		public string Heading { get { return "Basic"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return -6; } }
+		public float DisplayRank { get { return -6; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Description{
@@ -31,6 +31,7 @@ namespace PerseusPluginLib.Basic{
 		}
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

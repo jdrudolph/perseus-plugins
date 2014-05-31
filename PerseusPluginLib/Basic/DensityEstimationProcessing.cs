@@ -10,7 +10,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Basic{
 	public class DensityEstimationProcessing : IMatrixProcessing{
 		public string Name { get { return "Density estimation"; } }
-		public float DisplayOrder { get { return -3; } }
+		public float DisplayRank { get { return -3; } }
 		public bool IsActive { get { return true; } }
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.density_Image; } }
@@ -19,7 +19,9 @@ namespace PerseusPluginLib.Basic{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description{
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return "The density of data points in two dimensions is calculated. Each data point is smoothed out" +
 					" by a suitable Gaussian kernel.";

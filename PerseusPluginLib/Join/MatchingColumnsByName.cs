@@ -14,7 +14,7 @@ namespace PerseusPluginLib.Join{
 		public Bitmap DisplayImage { get { return Resources.combineButton_Image; } }
 		public string Name { get { return "Matching columns by name"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return -4; } }
+		public float DisplayRank { get { return -4; } }
 		public string HelpOutput { get { return ""; } }
 		public string Description { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
@@ -24,6 +24,7 @@ namespace PerseusPluginLib.Join{
 		public int MinNumInput { get { return 2; } }
 		public int MaxNumInput { get { return 2; } }
 		public string Heading { get { return "Basic"; } }
+		public string Url { get { return null; } }
 
 		public string GetInputName(int index){
 			return index == 0 ? "Base matrix" : "Other matrix";

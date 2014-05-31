@@ -28,9 +28,10 @@ namespace PerseusPluginLib.Rearrange{
 		public string Name { get { return "Transpose"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 5; } }
+		public float DisplayRank { get { return 5; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public string Url { get { return null; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

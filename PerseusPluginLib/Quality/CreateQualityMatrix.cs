@@ -24,10 +24,11 @@ namespace PerseusPluginLib.Quality{
 		public string Name { get { return "Create quality matrix"; } }
 		public string Heading { get { return "Quality"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] reducedExpColNames = ReduceNames(mdata.ExpressionColumnNames);

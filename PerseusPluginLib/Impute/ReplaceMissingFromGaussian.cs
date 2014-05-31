@@ -21,11 +21,13 @@ namespace PerseusPluginLib.Impute{
 		public string Name { get { return "Replace missing values from normal distribution"; } }
 		public string Heading { get { return "Imputation"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 0; } }
+		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Description{
+		public string Url { get { return null; } }
+		public string Description
+		{
 			get{
 				return
 					"Missing values will be replaced by random numbers that are drawn from a normal distribution. The parameters of this" +

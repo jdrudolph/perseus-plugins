@@ -16,12 +16,13 @@ namespace PerseusPluginLib.Load{
 		public Bitmap DisplayImage { get { return Resources.raw; } }
 		public string Name { get { return "Raw upload"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayOrder { get { return 10; } }
+		public float DisplayRank { get { return 10; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string Url { get { return null; } }
 
 		public string Description{
 			get{
