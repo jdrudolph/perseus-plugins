@@ -10,7 +10,14 @@ namespace PerseusPluginLib.Quality{
 	public class CreateQualityMatrix : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return ""; } }
+
+		public string Description{
+			get{
+				return "Create a matrix of quality values from a set of numerical columns. There has to " +
+					"be one numerical column per expression column.";
+			}
+		}
+
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
@@ -20,17 +27,16 @@ namespace PerseusPluginLib.Quality{
 		public float DisplayOrder { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
-
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] reducedExpColNames = ReduceNames(mdata.ExpressionColumnNames);
 			List<Parameter> p = new List<Parameter>();
 			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				SingleChoiceParam scp = new SingleChoiceParam(mdata.ExpressionColumnNames[i])
-				{Values = mdata.NumericColumnNames, Value = GetSelectedValue(mdata.NumericColumnNames, reducedExpColNames[i])};
+				SingleChoiceParam scp = new SingleChoiceParam(mdata.ExpressionColumnNames[i]){
+					Values = mdata.NumericColumnNames,
+					Value = GetSelectedValue(mdata.NumericColumnNames, reducedExpColNames[i])
+				};
 				p.Add(scp);
 			}
 			return new Parameters(p);

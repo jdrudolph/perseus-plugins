@@ -63,7 +63,6 @@
     <Compile Include="Basic\CombineByIdentifiersProcessing.cs" />
     <Compile Include="Basic\AddNoise.cs" />
     <Compile Include="Norm\UnZScore.cs" />
-    <Compile Include="Rearrange\CollapseEvidenceFile.cs" />
     <Compile Include="Rearrange\CombineCategoricalColumns.cs" />
     <Compile Include="Basic\DensityEstimationProcessing.cs" />
     <Compile Include="Basic\PerformanceCurves.cs" />
@@ -124,11 +123,9 @@
     <Compile Include="Utils\INameInfo.cs" />
     <Compile Include="Utils\PerseusPluginUtils.cs" />
     <Compile Include="Norm\Divide.cs" />
-    <Compile Include="Norm\DivisionByColumn.cs" />
     <Compile Include="Norm\Rank.cs" />
     <Compile Include="Norm\ScaleToInterval.cs" />
     <Compile Include="Norm\Subtract.cs" />
-    <Compile Include="Norm\SubtractColumn.cs" />
     <Compile Include="Norm\SubtractRowCluster.cs" />
     <Compile Include="Norm\UnitVector.cs" />
     <Compile Include="Norm\WidthAdjustment.cs" />
