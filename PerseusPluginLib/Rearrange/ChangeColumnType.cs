@@ -75,6 +75,15 @@ namespace PerseusPluginLib.Rearrange{
 							throw new Exception("Never get here");
 					}
 					break;
+				case 4:
+					switch (which){
+						case 0:
+							MultiNumericToString(colInds, mdata);
+							break;
+						default:
+							throw new Exception("Never get here");
+					}
+					break;
 				default:
 					throw new Exception("Never get here");
 			}
@@ -150,6 +159,27 @@ namespace PerseusPluginLib.Rearrange{
 			mdata.NumericColumns = ArrayUtils.SubList(mdata.NumericColumns, inds);
 			mdata.NumericColumnNames = ArrayUtils.SubList(mdata.NumericColumnNames, inds);
 			mdata.NumericColumnDescriptions = ArrayUtils.SubList(mdata.NumericColumnDescriptions, inds);
+		}
+
+		private static void MultiNumericToString(IList<int> colInds, IMatrixData mdata){
+			int[] inds = ArrayUtils.Complement(colInds, mdata.MultiNumericColumnCount);
+			string[] name = ArrayUtils.SubArray(mdata.MultiNumericColumnNames, colInds);
+			string[] description = ArrayUtils.SubArray(mdata.MultiNumericColumnDescriptions, colInds);
+			double[][][] num = ArrayUtils.SubArray(mdata.MultiNumericColumns, colInds);
+			string[][] newString = new string[num.Length][];
+			for (int j = 0; j < num.Length; j++){
+				newString[j] = new string[num[j].Length];
+				for (int i = 0; i < newString[j].Length; i++){
+					double[] x = num[j][i];
+					newString[j][i] = "" + StringUtils.Concat(";", x);
+				}
+			}
+			mdata.StringColumnNames.AddRange(name);
+			mdata.StringColumnDescriptions.AddRange(description);
+			mdata.StringColumns.AddRange(newString);
+			mdata.MultiNumericColumns = ArrayUtils.SubList(mdata.MultiNumericColumns, inds);
+			mdata.MultiNumericColumnNames = ArrayUtils.SubList(mdata.MultiNumericColumnNames, inds);
+			mdata.MultiNumericColumnDescriptions = ArrayUtils.SubList(mdata.MultiNumericColumnDescriptions, inds);
 		}
 
 		private static void StringToMultiNumerical(IList<int> colInds, IMatrixData mdata){
@@ -379,12 +409,13 @@ namespace PerseusPluginLib.Rearrange{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			string[] choice = new[]{"Expression", "Numerical", "Categorical", "Text"};
+			string[] choice = new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"};
 			List<Parameters> subParams = new List<Parameters>{
 				GetSubParams(mdata.ExpressionColumnNames, GetExpressionSelection()),
 				GetSubParams(mdata.NumericColumnNames, GetNumericSelection()),
 				GetSubParams(mdata.CategoryColumnNames, GetCategoricalSelection()),
-				GetSubParams(mdata.StringColumnNames, GetStringSelection())
+				GetSubParams(mdata.StringColumnNames, GetStringSelection()),
+				GetSubParams(mdata.MultiNumericColumnNames, GetMultiNumericSelection())
 			};
 			return
 				new Parameters(new Parameter[]{
@@ -413,5 +444,6 @@ namespace PerseusPluginLib.Rearrange{
 		private static string[] GetCategoricalSelection() { return new[]{"Numerical", "Text"}; }
 		private static string[] GetExpressionSelection() { return new[]{"Numerical"}; }
 		private static string[] GetNumericSelection() { return new[]{"Categorical", "Expression", "Text"}; }
+		private static string[] GetMultiNumericSelection() { return new[]{"Text"}; }
 	}
 }
