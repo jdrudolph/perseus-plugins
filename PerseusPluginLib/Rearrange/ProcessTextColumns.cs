@@ -1,7 +1,6 @@
 using System.Drawing;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
-using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -19,7 +18,6 @@ namespace PerseusPluginLib.Rearrange{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 22; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return null; } }
 
