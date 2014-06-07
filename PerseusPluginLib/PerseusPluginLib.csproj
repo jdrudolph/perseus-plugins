@@ -106,7 +106,6 @@
     <Compile Include="Manual\SelectRowsManuallyControl.Designer.cs" />
     <Compile Include="Manual\SelectRowsManuallyResult.cs" />
     <Compile Include="Quality\CreateQualityMatrix.cs" />
-    <Compile Include="Quality\FilterQuality.cs" />
     <Compile Include="Rearrange\ChangeColumnType.cs" />
     <Compile Include="Rearrange\ConvertMultiNumeric.cs" />
     <Compile Include="Rearrange\DuplicateColumns.cs" />
