@@ -7,6 +7,7 @@ using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
+using PluginProteomicRuler;
 
 namespace PluginProteomicRuler{
 	public class CopyNumbers : IMatrixProcessing{
@@ -45,18 +46,15 @@ namespace PluginProteomicRuler{
 		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Estimate copy numbers"; } }
+		public string Name { get { return "Estimate copy numbers and concentrations"; } }
 		public string Heading { get { return "Proteomic ruler"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 2; } }
+		public float DisplayRank { get { return 1; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return null; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
+        public string Url { get { return null; } }
 
 		private const double avogadro = 6.02214129e23;
 		private const double basePairWeight = 615.8771;
@@ -147,7 +145,7 @@ namespace PluginProteomicRuler{
 			// write a categorical column indicating the histones
 			string[][] histoneCol = new string[mdata.RowCount][];
 			for (int row = 0; row < mdata.RowCount; row++){
-				histoneCol[row] = (ArrayUtils.Contains(histoneRows, row)) ? new[]{"+"} : new[]{""};
+				histoneCol[row] = (ArrayUtils.Contains(histoneRows, row)) ? new[]{"+"} : new string[0];
 			}
 			mdata.AddCategoryColumn("Histones", "", histoneCol);
 			// initialize the variables for the annotation rows
@@ -326,6 +324,14 @@ namespace PluginProteomicRuler{
 				mdata.AddNumericRow("Histone mass [pg/cell]", "", histoneMassRow);
 				mdata.AddNumericRow("Ploidy", "", ploidyRow);
 				mdata.AddNumericRow("Cell volume [fl]", "", cellVolumeRow);
+
+                supplTables = new IMatrixData[1];
+			    IMatrixData supplTab = (IMatrixData) mdata.CreateNewInstance();
+                supplTab.SetData("",new List<string>(), new float[totalProteinRow.Length,0], new List<string>(){"Sample"}, new List<string[]>(){sampleNames}, new List<string>(){"Organism"}, new List<string[][]>(){organismRow},
+                    new List<string>(){"Total protein [pg/cell]","Total molecules per cell","Histone mass [pg/cell]","Ploidy","Cell volume [fl]"},
+                    new List<double[]>(){totalProteinRow,totalMoleculesRow,histoneMassRow,ploidyRow,cellVolumeRow}, new List<string>(), new List<double[][]>() );
+			    supplTables[0] = supplTab;
+
 			}
 		}
 
@@ -356,7 +362,7 @@ namespace PluginProteomicRuler{
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Protein IDs"){
 						Help = "Specify the column containing the protein IDs", Values = mdata.StringColumnNames,
-						Value = Match(mdata.StringColumnNames.ToArray(), new[]{"Protein ID"}, false, true, true)[0]
+						Value = ProteomicRulerUtils.Match(mdata.StringColumnNames.ToArray(), new[]{"majority"}, false, true, true)[0]
 					},
 					new MultiChoiceParam("Intensities"){
 						Help =
@@ -364,7 +370,7 @@ namespace PluginProteomicRuler{
 								"are selected, the method will calculate the median.",
 						Values = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames),
 						Value =
-							Match(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames), new[]{"intensit"}, false, true,
+							ProteomicRulerUtils.Match(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames), new[]{"intensit"}, false, true,
 								false)
 					},
 					new SingleChoiceWithSubParams("Averaging mode", 0){
@@ -380,7 +386,7 @@ namespace PluginProteomicRuler{
 								new Parameters(new Parameter[]{
 									new SingleChoiceParam("Grouping"){
 										Values = mdata.CategoryRowNames,
-										Value = Match(mdata.CategoryRowNames.ToArray(), new[]{"group"}, false, true, true)[0]
+										Value = ProteomicRulerUtils.Match(mdata.CategoryRowNames.ToArray(), new[]{"group"}, false, true, true)[0]
 									}
 								}),
 								new Parameters(new Parameter[]{})
@@ -395,7 +401,7 @@ namespace PluginProteomicRuler{
 					},
 					new SingleChoiceParam("Molecular masses"){
 						Values = mdata.NumericColumnNames,
-						Value = Match(mdata.NumericColumnNames.ToArray(), new[]{"weight"}, false, true, true)[0]
+						Value = ProteomicRulerUtils.Match(mdata.NumericColumnNames.ToArray(), new[]{"mass"}, false, true, true)[0]
 					},
 					new BoolWithSubParams("Detectability correction", false){
 						Help =
@@ -406,7 +412,7 @@ namespace PluginProteomicRuler{
 							new Parameters(new Parameter[]{
 								new SingleChoiceParam("Correction factor"){
 									Values = mdata.NumericColumnNames,
-									Value = Match(mdata.NumericColumnNames.ToArray(), new[]{"theoretical"}, false, true, true)[0]
+									Value = ProteomicRulerUtils.Match(mdata.NumericColumnNames.ToArray(), new[]{"theoretical"}, false, true, true)[0]
 								}
 							})
 					},
@@ -437,67 +443,47 @@ namespace PluginProteomicRuler{
 				});
 		}
 
-		/// <summary>
-		/// Finds strings in an array of strings.
-		/// </summary>
-		/// <param name="haystack">An array of strings that are to be searched.</param>
-		/// <param name="needles">An array of string that are to be searched for individually.</param>
-		/// <param name="caseSensitive"></param>
-		/// <param name="matchSubstring"></param>
-		/// <param name="matchFirstIfNothingFound">If nothing matched, the first element (index 0) will be returned to avoid returning null.</param>
-		/// <returns>An array of the indices of the matched elements of haystack.</returns>
-		private int[] Match(string[] haystack, string[] needles, bool caseSensitive, bool matchSubstring,
-			bool matchFirstIfNothingFound){
-			List<int> matches = new List<int>();
-			for (int i = 0; i < haystack.Length; i++){
-				string hay = (caseSensitive) ? haystack[i] : haystack[i].ToLower();
-				hay.Trim();
-				foreach (string hit in needles){
-					string needle = (caseSensitive) ? hit : hit.ToLower();
-					needle.Trim();
-					if (hay.Equals(needle) || (matchSubstring && hay.Contains(needle))){
-						matches.Add(i);
-					}
-				}
-			}
-			if (matches.Count == 0 && matchFirstIfNothingFound){
-				matches.Add(0);
-			}
-			return matches.ToArray();
-		}
 
-		/// <summary>
-		/// An object representing a model organism
-		/// </summary>
-		private class Organism{
-			public string name = "n.d.";
-			public double genomeSize = 0;
-			public string[] histoneIds = new string[0];
 
-			public override int GetHashCode(){
-				return name.GetHashCode();
-			}
+        /// <summary>
+        /// An object representing a model organism
+        /// </summary>
+        public class Organism
+        {
+            public string name = "n.d.";
+            public double genomeSize = 0;
+            public string[] histoneIds = new string[0];
 
-			public override bool Equals(object obj){
-				return Equals(obj as Organism);
-			}
+            public override int GetHashCode()
+            {
+                return name.GetHashCode();
+            }
 
-			private bool Equals(Organism o){
-				return o != null && name.Equals(o.name);
-			}
-		}
+            public override bool Equals(object obj)
+            {
+                return Equals(obj as Organism);
+            }
 
-		/// <summary>
-		/// The list of the organisms that are supported.
-		/// These organisms and their histones can be auto-detected, provided that uniprot IDs are used.
-		/// </summary>
-		/// <returns>A list of Organism objects</returns>
-		private static Organism[] SupportedOrganisms(){
-			List<Organism> organisms = new List<Organism>();
-			Organism hSapiens = new Organism{
-				name = "H. sapiens", genomeSize = 3200000000,
-				histoneIds =
-					new[]{
+            private bool Equals(Organism o)
+            {
+                return o != null && name.Equals(o.name);
+            }
+        }
+
+        /// <summary>
+        /// The list of the organisms that are supported.
+        /// These organisms and their histones can be auto-detected, provided that uniprot IDs are used.
+        /// </summary>
+        /// <returns>A list of Organism objects</returns>
+        public static Organism[] SupportedOrganisms()
+        {
+            List<Organism> organisms = new List<Organism>();
+            Organism hSapiens = new Organism
+            {
+                name = "H. sapiens",
+                genomeSize = 3200000000,
+                histoneIds =
+                    new[]{
 						"P07305", "Q8IZA3", "Q92522", "P0C5Y9", "P0C5Z0", "H0YFX9", "Q9BTM1", "A8MQC5", "C9J0D1", "C9J386", "E5RJU1",
 						"Q71UI9", "P16104", "B4DJC3", "D6RCF2", "O75367", "Q5SQT3", "Q9P0M6", "P0C0S5", "P0C1H6", "A9UJN3", "P57053",
 						"Q7Z2G1", "B4DEB1", "P84243", "B2R4P9", "K7EMV3", "K7ES00", "K7EK07", "K7EP01", "Q6NXT2", "Q02539", "P16401",
@@ -508,12 +494,14 @@ namespace PluginProteomicRuler{
 						"Q7L7L0", "Q8N257", "Q16695", "Q6TXQ4", "Q14463", "B4E0B3", "B2R5B6", "A2RUA4", "B2R5B3", "Q9HA11", "A8K9J7",
 						"B2R6Y1", "B4E380", "A8K4Y7", "Q6B823", "Q6LBZ2", "A3R0T7"
 					}
-			};
-			organisms.Add(hSapiens);
-			Organism mMusculus = new Organism{
-				name = "M. musculus", genomeSize = 2700000000,
-				histoneIds =
-					new[]{
+            };
+            organisms.Add(hSapiens);
+            Organism mMusculus = new Organism
+            {
+                name = "M. musculus",
+                genomeSize = 2700000000,
+                histoneIds =
+                    new[]{
 						"Q9DAD9", "B2RTM0", "Q8CBB6", "Q921L4", "Q5M8Q2", "Q810S6", "B1AV31", "Q497L1", "A9Z055", "Q8CGP9", "P10922",
 						"Q8CJI4", "E0CZ52", "E0CYL2", "Q8VIK3", "Q80ZM5", "Q9CQ70", "Q8R1M2", "Q3THW5", "Q8R029", "B2RVP5", "P27661",
 						"Q9QZQ8", "Q8CA90", "Q8BP16", "Q9CTR1", "Q8CCK0", "Q9D3V6", "Q9D3U7", "Q3UA95", "Q3TFU6", "G3UWL7", "G3UX40",
@@ -524,51 +512,63 @@ namespace PluginProteomicRuler{
 						"B2RWH3", "Q6GSS7", "Q64522", "Q64523", "Q149V4", "Q64525", "G3X9D5", "Q64524", "B9EI85", "Q61667", "Q8BFU2",
 						"A2AB79", "Q9D2U9", "Q8CGP0", "Q6B822", "P07978", "Q9D9Z7"
 					}
-			};
-			organisms.Add(mMusculus);
-			Organism dMelanogaster = new Organism{
-				name = "D. melanogaster", genomeSize = 130000000,
-				histoneIds =
-					new[]{
+            };
+            organisms.Add(mMusculus);
+            Organism dMelanogaster = new Organism
+            {
+                name = "D. melanogaster",
+                genomeSize = 130000000,
+                histoneIds =
+                    new[]{
 						"Q6TXQ1", "P02255", "Q4AB54", "Q4ABE3", "Q4ABD8", "Q4AB94", "P84051", "Q4AB57", "P08985", "P02283", "P02299",
 						"E2QCP0", "P84249", "P84040"
 					}
-			};
-			organisms.Add(dMelanogaster);
-			Organism cElegans = new Organism{
-				name = "C. elegans", genomeSize = 100300000,
-				histoneIds =
-					new[]{
+            };
+            organisms.Add(dMelanogaster);
+            Organism cElegans = new Organism
+            {
+                name = "C. elegans",
+                genomeSize = 100300000,
+                histoneIds =
+                    new[]{
 						"P10771", "P15796", "Q19743", "O17536", "O01833", "Q9U3W3", "Q18336", "P09588", "J7S164", "J7SA65", "Q27485",
 						"Q23429", "Q27511", "P04255", "Q27894", "P08898", "K7ZUH9", "Q10453", "Q9U281", "Q27490", "Q27532", "P62784",
 						"Q27484", "Q27876", "O16277", "Q27489"
 					}
-			};
-			organisms.Add(cElegans);
-			Organism sCerevisiae = new Organism{
-				name = "S. cerevisiae", genomeSize = 12100000,
-				histoneIds = new[]{"P53551", "P04911", "P04912", "Q12692", "P02293", "P02294", "P61830", "P02309"}
-			};
-			organisms.Add(sCerevisiae);
-			Organism sPombe = new Organism{
-				name = "S. pombe", genomeSize = 14100000,
-				histoneIds = new[]{"P48003", "P04909", "P04910", "P04913", "P09988", "P10651", "P09322"}
-			};
-			return organisms.ToArray();
-		}
+            };
+            organisms.Add(cElegans);
+            Organism sCerevisiae = new Organism
+            {
+                name = "S. cerevisiae",
+                genomeSize = 12100000,
+                histoneIds = new[] { "P53551", "P04911", "P04912", "Q12692", "P02293", "P02294", "P61830", "P02309" }
+            };
+            organisms.Add(sCerevisiae);
+            Organism sPombe = new Organism
+            {
+                name = "S. pombe",
+                genomeSize = 14100000,
+                histoneIds = new[] { "P48003", "P04909", "P04910", "P04913", "P09988", "P10651", "P09322" }
+            };
+            return organisms.ToArray();
+        }
 
-		/// <summary>
-		/// The list of the names of organisms that are supported.
-		/// </summary>
-		/// <returns>The names of the supported organisms.</returns>
-		private string[] SupportedOrganismNames(){
-			Organism[] organisms = SupportedOrganisms();
-			List<string> names = new List<string>();
-			foreach (Organism organism in organisms){
-				names.Add(organism.name);
-			}
-			return names.ToArray();
-		}
+        /// <summary>
+        /// The list of the names of organisms that are supported.
+        /// </summary>
+        /// <returns>The names of the supported organisms.</returns>
+        public string[] SupportedOrganismNames()
+        {
+            Organism[] organisms = SupportedOrganisms();
+            List<string> names = new List<string>();
+            foreach (Organism organism in organisms)
+            {
+                names.Add(organism.name);
+            }
+            return names.ToArray();
+        }
+
+
 
 		/// <summary>
 		/// Finds the organism given a set of ProteinIDs
