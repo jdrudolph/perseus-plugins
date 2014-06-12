@@ -13,7 +13,7 @@ namespace PerseusPluginLib.Annot{
 	public class CategoryCounting : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return ""; } }
+		public string Description { get { return "For each term in a categorical column one counts the number of occurences."; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }

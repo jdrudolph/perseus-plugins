@@ -12,22 +12,18 @@ namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingFromGaussian : IMatrixProcessing{
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.histo; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string HelpOutput { get { return ""; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string Name { get { return "Replace missing values from normal distribution"; } }
 		public string Heading { get { return "Imputation"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return null; } }
-		public string Description
-		{
+
+		public string Description{
 			get{
 				return
 					"Missing values will be replaced by random numbers that are drawn from a normal distribution. The parameters of this" +
@@ -38,9 +34,7 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -54,7 +48,7 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new DoubleParam("Width", 0.3){
