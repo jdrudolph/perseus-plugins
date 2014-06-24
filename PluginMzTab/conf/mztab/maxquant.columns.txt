@@ -1,0 +1,70 @@
+# column mapping for the MaxQuant output
+# multiple entries when column name changed
+experiment_rawfile=Name
+experiment_variable=Experiment
+
+summary_rawfile=Raw file
+summary_rawfile=Raw File
+summary_labels0=Labels0
+summary_labels1=Labels1
+summary_labels2=Labels2
+summary_labels3=Labels3
+summary_multiplicity=Multiplicity
+summary_instrument=Instrument
+
+parameters_version=Version
+parameters_fixedMod=Fixed modifications
+parameters_variableMod=Modifications included in protein quantification
+parameters_protein_fdr=Protein FDR
+parameters_psm_fdr=PSM FDR
+parameters_psm_fdr=Peptide FDR
+parameters_site_fdr=Site FDR
+
+proteingroups_accession=Majority protein IDs
+proteingroups_accession=Protein IDs
+proteingroups_description=Protein names
+proteingroups_description=Protein Descriptions
+proteingroups_id=id
+proteingroups_peptide_IDs=Peptide IDs
+proteingroups_msms_IDs=MS/MS IDs
+proteingroups_coverage=Sequence coverage [%]
+proteingroups_lfq_intensity=LFQ intensity
+proteingroups_ratio_HL=Ratio H/L
+proteingroups_ratio_HL_Norm=Ratio H/L normalized
+proteingroups_ratio_HL_Norm=Ratio H/L Normalized
+
+peptides_id=id
+peptides_proteinGroup_IDs=Protein group IDs
+peptides_proteinGroup_IDs=Protein Group IDs
+peptides_msms_IDs=MS/MS IDs
+peptides_charges=Charges
+peptides_sequence=Sequence
+peptides_unique=Unique (Proteins)
+peptides_unique=Unique
+peptides_pre=Amino acid before
+peptides_post=Amino acid after
+peptides_start=Start position 
+peptides_end=End position
+peptides_ratio_HL=Ratio H/L
+peptides_ratio_HL=Ratio H/L Normalized
+
+msms_id=id
+msms_proteinGroup_IDs=Protein group IDs
+msms_proteinGroup_IDs=Protein Group IDs
+msms_peptide_ID=Peptide ID
+msms_sequence=Sequence
+msms_rawfile=Raw file
+msms_rawfile=Raw File
+msms_scannumber=Scan number
+msms_scannumber=Scan Number
+msms_charge=Charge
+msms_mass=Mass
+msms_mz=m/z
+msms_retentiontime=Retention time
+msms_retentiontime=Retention Time
+msms_score=Score        
+msms_retentiontimeWindow=Retention time window   
+msms_modifications=Modifications
+msms_mod_sequence=Modified sequence
+msms_mod_sequence=Modified Sequence
+msms_mod_probabilities=Probabilities

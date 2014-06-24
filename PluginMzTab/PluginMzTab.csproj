@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C0F21CA-8D95-4795-BB9C-2CFB49C7A730}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PluginMzTab</RootNamespace>
+    <AssemblyName>PluginMzTab</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BaseLib">
+      <HintPath>..\DLLs\BaseLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MzTabLibrary">
+      <HintPath>..\DLLs\MzTabLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extended\DocumentStream.cs" />
+    <Compile Include="Extended\MatrixStream.cs" />
+    <Compile Include="Extended\MsRunImpl.cs" />
+    <Compile Include="MzTab\AddContent.cs" />
+    <Compile Include="MzTab\CreateMetadataSection.cs" />
+    <Compile Include="MzTab\CreatePeptideSection.cs" />
+    <Compile Include="MzTab\CreateProteinSection.cs" />
+    <Compile Include="MzTab\CreatePSMSection.cs" />
+    <Compile Include="MzTab\CreateSection.cs" />
+    <Compile Include="MzTab\DefineExperiment.cs" />
+    <Compile Include="MzTab\Export.cs" />
+    <Compile Include="MzTab\Matrix.cs" />
+    <Compile Include="MzTab\MzTabProcessing.cs" />
+    <Compile Include="MzTab\ReferenceMap.cs" />
+    <Compile Include="Param\AssayPanel.cs" />
+    <Compile Include="Param\AssayParam.cs" />
+    <Compile Include="Param\ContactPanel.cs" />
+    <Compile Include="Param\ContactParam.cs" />
+    <Compile Include="Param\InstrumentPanel.cs" />
+    <Compile Include="Param\InstrumentParam.cs" />
+    <Compile Include="Param\ModificationPanel.cs" />
+    <Compile Include="Param\ModificationParam.cs" />
+    <Compile Include="Param\MsRunPanel.cs" />
+    <Compile Include="Param\MsRunParam.cs" />
+    <Compile Include="Param\PublicationPanel.cs" />
+    <Compile Include="Param\PublicationParam.cs" />
+    <Compile Include="Param\SamplePanel.cs" />
+    <Compile Include="Param\SampleParam.cs" />
+    <Compile Include="Param\SampleProcessingPanel.cs" />
+    <Compile Include="Param\SampleProcessingParam.cs" />
+    <Compile Include="Param\SoftwarePanel.cs" />
+    <Compile Include="Param\SoftwareParam.cs" />
+    <Compile Include="Param\StudyVariablePanel.cs" />
+    <Compile Include="Param\StudyVariableParam.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Utils\ControlledVocabulary.cs" />
+    <Compile Include="Utils\ControlledVocabularyHeader.cs" />
+    <Compile Include="Utils\CVLookUp.cs" />
+    <Compile Include="Utils\MzTabMatrixUtils.cs" />
+    <Compile Include="Utils\ParameterDefinition.cs" />
+    <Compile Include="Utils\ParameterDescription.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="conf\mztab\mztab.properties">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="conf\mztab\mztab_crosscheck_error.properties">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="conf\mztab\mztab_format_error.properties">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="conf\mztab\mztab_logical_error.properties">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PerseusApi\PerseusApi.csproj">
+      <Project>{e92a537f-69f8-47d1-81cd-f7292cc021d2}</Project>
+      <Name>PerseusApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerseusPluginLib\PerseusPluginLib.csproj">
+      <Project>{5F1C1ABC-403D-4F96-A37D-B6CE1B791544}</Project>
+      <Name>PerseusPluginLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="conf\mztab\cvs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="conf\mztab\definition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="conf\mztab\maxquant.columns.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
