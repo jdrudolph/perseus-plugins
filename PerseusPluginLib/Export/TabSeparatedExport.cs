@@ -17,7 +17,7 @@ namespace PerseusPluginLib.Export{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return null; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:tabseparatedexport"; } }
 
 		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
 			string filename = parameters.GetFileParam("File name").Value;

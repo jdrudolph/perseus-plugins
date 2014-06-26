@@ -18,12 +18,15 @@ namespace PerseusPluginLib.Load{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 12; } }
 		public string Description { get { return "Load all bytes from a binary file and display them as hexadecimal numbers."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return null; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+        public string[] HelpSupplTables { get { return new string[0]; } }
+        public int NumSupplTables { get { return 0; } }
+        public string[] HelpDocuments { get { return new string[0]; } }
+        public int NumDocuments { get { return 0; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:binaryupload"; } }
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public Parameters GetParameters(ref string errString){
 			return
@@ -35,8 +38,8 @@ namespace PerseusPluginLib.Load{
 				});
 		}
 
-		public void LoadData(IMatrixData mdata, Parameters parameters, ref IMatrixData[] supplTables,
-			ref IDocumentData[] documents, ProcessInfo processInfo){
+        public void LoadData(IMatrixData mdata, Parameters parameters, ref IMatrixData[] supplTables, ref IDocumentData[] documents, ProcessInfo processInfo)
+        {
 			string filename = parameters.GetFileParam("File").Value;
 			BinaryReader reader = FileUtils.GetBinaryReader(filename);
 			byte[] x = reader.ReadBytes((int) reader.BaseStream.Length);
@@ -62,7 +65,9 @@ namespace PerseusPluginLib.Load{
 				new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>());
 		}
 
-		private static string ToHex(byte b) { return "" + hexAlphabet[b >> 4] + hexAlphabet[b & 0xF]; }
+		private static string ToHex(byte b){
+			return "" + hexAlphabet[b >> 4] + hexAlphabet[b & 0xF];
+		}
 
 		private static readonly HashSet<byte> replace =
 			new HashSet<byte>(new byte[]{
@@ -70,7 +75,9 @@ namespace PerseusPluginLib.Load{
 				0xAD
 			});
 
-		private static string ToChar(byte b) { return b <= 0x1F || replace.Contains(b) ? "." : "" + (char) b; }
+		private static string ToChar(byte b){
+			return b <= 0x1F || replace.Contains(b) ? "." : "" + (char) b;
+		}
 
 		private static string ToChar(IList<byte> b){
 			if (b.Count == 0){

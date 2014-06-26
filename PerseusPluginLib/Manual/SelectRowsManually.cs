@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Manual{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 2; } }
 		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public string Url { get { return null; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:selectrowsmanually"; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;
