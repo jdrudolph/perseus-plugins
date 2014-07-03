@@ -13,7 +13,7 @@ namespace PerseusPluginLib.Annot{
 	public class CategoryCounting : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "For each term in a categorical column one counts the number of occurences."; } }
+		public string Description { get { return "For each term in a categorical column one counts the number of occurrences."; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
@@ -23,7 +23,7 @@ namespace PerseusPluginLib.Annot{
 		public float DisplayRank { get { return 3; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:categorycounting"; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:Processing:Annotcolumns:CategoryCounting"; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

@@ -60,7 +60,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayRank { get { return -5; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:summarystatisticsrows"; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:Processing:Basic:SummaryStatisticsRows"; } }
 		public string Description
 		{
 			get

@@ -21,7 +21,7 @@ namespace PerseusPluginLib.Rearrange{
 		public string Description { get { return "Columns containing no values or only invalid values will be removed."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:removeemptycolumns"; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:Processing:Rearrange:RemoveEmptyColumns"; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

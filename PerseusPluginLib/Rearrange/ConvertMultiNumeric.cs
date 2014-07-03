@@ -32,7 +32,7 @@ namespace PerseusPluginLib.Rearrange{
 		public string HelpOutput { get { return "If n multi-numeric columns are selected, n numeric columns will be added to the matrix."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:convertmultinumeric"; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:Processing:Rearrange:ConvertMultiNumeric"; } }
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;
