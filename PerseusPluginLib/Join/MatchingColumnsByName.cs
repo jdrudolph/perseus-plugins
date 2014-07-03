@@ -24,7 +24,7 @@ namespace PerseusPluginLib.Join{
 		public int MinNumInput { get { return 2; } }
 		public int MaxNumInput { get { return 2; } }
 		public string Heading { get { return "Basic"; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MultiProcessing:Basic:MatchingColumnsByName"; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName"; } }
 
 		public string GetInputName(int index){
 			return index == 0 ? "Base matrix" : "Other matrix";
