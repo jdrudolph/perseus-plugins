@@ -25,7 +25,7 @@ namespace PerseusPluginLib.Rearrange{
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:duplicatecolumns"; } }
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
-		                        ref IDocumentData[] documents, ProcessInfo processInfo){
+			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] exColInds = param.GetMultiChoiceParam("Expression columns").Value;
 			int[] numColInds = param.GetMultiChoiceParam("Numerical columns").Value;
 			int[] multiNumColInds = param.GetMultiChoiceParam("Multi-numerical columns").Value;
@@ -51,7 +51,7 @@ namespace PerseusPluginLib.Rearrange{
 				HashSet<string> taken = new HashSet<string>(data.MultiNumericColumnNames);
 				string s = PerseusUtils.GetNextAvailableName(data.MultiNumericColumnNames[ind], taken);
 				data.AddMultiNumericColumn(s, data.MultiNumericColumnDescriptions[ind],
-				                           (double[][]) data.MultiNumericColumns[ind].Clone());
+					(double[][]) data.MultiNumericColumns[ind].Clone());
 				taken.Add(s);
 			}
 			foreach (int ind in catColInds){
