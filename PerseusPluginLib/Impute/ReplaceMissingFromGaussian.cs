@@ -54,13 +54,13 @@ namespace PerseusPluginLib.Impute{
 					new DoubleParam("Width", 0.3){
 						Help =
 							"The width of the gaussian distibution relative to the standard deviation of measured values. A value of 0.5 " +
-								"would mean that the width of the distribution used for drawing random numbers is half od the standard " +
+								"would mean that the width of the distribution used for drawing random numbers is half of the standard " +
 								"deviation of the data."
 					},
 					new DoubleParam("Down shift", 1.8){
 						Help =
-							"The amount by which the distribution used for the random numbers is shifted downwards. This is in units of the" +
-								" standard deviation if the valid data."
+							"The amount by which the distribution used for the random numbers is shifted downward. This is in units of the" +
+								" standard deviation of the valid data."
 					},
 					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}}
 				});
