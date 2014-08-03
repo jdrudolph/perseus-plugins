@@ -31,7 +31,7 @@ namespace PerseusPluginLib.Load{
 		public int[] MultiNumericalColumnIndices { get { return MultiListSelector1.GetSelectedIndices(4); } }
 		public string[] Value{
 			get{
-				string[] result = new string[7];
+				string[] result = new string[8];
 				result[0] = Filename;
 				result[1] = StringUtils.Concat(";", MultiListSelector1.items);
 				result[2] = StringUtils.Concat(";", ExpressionColumnIndices);
@@ -39,6 +39,7 @@ namespace PerseusPluginLib.Load{
 				result[4] = StringUtils.Concat(";", CategoryColumnIndices);
 				result[5] = StringUtils.Concat(";", TextColumnIndices);
 				result[6] = StringUtils.Concat(";", MultiNumericalColumnIndices);
+				result[7] = "" + (ShortenCheckBox.IsChecked == true);
 				return result;
 			}
 			set{
@@ -48,6 +49,9 @@ namespace PerseusPluginLib.Load{
 					foreach (int ind in GetIndices(value[i + 2])){
 						MultiListSelector1.SetSelected(i, ind, true);
 					}
+				}
+				if (!string.IsNullOrEmpty(value[7])){
+					ShortenCheckBox.IsChecked = bool.Parse(value[7]);
 				}
 			}
 		}

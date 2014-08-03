@@ -70,7 +70,7 @@ namespace PerseusApi.Utils{
 
 		public static void LoadMatrixData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
 			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, TextReader reader,
-			int nrows, string origin, char separator){
+			int nrows, string origin, char separator, bool shortenExpressionNames){
 			string[] colDescriptions = null;
 			string[] colTypes = null;
 			bool[] colVisible = null;
@@ -107,13 +107,14 @@ namespace PerseusApi.Utils{
 				}
 			}
 			LoadMatrixData(colNames, colDescriptions, eInds, cInds, nInds, tInds, mInds, origin, mdata, annotationRows,
-				processInfo.Progress, processInfo.Status, separator, reader, nrows);
+				processInfo.Progress, processInfo.Status, separator, reader, nrows, shortenExpressionNames);
 		}
 
 		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions,
 			IList<int> expressionColIndices, IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices,
 			IList<int> multiNumColIndices, string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows,
-			Action<int> progress, Action<string> status, char separator, TextReader reader, int nrows){
+			Action<int> progress, Action<string> status, char separator, TextReader reader, int nrows,
+			bool shortenExpressionNames){
 			Dictionary<string, string[]> catAnnotatRows;
 			Dictionary<string, string[]> numAnnotatRows;
 			status("Reading data");
@@ -220,6 +221,9 @@ namespace PerseusApi.Utils{
 			}
 			reader.Close();
 			string[] columnNames = ArrayUtils.SubArray(colNames, expressionColIndices);
+			if (shortenExpressionNames){
+				columnNames = StringUtils.RemoveCommonSubstrings(columnNames);
+			}
 			string[] catColnames = ArrayUtils.SubArray(colNames, catColIndices);
 			string[] numColnames = ArrayUtils.SubArray(colNames, numColIndices);
 			string[] multiNumColnames = ArrayUtils.SubArray(colNames, multiNumColIndices);
