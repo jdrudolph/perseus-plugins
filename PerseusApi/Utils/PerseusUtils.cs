@@ -57,7 +57,7 @@ namespace PerseusApi.Utils{
 				"multiplets / s", "identified multiplets / s", "multiplet identification rate [%]", "ms/ms / s",
 				"identified ms/ms / s", "ms/ms identification rate [%]", "mass fractional part", "mass deficit",
 				"mass precision [ppm]", "max intensity m/z 1", "retention length (fwhm)", "min scan number", "max scan number",
-				"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count",
+				"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count", "jitter",
 				"closest known m/z", "delta [ppm]", "delta [mda]"
 			});
 
