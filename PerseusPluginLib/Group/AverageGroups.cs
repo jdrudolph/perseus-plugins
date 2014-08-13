@@ -41,11 +41,14 @@ namespace PerseusPluginLib.Group{
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames},
 					new SingleChoiceParam("Average type"){
-						Values = new[]{"median", "mean", "sum", "geometric mean"},
+						Values = new[]{"Median", "Mean", "Sum", "Geometric mean"},
 						Help = "Select wether median or mean should be used for the averaging."
 					},
 					new IntParam("Min. valid values per group", 1), new BoolParam("Keep original data", false),
-					new BoolParam("Add standard deviation")
+					new SingleChoiceParam("Add variation"){
+						Values = new[]{"<None>", "Standard deviation", "Error of mean"},
+						Help = "Specify here if a measure of group-wise variation should be added as numerical columns."
+					}
 				});
 		}
 
@@ -59,7 +62,8 @@ namespace PerseusPluginLib.Group{
 			int groupColInd = param.GetSingleChoiceParam("Grouping").Value;
 			int validVals = param.GetIntParam("Min. valid values per group").Value;
 			bool keep = param.GetBoolParam("Keep original data").Value;
-			bool sdev = param.GetBoolParam("Add standard deviation").Value;
+			int varInd = param.GetSingleChoiceParam("Add variation").Value - 1;
+			bool sdev = varInd >= 0;
 			Func<IList<double>, double> func;
 			switch (avType){
 				case 0:
@@ -78,7 +82,7 @@ namespace PerseusPluginLib.Group{
 					throw new Exception("Never get here.");
 			}
 			if (sdev){
-				AddStandardDeviation(groupColInd, validVals, mdata);
+				AddStandardDeviation(groupColInd, validVals, mdata, varInd);
 			}
 			if (keep){
 				FillMatrixKeep(groupColInd, validVals, mdata, func);
@@ -139,7 +143,7 @@ namespace PerseusPluginLib.Group{
 			return result;
 		}
 
-		private static void AddStandardDeviation(int groupColInd, int validVals, IMatrixData mdata){
+		private static void AddStandardDeviation(int groupColInd, int validVals, IMatrixData mdata, int varInd){
 			string[][] groupCol = mdata.GetCategoryRowAt(groupColInd);
 			string[] groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
 			int[][] colInds = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
@@ -158,7 +162,11 @@ namespace PerseusPluginLib.Group{
 					}
 					float xy = float.NaN;
 					if (vals.Count >= validVals){
-						xy = (float) ArrayUtils.StandardDeviation(vals);
+						if (varInd == 0){
+							xy = (float) ArrayUtils.StandardDeviation(vals);
+						} else{
+							xy = (float) (ArrayUtils.StandardDeviation(vals)/Math.Sqrt(vals.Count));
+						}
 					}
 					newNumCols[j][i] = xy;
 				}
