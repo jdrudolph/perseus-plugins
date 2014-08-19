@@ -11,8 +11,8 @@ namespace PerseusPluginLib.Load{
 		public string[] Default { get; private set; }
 
 		public PerseusLoadMatrixParam(string name) : base(name){
-			Value = new string[7];
-			for (int i = 0; i < 7; i++){
+			Value = new string[8];
+			for (int i = 0; i < 8; i++){
 				Value[i] = "";
 			}
 			Default = Value;
@@ -45,8 +45,8 @@ namespace PerseusPluginLib.Load{
 		}
 
 		public override void Clear(){
-			Value = new string[7];
-			for (int i = 0; i < 7; i++){
+			Value = new string[8];
+			for (int i = 0; i < 8; i++){
 				Value[i] = "";
 			}
 		}
@@ -59,7 +59,7 @@ namespace PerseusPluginLib.Load{
 			tb.UpdateFile(filename);
 		}
 
-		public override float Height { get { return 770; } }
+		public override float Height { get { return 790; } }
 
 		protected override UIElement Control{
 			get{
@@ -86,7 +86,7 @@ namespace PerseusPluginLib.Load{
 		public int[] CategoryColumnIndices { get { return GetIntValues(2); } }
 		public int[] TextColumnIndices { get { return GetIntValues(3); } }
 		public int[] MultiNumericalColumnIndices { get { return GetIntValues(4); } }
-
+		public bool ShortenExpressionColumnNames { get { return bool.Parse(Value[7]); } }
 		public override object Clone(){
 			return new PerseusLoadMatrixParam(Name){
 				Help = Help,
