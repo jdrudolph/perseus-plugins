@@ -22,8 +22,48 @@ namespace PerseusPluginLibTest.Rearrange
     [TestClass]
     public class ProcessTextColumnsTest
     {
+        /// <summary>
+        /// The regex "^([^;]+)" should output everything before the first semicolon.
+        /// </summary>
         [TestMethod]
-        public void TestMethod1()
+        public void TestOnlyToFirstSemicolon()
+        {
+            string regexStr = "^([^;]+)";
+            string[] stringsInit = new string[] { "just one item", "first item; second item" };
+            string[] stringsExpect = new string[] { "just one item", "first item" };
+            TestRegex(regexStr, stringsInit, stringsExpect);
+        }
+
+        /// <summary>
+        /// The regex "B *= *([^,; ]+)" should output the value given to B.
+        /// </summary>
+        [TestMethod]
+        public void TestAssignmentWithEqualSign()
+        {
+            string regexStr = "B *= *([^,; ]+)";
+            string[] stringsInit = new string[] { "A = 123, B = 456", "A=123; B=456" };
+            string[] stringsExpect = new string[] { "456", "456" };
+            TestRegex(regexStr, stringsInit, stringsExpect);
+        }
+
+        /// <summary>
+        /// The regex "B *= *([^,; ]+)" should output the value given to B.
+        /// </summary>
+        [TestMethod]
+        public void TestSeparatedBySemicolons()
+        {
+            string regexStr = "B *= *([^,; ]+)";
+            string[] stringsInit = new string[] { "A = 123, B = 456", "A=123; B=456", "B=123; B=456" };
+            string[] stringsExpect = new string[] { "456", ";456", "123;456" };
+            TestRegex(regexStr, stringsInit, stringsExpect);
+        }
+
+        /// <summary>
+        /// An auxiliary method for testing the action of regular expressions. 
+        /// Limited to a single column, which should be sufficient for this purpose.
+        /// Multiple rows are allowed to test the effect of one regex on several strings.
+        /// </summary>
+        private void TestRegex(string regexStr, string[] stringsInit, string[] stringsExpect)
         {
             string name = null;
             List<string> expressionColumnNames = null;
@@ -40,29 +80,18 @@ namespace PerseusPluginLibTest.Rearrange
 
             List<string> stringColumnNames = new List<string>
                 {
-                    "Name of Column 1",
-                    "Name of Column 2",
-                    "Name of Column 3"
+                    "Column Name"
                 };
-            List<string[]> stringColumnsInit = new List<string[]>
-                {
-                    new string[] { "col1, row1", "col1, row2" },
-                    new string[] { "col2, row1", "col2, row2" },
-                    new string[] { "col3; row1", "col3, row2" }
-                };
-            List<string[]> stringColumnsExpect = new List<string[]>
-                {
-                    new string[] { "col1, row1", "col1, row2" },
-                    new string[] { "col2, row1", "col2, row2" },
-                    new string[] { "col3", "col3, row2" }
-                };
+            List<string[]> stringColumnsInit   = new List<string[]> { stringsInit };
+            List<string[]> stringColumnsExpect = new List<string[]> { stringsExpect };
 
             Parameters param = new Parameters(new Parameter[]
                 {
-                    new MultiChoiceParam("Columns", Enumerable.Range(0, stringColumnNames.Count).ToArray())
+                    new MultiChoiceParam("Columns", new int[] { 0 })
                         {Values = stringColumnNames},
-                    new StringParam("Regular expression", "^([^;]+)"),
-                    new BoolParam("Keep original columns", false)
+                    new StringParam("Regular expression", regexStr),
+                    new BoolParam("Keep original columns", false),
+                    new BoolParam("Strings separated by semicolons are independent", false)
                 });
 
             IMatrixData mdata = new MatrixData();
@@ -79,18 +108,11 @@ namespace PerseusPluginLibTest.Rearrange
                             ref documents, processInfo);
 
             Boolean ignoreCase = false;
-            for (int colInd = 0; colInd < stringColumnsInit.Count; colInd++)
+            for (int rowInd = 0; rowInd < stringColumnsInit[0].Length; rowInd++)
             {
-                for (int rowInd = 0; rowInd < stringColumnsInit[colInd].Length; rowInd++)
-                {
-                    String errMsg = "For column " + colInd + " and row " + rowInd + ", result was '" +
-                                    mdata.StringColumns[colInd][rowInd] + "', but expected was '" +
-                                    stringColumnsExpect[colInd][rowInd] + "'.";
-                    Assert.AreEqual(mdata.StringColumns[colInd][rowInd], stringColumnsExpect[colInd][rowInd],
-                        ignoreCase, errMsg);
-                }
+                Assert.AreEqual(mdata.StringColumns[0][rowInd], stringColumnsExpect[0][rowInd],
+                                ignoreCase);
             }
-
         }
     }
 }
