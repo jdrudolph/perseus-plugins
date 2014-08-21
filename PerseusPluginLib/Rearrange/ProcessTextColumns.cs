@@ -31,15 +31,33 @@ namespace PerseusPluginLib.Rearrange{
 			Regex regex = new Regex(regexStr);
 			int[] inds = param.GetMultiChoiceParam("Columns").Value;
 			bool keepColumns = param.GetBoolParam("Keep original columns").Value;
+            bool semicolons = param.GetBoolParam("Strings separated by semicolons are independent").Value;
 			foreach (int col in inds){
-				ProcessCol(mdata, regex, col, keepColumns);
+                ProcessCol(mdata, regex, col, keepColumns, semicolons);
 			}
 		}
 
-		private static void ProcessCol(IMatrixData mdata, Regex regex, int col, bool keepColumns){
+        private static void ProcessCol(IMatrixData mdata, Regex regex, int col, bool keepColumns, bool semicolons)
+        {
 			string[] values = new string[mdata.RowCount];
-			for (int row = 0; row < mdata.RowCount; row++){
-				values[row] = regex.Match(mdata.StringColumns[col][row]).Groups[1].ToString();
+			for (int row = 0; row < mdata.RowCount; row++)
+			{
+                string fullString = mdata.StringColumns[col][row];
+                string[] inputParts;
+                string[] resultParts;
+                if (semicolons)
+                {
+                    inputParts = fullString.Split(';');
+                }
+                else
+                {
+                    inputParts = new string[] {fullString};
+                }
+                values[row] = regex.Match(inputParts[0]).Groups[1].ToString();
+                for ( int i = 1; i < inputParts.Length; i++ )
+                {
+                    values[row] += ";" + regex.Match(inputParts[i]).Groups[1];
+                }
 			}
 			if (keepColumns){
 				mdata.AddStringColumn(mdata.StringColumnNames[col], null, values);
@@ -52,7 +70,9 @@ namespace PerseusPluginLib.Rearrange{
 			return
 				new Parameters(new Parameter[]{
 					new MultiChoiceParam("Columns"){Values = mdata.StringColumnNames},
-					new StringParam("Regular expression", "^([^;]+)"), new BoolParam("Keep original columns", false)
+					new StringParam("Regular expression", "^([^;]+)"),
+                    new BoolParam("Keep original columns", false),
+                    new BoolParam("Strings separated by semicolons are independent", false)
 				});
 		}
 	}
