@@ -22,17 +22,15 @@ namespace PerseusPluginLib.Norm{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:ZScore"; } }
-		public string Description
-		{
+
+		public string Description{
 			get{
 				return
 					"The mean of each row/column is subtracted from each value. The result is then divided by the standard deviation of the row/column.";
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
-			return int.MaxValue;
-		}
+		public int GetMaxThreads(Parameters parameters) { return int.MaxValue; }
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters rowParams =
@@ -45,7 +43,9 @@ namespace PerseusPluginLib.Norm{
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceWithSubParams("Matrix access"){
-						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
+						Values = new[]{"Rows", "Columns"},
+						ParamNameWidth = 136,
+						TotalWidth = 731,
 						SubParams = new[]{rowParams, new Parameters()},
 						Help = "Specifies if the z-scoring is performed on the rows or the columns of the matrix."
 					},
