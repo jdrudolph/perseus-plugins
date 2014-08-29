@@ -19,6 +19,7 @@ namespace PerseusPluginLib.Load{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:CreateRandomMatrix"; } }
+
 		public string Description{
 			get{
 				return "Create a matrix of given dimensions containg random " +
@@ -26,9 +27,7 @@ namespace PerseusPluginLib.Load{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void LoadData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables, ref IDocumentData[] documents,
 			ProcessInfo processInfo){
@@ -112,6 +111,14 @@ namespace PerseusPluginLib.Load{
 				names[i] = "Row " + (i + 1);
 			}
 			mdata.AddStringColumn("Name", "Name", names);
+			string[][] grouping = new string[ncols][];
+			for (int i = 0; i < ncols/2; i++){
+				grouping[i] = new[]{"Group1"};
+			}
+			for (int i = ncols/2; i < ncols; i++){
+				grouping[i] = new[]{"Group2"};
+			}
+			mdata.AddCategoryRow("Grouping", "Grouping", grouping);
 		}
 
 		public Parameters GetParameters(ref string errorString){
