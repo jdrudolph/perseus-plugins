@@ -6,6 +6,7 @@ namespace PerseusApi.Generic{
 	/// </summary>
 	public interface IData : IDisposable, ICloneable{
 		string Name { get; set; }
+		string AltName { get; set; }
 		string Description { get; set; }
 		/// <summary>
 		/// For data that has been read from a file this string will contain the file name. If it was originally 

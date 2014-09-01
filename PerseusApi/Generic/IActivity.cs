@@ -1,4 +1,5 @@
-﻿using BaseLib.Api;
+﻿using System.Drawing;
+using BaseLib.Api;
 using BaseLib.Param;
 
 namespace PerseusApi.Generic{
@@ -23,5 +24,10 @@ namespace PerseusApi.Generic{
 		/// Link to a URL providing further information, documentation, advice about this activity. 
 		/// </summary>
 		string Url { get; }
+
+		/// <summary>
+		/// The image for the menu entry and the shortcut button when applicable.
+		/// </summary>
+		Bitmap DisplayImage { get; }
 	}
 }
