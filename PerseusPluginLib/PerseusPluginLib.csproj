@@ -115,7 +115,7 @@
     <Compile Include="Rearrange\RemoveEmptyColumns.cs" />
     <Compile Include="Rearrange\RenameColumns.cs" />
     <Compile Include="Rearrange\RenameColumnsRegexp.cs" />
-    <Compile Include="Rearrange\ReorderColumns.cs" />
+    <Compile Include="Rearrange\ReorderRemoveColumns.cs" />
     <Compile Include="Filter\FilterCategoricalColumn.cs" />
     <Compile Include="Filter\FilterTextualColumn.cs" />
     <Compile Include="Filter\FilterValidValuesRows.cs" />
