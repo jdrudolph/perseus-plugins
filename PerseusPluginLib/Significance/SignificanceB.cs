@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BaseLib.Num;
-using BaseLib.Num.Test;
 using BaseLib.Param;
-using BaseLib.Util;
+using BaseLibS.Num;
+using BaseLibS.Num.Test;
+using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -14,11 +14,7 @@ namespace PerseusPluginLib.Significance{
 	public class SignificanceB : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
@@ -27,13 +23,14 @@ namespace PerseusPluginLib.Significance{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 101; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SignificanceB"; } }
-		public string Description
-		{
+
+		public string Description{
 			get{
 				return
 					"Same as Significance A, but intensity-dependent. For details see Cox and Mann (2008) Nat. Biotech. 26, 1367-72.";
 			}
 		}
+
 		public string HelpOutput{
 			get{
 				return
@@ -42,9 +39,7 @@ namespace PerseusPluginLib.Significance{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -60,7 +55,8 @@ namespace PerseusPluginLib.Significance{
 			}
 			int truncIndex = param.GetSingleChoiceParam("Use for truncation").Value;
 			TestTruncation truncation = truncIndex == 0
-				? TestTruncation.Pvalue : (truncIndex == 1 ? TestTruncation.BenjaminiHochberg : TestTruncation.PermutationBased);
+				? TestTruncation.Pvalue
+				: (truncIndex == 1 ? TestTruncation.BenjaminiHochberg : TestTruncation.PermutationBased);
 			double threshold = param.GetDoubleParam("Threshold value").Value;
 			int sideInd = param.GetSingleChoiceParam("Side").Value;
 			TestSide side;
@@ -99,7 +95,7 @@ namespace PerseusPluginLib.Significance{
 			}
 		}
 
-		public static double[] CalcSignificanceB(float[] ratios, float[] intens, TestSide side) {
+		public static double[] CalcSignificanceB(float[] ratios, float[] intens, TestSide side){
 			double[] result = new double[ratios.Length];
 			for (int i = 0; i < result.Length; i++){
 				result[i] = 1;
@@ -122,15 +118,20 @@ namespace PerseusPluginLib.Significance{
 			return result;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			List<string> choice = mdata.ExpressionColumnNames;
 			string[] choice2 = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
 			return
 				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Ratio columns")
-					{Values = choice, Help = "Ratio columns for which the Significance B should be calculated."},
-					new MultiChoiceParam("Intensity columns")
-					{Values = choice2, Repeats = true, Help = "Intensity columns for which the Significance B should be calculated."},
+					new MultiChoiceParam("Ratio columns"){
+						Values = choice,
+						Help = "Ratio columns for which the Significance B should be calculated."
+					},
+					new MultiChoiceParam("Intensity columns"){
+						Values = choice2,
+						Repeats = true,
+						Help = "Intensity columns for which the Significance B should be calculated."
+					},
 					new SingleChoiceParam("Side"){
 						Values = new[]{"both", "right", "left"},
 						Help =
@@ -138,7 +139,8 @@ namespace PerseusPluginLib.Significance{
 								" of the effect. 'Left' and 'right' are the respective one sided tests."
 					},
 					new SingleChoiceParam("Use for truncation"){
-						Values = new[]{"P value", "Benjamini-Hochberg FDR"}, Value = 1,
+						Values = new[]{"P value", "Benjamini-Hochberg FDR"},
+						Value = 1,
 						Help =
 							"Choose here whether the truncation should be based on the p values or if the Benjamini Hochberg correction for " +
 								"multiple hypothesis testing should be applied."
@@ -150,6 +152,5 @@ namespace PerseusPluginLib.Significance{
 					}
 				});
 		}
-
 	}
 }

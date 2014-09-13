@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using BaseLib.Util;
+using BaseLibS.Util;
 
 namespace PluginMzTab.utils{
     public class ControlledVocabulary{

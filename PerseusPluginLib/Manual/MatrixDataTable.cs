@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Windows;
 using BaseLib.Forms.Table;
-using BaseLib.Num;
 using BaseLib.Util;
+using BaseLibS.Num;
+using BaseLibS.Util;
 using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Manual{

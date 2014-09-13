@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using BaseLib.Param;
-using BaseLib.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusPluginLib.Properties;
@@ -15,7 +14,6 @@ namespace PerseusPluginLib.Manual{
 		public string Name { get { return "Select rows manually"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 2; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixAnalysis:Misc:SelectRowsManually"; } }
 
 		public int GetMaxThreads(Parameters parameters) {

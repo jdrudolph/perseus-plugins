@@ -44,7 +44,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		private static string[] GetOrganismFiles(){
-			string path = FileUtils.GetConfigPath() + "\\perseus\\genelists";
+			string path = FileUtils2.GetConfigPath() + "\\perseus\\genelists";
 			string[] files = Directory.GetFiles(path);
 			List<string> result = new List<string>();
 			foreach (string s in files){

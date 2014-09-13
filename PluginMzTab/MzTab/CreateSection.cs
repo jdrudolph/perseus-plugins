@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLibS.Util;
 using MzTabLibrary.model;
 using MzTabLibrary.utils;
 using MzTabLibrary.utils.errors;

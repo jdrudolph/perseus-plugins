@@ -1,6 +1,5 @@
 using System.Drawing;
 using BaseLib.Param;
-using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -18,7 +17,6 @@ namespace PerseusPluginLib.Impute{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 1; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Imputation:ReplaceMissingByConstant"; } }
 

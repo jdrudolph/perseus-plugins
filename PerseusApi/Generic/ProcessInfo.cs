@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BaseLib.Util;
+using BaseLibS.Util;
 
 namespace PerseusApi.Generic{
 	public class ProcessInfo{

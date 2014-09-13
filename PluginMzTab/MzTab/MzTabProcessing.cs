@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
-using BaseLib.Util;
+using BaseLibS.Util;
 using MzTabLibrary.model;
 using MzTabLibrary.utils.errors;
 using MzTabLibrary.utils.parser;

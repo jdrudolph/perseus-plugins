@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -25,9 +26,6 @@ namespace PluginProteomicRuler
         }
 
         public string HelpOutput { get { return "A series of categorical or numeric annotation columns are added depending on the user selection."; } }
-        public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-        public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-        public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
         public string[] HelpSupplTables { get { return new string[0]; } }
         public int NumSupplTables { get { return 0; } }
         public string Name { get { return "Annotate proteins (fasta headers, sequence features, ...)"; } }
@@ -35,7 +33,6 @@ namespace PluginProteomicRuler
         public bool IsActive { get { return true; } }
         public float DisplayRank { get { return 0; } }
         public string[] HelpDocuments { get { return new string[0]; } }
-        public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
         public int NumDocuments { get { return 0; } }
         public int GetMaxThreads(Parameters parameters) { return 1; }
         public string Url { get { return null; } }

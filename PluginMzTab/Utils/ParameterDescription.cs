@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BaseLib.Util;
+using BaseLibS.Util;
 using MzTabLibrary.model;
 
 namespace PluginMzTab.utils{
@@ -119,7 +120,7 @@ namespace PluginMzTab.utils{
         public static IList<ParameterDescription> Read(){
             const string filename = "definition.txt";
             try{
-                string configPath = Path.Combine(FileUtils.GetConfigPath(), "mztab");
+                string configPath = Path.Combine(FileUtils2.GetConfigPath(), "mztab");
                 if (Directory.Exists(configPath)){
                     string file = Path.Combine(configPath, filename);
                     if (File.Exists(file)){

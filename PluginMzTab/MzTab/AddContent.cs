@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using BaseLib.Mol;
 using BaseLib.Param;
 using BaseLib.Util;
+using BaseLibS.Util;
 using MzTabLibrary.model;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -969,7 +970,7 @@ namespace PluginMzTab.mztab{
 
         private Parameter GetIdentifierParam(string version){
             IList<string> dbList = new List<string>{
-                FileUtils.GetContaminantFilePath(),
+                FileUtils2.GetContaminantFilePath(),
                 @"M:\Fasta\UniProt\proteomes\2013_05_29\HUMAN.fasta",
                 "",
                 ""

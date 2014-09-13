@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
-using BaseLib.Util;
+using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PluginProteomicRuler;
 
 namespace PluginProteomicRuler{
 	public class CopyNumbers : IMatrixProcessing{
@@ -41,9 +40,6 @@ namespace PluginProteomicRuler{
 			}
 		}
 		public string HelpOutput { get { return "In the parameters, you can select which output you want to add to the matrix."; } }
-		public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
-		public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
-		public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Estimate copy numbers and concentrations"; } }
@@ -51,7 +47,6 @@ namespace PluginProteomicRuler{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 1; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
-		public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
         public string Url { get { return null; } }
