@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using BaseLib.Mol;
-using BaseLib.Util;
 using BaseLib.Wpf;
 using BaseLibS.Util;
 using MzTabLibrary.model;

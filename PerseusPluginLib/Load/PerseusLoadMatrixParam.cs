@@ -1,7 +1,6 @@
 using System;
 using System.Windows;
 using BaseLib.Param;
-using BaseLib.Util;
 using BaseLibS.Util;
 
 namespace PerseusPluginLib.Load{

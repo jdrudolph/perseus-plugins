@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BaseLib.Mol;
-using BaseLib.Util;
 using BaseLibS.Util;
 using MzTabLibrary.model;
 
@@ -32,7 +31,7 @@ namespace PluginMzTab.utils{
         public IList<ControlledVocabularyHeader> Headers { get { return new List<ControlledVocabularyHeader>(ControlledVocabularyHeaders.Values); } }
 
         private void ReadFile(){
-            string confFolder = Path.Combine(FileUtils2.GetConfigPath(), "mztab");
+            string confFolder = Path.Combine(FileUtils.GetConfigPath(), "mztab");
             if (Directory.Exists(confFolder)){
                 string file = Path.Combine(confFolder, "cvs.txt");
                 _controlledVocabularies = new Dictionary<string, IList<ControlledVocabulary>>();

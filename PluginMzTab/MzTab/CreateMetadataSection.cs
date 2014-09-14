@@ -6,7 +6,6 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
-using BaseLib.Util;
 using BaseLibS.Util;
 using MzTabLibrary.model;
 using PerseusApi.Document;

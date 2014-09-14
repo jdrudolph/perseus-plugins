@@ -3,7 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using BaseLib.Param;
-using BaseLib.Util;
 using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;

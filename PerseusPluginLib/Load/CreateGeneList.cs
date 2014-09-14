@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using BaseLib.Param;
 using BaseLib.Parse;
-using BaseLib.Util;
+using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -44,7 +44,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		private static string[] GetOrganismFiles(){
-			string path = FileUtils2.GetConfigPath() + "\\perseus\\genelists";
+			string path = FileUtils.GetConfigPath() + "\\perseus\\genelists";
 			string[] files = Directory.GetFiles(path);
 			List<string> result = new List<string>();
 			foreach (string s in files){
