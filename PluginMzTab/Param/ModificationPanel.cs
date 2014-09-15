@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using BaseLib.Mol;
+using BaseLibS.Mol;
 using MzTabLibrary.model;
 using PluginMzTab.utils;
 

@@ -1004,11 +1004,11 @@ namespace PluginMzTab.mztab{
 
             int n = 1;
             foreach (var label in labels[i].Split(';')){
-				if (!BaseLib.Mol.Tables.Modifications.ContainsKey(label))
+				if (!BaseLibS.Mol.Tables.Modifications.ContainsKey(label))
 				{
                     continue;
                 }
-				BaseLib.Mol.Modification mod = BaseLib.Mol.Tables.Modifications[label];
+				BaseLibS.Mol.Modification mod = BaseLibS.Mol.Tables.Modifications[label];
                 list.Add(new AssayQuantificationMod(assay, n++){
                     Param = new UserParam(mod.Name, null),
                     Position = mod.Position.ToString(),

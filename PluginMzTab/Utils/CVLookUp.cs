@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BaseLib.Mol;
+using BaseLibS.Mol;
 using BaseLibS.Util;
 using MzTabLibrary.model;
 
@@ -268,7 +268,7 @@ namespace PluginMzTab.utils{
             return result;
         }
 
-        public Param GetModificationParam(BaseLib.Mol.Modification mod){
+        public Param GetModificationParam(BaseLibS.Mol.Modification mod){
             return new UserParam(mod.Name, string.Format("{0}{1}", mod.DeltaMass < 0 ? "+" : "-", mod.DeltaMass));
         }
     }

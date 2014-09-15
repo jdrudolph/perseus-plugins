@@ -336,7 +336,7 @@ namespace PluginMzTab.mztab{
             return mtd;
         }
 
-        public static Modification ConvertModificationToMzTab(BaseLib.Mol.Modification modification, Section section){
+        public static Modification ConvertModificationToMzTab(BaseLibS.Mol.Modification modification, Section section){
             Modification.ModificationType type = Modification.ModificationType.UNIMOD;
             string accession = modification.Unimod;
             if (accession == null){

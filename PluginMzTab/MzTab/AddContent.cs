@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BaseLib.Mol;
+using BaseLibS.Mol;
 using BaseLib.Param;
 using BaseLibS.Util;
 using MzTabLibrary.model;
@@ -427,10 +427,10 @@ namespace PluginMzTab.mztab{
                         continue;
                     }
                     string name = regex.Match(columnname).Groups[1].Value;
-                    if (!BaseLib.Mol.Tables.Modifications.ContainsKey(name)){
+                    if (!BaseLibS.Mol.Tables.Modifications.ContainsKey(name)){
                         continue;
                     }
-					Modification modification = ConvertModificationToMzTab(BaseLib.Mol.Tables.Modifications[name],
+					Modification modification = ConvertModificationToMzTab(BaseLibS.Mol.Tables.Modifications[name],
                                                                            Section.Protein);
                     string[] vals = proteinMatrix.StringColumns[proteinMatrix.StringColumnNames.IndexOf(columnname)];
                     for (int row = 0; row < proteinMatrix.RowCount; row++){
@@ -1061,7 +1061,7 @@ namespace PluginMzTab.mztab{
                     continue;
                 }
                 string database = Path.GetFileName(fastaFile);
-                if (database == null || !BaseLib.Mol.Tables.Databases.ContainsKey(database)){
+                if (database == null || !BaseLibS.Mol.Tables.Databases.ContainsKey(database)){
                     continue;
                 }
                 string version_Value = null;
@@ -1074,7 +1074,7 @@ namespace PluginMzTab.mztab{
                 } catch (Exception){
                     version_Value = null;
                 }
-                SequenceDatabase db = BaseLib.Mol.Tables.Databases[database];
+                SequenceDatabase db = BaseLibS.Mol.Tables.Databases[database];
                 if (db != null){
                     #region Extract Fasta identifier
                     Regex regex = new Regex(db.SearchExpression);
@@ -1260,7 +1260,7 @@ namespace PluginMzTab.mztab{
                         int.TryParse(match.Groups[1].Value, out n);
                     }
                     string title = match.Groups[2].Value;
-                    var m = BaseLib.Mol.Tables.ModificationList.FirstOrDefault(x => x.Name == title);
+                    var m = BaseLibS.Mol.Tables.ModificationList.FirstOrDefault(x => x.Name == title);
                     if (m == null){
                         continue;
                     }

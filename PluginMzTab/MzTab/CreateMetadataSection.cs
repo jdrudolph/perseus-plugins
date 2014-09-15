@@ -361,7 +361,7 @@ namespace PluginMzTab.mztab{
             string key = Constants.GetColumnName(utils.parameters.fixedMod, paramDict.Keys.ToArray());
             if (key != null){
                 string[] values = paramDict[key].Split(';');
-                foreach (var mod in values.Select(x => BaseLib.Mol.Tables.Modifications[x])){
+                foreach (var mod in values.Select(x => BaseLibS.Mol.Tables.Modifications[x])){
                     int id = mtd.FixedModMap.Count + 1;
                     mtd.AddFixedModParam(id, cv.GetModificationParam(mod));
                     mtd.AddFixedModPosition(id, mod.Position.ToString());
@@ -372,7 +372,7 @@ namespace PluginMzTab.mztab{
             key = Constants.GetColumnName(utils.parameters.variableMod, paramDict.Keys.ToArray());
             if (key != null){
                 string[] values = paramDict[key].Split(';');
-				foreach (var mod in values.Select(x => BaseLib.Mol.Tables.Modifications[x]))
+				foreach (var mod in values.Select(x => BaseLibS.Mol.Tables.Modifications[x]))
 				{
                     int id = mtd.VariableModMap.Count + 1;
                     mtd.AddVariableModParam(id, cv.GetModificationParam(mod));
