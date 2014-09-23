@@ -21,7 +21,13 @@ namespace PerseusPluginLib.Impute{
 		public float DisplayRank { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Imputation:ReplaceMissingFromGaussian"; } }
+
+		public string Url{
+			get{
+				return
+					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Imputation:ReplaceMissingFromGaussian";
+			}
+		}
 
 		public string Description{
 			get{
@@ -41,10 +47,11 @@ namespace PerseusPluginLib.Impute{
 			double width = param.GetDoubleParam("Width").Value;
 			double shift = param.GetDoubleParam("Down shift").Value;
 			bool separateColumns = param.GetSingleChoiceParam("Mode").Value == 1;
+			int[] cols = param.GetMultiChoiceParam("Columns").Value;
 			if (separateColumns){
-				ReplaceMissingsByGaussianByColumn(width, shift, mdata);
+				ReplaceMissingsByGaussianByColumn(width, shift, mdata, cols);
 			} else{
-				ReplaceMissingsByGaussianWholeMatrix(width, shift, mdata);
+				ReplaceMissingsByGaussianWholeMatrix(width, shift, mdata, cols);
 			}
 		}
 
@@ -62,12 +69,14 @@ namespace PerseusPluginLib.Impute{
 							"The amount by which the distribution used for the random numbers is shifted downward. This is in units of the" +
 								" standard deviation of the valid data."
 					},
-					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}}
+					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}},
+					new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount)){
+						Values = mdata.ExpressionColumnNames
+					}
 				});
 		}
 
-		public static void ReplaceMissingsByGaussianByColumn(double width, double shift, IMatrixData data){
-			int[] colInds = ArrayUtils.ConsecutiveInts(data.ExpressionColumnCount);
+		public static void ReplaceMissingsByGaussianByColumn(double width, double shift, IMatrixData data, int[] colInds){
 			foreach (int colInd in colInds){
 				ReplaceMissingsByGaussianForOneColumn(width, shift, data, colInd);
 			}
@@ -94,8 +103,7 @@ namespace PerseusPluginLib.Impute{
 			}
 		}
 
-		public static void ReplaceMissingsByGaussianWholeMatrix(double width, double shift, IMatrixData data){
-			int[] colInds = ArrayUtils.ConsecutiveInts(data.ExpressionColumnCount);
+		public static void ReplaceMissingsByGaussianWholeMatrix(double width, double shift, IMatrixData data, int[] colInds){
 			List<float> allValues = new List<float>();
 			for (int i = 0; i < data.RowCount; i++){
 				foreach (int t in colInds){
