@@ -1,5 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Text.RegularExpressions;
 using BaseLib.Param;
+using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -13,6 +17,9 @@ namespace PluginProteomicRuler
         public string Description { get { return "Estimate the accuracy of copy number or concentration values.\n"+
             "Depending on the user-specified minimum number of total identified peptides, the fraction of razor+unique to total peptides and the number of theoretical peptides per sequence length, all proteins will be categorized as high, medium or low accuracy."; } }
         public string HelpOutput { get { return "A categorical annotation column is added indicating the estimated accuracy."; } }
+        public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
+        public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
+        public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
         public string[] HelpSupplTables { get { return new string[0]; } }
         public int NumSupplTables { get { return 0; } }
         public string Name { get { return "Estimate absolute protein quantification accuracy"; } }
@@ -20,9 +27,10 @@ namespace PluginProteomicRuler
         public bool IsActive { get { return true; } }
         public float DisplayRank { get { return 2; } }
         public string[] HelpDocuments { get { return new string[0]; } }
+        public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
         public int NumDocuments { get { return 0; } }
         public int GetMaxThreads(Parameters parameters) { return 1; }
-        public string Url { get { return null; } }
+        public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:plugins:proteomicruler:estimateaccuracy"; } }
 
         public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
                                 ref IDocumentData[] documents, ProcessInfo processInfo)

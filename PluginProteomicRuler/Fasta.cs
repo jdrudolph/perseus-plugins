@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using PerseusApi.Generic;
+
 
 namespace PluginProteomicRuler
 {
@@ -26,12 +30,12 @@ namespace PluginProteomicRuler
             {"K",128.09496},
             {"M",131.04049},
             {"F",147.06841},
-            {"P",97.05276},
-            {"S",87.03203},
+            {"P", 97.05276},
+            {"S", 87.03203},
             {"T",101.04768},
             {"W",186.07931},
             {"Y",163.06333},
-            {"V",99.06841},
+            {"V", 99.06841},
             {"term",18.01056} // Proton on the N-terminus and OH on the C-terminus
         };
         public static Dictionary<string, double> AverageMasses = new Dictionary<string, double>()
@@ -54,13 +58,13 @@ namespace PluginProteomicRuler
             {"S", 87.0782},
             {"T",101.1051},
             {"W",186.2132},
-            {"Y",163.176},
-            {"V",99.1326},
+            {"Y",163.1760},
+            {"V", 99.1326},
             {"term",18.01528} // Proton on the N-terminus and OH on the C-terminus
         };
 
-        public static Protease Trypsin = new Protease("Trypsin", new Regex(@"(.*?(?:K|R|$))"));
-        public static Protease LysC = new Protease("LysC", new Regex(@"(.*?(?:K|$))"));
+        public static Protease Trypsin = new Protease("Trypsin/P", new Regex(@"(.*?(?:K|R|$))"));
+        public static Protease LysC = new Protease("LysC/P", new Regex(@"(.*?(?:K|$))"));
         public static Protease ArgC = new Protease("ArgC", new Regex(@"(.*?(?:R|$))"));
         public static Protease AspC = new Protease("AspC", new Regex(@"(.*?(?:D|$))"));
         public static Protease GluC = new Protease("GluC", new Regex(@"(.*?(?:E|$))"));
@@ -104,16 +108,9 @@ namespace PluginProteomicRuler
         public void SetSequence(string sequence)
         {
             sequence = sequence.ToUpper();
-            _sequence = Regex.Replace(sequence, @"[^A-Z]", ""); // strip everything that is not an amino acid (ACDEFGHIKLMNPQRSTVWacdefghiklmnpqrstvw) plus other letters
+            _sequence = sequence;
             _length = _sequence.Length;
 
-        }
-        public void SetSequence(List<string> sequencePieces)
-        {
-            string sequence = "";
-            foreach (string piece in sequencePieces)
-                sequence += piece;
-            SetSequence(sequence);
         }
 
         private void CalculateAverageMass()
@@ -161,6 +158,11 @@ namespace PluginProteomicRuler
 
     public class ProteinSequence : PeptideSequence
     {
+        private Regex _regexEntryName = new Regex(@"^>.*\|.*\|(\w*)");
+        private Regex _regexGeneName = new Regex(@"^>.*\|.*\|.*\sGN=(.*?)(?:\sPE=|\sSV=|$)"); // allow spaces in gene names
+        private Regex _regexProteinName = new Regex(@"^>.*\|.*\|\w*\s(.*?)\s(?:OS|GN|PE|SV)=");
+        private Regex _regexConsensusProteinName = new Regex(@"(?:Isoform .* of )?(.*(?=( \(Fragment\)))|.*)");
+        private Regex _regexSpecies = new Regex(@"^>.*\|.*\|.*\sOS=(.*?)\s(?:GN|PE|SV)=");
 
         private string _header, _accession, _geneName, _species, _entryName, _proteinName, _consensusProteinName;
 
@@ -196,8 +198,6 @@ namespace PluginProteomicRuler
             }
             _theoreticalPeptides[protease] = theoreticalPeptides.ToArray();
 
-            //_numberOfTheoreticalPeptides = theoreticalPeptides.Count;
-            //_hasTheoreticalPeptides = true;
         }
 
         private void CalculateTheoreticalPeptides(Protease protease)
@@ -209,10 +209,6 @@ namespace PluginProteomicRuler
             CalculateTheoreticalPeptides(protease, minLength, maxLength, minWeight, maxWeight);
         }
 
-        private void CalculateTheoreticalPeptides()
-        {
-            CalculateTheoreticalPeptides(Constants.Trypsin);
-        }
 
         public int GetNumberOfTheoreticalPeptides(Protease protease, int minLength, int maxLength)
         {
@@ -301,6 +297,12 @@ namespace PluginProteomicRuler
         }
         public string GetEntryName()
         {
+            if (_entryName == null)
+            {
+                Match m = _regexEntryName.Match(GetHeader());
+                if (m.Success)
+                    SetEntryName(m.Groups[1].Value); 
+            }
             return _entryName;
         }
 
@@ -310,6 +312,15 @@ namespace PluginProteomicRuler
         }
         public string GetProteinName()
         {
+            if (_proteinName == null)
+            {
+                Match m = _regexProteinName.Match(GetHeader());
+                if (m.Success)
+                {
+                    SetProteinName(m.Groups[1].Value);
+                    SetConsensusProteinName(_regexConsensusProteinName.Match(GetProteinName()).Groups[1].Value);
+                }
+            }
             return _proteinName;
         }
 
@@ -319,6 +330,8 @@ namespace PluginProteomicRuler
         }
         public string GetConsensusProteinName()
         {
+            if (_proteinName == null)
+                GetProteinName(); // this function will invoke the parsing of the consensus protein name
             return _consensusProteinName;
         }
 
@@ -328,6 +341,12 @@ namespace PluginProteomicRuler
         }
         public string GetGeneName()
         {
+            if (_geneName == null)
+            {
+                Match m = _regexGeneName.Match(GetHeader());
+                if (m.Success)
+                    SetGeneName(m.Groups[1].Value);
+            }
             return _geneName;
         }
 
@@ -337,6 +356,12 @@ namespace PluginProteomicRuler
         }
         public string GetSpecies()
         {
+            if (_species == null)
+            {
+                Match m = _regexSpecies.Match(GetHeader());
+                if (m.Success)
+                    SetSpecies(m.Groups[1].Value);
+            }
             return _species;
         }
 
@@ -345,19 +370,15 @@ namespace PluginProteomicRuler
 
     class Fasta
     {
-        private Regex _regexHeader = new Regex(@"^>.*");
-        private Regex _regexAccession = new Regex(@"^>.*\|(.*)\|");
-        private Regex _regexEntryName = new Regex(@"^>.*\|.*\|(\w*)");
-        //private Regex _regexGeneName = new Regex(@"^>.*\|.*\|.*\sGN=(\w*)");
-        private Regex _regexGeneName = new Regex(@"^>.*\|.*\|.*\sGN=(.*?)(?:\sPE=|\sSV=|$)"); // allow spaces in gene names
-        private Regex _regexProteinName = new Regex(@"^>.*\|.*\|\w*\s(.*?)\s(?:OS|GN|PE|SV)=");
-        private Regex _regexConsensusProteinName = new Regex(@"(?:Isoform [0-9]+ of )?(.*(?=( \(Fragment\)))|.*)");
-        private Regex _regexSpecies = new Regex(@"^>.*\|.*\|.*\sOS=(.*?)\s(?:GN|PE|SV)=");
+        //private Regex _regexUniprotHeader = new Regex(@"^>.*\|.*\|.*");
+        private Regex _regexUniprotAccession = new Regex(@"^>.*\|(.*)\|");
 
-        public Dictionary<string, ProteinSequence>  Entries = new Dictionary<string, ProteinSequence>();
+
+        public Dictionary<string, ProteinSequence> Entries = new Dictionary<string, ProteinSequence>(100000);
 
         public void ParseFile(string path, ProcessInfo processInfo)
         {
+
             processInfo.Status("Parsing " + path);
 
             string header = "";
@@ -365,21 +386,20 @@ namespace PluginProteomicRuler
 
             string line;
             int sequenceCounter = 0;
-            List<string> sequencePieces = new List<string>();
+            StringBuilder sequence = new StringBuilder();
+            //List<string> sequencePieces = new List<string>();
             ProteinSequence protein = new ProteinSequence();
 
             try
             {
-                System.IO.StreamReader file = new StreamReader(path);
-
+                StreamReader file = new StreamReader(path);
 
                 while ((line = file.ReadLine()) != null) // valid line
                 {
-                    processInfo.Status("Parsing " + path + ", reading sequence #" + sequenceCounter);
+                    if (sequenceCounter%500 == 0)
+                        processInfo.Status("Parsing " + path + ", " + (int) ((float)file.BaseStream.Position/file.BaseStream.Length*100) + "%");
 
-                    //line = line.Replace("\n", "").Replace("\r","");
-
-                    bool lineIsHeader = _regexHeader.Match(line).Success;
+                    bool lineIsHeader = line.StartsWith(">");
 
                     // skip all lines until the first header is found
                     if (sequenceCounter == 0 && !lineIsHeader)
@@ -388,54 +408,58 @@ namespace PluginProteomicRuler
                     // line is a piece of a sequence
                     if (sequenceCounter > 0 && !lineIsHeader)
                     {
-                        sequencePieces.Add(line);
+                        sequence.Append(line.Trim());
                         continue;
                     }
 
-                    //check if line is a fasta header
+                    // line is a fasta header
                     if (lineIsHeader)
                     {
                         if (sequenceCounter > 0)
                             // this is not the first header, i.e. the previous sequence is now completely read in
                         {
                             // add the previous protein  
-                            protein.SetSequence(sequencePieces);
+                            protein.SetSequence(sequence.ToString());
                             Entries.Add(accession, protein);
-                            //Sequences.Add(accession, protein);
                         }
                         // initialize a new protein
                         protein = new ProteinSequence();
                         sequenceCounter++;
                         // then parse the new header
                         header = line;
-                        accession = _regexAccession.Match(line).Groups[1].Value;
-                        protein.SetHeader(header);
-                        protein.SetAccession(accession);
-                        protein.SetEntryName(_regexEntryName.Match(line).Groups[1].Value);
-                        protein.SetProteinName(_regexProteinName.Match(line).Groups[1].Value);
-                        protein.SetConsensusProteinName(_regexConsensusProteinName.Match(protein.GetProteinName()).Groups[1].Value);
-
-                        if (_regexGeneName.Match(line).Success)
-                            protein.SetGeneName(_regexGeneName.Match(line).Groups[1].Value);
-                        protein.SetSpecies(_regexSpecies.Match(line).Groups[1].Value);
-                        sequencePieces = new List<string>();
+                        Match m = _regexUniprotAccession.Match(header);
+                        if (m.Success) // uniprot header
+                        {
+                            accession = m.Groups[1].Value;
+                            protein.SetAccession(accession);
+                            protein.SetHeader(header);
+                        }
+                        else // fallback position: take entire header after the > as accession
+                        {
+                            accession = header.Substring(1).Trim();
+                            protein.SetAccession(accession);
+                            protein.SetHeader(header);
+                        }
+   
+                        sequence = new StringBuilder();
                     }
                 } //end while
+                file.Close();
+
                 //add the last protein
                 if (sequenceCounter > 0) // make sure there is at least one sequence in the file
                 {
-                    protein.SetSequence(sequencePieces);
+                    protein.SetSequence(sequence.ToString());
                     Entries.Add(accession, protein);
-                    //Sequences.Add(accession, protein);
                 }
+
             }
             catch (Exception)
             {
-                processInfo.ErrString = "Something went wrong while opening the fasta file. Make sure the path is correct and the file is not opened in another application.";
+                processInfo.ErrString = "Something went wrong while parsing the fasta file.\nMake sure the path is correct and the file is not opened in another application.\nMake sure the fasta file is valid.";
             }
 
         }
-
 
         public ProteinSequence GetEntry(string accession)
         {

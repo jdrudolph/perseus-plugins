@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using BaseLib.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
@@ -24,6 +25,9 @@ namespace PluginProteomicRuler
         }
 
         public string HelpOutput { get { return "A series of categorical or numeric annotation columns are added depending on the user selection."; } }
+        public DocumentType HelpDescriptionType { get { return DocumentType.PlainText; } }
+        public DocumentType HelpOutputType { get { return DocumentType.PlainText; } }
+        public DocumentType[] HelpSupplTablesType { get { return new DocumentType[0]; } }
         public string[] HelpSupplTables { get { return new string[0]; } }
         public int NumSupplTables { get { return 0; } }
         public string Name { get { return "Annotate proteins (fasta headers, sequence features, ...)"; } }
@@ -31,32 +35,32 @@ namespace PluginProteomicRuler
         public bool IsActive { get { return true; } }
         public float DisplayRank { get { return 0; } }
         public string[] HelpDocuments { get { return new string[0]; } }
+        public DocumentType[] HelpDocumentTypes { get { return new DocumentType[0]; } }
         public int NumDocuments { get { return 0; } }
         public int GetMaxThreads(Parameters parameters) { return 1; }
-        public string Url { get { return null; } }
+        public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:plugins:proteomicruler:annotateproteins"; } }
 
         public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
                                 ref IDocumentData[] documents, ProcessInfo processInfo)
         {
 
-            string fastaFilePath = param.GetFileParam("Fasta file").Value;
-            Fasta fasta = new Fasta();
-            fasta.ParseFile(fastaFilePath, processInfo);
-
-            
-
             int proteinIdColumnInd = param.GetSingleChoiceParam("Protein IDs").Value;
             string[][] proteinIds = new string[mdata.RowCount][];
             string[][] leadingIds = new string[mdata.RowCount][];
+            List<string> allIds = new List<string>();
             for (int row = 0; row < mdata.RowCount; row++)
             {
                 proteinIds[row] = mdata.StringColumns[proteinIdColumnInd][row].Split(new char[] {';'});
                 leadingIds[row] = new []{proteinIds[row][0]};
+                allIds.AddRange(proteinIds[row]);
             }
 
+            string fastaFilePath = param.GetFileParam("Fasta file").Value;
+            Fasta fasta = new Fasta();
+            fasta.ParseFile(fastaFilePath, processInfo);
 
 
-            // Categorical annotations
+            // Text annotations
             processInfo.Status("Adding fasta header annotations.");
             int[] selection = param.GetSingleChoiceWithSubParams("Fasta header annotations").GetSubParameters().GetMultiChoiceParam("Annotations").Value;
             string[][] idsToBeAnnotated = (param.GetSingleChoiceWithSubParams("Fasta header annotations").Value == 0) ? proteinIds : leadingIds;
@@ -255,6 +259,52 @@ namespace PluginProteomicRuler
                     mdata.AddStringColumn("Theoretical peptide sequences (" + protease.Name + ", " + minLength + "-" + maxLength + ")", "", peptideColumn);
             }
 
+
+            // Sequence features
+            processInfo.Status("Counting sequence features.");
+            annotateLeadingId = (param.GetSingleChoiceWithSubParams("Count sequence features").Value == 1);
+            bool normalizeBySequenceLength = param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetBoolParam("Normalize by sequence length").Value;
+
+            if (
+                param.GetSingleChoiceWithSubParams("Count sequence features")
+                     .GetSubParameters()
+                     .GetStringParam("Regex")
+                     .Value != "")
+            {
+
+                Regex regex = new Regex("^.*$");
+                try
+                {
+                    regex =
+                        new Regex(
+                            param.GetSingleChoiceWithSubParams("Count sequence features")
+                                 .GetSubParameters()
+                                 .GetStringParam("Regex")
+                                 .Value);
+                }
+                catch (ArgumentException)
+                {
+                    processInfo.ErrString = "The regular expression you provided has invalid syntax.";
+                    return;
+                }
+
+                double[] sequenceFeatureColumn = new double[mdata.RowCount];
+                for (int row = 0; row < mdata.RowCount; row++)
+                {
+                    List<double> featureCount = new List<double>();
+                    foreach (ProteinSequence entry in fastaEntries[row])
+                    {
+                        double nFeatures = regex.Matches(entry.GetSequence()).Count;
+                        featureCount.Add(normalizeBySequenceLength ? nFeatures/entry.GetLength() : nFeatures);
+                        if (annotateLeadingId)
+                            break;
+                    }
+                    sequenceFeatureColumn[row] = ArrayUtils.Median(featureCount.ToArray());
+                }
+                mdata.AddNumericColumn((normalizeBySequenceLength ? "Normalized feature count (" : "Feature count (") + regex.ToString() + ")","",sequenceFeatureColumn);
+            }
+
+
             processInfo.Status("Done.");
 
         }
@@ -274,12 +324,16 @@ namespace PluginProteomicRuler
                                 Value =
                                     ProteomicRulerUtils.Match(mdata.StringColumnNames.ToArray(), new[] {"majority"}, false, true, true)[0],
                             },
-                        new FileParam("Fasta file"),
+                        new FileParam("Fasta file")
+                            {
+                                Filter = FileUtils.fastaFilter,
+                                Help = "Select the fasta file used for the database search of this dataset. The software will assume uniprot-formatted headers for extracting accession IDs and metadata. As fallback position, everything after the > will be taken as ID, but no header metadata can be extracted from non-uniprot headers."
+                            },
                         new SingleChoiceWithSubParams("Fasta header annotations")
                             {
                                 paramNameWidth = 120,
                                 totalWidth = 500,
-                                Help = "Specify the annotations to be mapped as categorical annotations",
+                                Help = "Specify the annotations to be extracted from uniprot fasta headers",
                                 Values = new string[] {"for all IDs", "for the leading ID"},
                                 Value = 0,
                                 SubParams = new List<Parameters>(){
@@ -331,7 +385,7 @@ namespace PluginProteomicRuler
                             {
                                 paramNameWidth = 120,
                                 totalWidth = 500,
-                                Help = "",
+                                Help = "Calculate the numbers of theoretical peptides (without miscleavages) by in silico digestion.",
                                 Values = new string[] {"median of all IDs", "for the leading ID"},
                                 Value = 0,
                                 SubParams = new List<Parameters>(){
@@ -358,6 +412,28 @@ namespace PluginProteomicRuler
 								})
 							    }
                             },
+                        new SingleChoiceWithSubParams("Count sequence features")
+                            {
+                                paramNameWidth = 180,
+                                totalWidth = 500,
+                                Help = "Count the number of matches to a given regular expression in the amino acid sequence (optionally normalized by sequence length).\n\nExamples:\n[KR] tryptic cleavage sites\nN[^P][ST][^P] N-glysosylation motifs",
+                                Values = new string[] {"median of all IDs", "for the leading ID"},
+                                Value = 0,
+
+                                SubParams = new List<Parameters>()
+                                {
+                                    new Parameters(new Parameter[]
+                                        {
+                                            new StringParam("Regex"), 
+                                            new BoolParam("Normalize by sequence length", true), 
+                                        }),
+                                    new Parameters(new Parameter[]
+                                        {
+                                            new StringParam("Regex"), 
+                                            new BoolParam("Normalize by sequence length", false), 
+                                        })
+                                }
+                            }
                     });
         }
     }
