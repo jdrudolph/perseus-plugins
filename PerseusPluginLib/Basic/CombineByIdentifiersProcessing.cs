@@ -26,7 +26,7 @@ namespace PerseusPluginLib.Basic{
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Combine rows by identifiers"; } }
 		public string Heading { get { return "Basic"; } }
-		public bool IsActive { get { return false; } }
+		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 20; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
