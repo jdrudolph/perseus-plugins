@@ -1,70 +1,74 @@
-# column mapping for the MaxQuant output
-# multiple entries when column name changed
-experiment_rawfile=Name
-experiment_variable=Experiment
+# column mapping for the MaxQuant output			
+experimentalDesign	rawfile	Name	TRUE
+experimentalDesign	variable	Experiment	TRUE
+			
+summary	rawfile	Raw file	TRUE
+summary	labels0	Labels0	FALSE
+summary	labels1	Labels1	FALSE
+summary	labels2	Labels2	FALSE
+summary	labels3	Labels3	FALSE
+summary	multiplicity	Multiplicity	TRUE
+summary	instrument	Instrument	TRUE
+					
+parameters	version	Version	TRUE
+parameters	fixedMod	Fixed modifications	TRUE
+parameters	variableMod	Modifications included in protein quantification	TRUE
+parameters	protein_fdr	Protein FDR	TRUE
+parameters	psm_fdr	PSM FDR|Peptide FDR	TRUE
+parameters	site_fdr	Site FDR	TRUE
+parameters	database_file	Fasta file	FALSE
+			
+proteingroups	accession	Majority protein IDs|Protein IDs	TRUE
+proteingroups	description	Protein names|Protein Descriptions	TRUE
+proteingroups	id	id	TRUE
+proteingroups	peptide_IDs	Peptide IDs	TRUE
+proteingroups	msms_IDs	MS/MS IDs	TRUE
+proteingroups	coverage	Sequence coverage [%]	TRUE
+proteingroups	intensity	Intensity (.*)	TRUE
+proteingroups	lfq_intensity	LFQ intensity	FALSE
+proteingroups	ratio_HL	Ratio H/L (.*)	FALSE
+proteingroups	ratio_HL_Norm	Ratio H/L [Nn]ormalized (.*)	FALSE
+			
+peptides	id	id	TRUE
+peptides	proteinGroup_IDs	Protein [Gg]roup IDs	TRUE
+peptides	msms_IDs	MS/MS IDs	TRUE
+peptides	charges	Charges	TRUE
+peptides	sequence	Sequence	TRUE
+peptides	unique	Unique (Proteins)|Unique	TRUE
+peptides	pre	Amino acid before	TRUE
+peptides	post	Amino acid after	TRUE
+peptides	start	Start position 	TRUE
+peptides	end	End position	TRUE
+			
+msms	id	id	TRUE
+msms	proteinGroup_IDs	Protein [Gg]roup IDs	TRUE
+msms	peptide_ID	Peptide ID	TRUE
+msms	sequence	Sequence	TRUE
+msms	rawfile	Raw [Ff]ile	TRUE
+msms	scannumber	Scan [Nn]umber	TRUE
+msms	charge	Charge	TRUE
+msms	mass	Mass	TRUE
+msms	mz	m/z	TRUE
+msms	retentiontime	Retention [Tt]ime	TRUE
+msms	score	Score        	TRUE
+msms	retentiontimeWindow	Retention time window   	FALSE
+msms	modifications	Modifications	TRUE
+msms	mod_sequence	Modified [Ss]equence	TRUE
+msms	mod_probabilities	(.*) [Pp]robabilities	TRUE
 
-summary_rawfile=Raw file
-summary_rawfile=Raw File
-summary_labels0=Labels0
-summary_labels1=Labels1
-summary_labels2=Labels2
-summary_labels3=Labels3
-summary_multiplicity=Multiplicity
-summary_instrument=Instrument
-
-parameters_version=Version
-parameters_fixedMod=Fixed modifications
-parameters_variableMod=Modifications included in protein quantification
-parameters_protein_fdr=Protein FDR
-parameters_psm_fdr=PSM FDR
-parameters_psm_fdr=Peptide FDR
-parameters_site_fdr=Site FDR
-
-proteingroups_accession=Majority protein IDs
-proteingroups_accession=Protein IDs
-proteingroups_description=Protein names
-proteingroups_description=Protein Descriptions
-proteingroups_id=id
-proteingroups_peptide_IDs=Peptide IDs
-proteingroups_msms_IDs=MS/MS IDs
-proteingroups_coverage=Sequence coverage [%]
-proteingroups_lfq_intensity=LFQ intensity
-proteingroups_ratio_HL=Ratio H/L
-proteingroups_ratio_HL_Norm=Ratio H/L normalized
-proteingroups_ratio_HL_Norm=Ratio H/L Normalized
-
-peptides_id=id
-peptides_proteinGroup_IDs=Protein group IDs
-peptides_proteinGroup_IDs=Protein Group IDs
-peptides_msms_IDs=MS/MS IDs
-peptides_charges=Charges
-peptides_sequence=Sequence
-peptides_unique=Unique (Proteins)
-peptides_unique=Unique
-peptides_pre=Amino acid before
-peptides_post=Amino acid after
-peptides_start=Start position 
-peptides_end=End position
-peptides_ratio_HL=Ratio H/L
-peptides_ratio_HL=Ratio H/L Normalized
-
-msms_id=id
-msms_proteinGroup_IDs=Protein group IDs
-msms_proteinGroup_IDs=Protein Group IDs
-msms_peptide_ID=Peptide ID
-msms_sequence=Sequence
-msms_rawfile=Raw file
-msms_rawfile=Raw File
-msms_scannumber=Scan number
-msms_scannumber=Scan Number
-msms_charge=Charge
-msms_mass=Mass
-msms_mz=m/z
-msms_retentiontime=Retention time
-msms_retentiontime=Retention Time
-msms_score=Score        
-msms_retentiontimeWindow=Retention time window   
-msms_modifications=Modifications
-msms_mod_sequence=Modified sequence
-msms_mod_sequence=Modified Sequence
-msms_mod_probabilities=Probabilities
+spectraRef	location	location	TRUE
+spectraRef	format	format	TRUE
+spectraRef	id_format	id_format	TRUE
+spectraRef	index	index	TRUE
+spectraRef	fragmentation	fragmentation	FALSE
+spectraRef	mz	m/z	FALSE
+spectraRef	raw_file	rawfile	TRUE
+spectraRef	scan_number	scannumber	TRUE
+spectraRef	charge 	 charge	TRUE
+			
+databaseRef	file 	 file	TRUE
+databaseRef	version 	 version	TRUE
+databaseRef	source 	 source	TRUE
+databaseRef	identifier 	 accession	TRUE
+databaseRef	specie 	 specie	TRUE
+databaseRef	taxid 	 taxid	TRUE
