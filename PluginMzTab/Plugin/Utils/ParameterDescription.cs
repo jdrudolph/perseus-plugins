@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using BaseLib.Util;
+using BaseLibS.Util;
 using PluginMzTab.Lib.Model;
 
 namespace PluginMzTab.Plugin.Utils{

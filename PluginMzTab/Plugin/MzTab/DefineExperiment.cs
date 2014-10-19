@@ -5,13 +5,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
-using BaseLib.Mol;
 using BaseLib.Param;
 using BaseLib.Parse;
-using BaseLib.Util;
-using MS.Internal.Text.TextInterface;
+using BaseLibS.Mol;
+using BaseLibS.Util;
 using MsLib.Search;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -23,6 +21,7 @@ using PluginMzTab.Lib.Model;
 using PluginMzTab.Plugin.Extended;
 using PluginMzTab.Plugin.Param;
 using PluginMzTab.Plugin.Utils;
+using FileUtils = BaseLibS.Util.FileUtils;
 
 namespace PluginMzTab.Plugin.MzTab{
     public class DefineExperiment : MzTabProcessing{
@@ -229,7 +228,6 @@ namespace PluginMzTab.Plugin.MzTab{
             catch (Exception e){
                 string msg = "Process aborted! " + e.Message;
                 MessageBox.Show(msg);
-                Logger.Error(Name, msg);
                 processInfo.Status(msg);
             }
             finally{
@@ -385,7 +383,7 @@ namespace PluginMzTab.Plugin.MzTab{
 
                 PerseusUtils.LoadMatrixData(annotationRows, new int[0], new int[0], new int[0], tInds, new int[0],
                                             processInfo, colNames, mdata, reader, nrows,
-                                            origin, separator);
+                                            origin, separator, false);
                 GC.Collect();
             }
             catch (Exception e){
@@ -570,14 +568,14 @@ namespace PluginMzTab.Plugin.MzTab{
                 string prefix = i == 0 ? "CON__" : null;
                 try{
                     string filename = Path.GetFileName(fasta);
-                    SequenceDatabase db = BaseLib.Mol.Tables.Databases[filename];
+                    SequenceDatabase db = BaseLibS.Mol.Tables.Databases[filename];
                     databases.Add(new Database(File.Exists(fasta) ? fasta : "", "", prefix, db.Source, db.Species,
                                                db.Taxid,
                                                db.SearchExpression){Prefix = prefix});
                 }
                 catch (Exception){
                     databases.Add(new Database(File.Exists(fasta) ? fasta : "", "", prefix));
-                    Logger.Warn(Name, "The selected database was not specified in ./conf/database.xml");
+                    Console.Error.WriteLine("The selected database was not specified in ./conf/database.xml");
                 }
             }
 

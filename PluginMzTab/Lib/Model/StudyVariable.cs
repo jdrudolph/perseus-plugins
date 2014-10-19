@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using BaseLib.Util;
+using BaseLibS.Util;
 
 namespace PluginMzTab.Lib.Model{
     public class StudyVariable : IndexedElement{
         private string description;
-        private SortedDictionary<int, Assay> assayMap = new SortedDictionary<int, Assay>();
-        private SortedDictionary<int, Sample> sampleMap = new SortedDictionary<int, Sample>();
+        private readonly SortedDictionary<int, Assay> assayMap = new SortedDictionary<int, Assay>();
+        private readonly SortedDictionary<int, Sample> sampleMap = new SortedDictionary<int, Sample>();
 
         public StudyVariable(int id)
             : base(MetadataElement.STUDY_VARIABLE, id){}

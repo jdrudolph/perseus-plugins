@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BaseLib.Util;
-using BaseLib.Mol;
+using BaseLibS.Mol;
+using BaseLibS.Util;
 using PluginMzTab.Lib.Model;
 
 namespace PluginMzTab.Plugin.Utils{
@@ -273,7 +273,7 @@ namespace PluginMzTab.Plugin.Utils{
             return result;
         }
 
-        public Lib.Model.Param GetModificationParam(BaseLib.Mol.Modification mod){
+        public Lib.Model.Param GetModificationParam(BaseLibS.Mol.Modification mod){
             return new UserParam(mod.Name, string.Format("{0}{1}", mod.DeltaMass < 0 ? "+" : "-", mod.DeltaMass));
         }
     }

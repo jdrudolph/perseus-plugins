@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using BaseLib.Mol;
 using BaseLib.Param;
-using BaseLib.Util;
+using BaseLibS.Mol;
+using BaseLibS.Util;
 using PerseusApi.Matrix;
 using PluginMzTab.Lib.Model;
 using PluginMzTab.Lib.Utils.Errors;
@@ -424,7 +424,7 @@ namespace PluginMzTab.Plugin.Utils{
             }
         }
 
-        public static Modification ConvertModificationToMzTab(BaseLib.Mol.Modification modification, Section section){
+        public static Modification ConvertModificationToMzTab(BaseLibS.Mol.Modification modification, Section section){
             Modification.ModificationType type = Modification.ModificationType.UNIMOD;
             string accession = modification.Unimod;
             if (accession == null){
@@ -492,7 +492,7 @@ namespace PluginMzTab.Plugin.Utils{
                 if (!Tables.Modifications.ContainsKey(label)) {
                     continue;
                 }
-                BaseLib.Mol.Modification mod = Tables.Modifications[label];
+                BaseLibS.Mol.Modification mod = Tables.Modifications[label];
                 list.Add(new AssayQuantificationMod(assay, n++) {
                     Param = new UserParam(mod.Name, null),
                     Position = mod.Position.ToString(),

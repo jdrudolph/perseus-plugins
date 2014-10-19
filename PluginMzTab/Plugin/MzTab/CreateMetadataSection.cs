@@ -6,7 +6,6 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
-using BaseLib.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -15,13 +14,14 @@ using PluginMzTab.Plugin.Extended;
 using PluginMzTab.Plugin.Param;
 using PluginMzTab.Plugin.Utils;
 using Parameters = BaseLib.Param.Parameters;
+using BaseLibS.Util;
 
 namespace PluginMzTab.Plugin.MzTab{
     public class CreateMetadataSection : MzTabProcessing {
         private const string helpDescription =
     @"The metadata section can provide additional information about the dataset(s) reported in the mzTab file.";
 
-        private readonly string helpOutput = ParameterDescription.GetText(DocumentType.PlainText, Section.Metadata);
+        private readonly string helpOutput = ParameterDescription.GetText(BaseLibS.Util.DocumentType.PlainText, Section.Metadata);
 
         public override string Name { get { return "Create Metadata section"; } }
         public override float DisplayRank { get { return 1; } }
@@ -372,7 +372,7 @@ namespace PluginMzTab.Plugin.MzTab{
             string key = Constants.GetKeywordName(Utils.parameters.fixedMod, paramDict.Keys.ToArray());
             if (key != null){
                 string[] values = paramDict[key].Split(';');
-                foreach (var mod in values.Select(x => BaseLib.Mol.Tables.Modifications[x])){
+                foreach (var mod in values.Select(x => BaseLibS.Mol.Tables.Modifications[x])){
                     int id = mtd.FixedModMap.Count + 1;
                     mtd.AddFixedModParam(id, cv.GetModificationParam(mod));
                     mtd.AddFixedModPosition(id, mod.Position.ToString());
@@ -383,7 +383,7 @@ namespace PluginMzTab.Plugin.MzTab{
             key = Constants.GetKeywordName(Utils.parameters.variableMod, paramDict.Keys.ToArray());
             if (key != null){
                 string[] values = paramDict[key].Split(';');
-                foreach (var mod in values.Select(x => BaseLib.Mol.Tables.Modifications[x])){
+                foreach (var mod in values.Select(x => BaseLibS.Mol.Tables.Modifications[x])){
                     int id = mtd.VariableModMap.Count + 1;
                     mtd.AddVariableModParam(id, cv.GetModificationParam(mod));
                     mtd.AddVariableModPosition(id, mod.Position.ToString());

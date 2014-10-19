@@ -4,8 +4,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using BaseLib.Mol;
-using BaseLib.Util;
+using BaseLibS.Mol;
+using BaseLibS.Util;
 using PluginMzTab.Plugin.Utils;
 using Button = System.Windows.Controls.Button;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
@@ -164,7 +164,7 @@ namespace PluginMzTab.Plugin.Param {
                         }
                     }
                     catch (Exception){
-                        Logger.Debug(Name, "The selected database was not specified in ./conf/database.xml");
+                        Console.Error.WriteLine( "The selected database was not specified in ./conf/database.xml");
                     }
                 }
             }

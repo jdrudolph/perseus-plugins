@@ -4,8 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BaseLib.Mol;
-using BaseLib.Util;
+using BaseLibS.Mol;
+using BaseLibS.Util;
 using PluginMzTab.Lib.Model;
 using PluginMzTab.Lib.Utils.Errors;
 using PluginMzTab.Lib.Utils.Parser;
@@ -894,7 +894,7 @@ namespace PluginMzTab.Plugin{
             return result;
         }
 
-        public Modification ConvertModificationToMzTab(BaseLib.Mol.Modification modification, Section section){
+        public Modification ConvertModificationToMzTab(BaseLibS.Mol.Modification modification, Section section){
             Modification.ModificationType type = Modification.ModificationType.UNIMOD;
             string accession = modification.Unimod == null ? modification.Name : modification.Unimod; //TODO
             if (accession == null){
@@ -1044,7 +1044,7 @@ namespace PluginMzTab.Plugin{
                 }
                 var msrun = _mtd.MsRunMap.Values.FirstOrDefault(x => x.Location.Value.EndsWith(location));
                 if (msrun == null){
-                    Logger.Warn(GetType().Name, "The apl file was not defined in Metadata " + location);
+                    Console.Error.WriteLine("The apl file was not defined in Metadata " + location);
                 }
                 else{
                     result[rawfile][charge][scannumber].Add(new SpectraRef(msrun, reference));
