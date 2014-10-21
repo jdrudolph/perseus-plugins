@@ -15,8 +15,6 @@ using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusApi.Utils;
-using PerseusLib.Data.Document;
-using PerseusLib.Data.Matrix;
 using PluginMzTab.Lib.Model;
 using PluginMzTab.Plugin.Extended;
 using PluginMzTab.Plugin.Param;
@@ -57,7 +55,7 @@ namespace PluginMzTab.Plugin.MzTab{
                 if (documents == null){
                     documents = new IDocumentData[NumDocuments];
                     for (int i = 0; i < NumDocuments; i++){
-                        documents[i] = new DocumentData();
+						documents[i] = (IDocumentData)inputData[0].CreateNewInstance(DataType.Document);
                     }
                 }
 
@@ -194,7 +192,7 @@ namespace PluginMzTab.Plugin.MzTab{
                     IList<MsRunImpl> aplfiles =
                         runs.Where(x => x.Location != null && x.Location.Value.EndsWith(".apl")).ToList();
 
-                    IMatrixData temp = ProcessAplFiles(processInfo, nThreads, aplfiles);
+                    IMatrixData temp = ProcessAplFiles(processInfo, nThreads, aplfiles, inputData[0]);
                     if (temp != null){
                         supplement.Add(temp);
                     }
@@ -204,7 +202,7 @@ namespace PluginMzTab.Plugin.MzTab{
                 }
 
                 try{
-                    IMatrixData temp = ProcessDbFiles(processInfo, databases.Count < nThreads ? 1 : nThreads, databases);
+                    IMatrixData temp = ProcessDbFiles(processInfo, databases.Count < nThreads ? 1 : nThreads, databases, inputData[0]);
                     if (temp != null){
                         supplement.Add(temp);
                     }
@@ -239,7 +237,7 @@ namespace PluginMzTab.Plugin.MzTab{
         }
 
 
-        private IMatrixData ProcessAplFiles(ProcessInfo processInfo, int nThreads, IList<MsRunImpl> aplfiles){
+        private IMatrixData ProcessAplFiles(ProcessInfo processInfo, int nThreads, IList<MsRunImpl> aplfiles, IMatrixData template){
             string tempFile = Path.Combine(FileUtils.GetTempFolder(), "spectraref.txt");
             if (File.Exists(tempFile)){
                 File.Delete(tempFile);
@@ -282,7 +280,7 @@ namespace PluginMzTab.Plugin.MzTab{
                 processInfo.Progress(0);
                 processInfo.Status("Create SpectraRef matrix");
 
-                matrix = new MatrixData();
+                matrix = (IMatrixData)template.CreateNewInstance(DataType.Matrix);
                 LoadData(matrix, tempFile, processInfo);
             }
             catch (Exception ex){
@@ -301,7 +299,7 @@ namespace PluginMzTab.Plugin.MzTab{
             return matrix;
         }
 
-        private IMatrixData ProcessDbFiles(ProcessInfo processInfo, int nThreads, IList<Database> databases){
+        private IMatrixData ProcessDbFiles(ProcessInfo processInfo, int nThreads, IList<Database> databases, IMatrixData template){
             string tempFile = Path.Combine(FileUtils.GetTempFolder(), "databaseref.txt");
             IMatrixData matrix;
             StreamWriter writer = null;
@@ -341,7 +339,7 @@ namespace PluginMzTab.Plugin.MzTab{
                 processInfo.Progress(0);
                 processInfo.Status("Create DatabaseRef Matrix");
 
-                matrix = new MatrixData();
+                matrix = (IMatrixData)template.CreateNewInstance(DataType.Matrix);
                 LoadData(matrix, tempFile, processInfo);
             }
             catch (Exception ex){

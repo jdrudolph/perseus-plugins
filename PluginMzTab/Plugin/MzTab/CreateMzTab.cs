@@ -4,7 +4,6 @@ using BaseLib.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PerseusLib.Data.Matrix;
 using PluginMzTab.Plugin.Extended;
 using PluginMzTab.Plugin.Utils;
 
@@ -61,7 +60,7 @@ namespace PluginMzTab.Plugin.MzTab{
                                               };
             convert.Start();
 
-            return new MatrixData();
+            return (IMatrixData)inputData[0].CreateNewInstance(DataType.Matrix);
         }
         public override Parameters GetParameters(IMatrixData[] inputData, ref string errString){
             ValidateParameters(inputData, ref errString);
