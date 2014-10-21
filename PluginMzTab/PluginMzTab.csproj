@@ -32,15 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BaseLib">
+    <Reference Include="BaseLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLLs\BaseLib.dll</HintPath>
     </Reference>
-    <Reference Include="BaseLibS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="BaseLibS">
       <HintPath>..\DLLs\BaseLibS.dll</HintPath>
+    </Reference>
+    <Reference Include="DataLib">
+      <HintPath>..\DLLs\DataLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MsLib, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLLs\MsLib.dll</HintPath>
     </Reference>
     <Reference Include="MzTabLibrary">
       <HintPath>..\DLLs\MzTabLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PerseusLib">
+      <HintPath>..\DLLs\PerseusLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -59,40 +69,116 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extended\DocumentStream.cs" />
-    <Compile Include="Extended\MatrixStream.cs" />
-    <Compile Include="Extended\MsRunImpl.cs" />
-    <Compile Include="MzTab\AddContent.cs" />
-    <Compile Include="MzTab\CreateMetadataSection.cs" />
-    <Compile Include="MzTab\CreatePeptideSection.cs" />
-    <Compile Include="MzTab\CreateProteinSection.cs" />
-    <Compile Include="MzTab\CreatePSMSection.cs" />
-    <Compile Include="MzTab\CreateSection.cs" />
-    <Compile Include="MzTab\DefineExperiment.cs" />
-    <Compile Include="MzTab\Export.cs" />
-    <Compile Include="MzTab\Matrix.cs" />
-    <Compile Include="MzTab\MzTabProcessing.cs" />
-    <Compile Include="MzTab\ReferenceMap.cs" />
-    <Compile Include="Param\AssayPanel.cs" />
-    <Compile Include="Param\AssayParam.cs" />
-    <Compile Include="Param\ContactPanel.cs" />
-    <Compile Include="Param\ContactParam.cs" />
-    <Compile Include="Param\InstrumentPanel.cs" />
-    <Compile Include="Param\InstrumentParam.cs" />
-    <Compile Include="Param\ModificationPanel.cs" />
-    <Compile Include="Param\ModificationParam.cs" />
-    <Compile Include="Param\MsRunPanel.cs" />
-    <Compile Include="Param\MsRunParam.cs" />
-    <Compile Include="Param\PublicationPanel.cs" />
-    <Compile Include="Param\PublicationParam.cs" />
-    <Compile Include="Param\SamplePanel.cs" />
-    <Compile Include="Param\SampleParam.cs" />
-    <Compile Include="Param\SampleProcessingPanel.cs" />
-    <Compile Include="Param\SampleProcessingParam.cs" />
-    <Compile Include="Param\SoftwarePanel.cs" />
-    <Compile Include="Param\SoftwareParam.cs" />
-    <Compile Include="Param\StudyVariablePanel.cs" />
-    <Compile Include="Param\StudyVariableParam.cs" />
+    <Compile Include="Plugin\Converter.cs" />
+    <Compile Include="Lib\Model\AbundanceColumn.cs" />
+    <Compile Include="Lib\Model\Assay.cs" />
+    <Compile Include="Lib\Model\AssayQuantificationMod.cs" />
+    <Compile Include="Lib\Model\ColUnit.cs" />
+    <Compile Include="Lib\Model\Comment.cs" />
+    <Compile Include="Lib\Model\Contact.cs" />
+    <Compile Include="Lib\Model\CV.cs" />
+    <Compile Include="Lib\Model\CVParam.cs" />
+    <Compile Include="Lib\Model\CVParamOptionColumn.cs" />
+    <Compile Include="Lib\Model\FixedMod.cs" />
+    <Compile Include="Lib\Model\IndexedElement.cs" />
+    <Compile Include="Lib\Model\Instrument.cs" />
+    <Compile Include="Lib\Model\Metadata.cs" />
+    <Compile Include="Lib\Model\MetadataElement.cs" />
+    <Compile Include="Lib\Model\MetadataProperty.cs" />
+    <Compile Include="Lib\Model\MetadataRun.cs" />
+    <Compile Include="Lib\Model\MetadataSubElement.cs" />
+    <Compile Include="Lib\Model\Mod.cs" />
+    <Compile Include="Lib\Model\Modification.cs" />
+    <Compile Include="Lib\Model\ModificationList.cs" />
+    <Compile Include="Lib\Model\MsRun.cs" />
+    <Compile Include="Lib\Model\MZBoolean.cs" />
+    <Compile Include="Lib\Model\MZTabColumn.cs" />
+    <Compile Include="Lib\Model\MZTabColumnFactory.cs" />
+    <Compile Include="Lib\Model\MZTabConstants.cs" />
+    <Compile Include="Lib\Model\MZTabDescription.cs" />
+    <Compile Include="Lib\Model\MZTabFile.cs" />
+    <Compile Include="Lib\Model\MZTabRecord.cs" />
+    <Compile Include="Lib\Model\MZTabRecordRun.cs" />
+    <Compile Include="Lib\Model\MZTabUtils.cs" />
+    <Compile Include="Lib\Model\OptionColumn.cs" />
+    <Compile Include="Lib\Model\Param.cs" />
+    <Compile Include="Lib\Model\Peptide.cs" />
+    <Compile Include="Lib\Model\PeptideColumn.cs" />
+    <Compile Include="Lib\Model\Protein.cs" />
+    <Compile Include="Lib\Model\ProteinColumn.cs" />
+    <Compile Include="Lib\Model\PSM.cs" />
+    <Compile Include="Lib\Model\PSMColumn.cs" />
+    <Compile Include="Lib\Model\Publication.cs" />
+    <Compile Include="Lib\Model\PublicationItem.cs" />
+    <Compile Include="Lib\Model\QuantificationReagent.cs" />
+    <Compile Include="Lib\Model\Reliability.cs" />
+    <Compile Include="Lib\Model\Sample.cs" />
+    <Compile Include="Lib\Model\Section.cs" />
+    <Compile Include="Lib\Model\SmallMolecule.cs" />
+    <Compile Include="Lib\Model\SmallMoleculeColumn.cs" />
+    <Compile Include="Lib\Model\Software.cs" />
+    <Compile Include="Lib\Model\SpectraRef.cs" />
+    <Compile Include="Lib\Model\SplitList.cs" />
+    <Compile Include="Lib\Model\StudyVariable.cs" />
+    <Compile Include="Lib\Model\UserParam.cs" />
+    <Compile Include="Lib\Model\VariableMod.cs" />
+    <Compile Include="Lib\Utils\Errors\CrossCheckErrorType.cs" />
+    <Compile Include="Lib\Utils\Errors\FormatErrorType.cs" />
+    <Compile Include="Lib\Utils\Errors\LogicalErrorType.cs" />
+    <Compile Include="Lib\Utils\Errors\MZTabError.cs" />
+    <Compile Include="Lib\Utils\Errors\MZTabErrorList.cs" />
+    <Compile Include="Lib\Utils\Errors\MZTabErrorOverflowException .cs" />
+    <Compile Include="Lib\Utils\Errors\MZTabErrorType.cs" />
+    <Compile Include="Lib\Utils\Errors\MZTabException.cs" />
+    <Compile Include="Lib\Utils\MZTabProperties.cs" />
+    <Compile Include="Lib\Utils\Parser\COMLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\MTDLineParser .cs" />
+    <Compile Include="Lib\Utils\Parser\MZTabDataLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\MZTabFileParser.cs" />
+    <Compile Include="Lib\Utils\Parser\MZTabHeaderLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\MZTabLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\PEHLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\PEPLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\PositionMapping.cs" />
+    <Compile Include="Lib\Utils\Parser\PRHLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\PRTLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\PSHLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\PSMLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\SMHLineParser.cs" />
+    <Compile Include="Lib\Utils\Parser\SMLLineParser.cs" />
+    <Compile Include="Lib\Utils\Properties.cs" />
+    <Compile Include="Plugin\Extended\DocumentStream.cs" />
+    <Compile Include="Plugin\Extended\MatrixMultiStream.cs" />
+    <Compile Include="Plugin\Extended\MatrixStream.cs" />
+    <Compile Include="Plugin\Extended\MsRunImpl.cs" />
+    <Compile Include="Plugin\MzTab\CreateMetadataSection.cs" />
+    <Compile Include="Plugin\MzTab\CreateMzTab.cs" />
+    <Compile Include="Plugin\MzTab\DefineExperiment.cs" />
+    <Compile Include="Plugin\MzTab\ValidateMzTab.cs" />
+    <Compile Include="Plugin\Param\AssayPanel.cs" />
+    <Compile Include="Plugin\Param\AssayParam.cs" />
+    <Compile Include="Plugin\Param\ContactPanel.cs" />
+    <Compile Include="Plugin\Param\ContactParam.cs" />
+    <Compile Include="Plugin\Param\DatabasePanel.cs" />
+    <Compile Include="Plugin\Param\DatabaseParam.cs" />
+    <Compile Include="Plugin\Param\InstrumentPanel.cs" />
+    <Compile Include="Plugin\Param\InstrumentParam.cs" />
+    <Compile Include="Plugin\Param\ModificationPanel.cs" />
+    <Compile Include="Plugin\Param\ModificationParam.cs" />
+    <Compile Include="Plugin\Param\MsRunPanel.cs" />
+    <Compile Include="Plugin\Param\MsRunParam.cs" />
+    <Compile Include="Plugin\Param\PublicationPanel.cs" />
+    <Compile Include="Plugin\Param\PublicationParam.cs" />
+    <Compile Include="Plugin\Param\SamplePanel.cs" />
+    <Compile Include="Plugin\Param\SampleParam.cs" />
+    <Compile Include="Plugin\Param\SampleProcessingPanel.cs" />
+    <Compile Include="Plugin\Param\SampleProcessingParam.cs" />
+    <Compile Include="Plugin\Param\SoftwarePanel.cs" />
+    <Compile Include="Plugin\Param\SoftwareParam.cs" />
+    <Compile Include="Plugin\Param\StudyVariablePanel.cs" />
+    <Compile Include="Plugin\Param\StudyVariableParam.cs" />
+    <Compile Include="Plugin\Utils\Database.cs" />
+    <Compile Include="Plugin\Utils\Integer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,14 +192,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Utils\Constants.cs" />
-    <Compile Include="Utils\ControlledVocabulary.cs" />
-    <Compile Include="Utils\ControlledVocabularyHeader.cs" />
-    <Compile Include="Utils\CVLookUp.cs" />
-    <Compile Include="Utils\MzTabMatrixUtils.cs" />
-    <Compile Include="Utils\ParameterDefinition.cs" />
-    <Compile Include="Utils\ParameterDescription.cs" />
-    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Plugin\Utils\Constants.cs" />
+    <Compile Include="Plugin\Utils\CVLookUp.cs" />
+    <Compile Include="Plugin\Utils\Matrix.cs" />
+    <Compile Include="Plugin\Utils\MzTabMatrixUtils.cs" />
+    <Compile Include="Plugin\Utils\MzTabProcessing.cs" />
+    <Compile Include="Plugin\Utils\ParameterDescription.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -147,15 +231,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="conf\mztab\cvs.txt">
+    <None Include="conf\mztab\cvs.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="conf\mztab\definition.txt">
+    </None>
+    <None Include="conf\mztab\definition.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="conf\mztab\maxquant.columns.txt">
+    </None>
+    <None Include="conf\mztab\maxquant.columns.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
