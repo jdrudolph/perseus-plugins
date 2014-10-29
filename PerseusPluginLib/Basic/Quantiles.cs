@@ -25,7 +25,7 @@ namespace PerseusPluginLib.Basic{
 		public string Description{
 			get{
 				return
-					"Expression columns are transformed into quantiles. These can than for instance used in subsequent enrichment analysis.";
+					"Expression columns are transformed into quantiles. These can then, for instance, be used in a subsequent enrichment analysis.";
 			}
 		}
 

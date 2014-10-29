@@ -28,7 +28,7 @@ namespace PerseusPluginLib.Load{
 			get{
 				return
 					"Load data from a tab-separated file. The first row should contain the column names, also separated by tab characters. " +
-						"All following rows contain the tab-separated values. Such a file can for instance be generated from an excen sheet by " +
+						"All following rows contain the tab-separated values. Such a file can for instance be generated from an excel sheet by " +
 						"using the export as a tab-separated .txt file.";
 			}
 		}

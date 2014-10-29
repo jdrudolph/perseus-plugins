@@ -34,7 +34,7 @@ namespace PerseusPluginLib.Filter{
 
 		public string HelpOutput { get{
 			return
-				"The matrix of expression values is constrained to contain only these rows/columns that fulfil the requirement.";
+				"The matrix of expression values is constrained to contain only these rows/columns that fulfill the requirement.";
 		} }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
