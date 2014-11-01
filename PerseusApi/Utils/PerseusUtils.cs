@@ -14,7 +14,7 @@ namespace PerseusApi.Utils{
 				"pfam names", "gocc names", "gomf names", "gobp names", "kegg pathway names", "chromosome", "strand",
 				"interpro name", "prints name", "prosite name", "smart name", "sequence motifs", "reactome", "transcription factors"
 				, "microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact"
-				, "corum", "motifs", "best motif", "reverse", "contaminant", "only identified by site", "type", "amino acid",
+				, "corum", "motifs", "best motif", "reverse", "contaminant", "potential contaminant", "only identified by site", "type", "amino acid",
 				"raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification",
 				"fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
 				"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition"
@@ -22,7 +22,7 @@ namespace PerseusApi.Utils{
 
 		public static readonly HashSet<string> textualColDefaultNames =
 			new HashSet<string>(new[]{
-				"protein ids", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl", "ensg", "ensp", "enst",
+				"protein ids", "protein", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl", "ensg", "ensp", "enst",
 				"mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name", "names", "proteins",
 				"positions within proteins", "leading proteins", "md sequence", "md proteins", "md gene names", "md protein names",
 				"dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names", "name", "dn sequence",
