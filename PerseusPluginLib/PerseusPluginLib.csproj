@@ -67,6 +67,9 @@
     <Compile Include="Basic\AddNoise.cs" />
     <Compile Include="Load\CreateGeneList.cs" />
     <Compile Include="Load\CreateRandomMatrix.cs" />
+    <Compile Include="Manual\SelectRowsManuallyControl1.xaml.cs">
+      <DependentUpon>SelectRowsManuallyControl1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Norm\UnZScore.cs" />
     <Compile Include="Rearrange\CombineCategoricalColumns.cs" />
     <Compile Include="Basic\DensityEstimationProcessing.cs" />
@@ -103,10 +106,6 @@
     <Compile Include="Load\UnstructuredTxtUpload.cs" />
     <Compile Include="Manual\MatrixDataTable.cs" />
     <Compile Include="Manual\SelectRowsManually.cs" />
-    <Compile Include="Manual\SelectRowsManuallyControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Manual\SelectRowsManuallyControl.Designer.cs" />
     <Compile Include="Manual\SelectRowsManuallyResult.cs" />
     <Compile Include="Quality\CreateQualityMatrix.cs" />
     <Compile Include="Rearrange\ChangeColumnType.cs" />
@@ -153,7 +152,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Manual\SelectRowsManuallyControl.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -210,6 +208,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Load\PerseusLoadMatrixControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Manual\SelectRowsManuallyControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
