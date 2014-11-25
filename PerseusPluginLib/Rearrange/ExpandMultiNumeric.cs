@@ -21,7 +21,7 @@ namespace PerseusPluginLib.Rearrange{
 					"of the multi-numeric columns(s).";
 			}
 		}
-		public string Name { get { return "Expand multi-numeric and string columns"; } }
+		public string Name { get { return "Expand multi-numeric and text columns"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 12; } }
@@ -40,7 +40,7 @@ namespace PerseusPluginLib.Rearrange{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] multiNumCols = param1.GetMultiChoiceParam("Multi-numeric columns").Value;
 			Array.Sort(multiNumCols);
-			int[] stringCols = param1.GetMultiChoiceParam("String columns").Value;
+			int[] stringCols = param1.GetMultiChoiceParam("Text columns").Value;
 			Array.Sort(stringCols);
 			HashSet<int> multinumCols2 = new HashSet<int>(multiNumCols);
 			HashSet<int> stringCols2 = new HashSet<int>(stringCols);
@@ -205,9 +205,9 @@ namespace PerseusPluginLib.Rearrange{
 						Values = mdata.MultiNumericColumnNames, Value = new int[0],
 						Help = "Select here the multi-numeric colums that should be expanded."
 					},
-					new MultiChoiceParam("String columns"){
+					new MultiChoiceParam("Text columns"){
 						Values = mdata.StringColumnNames, Value = new int[0],
-						Help = "Select here the string colums that should be expanded."
+						Help = "Select here the text colums that should be expanded."
 					}
 				});
 		}
