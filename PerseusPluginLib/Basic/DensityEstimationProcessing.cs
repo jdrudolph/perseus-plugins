@@ -29,9 +29,7 @@ namespace PerseusPluginLib.Basic{
 		}
 		public string HelpOutput{
 			get{
-				return "Depending on the 'Mode' parameter the output is either a copy of the input matrix with two numerical" +
-					" columns added containing the density information, or a new matrix in which the expression values" +
-					" represent the third dimension of density values.";
+				return "A copy of the input matrix with two numerical columns added containing the density information.";
 			}
 		}
 

@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Rearrange{
 				return "Distribute multiple values per cell in a multi-numeric column over multiple rows. For each row in the" +
 					" original matrix there will be as many rows created as there are numbers in the cell of the multi-numeric " +
 					"column. If multiple multi-numeric columns are selected they have to have the same number of values in every " +
-					"row. Elements of string columns, if one is selected, are interpreted as semicolon-separated. They also have " +
+					"row. Elements of text columns, if one is selected, are interpreted as semicolon-separated. They also have " +
 					"to have the same number of semicolon-separated elements as there are values in the cell(s) " +
 					"of the multi-numeric columns(s).";
 			}

@@ -12,7 +12,7 @@ namespace PerseusPluginLib.Rearrange{
 		public Bitmap DisplayImage { get { return null; } }
 		public string Description{
 			get{
-				return "Values in the selected string columns are made unique. The strings are " +
+				return "Values in the selected text columns are made unique. The strings are " +
 					"interpreted as separated by semicolons. These semicolon-separated values are made unique.";
 			}
 		}
@@ -33,7 +33,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] stringCols = param1.GetMultiChoiceParam("String columns").Value;
+			int[] stringCols = param1.GetMultiChoiceParam("Text columns").Value;
 			if (stringCols.Length == 0){
 				processInfo.ErrString = "Please select some columns.";
 				return;
@@ -54,9 +54,9 @@ namespace PerseusPluginLib.Rearrange{
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			return
 				new Parameters(new Parameter[]{
-					new MultiChoiceParam("String columns"){
+					new MultiChoiceParam("Text columns"){
 						Values = mdata.StringColumnNames, Value = new int[0],
-						Help = "Select here the string colums that should be expanded."
+						Help = "Select here the text colums that should be expanded."
 					}
 				});
 		}

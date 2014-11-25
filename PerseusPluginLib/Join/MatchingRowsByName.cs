@@ -101,10 +101,10 @@ namespace PerseusPluginLib.Join{
 						Value = catSel,
 						Help = "Categorical columns of the second matrix that should be added to the first matrix."
 					},
-					new MultiChoiceParam("String columns"){
+					new MultiChoiceParam("Text columns"){
 						Values = textCol,
 						Value = textSel,
-						Help = "String columns of the second matrix that should be added to the first matrix."
+						Help = "Text columns of the second matrix that should be added to the first matrix."
 					},
 					new MultiChoiceParam("Numerical columns"){
 						Values = numCol,
@@ -282,7 +282,7 @@ namespace PerseusPluginLib.Join{
 					}
 				}
 				{
-					int[] stringCols = parameters.GetMultiChoiceParam("String columns").Value;
+					int[] stringCols = parameters.GetMultiChoiceParam("Text columns").Value;
 					string[][] newStringColumns = new string[stringCols.Length][];
 					string[] newStringColNames = new string[stringCols.Length];
 					for (int i = 0; i < stringCols.Length; i++){
