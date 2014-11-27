@@ -60,7 +60,7 @@ namespace PerseusPluginLib.Rearrange{
 			return
 				new Parameters(new Parameter[]{
 					new StringParam("Find what"), new SingleChoiceParam("Look in"){Values = mdata.StringColumnNames},
-					new BoolParam("Match case"), new BoolParam("Match whole word")
+					new BoolParam("Match case"){Value = true}, new BoolParam("Match whole word")
 				});
 		}
 	}
