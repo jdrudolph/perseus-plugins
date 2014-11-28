@@ -7,7 +7,7 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Manual{
 	public class SelectRowsManually : IMatrixAnalysis{
-		public string Description { get { return ""; } }
+		public string Description { get { return "Rows can be selected interactively and a new matrix can be produced which contains only the selected rows or only the unselected rows."; } }
 		public bool HasButton { get { return true; } }
 		public Bitmap DisplayImage { get { return Resources.hand; } }
 		public string Heading { get { return null; } }

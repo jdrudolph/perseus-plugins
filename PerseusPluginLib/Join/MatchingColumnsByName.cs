@@ -16,7 +16,7 @@ namespace PerseusPluginLib.Join{
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return -4; } }
 		public string HelpOutput { get { return ""; } }
-		public string Description { get { return ""; } }
+		public string Description { get { return "Two matrices are merged by matching columns by their names."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
@@ -24,15 +24,17 @@ namespace PerseusPluginLib.Join{
 		public int MinNumInput { get { return 2; } }
 		public int MaxNumInput { get { return 2; } }
 		public string Heading { get { return "Basic"; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName"; } }
 
-		public string GetInputName(int index){
-			return index == 0 ? "Base matrix" : "Other matrix";
+		public string Url{
+			get{
+				return
+					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName";
+			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
-			return 1;
-		}
+		public string GetInputName(int index) { return index == 0 ? "Base matrix" : "Other matrix"; }
+		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public Parameters GetParameters(IMatrixData[] inputData, ref string errString) { return new Parameters(); }
 
 		private static string[] SpecialSort(IList<string> x, IList<string> y, out Dictionary<string, int> xdic,
 			out Dictionary<string, int> ydic){
@@ -213,10 +215,6 @@ namespace PerseusPluginLib.Join{
 			result.MultiNumericColumnDescriptions = result.MultiNumericColumnNames;
 			result.MultiNumericColumns = multiNumCols;
 			return result;
-		}
-
-		public Parameters GetParameters(IMatrixData[] inputData, ref string errString){
-			return new Parameters();
 		}
 	}
 }
