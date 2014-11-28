@@ -20,8 +20,8 @@ namespace PerseusPluginLib.Basic{
 	public class CombineByIdentifiersProcessing : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return ""; } }
-		public string HelpOutput { get { return ""; } }
+		public string Description { get { return "Collapses multiple rows with same identifiers in the specified identifier column "+"into a single row. For numeric rows it can be specified how muliple values should be summarized, e.g. by mean or median."; } }
+		public string HelpOutput { get { return "Matrix with respective rows collapsed."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Combine rows by identifiers"; } }
@@ -31,7 +31,29 @@ namespace PerseusPluginLib.Basic{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:CombineByIdentifiersProcessing"; } }
+
+		public string Url{
+			get{
+				return
+					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:CombineByIdentifiersProcessing";
+			}
+		}
+
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			string[] averageTypeChoice = new[]{"Sum", "Mean", "Median", "Maximum", "Minimum"};
+			List<Parameter> parameters = new List<Parameter>{
+				new SingleChoiceParam("ID column"){
+					Values = mdata.StringColumnNames,
+					Help = "Column containing IDs that are going to be clustered."
+				},
+				new BoolParam("Keep rows without ID"),
+				new SingleChoiceParam("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
+			};
+			foreach (string n in mdata.NumericColumnNames){
+				parameters.Add(new SingleChoiceParam("Average type for " + n){Values = averageTypeChoice, Value = 2});
+			}
+			return new Parameters(parameters);
+		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -304,22 +326,6 @@ namespace PerseusPluginLib.Basic{
 				default:
 					throw new Exception("Never get here.");
 			}
-		}
-
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			string[] averageTypeChoice = new[]{"Sum", "Mean", "Median", "Maximum", "Minimum"};
-			List<Parameter> parameters = new List<Parameter>{
-				new SingleChoiceParam("ID column"){
-					Values = mdata.StringColumnNames,
-					Help = "Column containing IDs that are going to be clustered."
-				},
-				new BoolParam("Keep rows without ID"),
-				new SingleChoiceParam("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
-			};
-			foreach (string n in mdata.NumericColumnNames){
-				parameters.Add(new SingleChoiceParam("Average type for " + n){Values = averageTypeChoice, Value = 2});
-			}
-			return new Parameters(parameters);
 		}
 	}
 }
