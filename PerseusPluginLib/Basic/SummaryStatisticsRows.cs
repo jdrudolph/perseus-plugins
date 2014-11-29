@@ -96,7 +96,7 @@ namespace PerseusPluginLib.Basic{
 			}
 			int[] useCols = xp.Value == 1
 				? xp.GetSubParameters().GetMultiChoiceParam("Columns").Value
-				: ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount);
+				: ArrayUtils.ConsecutiveInts(mdata.ColumnCount);
 			HashSet<int> w = ArrayUtils.ToHashSet(param.GetMultiChoiceParam("Calculate").Value);
 			bool[] include = new bool[procs.Length];
 			double[][] columns = new double[procs.Length][];
@@ -171,8 +171,8 @@ namespace PerseusPluginLib.Basic{
 						SubParams =
 							new[]{
 								new Parameters(),
-								new Parameters(new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount))
-								{Values = mdata.ExpressionColumnNames, Repeats = false}),
+								new Parameters(new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount))
+								{Values = mdata.ColumnNames, Repeats = false}),
 								new Parameters(new SingleChoiceParam("Group"){Values = mdata.CategoryRowNames})
 							},
 						ParamNameWidth = 136,

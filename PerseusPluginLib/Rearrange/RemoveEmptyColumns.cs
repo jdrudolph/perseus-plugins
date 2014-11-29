@@ -34,8 +34,8 @@ namespace PerseusPluginLib.Rearrange{
 			int[] multiNumColInds = GetValidMultiNumCols(data);
 			int[] catColInds = GetValidCatCols(data);
 			int[] textColInds = GetValidTextCols(data);
-			if (exColInds.Length < data.ExpressionColumnCount){
-				data.ExtractExpressionColumns(exColInds);
+			if (exColInds.Length < data.ColumnCount){
+				data.ExtractColumns(exColInds);
 			}
 			if (numColInds.Length < data.NumericColumnCount){
 				data.NumericColumns = ArrayUtils.SubList(data.NumericColumns, numColInds);
@@ -101,8 +101,8 @@ namespace PerseusPluginLib.Rearrange{
 
 		private static int[] GetValidExCols(IMatrixData data){
 			List<int> valids = new List<int>();
-			for (int i = 0; i < data.ExpressionColumnCount; i++){
-				if (!IsInvalidExColumn(data.GetExpressionColumn(i))){
+			for (int i = 0; i < data.ColumnCount; i++){
+				if (!IsInvalidExColumn(data.GetColumn(i))){
 					valids.Add(i);
 				}
 			}

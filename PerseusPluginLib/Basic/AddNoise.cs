@@ -27,7 +27,7 @@ namespace PerseusPluginLib.Basic{
 			Random2 rand = new Random2();
 			double std = param.GetDoubleParam("Standard deviation").Value;
 			for (int i = 0; i < mdata.RowCount; i++){
-				for (int j = 0; j < mdata.ExpressionColumnCount; j++){
+				for (int j = 0; j < mdata.ColumnCount; j++){
 					mdata[i, j] += (float) rand.NextGaussian(0, std);
 				}
 			}

@@ -32,12 +32,12 @@ namespace PerseusPluginLib.Rearrange{
 			int[] catColInds = param.GetMultiChoiceParam("Categorical columns").Value;
 			int[] textColInds = param.GetMultiChoiceParam("Text columns").Value;
 			if (exColInds.Length > 0){
-				int ncol = data.ExpressionColumnCount;
-				data.ExtractExpressionColumns(ArrayUtils.Concat(ArrayUtils.ConsecutiveInts(data.ExpressionColumnCount), exColInds));
-				HashSet<string> taken = new HashSet<string>(data.ExpressionColumnNames);
+				int ncol = data.ColumnCount;
+				data.ExtractColumns(ArrayUtils.Concat(ArrayUtils.ConsecutiveInts(data.ColumnCount), exColInds));
+				HashSet<string> taken = new HashSet<string>(data.ColumnNames);
 				for (int i = 0; i < exColInds.Length; i++){
-					string s = PerseusUtils.GetNextAvailableName(data.ExpressionColumnNames[ncol + i], taken);
-					data.ExpressionColumnNames[ncol + i] = s;
+					string s = PerseusUtils.GetNextAvailableName(data.ColumnNames[ncol + i], taken);
+					data.ColumnNames[ncol + i] = s;
 					taken.Add(s);
 				}
 			}
@@ -69,7 +69,7 @@ namespace PerseusPluginLib.Rearrange{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			List<string> exCols = mdata.ExpressionColumnNames;
+			List<string> exCols = mdata.ColumnNames;
 			List<string> numCols = mdata.NumericColumnNames;
 			List<string> multiNumCols = mdata.MultiNumericColumnNames;
 			List<string> catCols = mdata.CategoryColumnNames;

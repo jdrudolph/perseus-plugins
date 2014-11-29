@@ -35,12 +35,12 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			float[,] vals = mdata.ExpressionValues;
-			double[] dm = new double[mdata.ExpressionColumnCount];
-			double[] dp = new double[mdata.ExpressionColumnCount];
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
+			float[,] vals = mdata.Values;
+			double[] dm = new double[mdata.ColumnCount];
+			double[] dp = new double[mdata.ColumnCount];
+			for (int i = 0; i < mdata.ColumnCount; i++){
 				List<float> v = new List<float>();
-				foreach (float f in mdata.GetExpressionColumn(i)){
+				foreach (float f in mdata.GetColumn(i)){
 					if (!float.IsNaN(f) && !float.IsInfinity(f)){
 						v.Add(f);
 					}
@@ -55,7 +55,7 @@ namespace PerseusPluginLib.Norm{
 			}
 			double adm = ArrayUtils.Median(dm);
 			double adp = ArrayUtils.Median(dp);
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
+			for (int i = 0; i < mdata.ColumnCount; i++){
 				for (int j = 0; j < mdata.RowCount; j++){
 					if (vals[j, i] < 0){
 						vals[j, i] = (float) (vals[j, i]*adm/dm[i]);

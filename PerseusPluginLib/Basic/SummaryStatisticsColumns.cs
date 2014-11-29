@@ -41,9 +41,9 @@ namespace PerseusPluginLib.Basic{
 			return
 				new Parameters(new List<Parameter>{
 					new MultiChoiceParam("Columns"){
-						Value = ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount),
+						Value = ArrayUtils.ConsecutiveInts(mdata.ColumnCount),
 						Values =
-							ArrayUtils.Concat(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames),
+							ArrayUtils.Concat(ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames),
 								mdata.MultiNumericColumnNames),
 						Help = "Specify here the columns for which the summary statistics quantities should be calculated."
 					},
@@ -84,8 +84,8 @@ namespace PerseusPluginLib.Basic{
 			string[] colNames = GetColNames(mdata, cols);
 			mdata.SetData("Summary", new List<string>(names.ToArray()), exVals, new List<string>(new[]{"Columns"}),
 				new List<string[]>(new[]{colNames}), mdata.CategoryRowNames,
-				TransformCategories(mdata, cols, mdata.ExpressionColumnCount), mdata.NumericRowNames,
-				TransformNumeric(mdata.NumericRows, cols, mdata.ExpressionColumnCount), new List<string>(), new List<double[][]>());
+				TransformCategories(mdata, cols, mdata.ColumnCount), mdata.NumericRowNames,
+				TransformNumeric(mdata.NumericRows, cols, mdata.ColumnCount), new List<string>(), new List<double[][]>());
 		}
 
 		private static List<double[]> TransformNumeric(IEnumerable<double[]> numericRows, IList<int> cols, int n){
@@ -138,10 +138,10 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		private static string GetColName(IMatrixData mdata, int col){
-			if (col < mdata.ExpressionColumnCount){
-				return mdata.ExpressionColumnNames[col];
+			if (col < mdata.ColumnCount){
+				return mdata.ColumnNames[col];
 			}
-			col -= mdata.ExpressionColumnCount;
+			col -= mdata.ColumnCount;
 			if (col < mdata.NumericColumnCount){
 				return mdata.NumericColumnNames[col];
 			}
@@ -150,7 +150,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		private static double[] GetColumn(int col, IMatrixData mdata){
-			if (col < mdata.ExpressionColumnCount){
+			if (col < mdata.ColumnCount){
 				List<double> v = new List<double>();
 				for (int j = 0; j < mdata.RowCount; j++){
 					double x = mdata[j, col];
@@ -160,7 +160,7 @@ namespace PerseusPluginLib.Basic{
 				}
 				return v.ToArray();
 			}
-			col -= mdata.ExpressionColumnCount;
+			col -= mdata.ColumnCount;
 			if (col < mdata.NumericColumnCount){
 				double[] w = mdata.NumericColumns[col];
 				List<double> v = new List<double>();

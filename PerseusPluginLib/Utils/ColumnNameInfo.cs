@@ -11,7 +11,7 @@ namespace PerseusPluginLib.Utils{
 		public ColumnNameInfo(IMatrixData mdata) { this.mdata = mdata; }
 
 		public string[] GetRowNames(){
-			string[] result = new string[mdata.ExpressionColumnCount];
+			string[] result = new string[mdata.ColumnCount];
 			for (int i = 0; i < result.Length; i++){
 				result[i] = GetRowName(i);
 			}
@@ -27,15 +27,15 @@ namespace PerseusPluginLib.Utils{
 			if (nameColumnIndex < 0){
 				return "";
 			}
-			if (ind >= mdata.ExpressionColumnNames.Count){
-				return mdata.NumericColumnNames[ind - mdata.ExpressionColumnNames.Count];
+			if (ind >= mdata.ColumnNames.Count){
+				return mdata.NumericColumnNames[ind - mdata.ColumnNames.Count];
 			}
 			if (nameColumnIndex == 0){
-				return mdata.ExpressionColumnNames[ind];
+				return mdata.ColumnNames[ind];
 			}
 			int indw = nameColumnIndex - 1;
 			if (indw < mdata.CategoryRowCount){
-				if (ind >= 0 && ind < mdata.ExpressionColumnCount){
+				if (ind >= 0 && ind < mdata.ColumnCount){
 					string[] w = mdata.GetCategoryRowEntryAt(indw, ind);
 					if (cutNames){
 						return w.Length > 0 ? w[0] : "";

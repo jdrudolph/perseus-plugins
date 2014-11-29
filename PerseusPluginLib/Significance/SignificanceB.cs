@@ -74,10 +74,10 @@ namespace PerseusPluginLib.Significance{
 					throw new Exception("Never get here.");
 			}
 			for (int i = 0; i < rcols.Length; i++){
-				float[] r = mdata.GetExpressionColumn(rcols[i]);
-				float[] intens = icols[i] < mdata.ExpressionColumnCount
-					? mdata.GetExpressionColumn(icols[i])
-					: ArrayUtils.ToFloats(mdata.NumericColumns[icols[i] - mdata.ExpressionColumnCount]);
+				float[] r = mdata.GetColumn(rcols[i]);
+				float[] intens = icols[i] < mdata.ColumnCount
+					? mdata.GetColumn(icols[i])
+					: ArrayUtils.ToFloats(mdata.NumericColumns[icols[i] - mdata.ColumnCount]);
 				double[] pvals = CalcSignificanceB(r, intens, side);
 				string[][] fdr;
 				switch (truncation){
@@ -90,8 +90,8 @@ namespace PerseusPluginLib.Significance{
 					default:
 						throw new Exception("Never get here.");
 				}
-				mdata.AddNumericColumn(mdata.ExpressionColumnNames[rcols[i]] + " Significance B", "", pvals);
-				mdata.AddCategoryColumn(mdata.ExpressionColumnNames[rcols[i]] + " B significant", "", fdr);
+				mdata.AddNumericColumn(mdata.ColumnNames[rcols[i]] + " Significance B", "", pvals);
+				mdata.AddCategoryColumn(mdata.ColumnNames[rcols[i]] + " B significant", "", fdr);
 			}
 		}
 
@@ -119,8 +119,8 @@ namespace PerseusPluginLib.Significance{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			List<string> choice = mdata.ExpressionColumnNames;
-			string[] choice2 = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
+			List<string> choice = mdata.ColumnNames;
+			string[] choice2 = ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames);
 			return
 				new Parameters(new Parameter[]{
 					new MultiChoiceParam("Ratio columns"){

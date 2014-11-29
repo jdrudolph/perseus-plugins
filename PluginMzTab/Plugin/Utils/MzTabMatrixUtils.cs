@@ -279,7 +279,7 @@ namespace PluginMzTab.Plugin.Utils{
             List<string> columnNames = new List<string>(mdata.StringColumnNames);
             columnNames.AddRange(mdata.CategoryColumnNames);
             columnNames.AddRange(mdata.NumericColumnNames);
-            columnNames.AddRange(mdata.ExpressionColumnNames);
+            columnNames.AddRange(mdata.ColumnNames);
             columnNames.AddRange(mdata.MultiNumericColumnNames);
 
             return columnNames;

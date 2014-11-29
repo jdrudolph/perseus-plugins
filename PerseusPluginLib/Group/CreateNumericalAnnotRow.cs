@@ -68,8 +68,8 @@ namespace PerseusPluginLib.Group{
 			SingleChoiceWithSubParams s = param.GetSingleChoiceWithSubParams("Numerical row");
 			int groupColInd = s.Value;
 			Parameters sp = s.GetSubParameters();
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string t = mdata.ExpressionColumnNames[i];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string t = mdata.ColumnNames[i];
 				double x = sp.GetDoubleParam(t).Value;
 				mdata.NumericRows[groupColInd][i] = x;
 			}
@@ -92,8 +92,8 @@ namespace PerseusPluginLib.Group{
 
 		public Parameters GetEditParameters(IMatrixData mdata, int ind){
 			List<Parameter> par = new List<Parameter>();
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string t = mdata.ExpressionColumnNames[i];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string t = mdata.ColumnNames[i];
 				string help = "Specify a numerical value for the column '" + t + "'.";
 				par.Add(new DoubleParam(t, mdata.NumericRows[ind][i]){Help = help});
 			}
@@ -102,9 +102,9 @@ namespace PerseusPluginLib.Group{
 
 		private static void ProcessDataCreate(IMatrixData mdata, Parameters param){
 			string name = param.GetStringParam("Row name").Value;
-			double[] groupCol = new double[mdata.ExpressionColumnCount];
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string ename = mdata.ExpressionColumnNames[i];
+			double[] groupCol = new double[mdata.ColumnCount];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string ename = mdata.ColumnNames[i];
 				double value = param.GetDoubleParam(ename).Value;
 				groupCol[i] = value;
 			}
@@ -148,8 +148,8 @@ namespace PerseusPluginLib.Group{
 			List<Parameter> par = new List<Parameter>{
 				new StringParam("Row name"){Value = "Quantity1", Help = "Name of the new numerical annotation row."}
 			};
-			for (int i = 0; i < mdata.ExpressionColumnNames.Count; i++){
-				string t = mdata.ExpressionColumnNames[i];
+			for (int i = 0; i < mdata.ColumnNames.Count; i++){
+				string t = mdata.ColumnNames[i];
 				string help = "Specify a numerical value for the column '" + t + "'.";
 				par.Add(new DoubleParam(t, (i + 1.0)){Help = help});
 			}

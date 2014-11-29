@@ -134,10 +134,10 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		private static float[] GetColumn(IMatrixData matrixData, int ind){
-			if (ind < matrixData.ExpressionColumnCount){
-				return matrixData.GetExpressionColumn(ind);
+			if (ind < matrixData.ColumnCount){
+				return matrixData.GetColumn(ind);
 			}
-			double[] x = matrixData.NumericColumns[ind - matrixData.ExpressionColumnCount];
+			double[] x = matrixData.NumericColumns[ind - matrixData.ColumnCount];
 			float[] f = new float[x.Length];
 			for (int i = 0; i < x.Length; i++){
 				f[i] = (float) x[i];
@@ -146,8 +146,8 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		private static string GetColumnName(IMatrixData matrixData, int ind){
-			return ind < matrixData.ExpressionColumnCount
-				? matrixData.ExpressionColumnNames[ind] : matrixData.NumericColumnNames[ind - matrixData.ExpressionColumnCount];
+			return ind < matrixData.ColumnCount
+				? matrixData.ColumnNames[ind] : matrixData.NumericColumnNames[ind - matrixData.ColumnCount];
 		}
 
 		private static float[,] CalcExcludedPercentage(float[,] values){
@@ -183,7 +183,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			string[] vals = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
+			string[] vals = ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames);
 			int[] sel1 = vals.Length > 0 ? new[]{0} : new int[0];
 			int[] sel2 = vals.Length > 1 ? new[]{1} : (vals.Length > 0 ? new[]{0} : new int[0]);
 			return

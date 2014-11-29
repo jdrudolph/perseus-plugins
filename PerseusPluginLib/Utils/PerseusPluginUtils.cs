@@ -41,7 +41,7 @@ namespace PerseusPluginLib.Utils{
 		public static void FilterRows(IMatrixData mdata, Parameters parameters, int[] rows){
 			bool reduceMatrix = GetReduceMatrix(parameters);
 			if (reduceMatrix){
-				mdata.ExtractExpressionRows(rows);
+				mdata.ExtractRows(rows);
 			} else{
 				Array.Sort(rows);
 				string[][] col = new string[mdata.RowCount][];
@@ -60,10 +60,10 @@ namespace PerseusPluginLib.Utils{
 		public static void FilterColumns(IMatrixData mdata, Parameters parameters, int[] cols){
 			bool reduceMatrix = GetReduceMatrix(parameters);
 			if (reduceMatrix){
-				mdata.ExtractExpressionColumns(cols);
+				mdata.ExtractColumns(cols);
 			} else{
 				Array.Sort(cols);
-				string[][] row = new string[mdata.ExpressionColumnCount][];
+				string[][] row = new string[mdata.ColumnCount][];
 				for (int i = 0; i < row.Length; i++){
 					bool contains = Array.BinarySearch(cols, i) >= 0;
 					row[i] = contains ? new[]{"Keep"} : new[]{"Discard"};
@@ -151,7 +151,7 @@ namespace PerseusPluginLib.Utils{
 		public static int[] GetIndicesOfCol(IMatrixData data, string categoryName, string value){
 			int index = GetIndexOfCol(data, categoryName);
 			List<int> result = new List<int>();
-			for (int i = 0; i < data.ExpressionColumnCount; i++){
+			for (int i = 0; i < data.ColumnCount; i++){
 				string[] s = data.GetCategoryRowEntryAt(index, i);
 				foreach (string s1 in s){
 					if (s1.Equals(value)){
@@ -166,7 +166,7 @@ namespace PerseusPluginLib.Utils{
 		public static int[] GetIndicesOfCol(IMatrixData data, string categoryName, HashSet<string> values){
 			int index = GetIndexOfCol(data, categoryName);
 			List<int> result = new List<int>();
-			for (int i = 0; i < data.ExpressionColumnCount; i++){
+			for (int i = 0; i < data.ColumnCount; i++){
 				string[] s = data.GetCategoryRowEntryAt(index, i);
 				foreach (string s1 in s){
 					if (values.Contains(s1)){

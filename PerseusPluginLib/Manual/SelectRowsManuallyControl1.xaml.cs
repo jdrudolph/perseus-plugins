@@ -29,7 +29,7 @@ namespace PerseusPluginLib.Manual{
 				MessageBox.Show("Please select some rows.");
 			}
 			IMatrixData mx = (IMatrixData) mdata.Clone();
-			mx.ExtractExpressionRows(ArrayUtils.Complement(sel, TableView.RowCount));
+			mx.ExtractRows(ArrayUtils.Complement(sel, TableView.RowCount));
 			createNewMatrix(mx);
 		}
 
@@ -39,7 +39,7 @@ namespace PerseusPluginLib.Manual{
 				MessageBox.Show("Please select some rows.");
 			}
 			IMatrixData mx = (IMatrixData) mdata.Clone();
-			mx.ExtractExpressionRows(sel);
+			mx.ExtractRows(sel);
 			createNewMatrix(mx);
 		}
 	}

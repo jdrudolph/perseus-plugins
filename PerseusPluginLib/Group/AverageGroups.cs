@@ -121,9 +121,9 @@ namespace PerseusPluginLib.Group{
 					newImputed[i, j] = imp;
 				}
 			}
-			mdata.ExpressionColumnNames = new List<string>(groupNames);
-			mdata.ExpressionColumnDescriptions = GetEmpty(groupNames);
-			mdata.ExpressionValues = newExCols;
+			mdata.ColumnNames = new List<string>(groupNames);
+			mdata.ColumnDescriptions = GetEmpty(groupNames);
+			mdata.Values = newExCols;
 			mdata.QualityValues = newQuality;
 			mdata.IsImputed = newImputed;
 			mdata.RemoveCategoryRowAt(groupColInd);

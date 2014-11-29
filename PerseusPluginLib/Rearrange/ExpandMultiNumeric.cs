@@ -49,7 +49,7 @@ namespace PerseusPluginLib.Rearrange{
 				return;
 			}
 			int rowCount = GetNewRowCount(mdata, multiNumCols, stringCols);
-			float[,] expVals = new float[rowCount,mdata.ExpressionColumnCount];
+			float[,] expVals = new float[rowCount,mdata.ColumnCount];
 			List<string[]> stringC = new List<string[]>();
 			for (int i = 0; i < mdata.StringColumnCount; i++){
 				stringC.Add(new string[rowCount]);
@@ -77,7 +77,7 @@ namespace PerseusPluginLib.Rearrange{
 				bool empty = entryCount == 0;
 				entryCount = Math.Max(entryCount, 1);
 				for (int j = 0; j < entryCount; j++){
-					for (int k = 0; k < mdata.ExpressionColumnCount; k++){
+					for (int k = 0; k < mdata.ColumnCount; k++){
 						expVals[count + j, k] = mdata[i, k];
 					}
 					for (int k = 0; k < mdata.NumericColumnCount; k++){
@@ -127,7 +127,7 @@ namespace PerseusPluginLib.Rearrange{
 			foreach (double[][] d in toBeTransformed){
 				numC.Add(Transform(d));
 			}
-			mdata.SetData(mdata.Name, mdata.ExpressionColumnNames, expVals, mdata.StringColumnNames, stringC,
+			mdata.SetData(mdata.Name, mdata.ColumnNames, expVals, mdata.StringColumnNames, stringC,
 				mdata.CategoryColumnNames, catC,
 				new List<string>(ArrayUtils.Concat(mdata.NumericColumnNames,
 					ArrayUtils.SubList(mdata.MultiNumericColumnNames, multiNumCols))), numC,

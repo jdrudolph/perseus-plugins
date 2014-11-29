@@ -50,17 +50,17 @@ namespace PerseusPluginLib.Norm{
 			if (rows){
 				for (int i = 0; i < data.RowCount; i++){
 					double len = 0;
-					for (int j = 0; j < data.ExpressionColumnCount; j++){
+					for (int j = 0; j < data.ColumnCount; j++){
 						double q = data[i, j];
 						len += q*q;
 					}
 					len = Math.Sqrt(len);
-					for (int j = 0; j < data.ExpressionColumnCount; j++){
+					for (int j = 0; j < data.ColumnCount; j++){
 						data[i, j] /= (float) len;
 					}
 				}
 			} else{
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					double len = 0;
 					for (int i = 0; i < data.RowCount; i++){
 						double q = data[i, j];

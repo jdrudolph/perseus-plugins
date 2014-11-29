@@ -31,10 +31,10 @@ namespace PerseusPluginLib.Quality{
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Quality:CreateQualityMatrix"; } }
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			string[] reducedExpColNames = ReduceNames(mdata.ExpressionColumnNames);
+			string[] reducedExpColNames = ReduceNames(mdata.ColumnNames);
 			List<Parameter> p = new List<Parameter>();
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				SingleChoiceParam scp = new SingleChoiceParam(mdata.ExpressionColumnNames[i]){
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				SingleChoiceParam scp = new SingleChoiceParam(mdata.ColumnNames[i]){
 					Values = mdata.NumericColumnNames,
 					Value = GetSelectedValue(mdata.NumericColumnNames, reducedExpColNames[i])
 				};
@@ -45,9 +45,9 @@ namespace PerseusPluginLib.Quality{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			float[,] q = new float[mdata.RowCount,mdata.ExpressionColumnCount];
-			for (int j = 0; j < mdata.ExpressionColumnCount; j++){
-				int ind = param.GetSingleChoiceParam(mdata.ExpressionColumnNames[j]).Value;
+			float[,] q = new float[mdata.RowCount,mdata.ColumnCount];
+			for (int j = 0; j < mdata.ColumnCount; j++){
+				int ind = param.GetSingleChoiceParam(mdata.ColumnNames[j]).Value;
 				double[] w = mdata.NumericColumns[ind];
 				for (int i = 0; i < mdata.RowCount; i++){
 					q[i, j] = (float) w[i];

@@ -237,7 +237,7 @@ namespace PerseusApi.Utils{
 				string[] numColDesc = ArrayUtils.SubArray(colDescriptions, numColIndices);
 				string[] multiNumColDesc = ArrayUtils.SubArray(colDescriptions, multiNumColIndices);
 				string[] textColDesc = ArrayUtils.SubArray(colDescriptions, textColIndices);
-				matrixData.ExpressionColumnDescriptions = new List<string>(columnDesc);
+				matrixData.ColumnDescriptions = new List<string>(columnDesc);
 				matrixData.NumericColumnDescriptions = new List<string>(numColDesc);
 				matrixData.CategoryColumnDescriptions = new List<string>(catColDesc);
 				matrixData.StringColumnDescriptions = new List<string>(textColDesc);

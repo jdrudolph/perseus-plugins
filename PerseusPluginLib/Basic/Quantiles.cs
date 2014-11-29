@@ -56,37 +56,37 @@ namespace PerseusPluginLib.Basic{
 					catCol[o[i]] = new[]{"Q" + catVal};
 				}
 				string name = GetName(mdata, colInd) + "_q";
-				string desc = "The column " + mdata.ExpressionColumnNames[colInd] + " has been divided into " + numQuantiles +
+				string desc = "The column " + mdata.ColumnNames[colInd] + " has been divided into " + numQuantiles +
 					" quantiles.";
 				mdata.AddCategoryColumn(name, desc, catCol);
 			}
 		}
 
 		private static string GetName(IMatrixData mdata, int colInd){
-			if (colInd < mdata.ExpressionColumnCount){
-				return mdata.ExpressionColumnNames[colInd];
+			if (colInd < mdata.ColumnCount){
+				return mdata.ColumnNames[colInd];
 			}
-			colInd -= mdata.ExpressionColumnCount;
+			colInd -= mdata.ColumnCount;
 			return mdata.NumericColumnNames[colInd];
 		}
 
 		private static double[] GetValues(IMatrixData mdata, int colInd){
-			if (colInd < mdata.ExpressionColumnCount){
-				return ArrayUtils.ToDoubles(mdata.GetExpressionColumn(colInd));
+			if (colInd < mdata.ColumnCount){
+				return ArrayUtils.ToDoubles(mdata.GetColumn(colInd));
 			}
-			colInd -= mdata.ExpressionColumnCount;
+			colInd -= mdata.ColumnCount;
 			return mdata.NumericColumns[colInd];
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			string[] values = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
+			string[] values = ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames);
 			return
 				new Parameters(new Parameter[]{
 					new IntParam("Number of quantiles", 5){
 						Help = "This defines the number of quantiles that each column is going to be divided into."
 					},
 					new MultiChoiceParam("Columns"){
-						Value = ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount),
+						Value = ArrayUtils.ConsecutiveInts(mdata.ColumnCount),
 						Values = values,
 						Help = "Please select here the columns that should be transformed into quantiles."
 					}

@@ -55,20 +55,20 @@ namespace PerseusPluginLib.Norm{
 			if (rows){
 				new ThreadDistributor(nthreads, data.RowCount, i => Calc1(i, summarize, data)).Start();
 			} else{
-				new ThreadDistributor(nthreads, data.ExpressionColumnCount, j => Calc2(j, summarize, data)).Start();
+				new ThreadDistributor(nthreads, data.ColumnCount, j => Calc2(j, summarize, data)).Start();
 			}
 		}
 
 		private static void Calc1(int i, Func<double[], double> summarize, IMatrixData data){
 			List<double> vals = new List<double>();
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			for (int j = 0; j < data.ColumnCount; j++){
 				double q = data[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double med = summarize(vals.ToArray());
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			for (int j = 0; j < data.ColumnCount; j++){
 				data[i, j] /= (float) med;
 			}
 		}

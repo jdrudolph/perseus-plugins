@@ -92,18 +92,18 @@ namespace PerseusPluginLib.Norm{
 			} else{
 				double[] doubles = means;
 				double[] stddevs1 = stddevs;
-				new ThreadDistributor(nthreads, data.ExpressionColumnCount, j => Calc2(j, data, doubles, stddevs1)).Start();
+				new ThreadDistributor(nthreads, data.ColumnCount, j => Calc2(j, data, doubles, stddevs1)).Start();
 			}
 		}
 
 		private static void Calc1(int i, IMatrixData data, IList<double> means, IList<double> stddevs){
-			double[] vals = new double[data.ExpressionColumnCount];
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			double[] vals = new double[data.ColumnCount];
+			for (int j = 0; j < data.ColumnCount; j++){
 				vals[j] = data[i, j];
 			}
 			double stddev = stddevs[i];
 			double mean = means[i];
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			for (int j = 0; j < data.ColumnCount; j++){
 				data[i, j] = (float) ((data[i, j]*stddev) + mean);
 			}
 		}

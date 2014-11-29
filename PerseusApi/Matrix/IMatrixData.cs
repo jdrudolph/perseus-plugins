@@ -7,19 +7,16 @@ namespace PerseusApi.Matrix{
 	/// the Perseus workflow. Note that plugin programmers are not supposed to write implementations of <code>IMatrixData</code>.
 	/// The interface only serves to encapsulate the complexity of the implementation for the purpose of plugin programming.
 	/// </summary>
-	public interface IMatrixData : IData{
+	public interface IMatrixData : IDataWithAnnotationRows{
 		int RowCount { get; }
-		float[,] ExpressionValues { get; set; }
+		float[,] Values { get; set; }
 		float[,] QualityValues { get; set; }
+		bool[,] IsImputed { get; set; }
 		string QualityName { get; set; }
 		bool QualityBiggerIsBetter { get; set; }
 		bool HasQuality { get; }
-		bool[,] IsImputed { get; set; }
-		int ExpressionColumnCount { get; }
-		List<string> ExpressionColumnNames { get; set; }
-		List<string> ExpressionColumnDescriptions { get; set; }
-		float[] GetExpressionRow(int row);
-		float[] GetExpressionColumn(int col);
+		float[] GetRow(int row);
+		float[] GetColumn(int col);
 		float[] GetQualityRow(int row);
 		float[] GetQualityColumn(int col);
 		bool[] GetIsImputednRow(int row);
@@ -61,58 +58,32 @@ namespace PerseusApi.Matrix{
 		List<double[][]> MultiNumericColumns { get; set; }
 		void AddMultiNumericColumn(string name, string description, double[][] vals);
 		void RemoveMultiNumericColumnAt(int index);
-		int CategoryRowCount { get; }
-		List<string> CategoryRowNames { get; set; }
-		List<string> CategoryRowDescriptions { get; set; }
-		List<string[][]> CategoryRows { set; }
+		void ExtractRows(int[] indices);
 
-		/// <summary>
-		/// For performance reasons, please do not call this inside a loop when iterating over the elements. 
-		/// Use <code>GetCategoryRowEntryAt</code> instead.
-		/// </summary>
-		string[][] GetCategoryRowAt(int index);
-
-		string[] GetCategoryRowEntryAt(int index, int column);
-		string[] GetCategoryRowValuesAt(int index);
-		void SetCategoryRowAt(string[][] vals, int index);
-		void RemoveCategoryRowAt(int index);
-		void AddCategoryRow(string name, string description, string[][] vals);
-		void AddCategoryRows(IList<string> names, IList<string> descriptions, IList<string[][]> vals);
-		void ClearCategoryRows();
-		int NumericRowCount { get; }
-		List<string> NumericRowNames { get; set; }
-		List<string> NumericRowDescriptions { get; set; }
-		List<double[]> NumericRows { get; set; }
-		void AddNumericRow(string name, string description, double[] vals);
-		void RemoveNumericRowAt(int index);
-		void ClearNumericRows();
-		void ExtractExpressionRows(int[] order);
-		void ExtractExpressionColumns(int[] order);
-
-		void SetData(string name, List<string> expressionColumnNames, float[,] expressionValues,
+		void SetData(string name, List<string> columnNames, float[,] values,
 			List<string> stringColumnNames, List<string[]> stringColumns, List<string> categoryColumnNames,
 			List<string[][]> categoryColumns, List<string> numericColumnNames, List<double[]> numericColumns,
 			List<string> multiNumericColumnNames, List<double[][]> multiNumericColumns);
 
-		void SetData(string name, List<string> expressionColumnNames, float[,] expressionValues, bool[,] isImputed,
+		void SetData(string name, List<string> columnNames, float[,] values, bool[,] isImputed,
 			List<string> stringColumnNames, List<string[]> stringColumns, List<string> categoryColumnNames,
 			List<string[][]> categoryColumns, List<string> numericColumnNames, List<double[]> numericColumns,
 			List<string> multiNumericColumnNames, List<double[][]> multiNumericColumns);
 
-		void SetData(string name, List<string> expressionColumnNames, float[,] expressionValues,
+		void SetData(string name, List<string> columnNames, float[,] values,
 			List<string> stringColumnNames, List<string[]> stringColumns, List<string> categoryColumnNames,
 			List<string[][]> categoryColumns, List<string> numericColumnNames, List<double[]> numericColumns,
 			List<string> multiNumericColumnNames, List<double[][]> multiNumericColumns, List<string> categoryRowNames,
 			List<string[][]> categoryRows, List<string> numericRowNames, List<double[]> numericRows);
 
-		void SetData(string name, List<string> expressionColumnNames, float[,] expressionValues, bool[,] isImputed,
+		void SetData(string name, List<string> columnNames, float[,] values, bool[,] isImputed,
 			List<string> stringColumnNames, List<string[]> stringColumns, List<string> categoryColumnNames,
 			List<string[][]> categoryColumns, List<string> numericColumnNames, List<double[]> numericColumns,
 			List<string> multiNumericColumnNames, List<double[][]> multiNumericColumns, List<string> categoryRowNames,
 			List<string[][]> categoryRows, List<string> numericRowNames, List<double[]> numericRows);
 
-		void SetData(string name, string description, List<string> expressionColumnNames,
-			List<string> expressionColumnDescriptions, float[,] expressionValues, bool[,] isImputed, float[,] qualityValues,
+		void SetData(string name, string description, List<string> columnNames,
+			List<string> columnDescriptions, float[,] values, bool[,] isImputed, float[,] qualityValues,
 			string qualityName, bool qualityBiggerIsBetter, List<string> stringColumnNames, List<string> stringColumnDescriptions,
 			List<string[]> stringColumns, List<string> categoryColumnNames, List<string> categoryColumnDescriptions,
 			List<string[][]> categoryColumns, List<string> numericColumnNames, List<string> numericColumnDescriptions,

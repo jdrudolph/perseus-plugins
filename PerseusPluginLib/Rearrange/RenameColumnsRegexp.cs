@@ -29,14 +29,14 @@ namespace PerseusPluginLib.Rearrange{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			string regexStr = param.GetStringParam("Regular expression").Value;
 			Regex regex = new Regex(regexStr);
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string newName = regex.Match(mdata.ExpressionColumnNames[i]).Groups[1].ToString();
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string newName = regex.Match(mdata.ColumnNames[i]).Groups[1].ToString();
 				if (string.IsNullOrEmpty(newName)){
-					processInfo.ErrString = "Applying parse rule to '" + mdata.ExpressionColumnNames[i] +
+					processInfo.ErrString = "Applying parse rule to '" + mdata.ColumnNames[i] +
 						"' results in an empty string.";
 					return;
 				}
-				mdata.ExpressionColumnNames[i] = newName;
+				mdata.ColumnNames[i] = newName;
 			}
 		}
 

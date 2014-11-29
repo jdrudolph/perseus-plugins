@@ -166,25 +166,25 @@ namespace PerseusPluginLib.Norm{
 				new ThreadDistributor(nthreads, data.RowCount, i => Calc1(i, data, doubles, stddevs1, report, median)).Start();
 			} else{
 				if (report){
-					means = new double[data.ExpressionColumnCount];
-					stddevs = new double[data.ExpressionColumnCount];
+					means = new double[data.ColumnCount];
+					stddevs = new double[data.ColumnCount];
 				}
 				double[] doubles = means;
 				double[] stddevs1 = stddevs;
-				new ThreadDistributor(nthreads, data.ExpressionColumnCount, j => Calc2(j, data, doubles, stddevs1, report, median))
+				new ThreadDistributor(nthreads, data.ColumnCount, j => Calc2(j, data, doubles, stddevs1, report, median))
 					.Start();
 			}
 		}
 
 		private static void Calc1(int i, IMatrixData data, IList<double> means, IList<double> stddevs, bool report,
 			bool median){
-			double[] vals = new double[data.ExpressionColumnCount];
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			double[] vals = new double[data.ColumnCount];
+			for (int j = 0; j < data.ColumnCount; j++){
 				vals[j] = data[i, j];
 			}
 			double stddev;
 			double mean = ArrayUtils.MeanAndStddev(vals, out stddev, median);
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			for (int j = 0; j < data.ColumnCount; j++){
 				data[i, j] = (float) ((data[i, j] - mean)/stddev);
 			}
 			if (report){

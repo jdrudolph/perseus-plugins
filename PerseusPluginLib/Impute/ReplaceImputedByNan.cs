@@ -35,7 +35,7 @@ namespace PerseusPluginLib.Impute{
 
 		public static void Replace(IMatrixData data){
 			for (int i = 0; i < data.RowCount; i++){
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					if (data.IsImputed[i, j]){
 						data[i, j] = float.NaN;
 					}

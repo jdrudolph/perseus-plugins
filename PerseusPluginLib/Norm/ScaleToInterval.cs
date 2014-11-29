@@ -55,13 +55,13 @@ namespace PerseusPluginLib.Norm{
 			if (rows){
 				new ThreadDistributor(nthreads, data.RowCount, i => Calc1(i, data, min, max)).Start();
 			} else{
-				new ThreadDistributor(nthreads, data.ExpressionColumnCount, j => Calc2(j, data, min, max)).Start();
+				new ThreadDistributor(nthreads, data.ColumnCount, j => Calc2(j, data, min, max)).Start();
 			}
 		}
 
 		private static void Calc1(int i, IMatrixData data, double min, double max){
 			List<double> vals = new List<double>();
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			for (int j = 0; j < data.ColumnCount; j++){
 				double q = data[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
@@ -70,7 +70,7 @@ namespace PerseusPluginLib.Norm{
 			double mind;
 			double maxd;
 			ArrayUtils.MinMax(vals, out mind, out maxd);
-			for (int j = 0; j < data.ExpressionColumnCount; j++){
+			for (int j = 0; j < data.ColumnCount; j++){
 				data[i, j] = (float) (min + (max - min)/(maxd - mind)*(data[i, j] - mind));
 			}
 		}

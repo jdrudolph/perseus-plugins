@@ -38,13 +38,13 @@ namespace PerseusPluginLib.Norm{
 			}
 			float[][] profiles = new float[inds.Count][];
 			for (int i = 0; i < profiles.Length; i++){
-				profiles[i] = mdata.GetExpressionRow(inds[i]);
+				profiles[i] = mdata.GetRow(inds[i]);
 				float mean = (float) ArrayUtils.Mean(profiles[i]);
 				for (int j = 0; j < profiles[i].Length; j++){
 					profiles[i][j] -= mean;
 				}
 			}
-			float[] totalProfile = new float[mdata.ExpressionColumnCount];
+			float[] totalProfile = new float[mdata.ColumnCount];
 			for (int i = 0; i < totalProfile.Length; i++){
 				List<float> vals = new List<float>();
 				foreach (float[] t in profiles){
@@ -57,7 +57,7 @@ namespace PerseusPluginLib.Norm{
 				totalProfile[i] = vals.Count > 0 ? ArrayUtils.Median(vals) : float.NaN;
 			}
 			for (int i = 0; i < mdata.RowCount; i++){
-				for (int j = 0; j < mdata.ExpressionColumnCount; j++){
+				for (int j = 0; j < mdata.ColumnCount; j++){
 					mdata[i, j] -= totalProfile[j];
 				}
 			}

@@ -48,7 +48,7 @@ namespace PerseusPluginLib.Norm{
 				for (int i = 0; i < data.RowCount; i++){
 					List<double> vals = new List<double>();
 					List<int> indices = new List<int>();
-					for (int j = 0; j < data.ExpressionColumnCount; j++){
+					for (int j = 0; j < data.ColumnCount; j++){
 						double q = data[i, j];
 						if (!double.IsNaN(q)){
 							vals.Add(q);
@@ -56,7 +56,7 @@ namespace PerseusPluginLib.Norm{
 						}
 					}
 					double[] ranks = ArrayUtils.Rank(vals);
-					for (int j = 0; j < data.ExpressionColumnCount; j++){
+					for (int j = 0; j < data.ColumnCount; j++){
 						data[i, j] = float.NaN;
 					}
 					for (int j = 0; j < ranks.Length; j++){
@@ -64,7 +64,7 @@ namespace PerseusPluginLib.Norm{
 					}
 				}
 			} else{
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					List<double> vals = new List<double>();
 					List<int> indices = new List<int>();
 					for (int i = 0; i < data.RowCount; i++){

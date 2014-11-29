@@ -55,8 +55,8 @@ namespace PerseusPluginLib.Rearrange{
 					colNames.Add("Column" + (i + 1));
 				}
 			}
-			List<string> rowNames = mdata.ExpressionColumnNames;
-			mdata.SetData(mdata.Name, mdata.Description, colNames, colNames, ArrayUtils.Transpose(mdata.ExpressionValues),
+			List<string> rowNames = mdata.ColumnNames;
+			mdata.SetData(mdata.Name, mdata.Description, colNames, colNames, ArrayUtils.Transpose(mdata.Values),
 				ArrayUtils.Transpose(mdata.IsImputed), ArrayUtils.Transpose(mdata.QualityValues), mdata.QualityName,
 				mdata.QualityBiggerIsBetter, new List<string>(new[]{"Name"}), new List<string>(new[]{"Name"}),
 				new List<string[]>(new[]{rowNames.ToArray()}), mdata.CategoryRowNames, mdata.CategoryRowDescriptions,

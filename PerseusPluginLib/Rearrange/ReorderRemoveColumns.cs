@@ -39,7 +39,7 @@ namespace PerseusPluginLib.Rearrange{
 			int[] multiNumColInds = param.GetMultiChoiceParam("Multi-numerical columns").Value;
 			int[] catColInds = param.GetMultiChoiceParam("Categorical columns").Value;
 			int[] textColInds = param.GetMultiChoiceParam("Text columns").Value;
-			data.ExtractExpressionColumns(exColInds);
+			data.ExtractColumns(exColInds);
 			data.NumericColumns = ArrayUtils.SubList(data.NumericColumns, numColInds);
 			data.NumericColumnNames = ArrayUtils.SubList(data.NumericColumnNames, numColInds);
 			data.NumericColumnDescriptions = ArrayUtils.SubList(data.NumericColumnDescriptions, numColInds);
@@ -55,7 +55,7 @@ namespace PerseusPluginLib.Rearrange{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			List<string> exCols = mdata.ExpressionColumnNames;
+			List<string> exCols = mdata.ColumnNames;
 			List<string> numCols = mdata.NumericColumnNames;
 			List<string> multiNumCols = mdata.MultiNumericColumnNames;
 			List<string> catCols = mdata.CategoryColumnNames;

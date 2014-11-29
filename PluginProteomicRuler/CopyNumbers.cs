@@ -78,12 +78,12 @@ namespace PluginProteomicRuler{
             string[] sampleNames = new string[intensityCols.Length];
 			for (int col = 0; col < intensityCols.Length; col++){
 				double[] values;
-				if (intensityCols[col] < mdata.ExpressionColumnCount){
-					values = ArrayUtils.ToDoubles(mdata.GetExpressionColumn(intensityCols[col]));
-                    inputNames[col] = mdata.ExpressionColumnNames[intensityCols[col]];
+				if (intensityCols[col] < mdata.ColumnCount){
+					values = ArrayUtils.ToDoubles(mdata.GetColumn(intensityCols[col]));
+                    inputNames[col] = mdata.ColumnNames[intensityCols[col]];
 				} else{
-					values = mdata.NumericColumns[intensityCols[col] - mdata.ExpressionColumnCount];
-                    inputNames[col] = mdata.NumericColumnNames[intensityCols[col] - mdata.ExpressionColumnCount];
+					values = mdata.NumericColumns[intensityCols[col] - mdata.ColumnCount];
+                    inputNames[col] = mdata.NumericColumnNames[intensityCols[col] - mdata.ColumnCount];
 				}
 				sampleNames[col] = new Regex(@"^(?:(?:LFQ )?[Ii]ntensity )?(.*)$").Match(inputNames[col]).Groups[1].Value;
 				columns.Add(values);
@@ -154,17 +154,17 @@ namespace PluginProteomicRuler{
 			mdata.AddCategoryColumn("Histones", "", histoneCol);
 			
             // initialize the variables for the annotation rows
-            string[] sampleNameRow = new string[mdata.ExpressionColumnCount];
-            string[] inputNameRow = new string[mdata.ExpressionColumnCount];
-			double[] totalProteinRow = new double[mdata.ExpressionColumnCount];
-			double[] totalMoleculesRow = new double[mdata.ExpressionColumnCount];
-            string[][] organismRow = new string[mdata.ExpressionColumnCount][];
+            string[] sampleNameRow = new string[mdata.ColumnCount];
+            string[] inputNameRow = new string[mdata.ColumnCount];
+			double[] totalProteinRow = new double[mdata.ColumnCount];
+			double[] totalMoleculesRow = new double[mdata.ColumnCount];
+            string[][] organismRow = new string[mdata.ColumnCount][];
             // populate the organismRow variable with empty strings as defaults (not null, which may cause errors when writing the annotations in the end.)
             for (int i = 0; i < organismRow.Length; i++)
                 organismRow[i] = new string[]{"N/A"};
-			double[] histoneMassRow = new double[mdata.ExpressionColumnCount];
-			double[] ploidyRow = new double[mdata.ExpressionColumnCount];
-			double[] cellVolumeRow = new double[mdata.ExpressionColumnCount];
+			double[] histoneMassRow = new double[mdata.ColumnCount];
+			double[] ploidyRow = new double[mdata.ColumnCount];
+			double[] cellVolumeRow = new double[mdata.ColumnCount];
 			
             double[] normalizationFactors = new double[columns.Count];
 			// calculate normalization factors for each column
@@ -227,7 +227,7 @@ namespace PluginProteomicRuler{
 				string[] uniqueGroupNames = Unique(groupNames);
 				int[] grouping = new int[columns.Count];
 				for (int i = 0; i < columns.Count; i++){
-					if (intensityCols[i] >= mdata.ExpressionColumnCount){ // Numeric annotation columns cannot be grouped
+					if (intensityCols[i] >= mdata.ColumnCount){ // Numeric annotation columns cannot be grouped
 						grouping[i] = i;
 						continue;
 					}
@@ -318,7 +318,7 @@ namespace PluginProteomicRuler{
 				if (ArrayUtils.Contains(outputColumns, 5)){
 					mdata.AddNumericColumn("Relative copy number rank" + suffix, "", relativeRank);
 				}
-				if (intensityCols[col] < mdata.ExpressionColumnCount &&
+				if (intensityCols[col] < mdata.ColumnCount &&
 					param.GetSingleChoiceWithSubParams("Averaging mode").Value != 3)
 				{
                     inputNameRow[intensityCols[col]] = inputNames[col];
@@ -387,9 +387,9 @@ namespace PluginProteomicRuler{
 						Help =
 							"Specify the columns that contain the intensities to be used for copy number estimation. " +
 							"If several columns are selected, they will be treated as specified by the 'averaging mode'.",
-						Values = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames),
+						Values = ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames),
 						Value =
-							ProteomicRulerUtils.Match(ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames), new[]{"intensit"}, false, true,
+							ProteomicRulerUtils.Match(ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames), new[]{"intensit"}, false, true,
 								false)
 					},
                     new BoolWithSubParams("Logarithmized", false){

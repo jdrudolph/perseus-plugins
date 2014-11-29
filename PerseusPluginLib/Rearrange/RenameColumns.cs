@@ -29,8 +29,8 @@ namespace PerseusPluginLib.Rearrange{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			List<string> expressionColumnNames = new List<string>();
 			HashSet<string> taken = new HashSet<string>();
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string newName = param.GetStringParam(mdata.ExpressionColumnNames[i]).Value;
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string newName = param.GetStringParam(mdata.ColumnNames[i]).Value;
 				if (taken.Contains(newName)){
 					processInfo.ErrString = "Name " + newName + " is contained multiple times";
 					return;
@@ -38,7 +38,7 @@ namespace PerseusPluginLib.Rearrange{
 				taken.Add(newName);
 				expressionColumnNames.Add(newName);
 			}
-			mdata.ExpressionColumnNames = expressionColumnNames;
+			mdata.ColumnNames = expressionColumnNames;
 			taken = new HashSet<string>();
 			List<string> numericColumnNames = new List<string>();
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
@@ -91,7 +91,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
 			List<Parameter> par = new List<Parameter>();
-			foreach (string t in mdata.ExpressionColumnNames){
+			foreach (string t in mdata.ColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
 				par.Add(new StringParam(t) { Value = t, Help = help });
 			}

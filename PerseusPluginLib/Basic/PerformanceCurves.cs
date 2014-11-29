@@ -49,9 +49,9 @@ namespace PerseusPluginLib.Basic{
 			foreach (int scoreColumn in scoreColumns){
 				double[] vals = scoreColumn < data.NumericColumnCount
 					? data.NumericColumns[scoreColumn]
-					: ArrayUtils.ToDoubles(data.GetExpressionColumn(scoreColumn - data.NumericColumnCount));
+					: ArrayUtils.ToDoubles(data.GetColumn(scoreColumn - data.NumericColumnCount));
 				string name = scoreColumn < data.NumericColumnCount
-					? data.NumericColumnNames[scoreColumn] : data.ExpressionColumnNames[scoreColumn - data.NumericColumnCount];
+					? data.NumericColumnNames[scoreColumn] : data.ColumnNames[scoreColumn - data.NumericColumnCount];
 				int[] order = GetOrder(vals, largeIsGood);
 				CalcCurve(ArrayUtils.SubArray(indCol, order), showColumns, name, expCols, expColNames);
 			}
@@ -180,7 +180,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			string[] numChoice = ArrayUtils.Concat(mdata.NumericColumnNames, mdata.ExpressionColumnNames);
+			string[] numChoice = ArrayUtils.Concat(mdata.NumericColumnNames, mdata.ColumnNames);
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Indicated are"){Values = new[]{"False", "True"}},

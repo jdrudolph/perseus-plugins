@@ -66,7 +66,7 @@ namespace PerseusPluginLib.Join{
 			int[] catSel = new int[0];
 			List<string> textCol = matrixData2.StringColumnNames;
 			int[] textSel = new int[0];
-			List<string> exCol = matrixData2.ExpressionColumnNames;
+			List<string> exCol = matrixData2.ColumnNames;
 			int[] exSel = new int[0];
 			return
 				new Parameters(new Parameter[]{
@@ -177,11 +177,11 @@ namespace PerseusPluginLib.Join{
 					float[,] newQuality = new float[mdata1.RowCount,exCols.Length];
 					bool[,] newIsImputed = new bool[mdata1.RowCount,exCols.Length];
 					string[] newExColNames = new string[exCols.Length];
-					float[,] oldEx = mdata2.ExpressionValues;
+					float[,] oldEx = mdata2.Values;
 					float[,] oldQual = mdata2.QualityValues;
 					bool[,] oldImp = mdata2.IsImputed;
 					for (int i = 0; i < exCols.Length; i++){
-						newExColNames[i] = mdata2.ExpressionColumnNames[exCols[i]];
+						newExColNames[i] = mdata2.ColumnNames[exCols[i]];
 						for (int j = 0; j < mdata1.RowCount; j++){
 							int[] inds = indexMap[j];
 							List<double> values = new List<double>();
@@ -204,7 +204,7 @@ namespace PerseusPluginLib.Join{
 							newIsImputed[j, i] = imp.Count != 0 && AvImp(imp.ToArray());
 						}
 					}
-					MakeNewNames(newExColNames, result.ExpressionColumnNames);
+					MakeNewNames(newExColNames, result.ColumnNames);
 					AddExpressionColumns(result, newExColNames, newExColumns, newQuality, newIsImputed);
 				}
 				{
@@ -336,7 +336,7 @@ namespace PerseusPluginLib.Join{
 			result.CategoryRowDescriptions = new List<string>();
 			for (int index = 0; index < allCatNames.Length; index++){
 				string t = allCatNames[index];
-				string[][] categoryRow = new string[mdata1.ExpressionColumnCount + mdata2.ExpressionColumnCount][];
+				string[][] categoryRow = new string[mdata1.ColumnCount + mdata2.ColumnCount][];
 				for (int j = 0; j < categoryRow.Length; j++){
 					categoryRow[j] = new string[0];
 				}
@@ -351,7 +351,7 @@ namespace PerseusPluginLib.Join{
 				if (ind2 >= 0){
 					string[][] c2 = mdata2.GetCategoryRowAt(ind2);
 					for (int j = 0; j < c2.Length; j++){
-						categoryRow[mdata1.ExpressionColumnCount + j] = c2[j];
+						categoryRow[mdata1.ColumnCount + j] = c2[j];
 					}
 				}
 				result.AddCategoryRow(allCatNames[index], allCatDescriptions[index], categoryRow);
@@ -366,7 +366,7 @@ namespace PerseusPluginLib.Join{
 			}
 			result.NumericRowDescriptions = new List<string>(allNumDescriptions);
 			foreach (string t in allNumNames){
-				double[] numericRow = new double[mdata1.ExpressionColumnCount + mdata2.ExpressionColumnCount];
+				double[] numericRow = new double[mdata1.ColumnCount + mdata2.ColumnCount];
 				for (int j = 0; j < numericRow.Length; j++){
 					numericRow[j] = double.NaN;
 				}
@@ -381,7 +381,7 @@ namespace PerseusPluginLib.Join{
 				if (ind2 >= 0){
 					double[] c2 = mdata2.NumericRows[ind2];
 					for (int j = 0; j < c2.Length; j++){
-						numericRow[mdata1.ExpressionColumnCount + j] = c2[j];
+						numericRow[mdata1.ColumnCount + j] = c2[j];
 					}
 				}
 				result.NumericRows.Add(numericRow);
@@ -418,26 +418,26 @@ namespace PerseusPluginLib.Join{
 		}
 
 		public static void AddExpressionColumns(IMatrixData data, string[] names, float[,] vals, float[,] qual, bool[,] imp){
-			float[,] newVals = new float[data.RowCount,data.ExpressionColumnCount + vals.GetLength(1)];
-			float[,] newQual = new float[data.RowCount,data.ExpressionColumnCount + vals.GetLength(1)];
-			bool[,] newImp = new bool[data.RowCount,data.ExpressionColumnCount + vals.GetLength(1)];
+			float[,] newVals = new float[data.RowCount,data.ColumnCount + vals.GetLength(1)];
+			float[,] newQual = new float[data.RowCount,data.ColumnCount + vals.GetLength(1)];
+			bool[,] newImp = new bool[data.RowCount,data.ColumnCount + vals.GetLength(1)];
 			for (int i = 0; i < data.RowCount; i++){
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					newVals[i, j] = data[i, j];
 					newQual[i, j] = data.QualityValues[i, j];
 					newImp[i, j] = data.IsImputed[i, j];
 				}
 				for (int j = 0; j < vals.GetLength(1); j++){
-					newVals[i, data.ExpressionColumnCount + j] = vals[i, j];
-					newQual[i, data.ExpressionColumnCount + j] = qual[i, j];
-					newImp[i, data.ExpressionColumnCount + j] = imp[i, j];
+					newVals[i, data.ColumnCount + j] = vals[i, j];
+					newQual[i, data.ColumnCount + j] = qual[i, j];
+					newImp[i, data.ColumnCount + j] = imp[i, j];
 				}
 			}
-			data.ExpressionValues = newVals;
+			data.Values = newVals;
 			data.QualityValues = newQual;
 			data.IsImputed = newImp;
-			data.ExpressionColumnNames.AddRange(names);
-			data.ExpressionColumnDescriptions.AddRange(names);
+			data.ColumnNames.AddRange(names);
+			data.ColumnDescriptions.AddRange(names);
 		}
 
 		private static void MakeNewNames(IList<string> newExColNames, IEnumerable<string> expressionColumnNames){

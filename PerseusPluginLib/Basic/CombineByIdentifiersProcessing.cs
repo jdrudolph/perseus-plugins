@@ -74,16 +74,16 @@ namespace PerseusPluginLib.Basic{
 				rowInds = ProlongRowInds(rowInds, absent);
 			}
 			int nrows = rowInds.Length;
-			int ncols = mdata.ExpressionColumnCount;
+			int ncols = mdata.ColumnCount;
 			float[,] expVals = new float[nrows,ncols];
 			for (int j = 0; j < ncols; j++){
-				float[] c = mdata.GetExpressionColumn(j);
+				float[] c = mdata.GetColumn(j);
 				for (int i = 0; i < nrows; i++){
 					float[] d = ArrayUtils.SubArray(c, rowInds[i]);
 					expVals[i, j] = Average(d, atype);
 				}
 			}
-			mdata.ExpressionValues = expVals;
+			mdata.Values = expVals;
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
 				string name = mdata.NumericColumnNames[i];
 				AverageType atype1 = GetAverageType(param.GetSingleChoiceParam("Average type for " + name).Value);

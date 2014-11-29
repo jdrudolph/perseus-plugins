@@ -70,8 +70,8 @@ namespace PerseusPluginLib.Impute{
 								" standard deviation of the valid data."
 					},
 					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}},
-					new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ExpressionColumnCount)){
-						Values = mdata.ExpressionColumnNames
+					new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount)){
+						Values = mdata.ColumnNames
 					}
 				});
 		}

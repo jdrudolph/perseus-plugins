@@ -29,8 +29,8 @@ namespace PerseusPluginLib.Export{
 				return;
 			}
 			List<string> words = new List<string>();
-			for (int i = 0; i < data.ExpressionColumnCount; i++){
-				words.Add(Trunc(data.ExpressionColumnNames[i]));
+			for (int i = 0; i < data.ColumnCount; i++){
+				words.Add(Trunc(data.ColumnNames[i]));
 			}
 			for (int i = 0; i < data.CategoryColumnCount; i++){
 				words.Add(Trunc(data.CategoryColumnNames[i]));
@@ -47,8 +47,8 @@ namespace PerseusPluginLib.Export{
 			writer.WriteLine(StringUtils.Concat("\t", words));
 			if (HasAnyDescription(data)){
 				words = new List<string>();
-				for (int i = 0; i < data.ExpressionColumnCount; i++){
-					words.Add(Trunc(data.ExpressionColumnDescriptions[i] ?? ""));
+				for (int i = 0; i < data.ColumnCount; i++){
+					words.Add(Trunc(data.ColumnDescriptions[i] ?? ""));
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
 					words.Add(Trunc(data.CategoryColumnDescriptions[i] ?? ""));
@@ -65,7 +65,7 @@ namespace PerseusPluginLib.Export{
 				writer.WriteLine("#!{Description}" + StringUtils.Concat("\t", words));
 			}
 			words = new List<string>();
-			for (int i = 0; i < data.ExpressionColumnCount; i++){
+			for (int i = 0; i < data.ColumnCount; i++){
 				words.Add("E");
 			}
 			for (int i = 0; i < data.CategoryColumnCount; i++){
@@ -83,7 +83,7 @@ namespace PerseusPluginLib.Export{
 			writer.WriteLine("#!{Type}" + StringUtils.Concat("\t", words));
 			for (int i = 0; i < data.NumericRowCount; i++){
 				words = new List<string>();
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					words.Add("" + data.NumericRows[i][j]);
 				}
 				for (int j = 0; j < data.CategoryColumnCount; j++){
@@ -102,7 +102,7 @@ namespace PerseusPluginLib.Export{
 			}
 			for (int i = 0; i < data.CategoryRowCount; i++){
 				words = new List<string>();
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					string[] s = data.GetCategoryRowAt(i)[j];
 					words.Add(s.Length == 0 ? "" : StringUtils.Concat(";", s));
 				}
@@ -122,7 +122,7 @@ namespace PerseusPluginLib.Export{
 			}
 			for (int j = 0; j < data.RowCount; j++){
 				words = new List<string>();
-				for (int i = 0; i < data.ExpressionColumnCount; i++){
+				for (int i = 0; i < data.ColumnCount; i++){
 					words.Add(Trunc("" + data[j, i]));
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
@@ -147,8 +147,8 @@ namespace PerseusPluginLib.Export{
 		}
 
 		private static bool HasAnyDescription(IMatrixData data){
-			for (int i = 0; i < data.ExpressionColumnCount; i++){
-				if (data.ExpressionColumnDescriptions[i] != null && data.ExpressionColumnDescriptions[i].Length > 0){
+			for (int i = 0; i < data.ColumnCount; i++){
+				if (data.ColumnDescriptions[i] != null && data.ColumnDescriptions[i].Length > 0){
 					return true;
 				}
 			}

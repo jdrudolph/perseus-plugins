@@ -19,14 +19,14 @@ namespace PerseusPluginLib.Manual{
 			CreateTypeRow();
 			for (int i = 0; i < mdata.CategoryRowCount; i++){
 				DataAnnotationRow row = NewAnnotationRow();
-				for (int j = 0; j < mdata.ExpressionColumnCount; j++){
+				for (int j = 0; j < mdata.ColumnCount; j++){
 					row[j] = StringUtils.Concat(";", mdata.GetCategoryRowAt(i)[j] ?? new string[0]);
 				}
 				AddAnnotationRow(row, mdata.CategoryRowNames[i], mdata.CategoryRowDescriptions[i]);
 			}
 			for (int i = 0; i < mdata.NumericRowCount; i++){
 				DataAnnotationRow row = NewAnnotationRow();
-				for (int j = 0; j < mdata.ExpressionColumnCount; j++){
+				for (int j = 0; j < mdata.ColumnCount; j++){
 					row[j] = "" + mdata.NumericRows[i][j];
 				}
 				AddAnnotationRow(row, mdata.NumericRowNames[i], mdata.NumericRowDescriptions[i]);
@@ -36,7 +36,7 @@ namespace PerseusPluginLib.Manual{
 		private void CreateTypeRow(){
 			DataAnnotationRow row = NewAnnotationRow();
 			int count = 0;
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
+			for (int i = 0; i < mdata.ColumnCount; i++){
 				row[count++] = "Expression";
 			}
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
@@ -56,7 +56,7 @@ namespace PerseusPluginLib.Manual{
 
 		public override object[] GetRowData(int row){
 			List<object> rowData = new List<object>();
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
+			for (int i = 0; i < mdata.ColumnCount; i++){
 				rowData.Add(NumUtils.RoundSignificantDigits(mdata[row, i], 6));
 			}
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
@@ -75,9 +75,9 @@ namespace PerseusPluginLib.Manual{
 		}
 
 		public void CreateColumns(){
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string s = mdata.ExpressionColumnNames[i];
-				AddColumn(s, 60, ColumnType.Expression, mdata.ExpressionColumnDescriptions[i], Visibility.Visible);
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string s = mdata.ColumnNames[i];
+				AddColumn(s, 60, ColumnType.Expression, mdata.ColumnDescriptions[i], Visibility.Visible);
 			}
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
 				AddColumn(mdata.CategoryColumnNames[i], 60, ColumnType.Categorical, mdata.CategoryColumnDescriptions[i],

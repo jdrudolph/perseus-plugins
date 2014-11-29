@@ -37,7 +37,7 @@ namespace PerseusPluginLib.Impute{
 
 		public static void ReplaceMissingsByVal(float value, IMatrixData data){
 			for (int i = 0; i < data.RowCount; i++){
-				for (int j = 0; j < data.ExpressionColumnCount; j++){
+				for (int j = 0; j < data.ColumnCount; j++){
 					if (float.IsNaN(data[i, j])){
 						data[i, j] = value;
 						data.IsImputed[i, j] = true;

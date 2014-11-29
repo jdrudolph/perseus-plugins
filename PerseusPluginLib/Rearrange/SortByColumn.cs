@@ -29,25 +29,25 @@ namespace PerseusPluginLib.Rearrange{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int ind = param.GetSingleChoiceParam("Column").Value;
 			bool descending = param.GetBoolParam("Descending").Value;
-			if (ind < mdata.ExpressionColumnCount){
-				float[] v = mdata.GetExpressionColumn(ind);
+			if (ind < mdata.ColumnCount){
+				float[] v = mdata.GetColumn(ind);
 				int[] o = ArrayUtils.Order(v);
 				if (descending){
 					ArrayUtils.Revert(o);
 				}
-				mdata.ExtractExpressionRows(o);
+				mdata.ExtractRows(o);
 			} else{
-				double[] v = mdata.NumericColumns[ind - mdata.ExpressionColumnCount];
+				double[] v = mdata.NumericColumns[ind - mdata.ColumnCount];
 				int[] o = ArrayUtils.Order(v);
 				if (descending){
 					ArrayUtils.Revert(o);
 				}
-				mdata.ExtractExpressionRows(o);
+				mdata.ExtractRows(o);
 			}
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			string[] choice = ArrayUtils.Concat(mdata.ExpressionColumnNames, mdata.NumericColumnNames);
+			string[] choice = ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames);
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Column"){Values = choice, Help = "Select here the column that should be used for sorting."},

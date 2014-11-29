@@ -65,7 +65,7 @@ namespace PerseusPluginLib.Significance{
 					throw new Exception("Never get here.");
 			}
 			foreach (int col in cols){
-				float[] r = mdata.GetExpressionColumn(col);
+				float[] r = mdata.GetColumn(col);
 				double[] pvals = CalcSignificanceA(r, side);
 				string[][] fdr;
 				switch (truncation){
@@ -78,8 +78,8 @@ namespace PerseusPluginLib.Significance{
 					default:
 						throw new Exception("Never get here.");
 				}
-				mdata.AddNumericColumn(mdata.ExpressionColumnNames[col] + " Significance A", "", pvals);
-				mdata.AddCategoryColumn(mdata.ExpressionColumnNames[col] + " A significant", "", fdr);
+				mdata.AddNumericColumn(mdata.ColumnNames[col] + " Significance A", "", pvals);
+				mdata.AddCategoryColumn(mdata.ColumnNames[col] + " A significant", "", fdr);
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace PerseusPluginLib.Significance{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			List<string> choice = mdata.ExpressionColumnNames;
+			List<string> choice = mdata.ColumnNames;
 			return
 				new Parameters(new Parameter[]{
 					new MultiChoiceParam("Columns"){

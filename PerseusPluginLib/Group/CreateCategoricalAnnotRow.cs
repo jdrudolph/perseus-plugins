@@ -86,9 +86,9 @@ namespace PerseusPluginLib.Group{
 				}
 				string groupName = colNames[i];
 				string[] groupCol = TabSep.GetColumn(groupName, filename, '\t');
-				string[][] newCol = new string[mdata.ExpressionColumnCount][];
+				string[][] newCol = new string[mdata.ColumnCount][];
 				for (int j = 0; j < newCol.Length; j++){
-					string colName = mdata.ExpressionColumnNames[j];
+					string colName = mdata.ColumnNames[j];
 					if (!map.ContainsKey(colName)){
 						newCol[j] = new string[0];
 						continue;
@@ -125,8 +125,8 @@ namespace PerseusPluginLib.Group{
 			FileParam fp = param.GetFileParam("Output file");
 			StreamWriter writer = new StreamWriter(fp.Value);
 			writer.WriteLine("Name\tNew grouping");
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string colName = mdata.ExpressionColumnNames[i];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string colName = mdata.ColumnNames[i];
 				writer.WriteLine(colName + "\t" + colName);
 			}
 			writer.Close();
@@ -149,9 +149,9 @@ namespace PerseusPluginLib.Group{
 			SingleChoiceWithSubParams s = param.GetSingleChoiceWithSubParams("Category row");
 			int groupColInd = s.Value;
 			Parameters sp = s.GetSubParameters();
-			string[][] newRow = new string[mdata.ExpressionColumnCount][];
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string t = mdata.ExpressionColumnNames[i];
+			string[][] newRow = new string[mdata.ColumnCount][];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string t = mdata.ColumnNames[i];
 				string x = sp.GetStringParam(t).Value;
 				newRow[i] = x.Length > 0 ? x.Split(';') : new string[0];
 			}
@@ -175,8 +175,8 @@ namespace PerseusPluginLib.Group{
 
 		public Parameters GetEditParameters(IMatrixData mdata, int ind){
 			List<Parameter> par = new List<Parameter>();
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string t = mdata.ExpressionColumnNames[i];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string t = mdata.ColumnNames[i];
 				string help = "Specify a category value for the column '" + t + "'.";
 				par.Add(new StringParam(t, StringUtils.Concat(";", mdata.GetCategoryRowAt(ind)[i])){Help = help});
 			}
@@ -185,9 +185,9 @@ namespace PerseusPluginLib.Group{
 
 		private static void ProcessDataCreate(IMatrixData mdata, Parameters param){
 			string name = param.GetStringParam("Row name").Value;
-			string[][] groupCol = new string[mdata.ExpressionColumnCount][];
-			for (int i = 0; i < mdata.ExpressionColumnCount; i++){
-				string ename = mdata.ExpressionColumnNames[i];
+			string[][] groupCol = new string[mdata.ColumnCount][];
+			for (int i = 0; i < mdata.ColumnCount; i++){
+				string ename = mdata.ColumnNames[i];
 				string value = param.GetStringParam(ename).Value;
 				groupCol[i] = value.Length > 0 ? value.Split(';') : new string[0];
 			}
@@ -221,7 +221,7 @@ namespace PerseusPluginLib.Group{
 				return;
 			}
 			List<string[]> groupNames = new List<string[]>();
-			foreach (string sampleName in mdata.ExpressionColumnNames){
+			foreach (string sampleName in mdata.ColumnNames){
 				string groupName = scwsp.Value < 4
 					? regex.Match(sampleName).Groups[1].Value
 					: regex.Replace(sampleName, replacement);
@@ -288,7 +288,7 @@ namespace PerseusPluginLib.Group{
 			List<Parameter> par = new List<Parameter>{
 				new StringParam("Row name"){Value = "Group1", Help = "Name of the new category annotation row."}
 			};
-			foreach (string t in mdata.ExpressionColumnNames){
+			foreach (string t in mdata.ColumnNames){
 				string help = "Specify a value for the column '" + t + "'.";
 				par.Add(new StringParam(t){Value = t, Help = help});
 			}

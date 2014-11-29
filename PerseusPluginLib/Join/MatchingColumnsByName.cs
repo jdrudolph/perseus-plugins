@@ -88,7 +88,7 @@ namespace PerseusPluginLib.Join{
 			int nrows = nrows1 + nrows2;
 			Dictionary<string, int> dic1;
 			Dictionary<string, int> dic2;
-			string[] expColNames = SpecialSort(mdata1.ExpressionColumnNames, mdata2.ExpressionColumnNames, out dic1, out dic2);
+			string[] expColNames = SpecialSort(mdata1.ColumnNames, mdata2.ColumnNames, out dic1, out dic2);
 			float[,] ex = new float[nrows,expColNames.Length];
 			for (int i = 0; i < ex.GetLength(0); i++){
 				for (int j = 0; j < ex.GetLength(1); j++){
@@ -199,9 +199,9 @@ namespace PerseusPluginLib.Join{
 				}
 			}
 			IMatrixData result = (IMatrixData) mdata1.CreateNewInstance();
-			result.ExpressionColumnNames = new List<string>(expColNames);
-			result.ExpressionColumnDescriptions = result.ExpressionColumnNames;
-			result.ExpressionValues = ex;
+			result.ColumnNames = new List<string>(expColNames);
+			result.ColumnDescriptions = result.ColumnNames;
+			result.Values = ex;
 			result.NumericColumnNames = new List<string>(numColNames);
 			result.NumericColumnDescriptions = result.NumericColumnNames;
 			result.NumericColumns = numCols;
