@@ -56,7 +56,9 @@ namespace PerseusPluginLib.Basic{
 				CalcCurve(ArrayUtils.SubArray(indCol, order), showColumns, name, expCols, expColNames);
 			}
 			float[,] expData = ToMatrix(expCols);
-			data.SetData(data.Name, expColNames, expData, new List<string>(), new List<string[]>(), new List<string>(),
+			data.ColumnNames = expColNames;
+			data.Values = expData;
+			data.SetAnnotationColumns( new List<string>(), new List<string[]>(), new List<string>(),
 				new List<string[][]>(), new List<string>(), new List<double[]>(), new List<string>(), new List<double[][]>());
 		}
 

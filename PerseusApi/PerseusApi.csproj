@@ -71,6 +71,7 @@
     <Compile Include="Generic\IAnalysisResult.cs" />
     <Compile Include="Generic\IData.cs" />
     <Compile Include="Document\IDocumentData.cs" />
+    <Compile Include="Generic\IDataWithAnnotationColumns.cs" />
     <Compile Include="Generic\IDataWithAnnotationRows.cs" />
     <Compile Include="Generic\IExport.cs" />
     <Compile Include="Generic\IFromMatrix.cs" />

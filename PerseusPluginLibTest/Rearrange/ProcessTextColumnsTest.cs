@@ -79,9 +79,9 @@ namespace PerseusPluginLibTest.Rearrange{
 				});
 			IMatrixData mdata = new MatrixData();
 			mdata.Clear();
-			mdata.SetData(name, mdata.ColumnNames, mdata.Values, stringColumnNames, stringColumnsInit, mdata.CategoryColumnNames,
-				new List<string[][]>(), mdata.NumericColumnNames, mdata.NumericColumns, mdata.MultiNumericColumnNames,
-				mdata.MultiNumericColumns);
+			mdata.Name = name;
+			mdata.SetAnnotationColumns(stringColumnNames, stringColumnsInit, mdata.CategoryColumnNames, new List<string[][]>(),
+				mdata.NumericColumnNames, mdata.NumericColumns, mdata.MultiNumericColumnNames, mdata.MultiNumericColumns);
 			var ptc = new ProcessTextColumns();
 			ptc.ProcessData(mdata, param, ref supplTables, ref documents, processInfo);
 			Boolean ignoreCase = false;

@@ -346,8 +346,10 @@ namespace PluginProteomicRuler{
             // Summary matrix
             if (param.GetSingleChoiceWithSubParams("Averaging mode").Value != 3 && ArrayUtils.Contains(outputColumns, 7)){
 		        supplTables = new IMatrixData[1];
-			        IMatrixData supplTab = (IMatrixData) mdata.CreateNewInstance();
-                    supplTab.SetData("",new List<string>(), new float[totalProteinRow.Length,0], new List<string>(){"Sample","Input Column"}, new List<string[]>(){sampleNameRow,inputNameRow}, new List<string>(){"Organism"}, new List<string[][]>(){organismRow},
+	            IMatrixData supplTab = (IMatrixData) mdata.CreateNewInstance();
+	            mdata.ColumnNames = new List<string>();
+	            mdata.Values = new float[totalProteinRow.Length,0];
+                    supplTab.SetAnnotationColumns(  new List<string>(){"Sample","Input Column"}, new List<string[]>(){sampleNameRow,inputNameRow}, new List<string>(){"Organism"}, new List<string[][]>(){organismRow},
                         new List<string>(){"Total protein [pg/cell]","Total molecules per cell","Histone mass [pg/cell]","Ploidy","Cell volume [fl]"},
                         new List<double[]>(){totalProteinRow,totalMoleculesRow,histoneMassRow,ploidyRow,cellVolumeRow}, new List<string>(), new List<double[][]>() );
 			        supplTables[0] = supplTab;

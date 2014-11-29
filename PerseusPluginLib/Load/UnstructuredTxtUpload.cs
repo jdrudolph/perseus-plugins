@@ -66,12 +66,11 @@ namespace PerseusPluginLib.Load{
 				lines.Add(line);
 			}
 			reader.Close();
-			mdata.SetData("", "", new List<string>(), new List<string>(), new float[lines.Count,0], new bool[lines.Count,0],
-				new float[lines.Count,0], "", true, new List<string>(new[]{"All data"}),
-				new List<string>(new[]{"Complete file in one text column."}), new List<string[]>(new[]{lines.ToArray()}),
-				new List<string>(), new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(),
-				new List<double[]>(), new List<string>(), new List<string>(), new List<double[][]>(), new List<string>(),
-				new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>());
+			mdata.Values = new float[lines.Count,0];
+			mdata.SetAnnotationColumns(new List<string>(new[]{"All data"}), new List<string>(new[]{"Complete file in one text column."}),
+				new List<string[]>(new[]{lines.ToArray()}), new List<string>(), new List<string>(), new List<string[][]>(),
+				new List<string>(), new List<string>(), new List<double[]>(), new List<string>(), new List<string>(),
+				new List<double[][]>());
 			mdata.Origin = filename;
 		}
 
@@ -82,11 +81,10 @@ namespace PerseusPluginLib.Load{
 			string[][] cols = TabSep.GetColumns(colNames, filename, 0, PerseusUtils.commentPrefix,
 				PerseusUtils.commentPrefixExceptions, separator);
 			int nrows = TabSep.GetRowCount(filename);
-			mdata.SetData("", "", new List<string>(), new List<string>(), new float[nrows,0], new bool[nrows,0],
-				new float[nrows,0], "", true, new List<string>(colNames), new List<string>(colNames), new List<string[]>(cols),
-				new List<string>(), new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(),
-				new List<double[]>(), new List<string>(), new List<string>(), new List<double[][]>(), new List<string>(),
-				new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>());
+			mdata.Values = new float[nrows,0];
+			mdata.SetAnnotationColumns(new List<string>(colNames), new List<string>(colNames), new List<string[]>(cols), new List<string>(),
+				new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>(),
+				new List<string>(), new List<string>(), new List<double[][]>());
 			mdata.Origin = filename;
 		}
 	}

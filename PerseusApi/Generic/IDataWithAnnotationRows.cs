@@ -31,5 +31,14 @@ namespace PerseusApi.Generic{
 		void RemoveNumericRowAt(int index);
 		void ClearNumericRows();
 		void ExtractColumns(int[] indices);
+
+		void SetAnnotationRows(List<string> categoryRowNames, List<string> categoryRowDescriptions,
+			List<string[][]> categoryRows, List<string> numericRowNames, List<string> numericRowDescriptions,
+			List<double[]> numericRows);
+
+		void SetAnnotationRows(List<string> categoryRowNames, List<string[][]> categoryRows, List<string> numericRowNames,
+			List<double[]> numericRows);
+
+		void ClearAnnotationRows();
 	}
 }

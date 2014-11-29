@@ -37,7 +37,10 @@ namespace PerseusPluginLib.Load{
 				string[] col = TabSep.GetColumn(t, filename, '\t');
 				stringCols.Add(col);
 			}
-			matrixData.SetData("Gene list", new List<string>(), new float[stringCols[0].Length,0], stringColnames, stringCols,
+			matrixData.Name = "Gene list";
+			matrixData.ColumnNames = new List<string>();
+			matrixData.Values = new float[stringCols[0].Length,0];
+			matrixData.SetAnnotationColumns(stringColnames, stringCols,
 				new List<string>(), new List<string[][]>(), new List<string>(), new List<double[]>(), new List<string>(),
 				new List<double[][]>());
 			matrixData.Origin = "Gene list";

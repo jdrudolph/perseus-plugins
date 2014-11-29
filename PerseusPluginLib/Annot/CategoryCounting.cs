@@ -99,7 +99,10 @@ namespace PerseusPluginLib.Annot{
 			if (selection != null){
 				numColNames.AddRange(new[]{"Selection count", "Selection percentage"});
 			}
-			data.SetData("Count", new List<string>(), ex, new List<string>(), new List<string[]>(), catColNames, catCols,
+			data.Name = "Count";
+			data.ColumnNames = new List<string>();
+			data.Values = ex;
+			data.SetAnnotationColumns(  new List<string>(), new List<string[]>(), catColNames, catCols,
 				numColNames, numCols, new List<string>(), new List<double[][]>());
 		}
 

@@ -82,7 +82,10 @@ namespace PerseusPluginLib.Basic{
 			}
 			float[,] exVals = GetExVals(ex);
 			string[] colNames = GetColNames(mdata, cols);
-			mdata.SetData("Summary", new List<string>(names.ToArray()), exVals, new List<string>(new[]{"Columns"}),
+			mdata.Name = "Summary";
+			mdata.ColumnNames = new List<string>(names.ToArray());
+			mdata.Values = exVals;
+			mdata.SetAnnotationColumns( new List<string>(new[]{"Columns"}),
 				new List<string[]>(new[]{colNames}), mdata.CategoryRowNames,
 				TransformCategories(mdata, cols, mdata.ColumnCount), mdata.NumericRowNames,
 				TransformNumeric(mdata.NumericRows, cols, mdata.ColumnCount), new List<string>(), new List<double[][]>());

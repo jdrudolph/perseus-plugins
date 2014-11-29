@@ -11,6 +11,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class ExpandMultiNumeric : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
+
 		public string Description{
 			get{
 				return "Distribute multiple values per cell in a multi-numeric column over multiple rows. For each row in the" +
@@ -21,6 +22,7 @@ namespace PerseusPluginLib.Rearrange{
 					"of the multi-numeric columns(s).";
 			}
 		}
+
 		public string Name { get { return "Expand multi-numeric and text columns"; } }
 		public string Heading { get { return "Rearrange"; } }
 		public bool IsActive { get { return true; } }
@@ -30,11 +32,13 @@ namespace PerseusPluginLib.Rearrange{
 		public string HelpOutput { get { return "Columns are the same. The number of rows increases due to the expansion."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:ExpandMultiNumeric"; } }
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public string Url { get{
+			return
+				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:ExpandMultiNumeric";
+		} }
+
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -84,7 +88,7 @@ namespace PerseusPluginLib.Rearrange{
 						numC[k][count + j] = mdata.NumericColumns[k][i];
 					}
 					for (int k = 0; k < mdata.CategoryColumnCount; k++){
-						catC[k][count + j] = mdata.GetCategoryColumnEntryAt(k,i);
+						catC[k][count + j] = mdata.GetCategoryColumnEntryAt(k, i);
 					}
 				}
 				for (int k = 0; k < mdata.MultiNumericColumnCount; k++){
@@ -127,8 +131,9 @@ namespace PerseusPluginLib.Rearrange{
 			foreach (double[][] d in toBeTransformed){
 				numC.Add(Transform(d));
 			}
-			mdata.SetData(mdata.Name, mdata.ColumnNames, expVals, mdata.StringColumnNames, stringC,
-				mdata.CategoryColumnNames, catC,
+			mdata.ColumnNames = mdata.ColumnNames;
+			mdata.Values = expVals;
+			mdata.SetAnnotationColumns( mdata.StringColumnNames, stringC, mdata.CategoryColumnNames, catC,
 				new List<string>(ArrayUtils.Concat(mdata.NumericColumnNames,
 					ArrayUtils.SubList(mdata.MultiNumericColumnNames, multiNumCols))), numC,
 				new List<string>(ArrayUtils.SubArray(mdata.MultiNumericColumnNames, multiNumComplement)), multiNumC);
@@ -165,13 +170,12 @@ namespace PerseusPluginLib.Rearrange{
 			return q.Length;
 		}
 
-		private static int GetEntryCount(ICollection<double> x){
-			return x.Count;
-		}
+		private static int GetEntryCount(ICollection<double> x) { return x.Count; }
 
 		private static int GetNewRowCount(IMatrixData mdata, IList<int> multiNumCols, IList<int> stringCols){
 			return multiNumCols.Count > 0
-				? GetNewRowCount(mdata.MultiNumericColumns[multiNumCols[0]]) : GetNewRowCount(mdata.StringColumns[stringCols[0]]);
+				? GetNewRowCount(mdata.MultiNumericColumns[multiNumCols[0]])
+				: GetNewRowCount(mdata.StringColumns[stringCols[0]]);
 		}
 
 		private static int GetNewRowCount(IEnumerable<string> stringColumn){
@@ -198,15 +202,17 @@ namespace PerseusPluginLib.Rearrange{
 			return count;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new MultiChoiceParam("Multi-numeric columns"){
-						Values = mdata.MultiNumericColumnNames, Value = new int[0],
+						Values = mdata.MultiNumericColumnNames,
+						Value = new int[0],
 						Help = "Select here the multi-numeric colums that should be expanded."
 					},
 					new MultiChoiceParam("Text columns"){
-						Values = mdata.StringColumnNames, Value = new int[0],
+						Values = mdata.StringColumnNames,
+						Value = new int[0],
 						Help = "Select here the text colums that should be expanded."
 					}
 				});

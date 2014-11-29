@@ -103,7 +103,10 @@ namespace PerseusPluginLib.Load{
 			for (int i = 0; i < ncols; i++){
 				exprColumnNames.Add("Column " + (i + 1));
 			}
-			mdata.SetData("Random matrix", exprColumnNames, m, new List<string>(), new List<string[]>(), catColNames, catCols,
+			mdata.Name = "Random matrix";
+			mdata.ColumnNames = exprColumnNames;
+			mdata.Values = m;
+			mdata.SetAnnotationColumns( new List<string>(), new List<string[]>(), catColNames, catCols,
 				new List<string>(), new List<double[]>(), new List<string>(), new List<double[][]>());
 			mdata.Origin = "Random matrix";
 			string[] names = new string[mdata.RowCount];
