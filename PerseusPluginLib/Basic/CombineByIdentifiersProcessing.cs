@@ -20,7 +20,14 @@ namespace PerseusPluginLib.Basic{
 	public class CombineByIdentifiersProcessing : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Collapses multiple rows with same identifiers in the specified identifier column "+"into a single row. For numeric rows it can be specified how muliple values should be summarized, e.g. by mean or median."; } }
+
+		public string Description{
+			get{
+				return "Collapses multiple rows with same identifiers in the specified identifier column " +
+					"into a single row. For numeric rows it can be specified how muliple values should be summarized, e.g. by mean or median.";
+			}
+		}
+
 		public string HelpOutput { get { return "Matrix with respective rows collapsed."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
@@ -46,11 +53,23 @@ namespace PerseusPluginLib.Basic{
 					Values = mdata.StringColumnNames,
 					Help = "Column containing IDs that are going to be clustered."
 				},
-				new BoolParam("Keep rows without ID"),
-				new SingleChoiceParam("Average type for expression columns"){Values = averageTypeChoice, Value = 2}
+				new BoolParam("Keep rows without ID"){Help = "Rows without IDs are kept, each as a separate row."},
+				new SingleChoiceParam("Average type for expression columns"){
+					Values = averageTypeChoice,
+					Value = 2,
+					Help =
+						"Here it is specified how numeric values should be combined for expression columns " +
+							"in those cases where multiple rows are collapsed."
+				}
 			};
 			foreach (string n in mdata.NumericColumnNames){
-				parameters.Add(new SingleChoiceParam("Average type for " + n){Values = averageTypeChoice, Value = 2});
+				parameters.Add(new SingleChoiceParam("Average type for " + n){
+					Values = averageTypeChoice,
+					Value = 2,
+					Help =
+						"Here it is specified how numeric values should be combined for the specific numeric column " +
+							"in those cases where multiple rows are collapsed."
+				});
 			}
 			return new Parameters(parameters);
 		}
