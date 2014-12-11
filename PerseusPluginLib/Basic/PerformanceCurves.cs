@@ -13,10 +13,11 @@ namespace PerseusPluginLib.Basic{
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
 		public string Name { get { return "Performance curves"; } }
+        public string Heading { get { return "Basic"; } }
 		public string HelpOutput { get { return ""; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
-		public string Description { get { return "Calculate predictive performance measures like precision-recall or ROC curves."; } }
+		public string Description { get { return "Calculation of predictive performance measures like precision-recall or ROC curves."; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 10; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
@@ -185,14 +186,33 @@ namespace PerseusPluginLib.Basic{
 			string[] numChoice = ArrayUtils.Concat(mdata.NumericColumnNames, mdata.ColumnNames);
 			return
 				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Indicated are"){Values = new[]{"False", "True"}},
-					new SingleChoiceParam("In column"){Values = mdata.CategoryColumnNames}, new StringParam("Indicator"){Value = "+"},
-					new MultiChoiceParam("Scores"){Value = new[]{0}, Values = numChoice},
-					new BoolParam("Large values are good"){Value = true},
-					new MultiChoiceParam("Display quantity"){Values = PerformanceColumnType.AllTypeNames}
+					new SingleChoiceParam("Indicated are"){
+					        Values = new[]{"False", "True"},
+                            Help="Specify whether rows containing the 'Indicator' are true or false."
+					    },
+					new SingleChoiceParam("In column"){
+					        Values = mdata.CategoryColumnNames,
+                            Help="The categorical column containing the 'Indicator'."
+					    }, 
+                    new StringParam("Indicator"){
+                            Value = "+",
+                            Help="The string that will be searched in the above specified categorical column to define which rows are right or wrong predicted."
+                        },
+					new MultiChoiceParam("Scores"){
+					        Value = new[]{0}, Values = numChoice,
+                            Help="The expression columns that contain the classification scores by which the rows will be ranked."
+					    },
+					new BoolParam("Large values are good"){
+					        Value = true,
+                            Help="If checked, large score values are considered good, otherwise the lower the score value the better."
+					    },
+					new MultiChoiceParam("Display quantity"){
+					        Values = PerformanceColumnType.AllTypeNames,
+                            Help="The quantities that should be calculated."
+					    }
 				});
 		}
 
-		public string Heading { get { return "Basic"; } }
+		
 	}
 }
