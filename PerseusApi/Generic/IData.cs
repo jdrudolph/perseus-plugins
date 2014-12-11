@@ -18,7 +18,15 @@ namespace PerseusApi.Generic{
 		/// Name of the user who created this data item.
 		/// </summary>
 		string User { get; set; }
+		/// <summary>
+		/// Creates an instance of the same data type.
+		/// </summary>
+		/// <returns>New instance.</returns>
 		IData CreateNewInstance();
+		/// <summary>
+		/// Creates an instance of the specified data type.
+		/// </summary>
+		/// <returns>New instance.</returns>
 		IData CreateNewInstance(DataType type);
 		void Clear();
 	}

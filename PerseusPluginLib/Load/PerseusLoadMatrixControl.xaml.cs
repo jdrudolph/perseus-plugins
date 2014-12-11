@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using BaseLib.Parse;
 using BaseLibS.Util;
+using Microsoft.Win32;
 using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Load{
@@ -112,7 +113,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		private void SelectButton_OnClick(object sender, RoutedEventArgs e) {
-			Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+			OpenFileDialog ofd = new OpenFileDialog();
 			if (Filter != null && !Filter.Equals("")){
 				ofd.Filter = Filter;
 			}
