@@ -211,7 +211,7 @@ namespace PluginMzTab.Plugin.Param{
             }
 
             object selection = b.SelectedValue;
-            foreach (var box in controls){
+            foreach (ComboBox box in controls){
                 if (box.Equals(sender)){
                     continue;
                 }

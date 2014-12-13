@@ -316,7 +316,7 @@ namespace PluginMzTab.Plugin.MzTab{
 			}
 		}
 
-		private static void ParseAplFile(MsRunImpl aplfile, StreamWriter writer, string status, int progress,
+		private static void ParseAplFile(MsRun aplfile, StreamWriter writer, string status, int progress,
 			ProcessInfo processInfo){
 			lock (processInfo){
 				processInfo.Progress(progress);
