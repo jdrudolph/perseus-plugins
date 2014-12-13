@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PerseusApi.Document;
-using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusLib;
 using PerseusPluginLib.Rearrange;
@@ -55,7 +54,6 @@ namespace PerseusPluginLibTest.Rearrange{
 			const string name = "Test";
 			IMatrixData[] supplTables = null;
 			IDocumentData[] documents = null;
-			ProcessInfo processInfo = null;
 			List<string> stringColumnNames = new List<string>{"Column Name"};
 			List<string[]> stringColumnsInit = new List<string[]>{stringsInit};
 			List<string[]> stringColumnsExpect = new List<string[]>{stringsExpect};
@@ -71,7 +69,7 @@ namespace PerseusPluginLibTest.Rearrange{
 			mdata.SetAnnotationColumns(stringColumnNames, stringColumnsInit, mdata.CategoryColumnNames, new List<string[][]>(),
 				mdata.NumericColumnNames, mdata.NumericColumns, mdata.MultiNumericColumnNames, mdata.MultiNumericColumns);
 			var ptc = new ProcessTextColumns();
-			ptc.ProcessData(mdata, param, ref supplTables, ref documents, processInfo);
+			ptc.ProcessData(mdata, param, ref supplTables, ref documents, null);
 			const bool ignoreCase = false;
 			for (int rowInd = 0; rowInd < stringColumnsInit[0].Length; rowInd++){
 				Assert.AreEqual(mdata.StringColumns[0][rowInd], stringColumnsExpect[0][rowInd], ignoreCase);

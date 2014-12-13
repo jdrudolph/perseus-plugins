@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
     </Reference>
+    <Reference Include="PerseusLib, Version=1.5.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLLs\PerseusLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,10 +65,6 @@
     <ProjectReference Include="..\PerseusPluginLib\PerseusPluginLib.csproj">
       <Project>{5f1c1abc-403d-4f96-a37d-b6ce1b791544}</Project>
       <Name>PerseusPluginLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\code\net\PerseusLib\PerseusLib.csproj">
-      <Project>{0287f9d7-e8d2-4090-a733-50617f7e81d1}</Project>
-      <Name>PerseusLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
