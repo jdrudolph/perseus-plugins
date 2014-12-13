@@ -65,7 +65,7 @@ namespace PerseusPluginLibTest.Rearrange{
 					new StringParam("Regular expression", regexStr), new BoolParam("Keep original columns", false),
 					new BoolParam("Strings separated by semicolons are independent", false)
 				});
-			IMatrixData mdata = DataFactory.CreateNewMatrixData();
+			IMatrixData mdata = PerseusFactory.CreateNewMatrixData();
 			mdata.Clear();
 			mdata.Name = name;
 			mdata.SetAnnotationColumns(stringColumnNames, stringColumnsInit, mdata.CategoryColumnNames, new List<string[][]>(),

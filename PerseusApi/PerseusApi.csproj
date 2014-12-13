@@ -59,6 +59,7 @@
     <Compile Include="Document\IDocumentToMatrix.cs" />
     <Compile Include="Document\IDocumentFromMatrix.cs" />
     <Compile Include="Document\IDocumentMultiProcessing.cs" />
+    <Compile Include="Generic\AnnotType.cs" />
     <Compile Include="Generic\DataType.cs" />
     <Compile Include="Document\IDocumentActivity.cs" />
     <Compile Include="Document\IDocumentAnalysis.cs" />
