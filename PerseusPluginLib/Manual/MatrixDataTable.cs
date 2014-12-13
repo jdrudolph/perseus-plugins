@@ -77,7 +77,7 @@ namespace PerseusPluginLib.Manual{
 		public void CreateColumns(){
 			for (int i = 0; i < mdata.ColumnCount; i++){
 				string s = mdata.ColumnNames[i];
-				AddColumn(s, 60, ColumnType.Expression, mdata.ColumnDescriptions[i], Visibility.Visible);
+				AddColumn(s, 60, ColumnType.Numeric, mdata.ColumnDescriptions[i], Visibility.Visible);
 			}
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
 				AddColumn(mdata.CategoryColumnNames[i], 60, ColumnType.Categorical, mdata.CategoryColumnDescriptions[i],

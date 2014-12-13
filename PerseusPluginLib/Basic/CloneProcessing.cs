@@ -3,12 +3,11 @@ using BaseLib.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Basic{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return Resources.sheepButton_Image; } }
+		public Bitmap DisplayImage { get { return BaseLib.Properties.Resources.sheep; } }
 		public string Description { get { return "A copy of the input matrix is generated."; } }
 		public string HelpOutput { get { return "Same as input matrix."; } }
 		public string[] HelpSupplTables { get { return new string[0]; } }

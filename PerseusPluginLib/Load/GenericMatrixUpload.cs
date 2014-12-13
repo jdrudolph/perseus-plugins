@@ -9,12 +9,11 @@ using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 using PerseusApi.Utils;
-using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Load{
 	public class GenericMatrixUpload : IMatrixUpload{
 		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.upload64; } }
+		public Bitmap DisplayImage { get { return BaseLib.Properties.Resources.upload64; } }
 		public string Name { get { return "Generic matrix upload"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 0; } }

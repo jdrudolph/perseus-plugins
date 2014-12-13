@@ -103,16 +103,6 @@ namespace PerseusPluginLib.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap dice {
-            get {
-                object obj = ResourceManager.GetObject("dice", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap filter2 {
             get {
                 object obj = ResourceManager.GetObject("filter2", resourceCulture);
@@ -233,29 +223,9 @@ namespace PerseusPluginLib.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sheepButton_Image {
-            get {
-                object obj = ResourceManager.GetObject("sheepButton_Image", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap trendline_Image {
             get {
                 object obj = ResourceManager.GetObject("trendline_Image", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap upload64 {
-            get {
-                object obj = ResourceManager.GetObject("upload64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

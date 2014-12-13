@@ -5,12 +5,11 @@ using BaseLibS.Num;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Load{
 	public class CreateRandomMatrix : IMatrixUpload{
 		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.dice; } }
+		public Bitmap DisplayImage { get { return BaseLib.Properties.Resources.dice; } }
 		public string Name { get { return "Create random matrix"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 6; } }

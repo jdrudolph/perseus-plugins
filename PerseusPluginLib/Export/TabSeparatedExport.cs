@@ -6,12 +6,11 @@ using BaseLib.Param;
 using BaseLibS.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.Save_icon; } }
+		public Bitmap DisplayImage { get { return BaseLib.Properties.Resources.save2; } }
 		public string Description { get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; } }
 		public string Name { get { return "Generic matrix export"; } }
 		public bool IsActive { get { return true; } }
