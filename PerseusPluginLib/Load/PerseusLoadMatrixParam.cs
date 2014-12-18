@@ -61,11 +61,9 @@ namespace PerseusPluginLib.Load{
 
 		public override float Height { get { return 790; } }
 
-		protected override UIElement Control{
-			get{
-				string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
-				return new PerseusLoadMatrixControl(items){Filter = Filter, Value = Value};
-			}
+		protected override UIElement CreateControl(){
+			string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
+			return new PerseusLoadMatrixControl(items){Filter = Filter, Value = Value};
 		}
 
 		public string Filename { get { return Value[0]; } }
@@ -87,6 +85,7 @@ namespace PerseusPluginLib.Load{
 		public int[] TextColumnIndices { get { return GetIntValues(3); } }
 		public int[] MultiNumericalColumnIndices { get { return GetIntValues(4); } }
 		public bool ShortenExpressionColumnNames { get { return bool.Parse(Value[7]); } }
+
 		public override object Clone(){
 			return new PerseusLoadMatrixParam(Name){
 				Help = Help,
