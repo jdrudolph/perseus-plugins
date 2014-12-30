@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using BaseLib.Param;
 using BaseLib.Parse;
+using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;

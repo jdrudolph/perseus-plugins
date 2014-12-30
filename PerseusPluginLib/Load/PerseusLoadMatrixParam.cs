@@ -1,6 +1,5 @@
 using System;
-using System.Windows;
-using BaseLib.Param;
+using BaseLibS.Param;
 using BaseLibS.Util;
 
 namespace PerseusPluginLib.Load{
@@ -9,6 +8,7 @@ namespace PerseusPluginLib.Load{
 		public string Filter { get; set; }
 		public string[] Value { get; set; }
 		public string[] Default { get; private set; }
+		[NonSerialized] private PerseusLoadMatrixControl control;
 
 		public PerseusLoadMatrixParam(string name) : base(name){
 			Value = new string[8];
@@ -33,16 +33,8 @@ namespace PerseusPluginLib.Load{
 		public override void ResetValue() { Value = Default; }
 		public override void ResetDefault() { Default = Value; }
 		public override bool IsModified { get { return !Value.Equals(Default); } }
-
-		public override void SetValueFromControl(){
-			PerseusLoadMatrixControl tb = (PerseusLoadMatrixControl) control;
-			Value = tb.Value;
-		}
-
-		public override void UpdateControlFromValue(){
-			PerseusLoadMatrixControl lfp = (PerseusLoadMatrixControl) control;
-			lfp.Value = Value;
-		}
+		public override void SetValueFromControl() { Value = control.Value; }
+		public override void UpdateControlFromValue() { control.Value = Value; }
 
 		public override void Clear(){
 			Value = new string[8];
@@ -55,15 +47,15 @@ namespace PerseusPluginLib.Load{
 			if (control == null){
 				return;
 			}
-			PerseusLoadMatrixControl tb = (PerseusLoadMatrixControl) control;
-			tb.UpdateFile(filename);
+			control.UpdateFile(filename);
 		}
 
 		public override float Height { get { return 790; } }
 
-		protected override UIElement CreateControl(){
+		public override object CreateControl(){
 			string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
-			return new PerseusLoadMatrixControl(items){Filter = Filter, Value = Value};
+			control = new PerseusLoadMatrixControl(items){Filter = Filter, Value = Value};
+			return control;
 		}
 
 		public string Filename { get { return Value[0]; } }

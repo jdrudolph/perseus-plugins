@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
 using BaseLib.Parse;
+using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
