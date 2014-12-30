@@ -44,7 +44,7 @@ namespace PerseusPluginLib.Significance{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] cols = param.GetMultiChoiceParam("Columns").Value;
+				int[] cols = param.GetParam<int[]>("Columns").Value;
 			int truncIndex = param.GetParam<int>("Use for truncation").Value;
 			TestTruncation truncation = truncIndex == 0
 				? TestTruncation.Pvalue

@@ -96,9 +96,9 @@ namespace PerseusPluginLib.Basic{
 				colIndsGroups = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
 			}
 			int[] useCols = xp.Value == 1
-				? xp.GetSubParameters().GetMultiChoiceParam("Columns").Value
+				? xp.GetSubParameters().GetParam<int[]>("Columns").Value
 				: ArrayUtils.ConsecutiveInts(mdata.ColumnCount);
-			HashSet<int> w = ArrayUtils.ToHashSet(param.GetMultiChoiceParam("Calculate").Value);
+			HashSet<int> w = ArrayUtils.ToHashSet(param.GetParam<int[]>("Calculate").Value);
 			bool[] include = new bool[procs.Length];
 			double[][] columns = new double[procs.Length][];
 			double[][][] columnsG = null;

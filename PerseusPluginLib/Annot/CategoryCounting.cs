@@ -46,7 +46,7 @@ namespace PerseusPluginLib.Annot{
 				int minCount = param.GetParam<int>("Min. count").Value;
 				int selCol = param.GetParam<int>("Selection").Value;
 			string value = param.GetParam<string>("Value").Value;
-			int[] catIndices = param.GetMultiChoiceParam("Categories").Value;
+			int[] catIndices = param.GetParam<int[]>("Categories").Value;
 			bool[] selection = null;
 			if (selCol < mdata.CategoryColumnCount){
 				selection = new bool[mdata.RowCount];

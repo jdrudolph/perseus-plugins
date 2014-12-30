@@ -28,7 +28,7 @@ namespace PerseusPluginLib.Basic{
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 				string colName = param.GetParam<string>("Name of new column").Value;
-			int[] columns = param.GetMultiChoiceParam("Categories").Value;
+				int[] columns = param.GetParam<int[]>("Categories").Value;
 			bool inverse = param.GetParam<bool>("Inverse").Value;
 			int[] catCols;
 			int[] stringCols;

@@ -1,4 +1,4 @@
-﻿using BaseLib.Param;
+﻿using BaseLibS.Param;
 
 namespace PerseusApi.Generic{
 	public interface IUpload : IActivity{

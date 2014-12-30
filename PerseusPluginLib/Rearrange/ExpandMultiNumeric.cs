@@ -43,9 +43,9 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] multiNumCols = param1.GetMultiChoiceParam("Multi-numeric columns").Value;
+				int[] multiNumCols = param1.GetParam<int[]>("Multi-numeric columns").Value;
 			Array.Sort(multiNumCols);
-			int[] stringCols = param1.GetMultiChoiceParam("Text columns").Value;
+			int[] stringCols = param1.GetParam<int[]>("Text columns").Value;
 			Array.Sort(stringCols);
 			HashSet<int> multinumCols2 = new HashSet<int>(multiNumCols);
 			HashSet<int> stringCols2 = new HashSet<int>(stringCols);

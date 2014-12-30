@@ -173,7 +173,7 @@ namespace PerseusPluginLib.Join{
 				result.AddCategoryColumn(mdata2.Name, "", indicatorCol);
 			}
 				{
-					int[] exCols = parameters.GetMultiChoiceParam("Expression columns").Value;
+					int[] exCols = parameters.GetParam<int[]>("Expression columns").Value;
 					float[,] newExColumns = new float[mdata1.RowCount,exCols.Length];
 					float[,] newQuality = new float[mdata1.RowCount,exCols.Length];
 					bool[,] newIsImputed = new bool[mdata1.RowCount,exCols.Length];
@@ -209,7 +209,7 @@ namespace PerseusPluginLib.Join{
 					AddExpressionColumns(result, newExColNames, newExColumns, newQuality, newIsImputed);
 				}
 				{
-					int[] numCols = parameters.GetMultiChoiceParam("Numerical columns").Value;
+					int[] numCols = parameters.GetParam<int[]>("Numerical columns").Value;
 					if (avNumerical != null){
 						double[][] newNumericalColumns = new double[numCols.Length][];
 						string[] newNumColNames = new string[numCols.Length];
@@ -257,7 +257,7 @@ namespace PerseusPluginLib.Join{
 					}
 				}
 				{
-					int[] catCols = parameters.GetMultiChoiceParam("Categorical columns").Value;
+					int[] catCols = parameters.GetParam<int[]>("Categorical columns").Value;
 					string[][][] newCatColumns = new string[catCols.Length][][];
 					string[] newCatColNames = new string[catCols.Length];
 					for (int i = 0; i < catCols.Length; i++){
@@ -283,7 +283,7 @@ namespace PerseusPluginLib.Join{
 					}
 				}
 				{
-					int[] stringCols = parameters.GetMultiChoiceParam("Text columns").Value;
+					int[] stringCols = parameters.GetParam<int[]>("Text columns").Value;
 					string[][] newStringColumns = new string[stringCols.Length][];
 					string[] newStringColNames = new string[stringCols.Length];
 					for (int i = 0; i < stringCols.Length; i++){

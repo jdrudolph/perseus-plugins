@@ -35,7 +35,7 @@ namespace PerseusPluginLib.Rearrange{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 				ParameterWithSubParams<int> sp = param.GetParamWithSubParams<int>("Source type");
 			Parameters subParams = sp.GetSubParameters();
-			int[] colInds = subParams.GetMultiChoiceParam("Columns").Value;
+			int[] colInds = subParams.GetParam<int[]>("Columns").Value;
 			int which = subParams.GetParam<int>("Target type").Value;
 			switch (sp.Value){
 				case 0:

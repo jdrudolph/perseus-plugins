@@ -65,7 +65,7 @@ namespace PerseusPluginLib.Filter{
 				processInfo.ErrString = "No categorical columns available.";
 				return;
 			}
-			Parameter<int[]> mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
+			Parameter<int[]> mcp = p.GetSubParameters().GetParam<int[]>("Values");
 			int[] inds = mcp.Value;
 			if (inds.Length == 0){
 				processInfo.ErrString = "Please select at least one term for filtering.";

@@ -34,13 +34,13 @@ namespace PerseusPluginLib.Basic{
 				bool falseAreIndicated = param.GetParam<int>("Indicated are").Value == 0;
 				int catCol = param.GetParam<int>("In column").Value;
 			string word = param.GetParam<string>("Indicator").Value;
-			int[] scoreColumns = param.GetMultiChoiceParam("Scores").Value;
+			int[] scoreColumns = param.GetParam<int[]>("Scores").Value;
 			if (scoreColumns.Length == 0){
 				processInfo.ErrString = "Please specify at least one column with scores.";
 				return;
 			}
 			bool largeIsGood = param.GetParam<bool>("Large values are good").Value;
-			int[] showColumns = param.GetMultiChoiceParam("Display quantity").Value;
+			int[] showColumns = param.GetParam<int[]>("Display quantity").Value;
 			if (showColumns.Length == 0){
 				processInfo.ErrString = "Please select at least one quantity to display";
 				return;

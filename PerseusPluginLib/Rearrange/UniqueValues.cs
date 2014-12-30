@@ -34,7 +34,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] stringCols = param1.GetMultiChoiceParam("Text columns").Value;
+				int[] stringCols = param1.GetParam<int[]>("Text columns").Value;
 			if (stringCols.Length == 0){
 				processInfo.ErrString = "Please select some columns.";
 				return;

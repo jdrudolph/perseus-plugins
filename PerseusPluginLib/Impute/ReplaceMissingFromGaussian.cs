@@ -48,7 +48,7 @@ namespace PerseusPluginLib.Impute{
 				double width = param.GetParam<double>("Width").Value;
 				double shift = param.GetParam<double>("Down shift").Value;
 			bool separateColumns = param.GetParam<int>("Mode").Value == 1;
-			int[] cols = param.GetMultiChoiceParam("Columns").Value;
+			int[] cols = param.GetParam<int[]>("Columns").Value;
 			if (separateColumns){
 				ReplaceMissingsByGaussianByColumn(width, shift, mdata, cols);
 			} else{

@@ -56,7 +56,7 @@ namespace PerseusPluginLib.Group {
 				processInfo.ErrString = "No categorical rows available.";
 				return;
 			}
-			Parameter<int[]> mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
+			Parameter<int[]> mcp = p.GetSubParameters().GetParam<int[]>("Values");
 			int[] inds = mcp.Value;
 			if (inds.Length < 1) {
 				processInfo.ErrString = "Please select at least two terms for merging.";

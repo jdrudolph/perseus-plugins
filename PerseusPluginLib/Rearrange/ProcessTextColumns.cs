@@ -30,7 +30,7 @@ namespace PerseusPluginLib.Rearrange{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 				string regexStr = param.GetParam<string>("Regular expression").Value;
 			Regex regex = new Regex(regexStr);
-			int[] inds = param.GetMultiChoiceParam("Columns").Value;
+			int[] inds = param.GetParam<int[]>("Columns").Value;
 			bool keepColumns = param.GetParam<bool>("Keep original columns").Value;
 			bool semicolons = param.GetParam<bool>("Strings separated by semicolons are independent").Value;
 			foreach (int col in inds){

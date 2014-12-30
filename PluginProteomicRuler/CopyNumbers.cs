@@ -46,10 +46,10 @@ namespace PluginProteomicRuler
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo)
 		{
-			int[] outputColumns = param.GetMultiChoiceParam("Output").Value;
+			int[] outputColumns = param.GetParam<int[]>("Output").Value;
 			int proteinIdColumnInd = param.GetParam<int>("Protein IDs").Value;
 			string[] proteinIds = mdata.StringColumns[proteinIdColumnInd];
-			int[] intensityCols = param.GetMultiChoiceParam("Intensities").Value;
+			int[] intensityCols = param.GetParam<int[]>("Intensities").Value;
 			if (intensityCols.Length == 0)
 			{
 				processInfo.ErrString = "Please select at least one column containing protein intensities.";

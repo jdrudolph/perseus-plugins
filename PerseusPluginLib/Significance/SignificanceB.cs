@@ -44,8 +44,8 @@ namespace PerseusPluginLib.Significance{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] rcols = param.GetMultiChoiceParam("Ratio columns").Value;
-			int[] icols = param.GetMultiChoiceParam("Intensity columns").Value;
+				int[] rcols = param.GetParam<int[]>("Ratio columns").Value;
+			int[] icols = param.GetParam<int[]>("Intensity columns").Value;
 			if (rcols.Length == 0){
 				processInfo.ErrString = "Please specify some ratio columns.";
 				return;

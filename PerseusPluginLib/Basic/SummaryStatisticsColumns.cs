@@ -55,8 +55,8 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] cols = param.GetMultiChoiceParam("Columns").Value;
-			HashSet<int> w = ArrayUtils.ToHashSet(param.GetMultiChoiceParam("Calculate").Value);
+				int[] cols = param.GetParam<int[]>("Columns").Value;
+				HashSet<int> w = ArrayUtils.ToHashSet(param.GetParam<int[]>("Calculate").Value);
 			bool[] include = new bool[SummaryStatisticsRows.procs.Length];
 			double[][] rowws = new double[SummaryStatisticsRows.procs.Length][];
 			for (int i = 0; i < include.Length; i++){

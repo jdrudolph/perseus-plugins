@@ -58,7 +58,7 @@ namespace PluginProteomicRuler{
 			int[] selection =
 				param.GetParamWithSubParams<int>("Fasta header annotations")
 					.GetSubParameters()
-					.GetMultiChoiceParam("Annotations")
+					.GetParam<int[]>("Annotations")
 					.Value;
 			string[][] idsToBeAnnotated = (param.GetParamWithSubParams<int>("Fasta header annotations").Value == 0)
 				? proteinIds
@@ -151,7 +151,7 @@ namespace PluginProteomicRuler{
 			selection =
 				param.GetParamWithSubParams<int>("Numeric annotations")
 					.GetSubParameters()
-					.GetMultiChoiceParam("Annotations")
+					.GetParam<int[]>("Annotations")
 					.Value;
 			bool annotateLeadingId = (param.GetParamWithSubParams<int>("Numeric annotations").Value == 1);
 			if (ArrayUtils.Contains(selection, 0)) // Sequence length
@@ -205,7 +205,7 @@ namespace PluginProteomicRuler{
 			Protease[] proteases = ArrayUtils.SubArray(Constants.DefaultProteases,
 				param.GetParamWithSubParams<int>("Calculate theoretical peptides")
 					.GetSubParameters()
-					.GetMultiChoiceParam("Proteases")
+					.GetParam<int[]>("Proteases")
 					.Value);
 			double minLength =
 				param.GetParamWithSubParams<int>("Calculate theoretical peptides")

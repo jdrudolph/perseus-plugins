@@ -40,8 +40,8 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] colIndx = param.GetMultiChoiceParam("x").Value;
-			int[] colIndy = param.GetMultiChoiceParam("y").Value;
+				int[] colIndx = param.GetParam<int[]>("x").Value;
+				int[] colIndy = param.GetParam<int[]>("y").Value;
 			if (colIndx.Length == 0){
 				processInfo.ErrString = "Please select some columns";
 				return;

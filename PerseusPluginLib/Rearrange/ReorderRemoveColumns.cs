@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int[] exColInds = param.GetMultiChoiceParam("Expression columns").Value;
-			int[] numColInds = param.GetMultiChoiceParam("Numerical columns").Value;
-			int[] multiNumColInds = param.GetMultiChoiceParam("Multi-numerical columns").Value;
-			int[] catColInds = param.GetMultiChoiceParam("Categorical columns").Value;
-			int[] textColInds = param.GetMultiChoiceParam("Text columns").Value;
+				int[] exColInds = param.GetParam<int[]>("Expression columns").Value;
+				int[] numColInds = param.GetParam<int[]>("Numerical columns").Value;
+				int[] multiNumColInds = param.GetParam<int[]>("Multi-numerical columns").Value;
+				int[] catColInds = param.GetParam<int[]>("Categorical columns").Value;
+				int[] textColInds = param.GetParam<int[]>("Text columns").Value;
 			data.ExtractColumns(exColInds);
 			data.NumericColumns = ArrayUtils.SubList(data.NumericColumns, numColInds);
 			data.NumericColumnNames = ArrayUtils.SubList(data.NumericColumnNames, numColInds);

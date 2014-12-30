@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using BaseLib.Api;
-using BaseLib.Param;
 using BaseLibS.Api;
+using BaseLibS.Param;
 
 namespace PerseusApi.Generic{
     /// <summary>
