@@ -4,35 +4,24 @@ using BaseLibS.Util;
 
 namespace PerseusPluginLib.Load{
 	[Serializable]
-	public class PerseusLoadMatrixParam : Parameter{
+	public class PerseusLoadMatrixParam : Parameter<string[]>{
 		public string Filter { get; set; }
-		public string[] Value { get; set; }
-		public string[] Default { get; private set; }
 		[NonSerialized] private PerseusLoadMatrixControl control;
 
 		public PerseusLoadMatrixParam(string name) : base(name){
 			Value = new string[8];
-			for (int i = 0; i < 8; i++){
+			Default = new string[8];
+			for (int i = 0; i < 8; i++)
+			{
 				Value[i] = "";
+				Default[i] = "";
 			}
-			Default = Value;
 			Filter = null;
 		}
 
 		public override string StringValue { get { return StringUtils.Concat(";", Value); } set { Value = value.Split(';'); } }
-
-		public string[] Value2{
-			get{
-				SetValueFromControl();
-				return Value;
-			}
-		}
-
 		public override bool IsDropTarget { get { return true; } }
 		public override void Drop(string x) { UpdateFile(x); }
-		public override void ResetValue() { Value = Default; }
-		public override void ResetDefault() { Default = Value; }
-		public override bool IsModified { get { return !Value.Equals(Default); } }
 		public override void SetValueFromControl() { Value = control.Value; }
 		public override void UpdateControlFromValue() { control.Value = Value; }
 
@@ -60,6 +49,7 @@ namespace PerseusPluginLib.Load{
 
 		public string Filename { get { return Value[0]; } }
 		public string[] Items { get { return Value[1].Length > 0 ? Value[1].Split(';') : new string[0]; } }
+		public override bool IsModified { get { return !ArrayUtils.EqualArrays(Default, Value); } }
 
 		private int[] GetIntValues(int i){
 			string x = Value[i + 2];

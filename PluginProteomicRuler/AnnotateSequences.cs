@@ -332,8 +332,8 @@ namespace PluginProteomicRuler
                             },
                         new SingleChoiceWithSubParams("Fasta header annotations")
                             {
-                                paramNameWidth = 120,
-                                totalWidth = 500,
+                                ParamNameWidth = 120,
+                                TotalWidth = 500,
                                 Help = "Specify the annotations to be extracted from uniprot fasta headers",
                                 Values = new string[] {"for all IDs", "for the leading ID"},
                                 Value = 0,
@@ -358,8 +358,8 @@ namespace PluginProteomicRuler
                             },
                         new SingleChoiceWithSubParams("Numeric annotations")
                             {
-                                paramNameWidth = 120,
-                                totalWidth = 500,
+                                ParamNameWidth = 120,
+                                TotalWidth = 500,
                                 Help = "Specify the annotations to be mapped as numeric annotations",
                                 Values = new string[] {"median of all IDs", "for the leading ID"},
                                 Value = 0,
@@ -384,8 +384,8 @@ namespace PluginProteomicRuler
                             },
                         new SingleChoiceWithSubParams("Calculate theoretical peptides")
                             {
-                                paramNameWidth = 120,
-                                totalWidth = 500,
+                                ParamNameWidth = 120,
+                                TotalWidth = 500,
                                 Help = "Calculate the numbers of theoretical peptides (without miscleavages) by in silico digestion.",
                                 Values = new string[] {"median of all IDs", "for the leading ID"},
                                 Value = 0,
@@ -415,8 +415,8 @@ namespace PluginProteomicRuler
                             },
                         new SingleChoiceWithSubParams("Count sequence features")
                             {
-                                paramNameWidth = 180,
-                                totalWidth = 500,
+                                ParamNameWidth = 180,
+                                TotalWidth = 500,
                                 Help = "Count the number of matches to a given regular expression in the amino acid sequence (optionally normalized by sequence length).\n\nExamples:\n[KR] tryptic cleavage sites\nN[^P][ST][^P] N-glysosylation motifs",
                                 Values = new string[] {"median of all IDs", "for the leading ID"},
                                 Value = 0,
