@@ -69,7 +69,7 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static string ProcessDataReadFromFile(IMatrixData mdata, Parameters param){
-			FileParam fp = param.GetFileParam("Input file");
+			Parameter<string> fp = param.GetFileParam("Input file");
 			string filename = fp.Value;
 			string[] colNames = TabSep.GetColumnNames(filename, '\t');
 			int nameIndex = GetNameIndex(colNames);
@@ -123,7 +123,7 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static void ProcessDataWriteTemplateFile(IMatrixData mdata, Parameters param){
-			FileParam fp = param.GetFileParam("Output file");
+			Parameter<string> fp = param.GetFileParam("Output file");
 			StreamWriter writer = new StreamWriter(fp.Value);
 			writer.WriteLine("Name\tNew grouping");
 			for (int i = 0; i < mdata.ColumnCount; i++){
