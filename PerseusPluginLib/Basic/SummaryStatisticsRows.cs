@@ -85,7 +85,7 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceWithSubParams xp = param.GetSingleChoiceWithSubParams("Expression column selection");
+				ParameterWithSubParams<int> xp = param.GetParamWithSubParams<int>("Expression column selection");
 			bool groups = xp.Value == 2;
 			string[] groupNames = null;
 			int[][] colIndsGroups = null;

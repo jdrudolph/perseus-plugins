@@ -56,11 +56,11 @@ namespace PluginProteomicRuler{
 			// Text annotations
 			processInfo.Status("Adding fasta header annotations.");
 			int[] selection =
-				param.GetSingleChoiceWithSubParams("Fasta header annotations")
+				param.GetParamWithSubParams<int>("Fasta header annotations")
 					.GetSubParameters()
 					.GetMultiChoiceParam("Annotations")
 					.Value;
-			string[][] idsToBeAnnotated = (param.GetSingleChoiceWithSubParams("Fasta header annotations").Value == 0)
+			string[][] idsToBeAnnotated = (param.GetParamWithSubParams<int>("Fasta header annotations").Value == 0)
 				? proteinIds
 				: leadingIds;
 			ProteinSequence[][] fastaEntries = new ProteinSequence[mdata.RowCount][];
@@ -149,11 +149,11 @@ namespace PluginProteomicRuler{
 			// Numeric annotations
 			processInfo.Status("Adding numeric annotations.");
 			selection =
-				param.GetSingleChoiceWithSubParams("Numeric annotations")
+				param.GetParamWithSubParams<int>("Numeric annotations")
 					.GetSubParameters()
 					.GetMultiChoiceParam("Annotations")
 					.Value;
-			bool annotateLeadingId = (param.GetSingleChoiceWithSubParams("Numeric annotations").Value == 1);
+			bool annotateLeadingId = (param.GetParamWithSubParams<int>("Numeric annotations").Value == 1);
 			if (ArrayUtils.Contains(selection, 0)) // Sequence length
 			{
 				double[] annotationColumn = new double[mdata.RowCount];
@@ -201,24 +201,24 @@ namespace PluginProteomicRuler{
 			}
 			// Theoretical peptides
 			processInfo.Status("Calculating theoretical peptides.");
-			annotateLeadingId = (param.GetSingleChoiceWithSubParams("Calculate theoretical peptides").Value == 1);
+			annotateLeadingId = (param.GetParamWithSubParams<int>("Calculate theoretical peptides").Value == 1);
 			Protease[] proteases = ArrayUtils.SubArray(Constants.DefaultProteases,
-				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
+				param.GetParamWithSubParams<int>("Calculate theoretical peptides")
 					.GetSubParameters()
 					.GetMultiChoiceParam("Proteases")
 					.Value);
 			double minLength =
-				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
+				param.GetParamWithSubParams<int>("Calculate theoretical peptides")
 					.GetSubParameters()
 					.GetParam<double>("Min. peptide length")
 					.Value;
 			double maxLength =
-				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
+				param.GetParamWithSubParams<int>("Calculate theoretical peptides")
 					.GetSubParameters()
 					.GetParam<double>("Max. peptide length")
 					.Value;
 			bool displayPeptideSequences = annotateLeadingId &&
-				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
+				param.GetParamWithSubParams<int>("Calculate theoretical peptides")
 					.GetSubParameters()
 					.GetParam<bool>("Show sequences")
 					.Value;
@@ -247,19 +247,19 @@ namespace PluginProteomicRuler{
 			}
 			// Sequence features
 			processInfo.Status("Counting sequence features.");
-			annotateLeadingId = (param.GetSingleChoiceWithSubParams("Count sequence features").Value == 1);
+			annotateLeadingId = (param.GetParamWithSubParams<int>("Count sequence features").Value == 1);
 			bool normalizeBySequenceLength =
-				param.GetSingleChoiceWithSubParams("Count sequence features")
+				param.GetParamWithSubParams<int>("Count sequence features")
 					.GetSubParameters()
 					.GetParam<bool>("Normalize by sequence length")
 					.Value;
-			if (param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetParam<string>("Regex").Value !=
+			if (param.GetParamWithSubParams<int>("Count sequence features").GetSubParameters().GetParam<string>("Regex").Value !=
 				""){
 				Regex regex = new Regex("^.*$");
 				try{
 					regex =
 						new Regex(
-							param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetParam<string>("Regex").Value);
+							param.GetParamWithSubParams<int>("Count sequence features").GetSubParameters().GetParam<string>("Regex").Value);
 				} catch (ArgumentException){
 					processInfo.ErrString = "The regular expression you provided has invalid syntax.";
 					return;

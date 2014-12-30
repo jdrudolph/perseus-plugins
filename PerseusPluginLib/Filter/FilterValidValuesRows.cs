@@ -52,13 +52,13 @@ namespace PerseusPluginLib.Filter{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			const bool rows = true;
 			int minValids = param.GetParam<int>("Min. number of values").Value;
-			SingleChoiceWithSubParams modeParam = param.GetSingleChoiceWithSubParams("Mode");
+			ParameterWithSubParams<int> modeParam = param.GetParamWithSubParams<int>("Mode");
 			int modeInd = modeParam.Value;
 			if (modeInd != 0 && mdata.CategoryRowNames.Count == 0){
 				processInfo.ErrString = "No grouping is defined.";
 				return;
 			}
-			SingleChoiceWithSubParams x = param.GetSingleChoiceWithSubParams("Values should be");
+			ParameterWithSubParams<int> x = param.GetParamWithSubParams<int>("Values should be");
 			Parameters subParams = x.GetSubParameters();
 			int shouldBeIndex = x.Value;
 			FilteringMode filterMode;

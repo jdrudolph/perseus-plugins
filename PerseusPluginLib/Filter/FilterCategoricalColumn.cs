@@ -59,7 +59,7 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams p = param.GetSingleChoiceWithSubParams("Column");
+				ParameterWithSubParams<int> p = param.GetParamWithSubParams<int>("Column");
 			int colInd = p.Value;
 			if (colInd < 0){
 				processInfo.ErrString = "No categorical columns available.";

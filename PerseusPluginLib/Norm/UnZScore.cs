@@ -76,7 +76,7 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
+				ParameterWithSubParams<int> access = param.GetParamWithSubParams<int>("Matrix access");
 			bool rows = access.Value == 0;
 			int meanInd = access.GetSubParameters().GetParam<int>("Mean").Value;
 			int devInd = access.GetSubParameters().GetParam<int>("Std. dev.").Value;

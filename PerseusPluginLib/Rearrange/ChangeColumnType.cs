@@ -33,7 +33,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams sp = param.GetSingleChoiceWithSubParams("Source type");
+				ParameterWithSubParams<int> sp = param.GetParamWithSubParams<int>("Source type");
 			Parameters subParams = sp.GetSubParameters();
 			int[] colInds = subParams.GetMultiChoiceParam("Columns").Value;
 			int which = subParams.GetParam<int>("Target type").Value;

@@ -38,7 +38,7 @@ namespace PerseusPluginLib.Group{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams scwsp = param.GetSingleChoiceWithSubParams("Action");
+				ParameterWithSubParams<int> scwsp = param.GetParamWithSubParams<int>("Action");
 			Parameters spar = scwsp.GetSubParameters();
 			switch (scwsp.Value){
 				case 0:
@@ -147,7 +147,7 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static void ProcessDataEdit(IDataWithAnnotationRows mdata, Parameters param){
-			SingleChoiceWithSubParams s = param.GetSingleChoiceWithSubParams("Category row");
+			ParameterWithSubParams<int> s = param.GetParamWithSubParams<int>("Category row");
 			int groupColInd = s.Value;
 			Parameters sp = s.GetSubParameters();
 			string[][] newRow = new string[mdata.ColumnCount][];
@@ -196,7 +196,7 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static void ProcessDataCreateFromGoupNames(IMatrixData mdata, Parameters param, ProcessInfo processInfo){
-			SingleChoiceWithSubParams scwsp = param.GetSingleChoiceWithSubParams("Pattern");
+			ParameterWithSubParams<int> scwsp = param.GetParamWithSubParams<int>("Pattern");
 			Parameters spar = scwsp.GetSubParameters();
 			string regexString = "";
 			string replacement = "";

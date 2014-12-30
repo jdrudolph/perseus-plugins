@@ -32,7 +32,7 @@ namespace PerseusPluginLib.Group{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceWithSubParams scwsp = param.GetSingleChoiceWithSubParams("Action");
+				ParameterWithSubParams<int> scwsp = param.GetParamWithSubParams<int>("Action");
 			Parameters spar = scwsp.GetSubParameters();
 			switch (scwsp.Value){
 				case 0:
@@ -66,7 +66,7 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static void ProcessDataEdit(IMatrixData mdata, Parameters param){
-			SingleChoiceWithSubParams s = param.GetSingleChoiceWithSubParams("Numerical row");
+			ParameterWithSubParams<int> s = param.GetParamWithSubParams<int>("Numerical row");
 			int groupColInd = s.Value;
 			Parameters sp = s.GetSubParameters();
 			for (int i = 0; i < mdata.ColumnCount; i++){

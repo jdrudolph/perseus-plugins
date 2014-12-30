@@ -76,7 +76,7 @@ namespace PluginProteomicRuler
 				columns.Add(values);
 			}
 			// average over columns if this option is selected
-			if (param.GetSingleChoiceWithSubParams("Averaging mode").Value == 3)
+			if (param.GetParamWithSubParams<int>("Averaging mode").Value == 3)
 			{
 				double[] column = new double[mdata.RowCount];
 				for (int row = 0; row < mdata.RowCount; row++)
@@ -93,11 +93,11 @@ namespace PluginProteomicRuler
 				sampleNames = new[] { "" };
 			}
 			// revert logarithm if necessary
-			if (param.GetBoolWithSubParams("Logarithmized").Value)
+			if (param.GetParamWithSubParams<bool>("Logarithmized").Value)
 			{
 				double[] logBases = new[] { 2, Math.E, 10 };
 				double logBase =
-					logBases[param.GetBoolWithSubParams("Logarithmized").GetSubParameters().GetParam<int>("log base").Value];
+					logBases[param.GetParamWithSubParams<bool>("Logarithmized").GetSubParameters().GetParam<int>("log base").Value];
 				foreach (double[] t in columns)
 				{
 					for (int row = 0; row < mdata.RowCount; row++)
@@ -120,11 +120,11 @@ namespace PluginProteomicRuler
 				}
 			}
 			double[] detectabilityNormFactor = mw;
-			if (param.GetBoolWithSubParams("Detectability correction").Value)
+			if (param.GetParamWithSubParams<bool>("Detectability correction").Value)
 			{
 				detectabilityNormFactor =
 					mdata.NumericColumns[
-						param.GetBoolWithSubParams("Detectability correction")
+						param.GetParamWithSubParams<bool>("Detectability correction")
 							 .GetSubParameters()
 							 .GetParam<int>("Correction factor")
 							 .Value];
@@ -174,7 +174,7 @@ namespace PluginProteomicRuler
 				// normalization factor to go from intensities to copies,
 				// needs to be determined either using the total protein or the histone scaling approach
 				double factor;
-				switch (param.GetSingleChoiceWithSubParams("Scaling mode").Value)
+				switch (param.GetParamWithSubParams<int>("Scaling mode").Value)
 				{
 					case 0: // total protein amount
 						double mwWeightedNormalizedSummedIntensities = 0;
@@ -186,7 +186,7 @@ namespace PluginProteomicRuler
 							}
 						}
 						factor =
-							(param.GetSingleChoiceWithSubParams("Scaling mode")
+							(param.GetParamWithSubParams<int>("Scaling mode")
 								  .GetSubParameters()
 								  .GetParam<double>("Protein amount per cell [pg]")
 								  .Value * 1e-12 * avogadro) / mwWeightedNormalizedSummedIntensities;
@@ -201,7 +201,7 @@ namespace PluginProteomicRuler
 							}
 						}
 						double ploidy =
-							param.GetSingleChoiceWithSubParams("Scaling mode").GetSubParameters().GetParam<double>("Ploidy").Value;
+							param.GetParamWithSubParams<int>("Scaling mode").GetSubParameters().GetParam<double>("Ploidy").Value;
 						factor = (cValue * ploidy * avogadro) / mwWeightedNormalizedSummedHistoneIntensities;
 						break;
 					default:
@@ -211,7 +211,7 @@ namespace PluginProteomicRuler
 				normalizationFactors[col] = factor;
 			}
 			// check averaging mode
-			if (param.GetSingleChoiceWithSubParams("Averaging mode").Value == 1) // same factor for all
+			if (param.GetParamWithSubParams<int>("Averaging mode").Value == 1) // same factor for all
 			{
 				double factor = ArrayUtils.Mean(normalizationFactors);
 				for (int i = 0; i < normalizationFactors.Length; i++)
@@ -219,10 +219,10 @@ namespace PluginProteomicRuler
 					normalizationFactors[i] = factor;
 				}
 			}
-			if (param.GetSingleChoiceWithSubParams("Averaging mode").Value == 2) // same factor in each group
+			if (param.GetParamWithSubParams<int>("Averaging mode").Value == 2) // same factor in each group
 			{
 				if (
-					param.GetSingleChoiceWithSubParams("Averaging mode").GetSubParameters().GetParam<int>("Grouping").Value ==
+					param.GetParamWithSubParams<int>("Averaging mode").GetSubParameters().GetParam<int>("Grouping").Value ==
 						-1)
 				{
 					processInfo.ErrString = "No grouping selected.";
@@ -230,7 +230,7 @@ namespace PluginProteomicRuler
 				}
 				string[][] groupNames =
 					mdata.GetCategoryRowAt(
-						param.GetSingleChoiceWithSubParams("Averaging mode").GetSubParameters().GetParam<int>("Grouping").Value);
+						param.GetParamWithSubParams<int>("Averaging mode").GetSubParameters().GetParam<int>("Grouping").Value);
 				string[] uniqueGroupNames = Unique(groupNames);
 				int[] grouping = new int[columns.Count];
 				for (int i = 0; i < columns.Count; i++)
@@ -349,7 +349,7 @@ namespace PluginProteomicRuler
 					mdata.AddNumericColumn("Relative copy number rank" + suffix, "", relativeRank);
 				}
 				if (intensityCols[col] < mdata.ColumnCount &&
-					param.GetSingleChoiceWithSubParams("Averaging mode").Value != 3)
+					param.GetParamWithSubParams<int>("Averaging mode").Value != 3)
 				{
 					inputNameRow[intensityCols[col]] = inputNames[col];
 					sampleNameRow[intensityCols[col]] = sampleNames[col];
@@ -363,7 +363,7 @@ namespace PluginProteomicRuler
 			}
 
 			// Summary annotation row
-			if (param.GetSingleChoiceWithSubParams("Averaging mode").Value != 3 && ArrayUtils.Contains(outputColumns, 6))
+			if (param.GetParamWithSubParams<int>("Averaging mode").Value != 3 && ArrayUtils.Contains(outputColumns, 6))
 			{
 				mdata.AddNumericRow("Total protein [pg/cell]", "", totalProteinRow);
 				mdata.AddNumericRow("Total molecules per cell", "", totalMoleculesRow);
@@ -374,7 +374,7 @@ namespace PluginProteomicRuler
 			}
 
 			// Summary matrix
-			if (param.GetSingleChoiceWithSubParams("Averaging mode").Value != 3 && ArrayUtils.Contains(outputColumns, 7))
+			if (param.GetParamWithSubParams<int>("Averaging mode").Value != 3 && ArrayUtils.Contains(outputColumns, 7))
 			{
 				supplTables = new IMatrixData[1];
 				IMatrixData supplTab = (IMatrixData)mdata.CreateNewInstance();

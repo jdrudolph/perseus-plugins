@@ -49,7 +49,7 @@ namespace PerseusPluginLib.Load{
 		public void LoadData(IMatrixData mdata, Parameters parameters, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 				string filename = parameters.GetParam<string>("File").Value;
-			BoolWithSubParams bsp = parameters.GetBoolWithSubParams("Split into columns");
+				ParameterWithSubParams<bool> bsp = parameters.GetParamWithSubParams<bool>("Split into columns");
 			bool split = bsp.Value;
 			if (split){
 				bool csv = bsp.GetSubParameters().GetParam<int>("Separator").Value == 1;

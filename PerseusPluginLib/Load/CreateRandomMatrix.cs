@@ -36,7 +36,7 @@ namespace PerseusPluginLib.Load{
 			int missingPerc = param.GetParam<int>("Percentage of missing values").Value;
 			Random2 randy = new Random2();
 			float[,] m = new float[nrows,ncols];
-			SingleChoiceWithSubParams x = param.GetSingleChoiceWithSubParams("Mode");
+			ParameterWithSubParams<int> x = param.GetParamWithSubParams<int>("Mode");
 			Parameters subParams = x.GetSubParameters();
 			List<string> catColNames = new List<string>();
 			List<string[][]> catCols = new List<string[][]>();
