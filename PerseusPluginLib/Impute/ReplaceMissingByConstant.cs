@@ -27,7 +27,7 @@ namespace PerseusPluginLib.Impute{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			float value = (float) param.GetDoubleParam("Value").Value;
+				float value = (float)param.GetParam<double>("Value").Value;
 			ReplaceMissingsByVal(value, mdata);
 		}
 

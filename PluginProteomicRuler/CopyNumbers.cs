@@ -47,7 +47,7 @@ namespace PluginProteomicRuler
 			ref IDocumentData[] documents, ProcessInfo processInfo)
 		{
 			int[] outputColumns = param.GetMultiChoiceParam("Output").Value;
-			int proteinIdColumnInd = param.GetSingleChoiceParam("Protein IDs").Value;
+			int proteinIdColumnInd = param.GetParam<int>("Protein IDs").Value;
 			string[] proteinIds = mdata.StringColumns[proteinIdColumnInd];
 			int[] intensityCols = param.GetMultiChoiceParam("Intensities").Value;
 			if (intensityCols.Length == 0)
@@ -97,7 +97,7 @@ namespace PluginProteomicRuler
 			{
 				double[] logBases = new[] { 2, Math.E, 10 };
 				double logBase =
-					logBases[param.GetBoolWithSubParams("Logarithmized").GetSubParameters().GetSingleChoiceParam("log base").Value];
+					logBases[param.GetBoolWithSubParams("Logarithmized").GetSubParameters().GetParam<int>("log base").Value];
 				foreach (double[] t in columns)
 				{
 					for (int row = 0; row < mdata.RowCount; row++)
@@ -110,7 +110,7 @@ namespace PluginProteomicRuler
 					}
 				}
 			}
-			double[] mw = mdata.NumericColumns[param.GetSingleChoiceParam("Molecular masses").Value];
+			double[] mw = mdata.NumericColumns[param.GetParam<int>("Molecular masses").Value];
 			// define whether the molecular masses are given in Da or kDa
 			if (ArrayUtils.Median(mw) < 250) // most likely kDa
 			{
@@ -126,7 +126,7 @@ namespace PluginProteomicRuler
 					mdata.NumericColumns[
 						param.GetBoolWithSubParams("Detectability correction")
 							 .GetSubParameters()
-							 .GetSingleChoiceParam("Correction factor")
+							 .GetParam<int>("Correction factor")
 							 .Value];
 			}
 			// the normalization factor needs to be nonzero for all proteins
@@ -188,7 +188,7 @@ namespace PluginProteomicRuler
 						factor =
 							(param.GetSingleChoiceWithSubParams("Scaling mode")
 								  .GetSubParameters()
-								  .GetDoubleParam("Protein amount per cell [pg]")
+								  .GetParam<double>("Protein amount per cell [pg]")
 								  .Value * 1e-12 * avogadro) / mwWeightedNormalizedSummedIntensities;
 						break;
 					case 1: // histone mode
@@ -201,7 +201,7 @@ namespace PluginProteomicRuler
 							}
 						}
 						double ploidy =
-							param.GetSingleChoiceWithSubParams("Scaling mode").GetSubParameters().GetDoubleParam("Ploidy").Value;
+							param.GetSingleChoiceWithSubParams("Scaling mode").GetSubParameters().GetParam<double>("Ploidy").Value;
 						factor = (cValue * ploidy * avogadro) / mwWeightedNormalizedSummedHistoneIntensities;
 						break;
 					default:
@@ -222,7 +222,7 @@ namespace PluginProteomicRuler
 			if (param.GetSingleChoiceWithSubParams("Averaging mode").Value == 2) // same factor in each group
 			{
 				if (
-					param.GetSingleChoiceWithSubParams("Averaging mode").GetSubParameters().GetSingleChoiceParam("Grouping").Value ==
+					param.GetSingleChoiceWithSubParams("Averaging mode").GetSubParameters().GetParam<int>("Grouping").Value ==
 						-1)
 				{
 					processInfo.ErrString = "No grouping selected.";
@@ -230,7 +230,7 @@ namespace PluginProteomicRuler
 				}
 				string[][] groupNames =
 					mdata.GetCategoryRowAt(
-						param.GetSingleChoiceWithSubParams("Averaging mode").GetSubParameters().GetSingleChoiceParam("Grouping").Value);
+						param.GetSingleChoiceWithSubParams("Averaging mode").GetSubParameters().GetParam<int>("Grouping").Value);
 				string[] uniqueGroupNames = Unique(groupNames);
 				int[] grouping = new int[columns.Count];
 				for (int i = 0; i < columns.Count; i++)
@@ -294,7 +294,7 @@ namespace PluginProteomicRuler
 						}
 					}
 				}
-				double totalVolume = (totalProtein / (param.GetDoubleParam("Total cellular protein concentration [g/l]").Value)) * 1000;
+				double totalVolume = (totalProtein / (param.GetParam<double>("Total cellular protein concentration [g/l]").Value)) * 1000;
 				// femtoliters
 				for (int row = 0; row < mdata.RowCount; row++)
 				{

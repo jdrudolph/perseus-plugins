@@ -45,12 +45,12 @@ namespace PerseusPluginLib.Significance{
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			int[] cols = param.GetMultiChoiceParam("Columns").Value;
-			int truncIndex = param.GetSingleChoiceParam("Use for truncation").Value;
+			int truncIndex = param.GetParam<int>("Use for truncation").Value;
 			TestTruncation truncation = truncIndex == 0
 				? TestTruncation.Pvalue
 				: (truncIndex == 1 ? TestTruncation.BenjaminiHochberg : TestTruncation.PermutationBased);
-			double threshold = param.GetDoubleParam("Threshold value").Value;
-			int sideInd = param.GetSingleChoiceParam("Side").Value;
+			double threshold = param.GetParam<double>("Threshold value").Value;
+			int sideInd = param.GetParam<int>("Side").Value;
 			TestSide side;
 			switch (sideInd){
 				case 0:

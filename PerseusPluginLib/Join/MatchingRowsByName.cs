@@ -125,10 +125,10 @@ namespace PerseusPluginLib.Join{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			IMatrixData mdata1 = inputData[0];
 			IMatrixData mdata2 = inputData[1];
-			bool indicator = parameters.GetBoolParam("Indicator").Value;
-			int otherCol = parameters.GetSingleChoiceParam("Matching column 2").Value;
-			Func<double[], double> avExpression = GetAveraging(parameters.GetSingleChoiceParam("Combine expression values").Value);
-			Func<double[], double> avNumerical = GetAveraging(parameters.GetSingleChoiceParam("Combine numerical values").Value);
+			bool indicator = parameters.GetParam<bool>("Indicator").Value;
+			int otherCol = parameters.GetParam<int>("Matching column 2").Value;
+			Func<double[], double> avExpression = GetAveraging(parameters.GetParam<int>("Combine expression values").Value);
+			Func<double[], double> avNumerical = GetAveraging(parameters.GetParam<int>("Combine numerical values").Value);
 			string[] q = mdata2.StringColumns[otherCol];
 			string[][] w = new string[q.Length][];
 			for (int i = 0; i < q.Length; i++){
@@ -145,7 +145,7 @@ namespace PerseusPluginLib.Join{
 					id2Cols[s].Add(i);
 				}
 			}
-			int pgCol = parameters.GetSingleChoiceParam("Matching column 1").Value;
+			int pgCol = parameters.GetParam<int>("Matching column 1").Value;
 			string[] d = mdata1.StringColumns[pgCol];
 			string[][] x = new string[d.Length][];
 			for (int i = 0; i < d.Length; i++){

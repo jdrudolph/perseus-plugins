@@ -31,9 +31,9 @@ namespace PerseusPluginLib.Load{
 
 		public void LoadData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables, ref IDocumentData[] documents,
 			ProcessInfo processInfo){
-			int nrows = param.GetIntParam("Number of rows").Value;
-			int ncols = param.GetIntParam("Number of columns").Value;
-			int missingPerc = param.GetIntParam("Percentage of missing values").Value;
+				int nrows = param.GetParam<int>("Number of rows").Value;
+			int ncols = param.GetParam<int>("Number of columns").Value;
+			int missingPerc = param.GetParam<int>("Percentage of missing values").Value;
 			Random2 randy = new Random2();
 			float[,] m = new float[nrows,ncols];
 			SingleChoiceWithSubParams x = param.GetSingleChoiceWithSubParams("Mode");
@@ -53,7 +53,7 @@ namespace PerseusPluginLib.Load{
 					}
 					break;
 				case 1:
-					float dist = (float) subParams.GetDoubleParam("Distance").Value;
+					float dist = (float)subParams.GetParam<double>("Distance").Value;
 					string[][] col = new string[m.GetLength(0)][];
 					for (int i = 0; i < m.GetLength(0); i++){
 						bool which = randy.NextDouble() < 0.5;
@@ -75,8 +75,8 @@ namespace PerseusPluginLib.Load{
 					catCols.Add(col);
 					break;
 				case 2:
-					double boxLen = subParams.GetDoubleParam("Box size").Value;
-					int howMany = subParams.GetIntParam("How many").Value;
+					double boxLen = subParams.GetParam<double>("Box size").Value;
+					int howMany = subParams.GetParam<int>("How many").Value;
 					string[][] col1 = new string[m.GetLength(0)][];
 					float[,] centers = new float[howMany,m.GetLength(1)];
 					for (int i = 0; i < centers.GetLength(0); i++){

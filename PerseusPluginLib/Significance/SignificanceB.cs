@@ -54,12 +54,12 @@ namespace PerseusPluginLib.Significance{
 				processInfo.ErrString = "The number of ratio and intensity columns have to be equal.";
 				return;
 			}
-			int truncIndex = param.GetSingleChoiceParam("Use for truncation").Value;
+			int truncIndex = param.GetParam<int>("Use for truncation").Value;
 			TestTruncation truncation = truncIndex == 0
 				? TestTruncation.Pvalue
 				: (truncIndex == 1 ? TestTruncation.BenjaminiHochberg : TestTruncation.PermutationBased);
-			double threshold = param.GetDoubleParam("Threshold value").Value;
-			int sideInd = param.GetSingleChoiceParam("Side").Value;
+			double threshold = param.GetParam<double>("Threshold value").Value;
+			int sideInd = param.GetParam<int>("Side").Value;
 			TestSide side;
 			switch (sideInd){
 				case 0:

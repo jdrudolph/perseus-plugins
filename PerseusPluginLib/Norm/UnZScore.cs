@@ -78,8 +78,8 @@ namespace PerseusPluginLib.Norm{
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			SingleChoiceWithSubParams access = param.GetSingleChoiceWithSubParams("Matrix access");
 			bool rows = access.Value == 0;
-			int meanInd = access.GetSubParameters().GetSingleChoiceParam("Mean").Value;
-			int devInd = access.GetSubParameters().GetSingleChoiceParam("Std. dev.").Value;
+			int meanInd = access.GetSubParameters().GetParam<int>("Mean").Value;
+			int devInd = access.GetSubParameters().GetParam<int>("Std. dev.").Value;
 			double[] means = rows ? mdata.NumericColumns[meanInd] : mdata.NumericRows[meanInd];
 			double[] stddevs = rows ? mdata.NumericColumns[devInd] : mdata.NumericRows[devInd];
 			UnZscore(rows, mdata, processInfo.NumThreads, means, stddevs);

@@ -35,9 +35,9 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			bool rows = param.GetSingleChoiceParam("Matrix access").Value == 0;
-			double min = param.GetDoubleParam("Minimum").Value;
-			double max = param.GetDoubleParam("Maximum").Value;
+				bool rows = param.GetParam<int>("Matrix access").Value == 0;
+				double min = param.GetParam<double>("Minimum").Value;
+				double max = param.GetParam<double>("Maximum").Value;
 			MapToInterval1(rows, mdata, min, max, processInfo.NumThreads);
 		}
 

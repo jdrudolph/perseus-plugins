@@ -69,7 +69,7 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static string ProcessDataReadFromFile(IMatrixData mdata, Parameters param){
-			Parameter<string> fp = param.GetFileParam("Input file");
+			Parameter<string> fp = param.GetParam<string>("Input file");
 			string filename = fp.Value;
 			string[] colNames = TabSep.GetColumnNames(filename, '\t');
 			int nameIndex = GetNameIndex(colNames);
@@ -122,8 +122,8 @@ namespace PerseusPluginLib.Group{
 			return -1;
 		}
 
-		private static void ProcessDataWriteTemplateFile(IMatrixData mdata, Parameters param){
-			Parameter<string> fp = param.GetFileParam("Output file");
+		private static void ProcessDataWriteTemplateFile(IDataWithAnnotationRows mdata, Parameters param){
+			Parameter<string> fp = param.GetParam<string>("Output file");
 			StreamWriter writer = new StreamWriter(fp.Value);
 			writer.WriteLine("Name\tNew grouping");
 			for (int i = 0; i < mdata.ColumnCount; i++){
@@ -133,27 +133,27 @@ namespace PerseusPluginLib.Group{
 			writer.Close();
 		}
 
-		private static void ProcessDataRename(IMatrixData mdata, Parameters param){
-			int groupColInd = param.GetSingleChoiceParam("Category row").Value;
-			string newName = param.GetStringParam("New name").Value;
-			string newDescription = param.GetStringParam("New description").Value;
+		private static void ProcessDataRename(IDataWithAnnotationRows mdata, Parameters param){
+			int groupColInd = param.GetParam<int>("Category row").Value;
+			string newName = param.GetParam<string>("New name").Value;
+			string newDescription = param.GetParam<string>("New description").Value;
 			mdata.CategoryRowNames[groupColInd] = newName;
 			mdata.CategoryRowDescriptions[groupColInd] = newDescription;
 		}
 
-		private static void ProcessDataDelete(IMatrixData mdata, Parameters param){
-			int groupColInd = param.GetSingleChoiceParam("Category row").Value;
+		private static void ProcessDataDelete(IDataWithAnnotationRows mdata, Parameters param){
+			int groupColInd = param.GetParam<int>("Category row").Value;
 			mdata.RemoveCategoryRowAt(groupColInd);
 		}
 
-		private static void ProcessDataEdit(IMatrixData mdata, Parameters param){
+		private static void ProcessDataEdit(IDataWithAnnotationRows mdata, Parameters param){
 			SingleChoiceWithSubParams s = param.GetSingleChoiceWithSubParams("Category row");
 			int groupColInd = s.Value;
 			Parameters sp = s.GetSubParameters();
 			string[][] newRow = new string[mdata.ColumnCount][];
 			for (int i = 0; i < mdata.ColumnCount; i++){
 				string t = mdata.ColumnNames[i];
-				string x = sp.GetStringParam(t).Value;
+				string x = sp.GetParam<string>(t).Value;
 				newRow[i] = x.Length > 0 ? x.Split(';') : new string[0];
 			}
 			mdata.SetCategoryRowAt(newRow, groupColInd);
@@ -185,11 +185,11 @@ namespace PerseusPluginLib.Group{
 		}
 
 		private static void ProcessDataCreate(IMatrixData mdata, Parameters param){
-			string name = param.GetStringParam("Row name").Value;
+			string name = param.GetParam<string>("Row name").Value;
 			string[][] groupCol = new string[mdata.ColumnCount][];
 			for (int i = 0; i < mdata.ColumnCount; i++){
 				string ename = mdata.ColumnNames[i];
-				string value = param.GetStringParam(ename).Value;
+				string value = param.GetParam<string>(ename).Value;
 				groupCol[i] = value.Length > 0 ? value.Split(';') : new string[0];
 			}
 			mdata.AddCategoryRow(name, name, groupCol);
@@ -207,11 +207,11 @@ namespace PerseusPluginLib.Group{
 					regexString = GetSelectableRegexes()[scwsp.Value][1];
 					break;
 				case 3:
-					regexString = spar.GetStringParam("Regex").Value;
+					regexString = spar.GetParam<string>("Regex").Value;
 					break;
 				case 4:
-					regexString = spar.GetStringParam("Regex").Value;
-					replacement = spar.GetStringParam("Replace with").Value;
+					regexString = spar.GetParam<string>("Regex").Value;
+					replacement = spar.GetParam<string>("Replace with").Value;
 					break;
 			}
 			Regex regex;

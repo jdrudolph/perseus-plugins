@@ -28,7 +28,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string regexStr = param.GetStringParam("Regular expression").Value;
+				string regexStr = param.GetParam<string>("Regular expression").Value;
 			Regex regex = new Regex(regexStr);
 			for (int i = 0; i < mdata.ColumnCount; i++){
 				string newName = regex.Match(mdata.ColumnNames[i]).Groups[1].ToString();

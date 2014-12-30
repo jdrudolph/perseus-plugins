@@ -29,8 +29,8 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string[][] col = mdata.GetCategoryColumnAt(param.GetSingleChoiceParam("Indicator column").Value);
-			string term = param.GetStringParam("Value").Value;
+				string[][] col = mdata.GetCategoryColumnAt(param.GetParam<int>("Indicator column").Value);
+			string term = param.GetParam<string>("Value").Value;
 			List<int> inds = new List<int>();
 			for (int i = 0; i < col.Length; i++){
 				if (Contains(col[i], term)){

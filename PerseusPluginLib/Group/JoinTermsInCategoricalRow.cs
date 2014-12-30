@@ -56,13 +56,13 @@ namespace PerseusPluginLib.Group {
 				processInfo.ErrString = "No categorical rows available.";
 				return;
 			}
-			MultiChoiceParam mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
+			Parameter<int[]> mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
 			int[] inds = mcp.Value;
 			if (inds.Length < 1) {
 				processInfo.ErrString = "Please select at least two terms for merging.";
 				return;
 			}
-			string newTerm = param.GetStringParam("New term").Value;
+			string newTerm = param.GetParam<string>("New term").Value;
 			if (newTerm.Length == 0){
 				processInfo.ErrString = "Please specify a new term.";
 				return;

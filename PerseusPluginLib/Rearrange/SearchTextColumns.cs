@@ -24,10 +24,10 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string word = param.GetStringParam("Find what").Value;
-			int colInd = param.GetSingleChoiceParam("Look in").Value;
-			bool matchCase = param.GetBoolParam("Match case").Value;
-			bool matchWholeWord = param.GetBoolParam("Match whole word").Value;
+				string word = param.GetParam<string>("Find what").Value;
+				int colInd = param.GetParam<int>("Look in").Value;
+			bool matchCase = param.GetParam<bool>("Match case").Value;
+			bool matchWholeWord = param.GetParam<bool>("Match whole word").Value;
 			string scolName = mdata.StringColumnNames[colInd];
 			string[] scol = mdata.StringColumns[colInd];
 			string[][] catCol = new string[mdata.RowCount][];

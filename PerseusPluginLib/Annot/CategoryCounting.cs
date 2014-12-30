@@ -43,9 +43,9 @@ namespace PerseusPluginLib.Annot{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int minCount = param.GetIntParam("Min. count").Value;
-			int selCol = param.GetSingleChoiceParam("Selection").Value;
-			string value = param.GetStringParam("Value").Value;
+				int minCount = param.GetParam<int>("Min. count").Value;
+				int selCol = param.GetParam<int>("Selection").Value;
+			string value = param.GetParam<string>("Value").Value;
 			int[] catIndices = param.GetMultiChoiceParam("Categories").Value;
 			bool[] selection = null;
 			if (selCol < mdata.CategoryColumnCount){

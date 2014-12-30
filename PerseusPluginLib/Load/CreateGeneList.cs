@@ -30,7 +30,7 @@ namespace PerseusPluginLib.Load{
 
 		public void LoadData(IMatrixData matrixData, Parameters parameters, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int ind = parameters.GetSingleChoiceParam("Organism").Value;
+				int ind = parameters.GetParam<int>("Organism").Value;
 			string filename = GetOrganismFiles()[ind];
 			List<string> stringColnames = new List<string>(TabSep.GetColumnNames(filename, '\t'));
 			List<string[]> stringCols = new List<string[]>();

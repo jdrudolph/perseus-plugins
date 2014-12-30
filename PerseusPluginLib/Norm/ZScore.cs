@@ -60,12 +60,12 @@ namespace PerseusPluginLib.Norm{
 			bool rows = access.Value == 0;
 			int groupInd;
 			if (rows){
-				groupInd = access.GetSubParameters().GetSingleChoiceParam("Grouping").Value - 1;
+				groupInd = access.GetSubParameters().GetParam<int>("Grouping").Value - 1;
 			} else{
 				groupInd = -1;
 			}
-			bool report = param.GetBoolParam("Report mean and std. dev.").Value;
-			bool median = param.GetBoolParam("Use median").Value;
+			bool report = param.GetParam<bool>("Report mean and std. dev.").Value;
+			bool median = param.GetParam<bool>("Use median").Value;
 			if (groupInd < 0){
 				double[] means;
 				double[] stddevs;

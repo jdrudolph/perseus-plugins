@@ -45,9 +45,9 @@ namespace PerseusPluginLib.Impute{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			double width = param.GetDoubleParam("Width").Value;
-			double shift = param.GetDoubleParam("Down shift").Value;
-			bool separateColumns = param.GetSingleChoiceParam("Mode").Value == 1;
+				double width = param.GetParam<double>("Width").Value;
+				double shift = param.GetParam<double>("Down shift").Value;
+			bool separateColumns = param.GetParam<int>("Mode").Value == 1;
 			int[] cols = param.GetMultiChoiceParam("Columns").Value;
 			if (separateColumns){
 				ReplaceMissingsByGaussianByColumn(width, shift, mdata, cols);

@@ -54,7 +54,7 @@ namespace PerseusPluginLib.Utils{
 		}
 
 		private static bool GetReduceMatrix(Parameters parameters){
-			return parameters.GetSingleChoiceParam("Filter mode").Value == 0;
+			return parameters.GetParam<int>("Filter mode").Value == 0;
 		}
 
 		public static void FilterColumns(IMatrixData mdata, Parameters parameters, int[] cols){

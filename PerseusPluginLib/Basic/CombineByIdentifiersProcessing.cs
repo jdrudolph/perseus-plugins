@@ -77,9 +77,9 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			bool keepEmpty = param.GetBoolParam("Keep rows without ID").Value;
-			AverageType atype = GetAverageType(param.GetSingleChoiceParam("Average type for expression columns").Value);
-			string[] ids2 = mdata.StringColumns[param.GetSingleChoiceParam("ID column").Value];
+				bool keepEmpty = param.GetParam<bool>("Keep rows without ID").Value;
+				AverageType atype = GetAverageType(param.GetParam<int>("Average type for expression columns").Value);
+				string[] ids2 = mdata.StringColumns[param.GetParam<int>("ID column").Value];
 			string[][] ids = SplitIds(ids2);
 			int[] present;
 			int[] absent;
@@ -106,7 +106,7 @@ namespace PerseusPluginLib.Basic{
 			mdata.Values = expVals;
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
 				string name = mdata.NumericColumnNames[i];
-				AverageType atype1 = GetAverageType(param.GetSingleChoiceParam("Average type for " + name).Value);
+				AverageType atype1 = GetAverageType(param.GetParam<int>("Average type for " + name).Value);
 				double[] c = mdata.NumericColumns[i];
 				double[] newCol = new double[nrows];
 				for (int k = 0; k < nrows; k++){

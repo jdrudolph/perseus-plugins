@@ -90,7 +90,7 @@ namespace PerseusPluginLib.Basic{
 			string[] groupNames = null;
 			int[][] colIndsGroups = null;
 			if (groups){
-				int groupRowInd = xp.GetSubParameters().GetSingleChoiceParam("Group").Value;
+				int groupRowInd = xp.GetSubParameters().GetParam<int>("Group").Value;
 				string[][] groupCol = mdata.GetCategoryRowAt(groupRowInd);
 				groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
 				colIndsGroups = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);

@@ -28,11 +28,11 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string regexStr = param.GetStringParam("Regular expression").Value;
+				string regexStr = param.GetParam<string>("Regular expression").Value;
 			Regex regex = new Regex(regexStr);
 			int[] inds = param.GetMultiChoiceParam("Columns").Value;
-			bool keepColumns = param.GetBoolParam("Keep original columns").Value;
-            bool semicolons = param.GetBoolParam("Strings separated by semicolons are independent").Value;
+			bool keepColumns = param.GetParam<bool>("Keep original columns").Value;
+			bool semicolons = param.GetParam<bool>("Strings separated by semicolons are independent").Value;
 			foreach (int col in inds){
                 ProcessCol(mdata, regex, col, keepColumns, semicolons);
 			}

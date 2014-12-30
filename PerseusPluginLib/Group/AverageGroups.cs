@@ -55,15 +55,15 @@ namespace PerseusPluginLib.Group{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int avType = param.GetSingleChoiceParam("Average type").Value;
+				int avType = param.GetParam<int>("Average type").Value;
 			if (mdata.CategoryRowCount == 0){
 				processInfo.ErrString = "No category rows were loaded.";
 				return;
 			}
-			int groupColInd = param.GetSingleChoiceParam("Grouping").Value;
-			int validVals = param.GetIntParam("Min. valid values per group").Value;
-			bool keep = param.GetBoolParam("Keep original data").Value;
-			int varInd = param.GetSingleChoiceParam("Add variation").Value - 1;
+			int groupColInd = param.GetParam<int>("Grouping").Value;
+			int validVals = param.GetParam<int>("Min. valid values per group").Value;
+			bool keep = param.GetParam<bool>("Keep original data").Value;
+			int varInd = param.GetParam<int>("Add variation").Value - 1;
 			bool sdev = varInd >= 0;
 			Func<IList<double>, double> func;
 			switch (avType){

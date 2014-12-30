@@ -36,17 +36,17 @@ namespace PluginProteomicRuler
         public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
                                 ref IDocumentData[] documents, ProcessInfo processInfo)
         {
-            double[] totalPeptides = mdata.NumericColumns[param.GetSingleChoiceParam("Total number of peptides").Value];
-            double[] uniqueRazorPeptides = mdata.NumericColumns[param.GetSingleChoiceParam("Unique + razor peptides").Value];
-            double[] sequenceLength = mdata.NumericColumns[param.GetSingleChoiceParam("Sequence length").Value];
-            double[] theoreticalPeptides = mdata.NumericColumns[param.GetSingleChoiceParam("Number of theoretical peptides").Value];
+			double[] totalPeptides = mdata.NumericColumns[param.GetParam<int>("Total number of peptides").Value];
+			double[] uniqueRazorPeptides = mdata.NumericColumns[param.GetParam<int>("Unique + razor peptides").Value];
+			double[] sequenceLength = mdata.NumericColumns[param.GetParam<int>("Sequence length").Value];
+			double[] theoreticalPeptides = mdata.NumericColumns[param.GetParam<int>("Number of theoretical peptides").Value];
 
-            double highMinPep = param.GetDoubleParam("High: min. peptides").Value;
-            double highMinRazorFraction = param.GetDoubleParam("High: min. razor fraction").Value;
-            double highMinTheorPep = param.GetDoubleParam("High: min. theor.pep./100AA").Value;
-            double mediumMinPep = param.GetDoubleParam("Medium: min. peptides").Value;
-            double mediumMinRazorFraction = param.GetDoubleParam("Medium: min. razor fraction").Value;
-            double mediumMinTheorPep = param.GetDoubleParam("Medium: min. theor.pep./100AA").Value;
+			double highMinPep = param.GetParam<double>("High: min. peptides").Value;
+			double highMinRazorFraction = param.GetParam<double>("High: min. razor fraction").Value;
+			double highMinTheorPep = param.GetParam<double>("High: min. theor.pep./100AA").Value;
+			double mediumMinPep = param.GetParam<double>("Medium: min. peptides").Value;
+			double mediumMinRazorFraction = param.GetParam<double>("Medium: min. razor fraction").Value;
+			double mediumMinTheorPep = param.GetParam<double>("Medium: min. theor.pep./100AA").Value;
 
             double[] razorFraction = new double[mdata.RowCount];
             double[] theoreticalPepsPer100Aa = new double[mdata.RowCount];

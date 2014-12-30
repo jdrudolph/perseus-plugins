@@ -31,7 +31,7 @@ namespace PerseusPluginLib.Rearrange{
 			List<string> expressionColumnNames = new List<string>();
 			HashSet<string> taken = new HashSet<string>();
 			for (int i = 0; i < mdata.ColumnCount; i++){
-				string newName = param.GetStringParam(mdata.ColumnNames[i]).Value;
+				string newName = param.GetParam<string>(mdata.ColumnNames[i]).Value;
 				if (taken.Contains(newName)){
 					processInfo.ErrString = "Name " + newName + " is contained multiple times";
 					return;
@@ -43,7 +43,7 @@ namespace PerseusPluginLib.Rearrange{
 			taken = new HashSet<string>();
 			List<string> numericColumnNames = new List<string>();
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
-				string newName = param.GetStringParam(mdata.NumericColumnNames[i]).Value;
+				string newName = param.GetParam<string>(mdata.NumericColumnNames[i]).Value;
 				if (taken.Contains(newName)){
 					processInfo.ErrString = "Name " + newName + " is contained multiple times";
 					return;
@@ -55,7 +55,7 @@ namespace PerseusPluginLib.Rearrange{
 			taken = new HashSet<string>();
 			List<string> categoryColumnNames = new List<string>();
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
-				string newName = param.GetStringParam(mdata.CategoryColumnNames[i]).Value;
+				string newName = param.GetParam<string>(mdata.CategoryColumnNames[i]).Value;
 				if (taken.Contains(newName)){
 					processInfo.ErrString = "Name " + newName + " is contained multiple times";
 					return;
@@ -67,7 +67,7 @@ namespace PerseusPluginLib.Rearrange{
 			taken = new HashSet<string>();
 			List<string> stringColumnNames = new List<string>();
 			for (int i = 0; i < mdata.StringColumnCount; i++){
-				string newName = param.GetStringParam(mdata.StringColumnNames[i]).Value;
+				string newName = param.GetParam<string>(mdata.StringColumnNames[i]).Value;
 				if (taken.Contains(newName)){
 					processInfo.ErrString = "Name " + newName + " is contained multiple times";
 					return;
@@ -79,7 +79,7 @@ namespace PerseusPluginLib.Rearrange{
 			taken = new HashSet<string>();
 			List<string> multiNumericColumnNames = new List<string>();
 			for (int i = 0; i < mdata.MultiNumericColumnCount; i++){
-				string newName = param.GetStringParam(mdata.MultiNumericColumnNames[i]).Value;
+				string newName = param.GetParam<string>(mdata.MultiNumericColumnNames[i]).Value;
 				if (taken.Contains(newName)){
 					processInfo.ErrString = "Name " + newName + " is contained multiple times";
 					return;

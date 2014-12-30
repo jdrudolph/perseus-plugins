@@ -50,8 +50,8 @@ namespace PerseusPluginLib.Basic{
 				processInfo.ErrString = "Please select the same number of columns in the boxes for the first and second columns.";
 				return;
 			}
-			int typeInd = param.GetSingleChoiceParam("Distribution type").Value;
-			int points = param.GetIntParam("Number of points").Value;
+			int typeInd = param.GetParam<int>("Distribution type").Value;
+			int points = param.GetParam<int>("Number of points").Value;
 			for (int k = 0; k < colIndx.Length; k++){
 				float[] xvals = GetColumn(mdata, colIndx[k]);
 				float[] yvals = GetColumn(mdata, colIndy[k]);

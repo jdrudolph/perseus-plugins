@@ -31,15 +31,15 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			bool falseAreIndicated = param.GetSingleChoiceParam("Indicated are").Value == 0;
-			int catCol = param.GetSingleChoiceParam("In column").Value;
-			string word = param.GetStringParam("Indicator").Value;
+				bool falseAreIndicated = param.GetParam<int>("Indicated are").Value == 0;
+				int catCol = param.GetParam<int>("In column").Value;
+			string word = param.GetParam<string>("Indicator").Value;
 			int[] scoreColumns = param.GetMultiChoiceParam("Scores").Value;
 			if (scoreColumns.Length == 0){
 				processInfo.ErrString = "Please specify at least one column with scores.";
 				return;
 			}
-			bool largeIsGood = param.GetBoolParam("Large values are good").Value;
+			bool largeIsGood = param.GetParam<bool>("Large values are good").Value;
 			int[] showColumns = param.GetMultiChoiceParam("Display quantity").Value;
 			if (showColumns.Length == 0){
 				processInfo.ErrString = "Please select at least one quantity to display";

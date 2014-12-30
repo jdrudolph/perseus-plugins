@@ -28,8 +28,8 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int ind = param.GetSingleChoiceParam("Column").Value;
-			bool descending = param.GetBoolParam("Descending").Value;
+				int ind = param.GetParam<int>("Column").Value;
+			bool descending = param.GetParam<bool>("Descending").Value;
 			if (ind < mdata.ColumnCount){
 				float[] v = mdata.GetColumn(ind);
 				int[] o = ArrayUtils.Order(v);

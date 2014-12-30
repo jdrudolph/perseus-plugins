@@ -34,7 +34,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int nameCol = param.GetSingleChoiceParam("New column names").Value;
+				int nameCol = param.GetParam<int>("New column names").Value;
 			List<string> colNames;
 			if (nameCol >= 0){
 				HashSet<string> taken = new HashSet<string>();

@@ -36,7 +36,7 @@ namespace PerseusPluginLib.Rearrange{
 			SingleChoiceWithSubParams sp = param.GetSingleChoiceWithSubParams("Source type");
 			Parameters subParams = sp.GetSubParameters();
 			int[] colInds = subParams.GetMultiChoiceParam("Columns").Value;
-			int which = subParams.GetSingleChoiceParam("Target type").Value;
+			int which = subParams.GetParam<int>("Target type").Value;
 			switch (sp.Value){
 				case 0:
 					ExpressionToNumeric(colInds, mdata);

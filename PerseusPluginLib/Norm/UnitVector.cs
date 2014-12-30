@@ -32,7 +32,7 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			SingleChoiceParam access = param.GetSingleChoiceParam("Matrix access");
+				Parameter<int> access = param.GetParam<int>("Matrix access");
 			bool rows = access.Value == 0;
 			UnitVectors(rows, mdata);
 		}

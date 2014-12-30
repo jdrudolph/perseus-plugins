@@ -26,7 +26,7 @@ namespace PerseusPluginLib.Basic{
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			Random2 rand = new Random2();
-			double std = param.GetDoubleParam("Standard deviation").Value;
+			double std = param.GetParam<double>("Standard deviation").Value;
 			for (int i = 0; i < mdata.RowCount; i++){
 				for (int j = 0; j < mdata.ColumnCount; j++){
 					mdata[i, j] += (float) rand.NextGaussian(0, std);

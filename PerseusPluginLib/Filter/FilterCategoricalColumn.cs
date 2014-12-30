@@ -65,7 +65,7 @@ namespace PerseusPluginLib.Filter{
 				processInfo.ErrString = "No categorical columns available.";
 				return;
 			}
-			MultiChoiceParam mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
+			Parameter<int[]> mcp = p.GetSubParameters().GetMultiChoiceParam("Values");
 			int[] inds = mcp.Value;
 			if (inds.Length == 0){
 				processInfo.ErrString = "Please select at least one term for filtering.";
@@ -77,7 +77,7 @@ namespace PerseusPluginLib.Filter{
 				values[i] = v[inds[i]];
 			}
 			HashSet<string> value = new HashSet<string>(values);
-			bool remove = param.GetSingleChoiceParam("Mode").Value == 0;
+			bool remove = param.GetParam<int>("Mode").Value == 0;
 			List<int> valids = new List<int>();
 			for (int i = 0; i < mdata.RowCount; i++){
 				bool valid = true;

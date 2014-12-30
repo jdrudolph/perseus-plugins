@@ -35,11 +35,11 @@ namespace PerseusPluginLib.Norm{
 			bool rows = access.Value == 0;
 			int groupInd;
 			if (rows){
-				groupInd = access.GetSubParameters().GetSingleChoiceParam("Grouping").Value - 1;
+				groupInd = access.GetSubParameters().GetParam<int>("Grouping").Value - 1;
 			} else{
 				groupInd = -1;
 			}
-			int what = param.GetSingleChoiceParam("Subtract what").Value;
+			int what = param.GetParam<int>("Subtract what").Value;
 			if (groupInd < 0){
 				SubtractValues(rows, GetFunc(what), mdata, processInfo.NumThreads);
 			} else{

@@ -34,7 +34,7 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int numQuantiles = param.GetIntParam("Number of quantiles").Value;
+				int numQuantiles = param.GetParam<int>("Number of quantiles").Value;
 			int[] colInds = param.GetMultiChoiceParam("Columns").Value;
 			foreach (int colInd in colInds){
 				double[] vals = GetValues(mdata, colInd);

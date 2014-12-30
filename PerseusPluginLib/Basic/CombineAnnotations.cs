@@ -27,13 +27,13 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string colName = param.GetStringParam("Name of new column").Value;
+				string colName = param.GetParam<string>("Name of new column").Value;
 			int[] columns = param.GetMultiChoiceParam("Categories").Value;
-			bool inverse = param.GetBoolParam("Inverse").Value;
+			bool inverse = param.GetParam<bool>("Inverse").Value;
 			int[] catCols;
 			int[] stringCols;
 			Split(columns, out catCols, out stringCols, mdata.CategoryColumnCount);
-			string[] word1 = param.GetMultiStringParam("Search terms").Value;
+			string[] word1 = param.GetParam<string[]>("Search terms").Value;
 			if (word1.Length == 0){
 				processInfo.ErrString = "Please specify one or more search terms.";
 				return;

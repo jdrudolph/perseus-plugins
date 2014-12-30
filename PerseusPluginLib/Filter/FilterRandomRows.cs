@@ -34,7 +34,7 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int nrows = param.GetIntParam("Number of rows").Value;
+				int nrows = param.GetParam<int>("Number of rows").Value;
 			nrows = Math.Min(nrows, mdata.RowCount);
 			Random2 rand = new Random2();
 			int[] rows = ArrayUtils.SubArray(rand.NextPermutation(mdata.RowCount), nrows);

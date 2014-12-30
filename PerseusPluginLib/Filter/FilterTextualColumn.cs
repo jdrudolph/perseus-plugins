@@ -26,15 +26,15 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int colInd = param.GetSingleChoiceParam("Column").Value;
-			string searchString = param.GetStringParam("Search string").Value;
+				int colInd = param.GetParam<int>("Column").Value;
+			string searchString = param.GetParam<string>("Search string").Value;
 			if (string.IsNullOrEmpty(searchString)){
 				processInfo.ErrString = "Please provide a search string";
 				return;
 			}
-			bool remove = param.GetSingleChoiceParam("Mode").Value == 0;
-			bool matchCase = param.GetBoolParam("Match case").Value;
-			bool matchWholeWord = param.GetBoolParam("Match whole word").Value;
+			bool remove = param.GetParam<int>("Mode").Value == 0;
+			bool matchCase = param.GetParam<bool>("Match case").Value;
+			bool matchWholeWord = param.GetParam<bool>("Match whole word").Value;
 			string[] vals = mdata.StringColumns[colInd];
 			List<int> valids = new List<int>();
 			for (int i = 0; i < vals.Length; i++){

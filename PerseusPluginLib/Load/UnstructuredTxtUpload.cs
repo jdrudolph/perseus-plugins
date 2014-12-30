@@ -48,11 +48,11 @@ namespace PerseusPluginLib.Load{
 
 		public void LoadData(IMatrixData mdata, Parameters parameters, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string filename = parameters.GetFileParam("File").Value;
+				string filename = parameters.GetParam<string>("File").Value;
 			BoolWithSubParams bsp = parameters.GetBoolWithSubParams("Split into columns");
 			bool split = bsp.Value;
 			if (split){
-				bool csv = bsp.GetSubParameters().GetSingleChoiceParam("Separator").Value == 1;
+				bool csv = bsp.GetSubParameters().GetParam<int>("Separator").Value == 1;
 				LoadSplit(mdata, filename, csv);
 			} else{
 				LoadNoSplit(mdata, filename);

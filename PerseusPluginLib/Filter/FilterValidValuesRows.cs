@@ -51,7 +51,7 @@ namespace PerseusPluginLib.Filter{
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			const bool rows = true;
-			int minValids = param.GetIntParam("Min. number of values").Value;
+			int minValids = param.GetParam<int>("Min. number of values").Value;
 			SingleChoiceWithSubParams modeParam = param.GetSingleChoiceWithSubParams("Mode");
 			int modeInd = modeParam.Value;
 			if (modeInd != 0 && mdata.CategoryRowNames.Count == 0){
@@ -70,35 +70,35 @@ namespace PerseusPluginLib.Filter{
 					break;
 				case 1:
 					filterMode = FilteringMode.GreaterThan;
-					threshold = subParams.GetDoubleParam("Minimum").Value;
+					threshold = subParams.GetParam<double>("Minimum").Value;
 					break;
 				case 2:
 					filterMode = FilteringMode.GreaterEqualThan;
-					threshold = subParams.GetDoubleParam("Minimum").Value;
+					threshold = subParams.GetParam<double>("Minimum").Value;
 					break;
 				case 3:
 					filterMode = FilteringMode.LessThan;
-					threshold = subParams.GetDoubleParam("Maximum").Value;
+					threshold = subParams.GetParam<double>("Maximum").Value;
 					break;
 				case 4:
 					filterMode = FilteringMode.LessEqualThan;
-					threshold = subParams.GetDoubleParam("Maximum").Value;
+					threshold = subParams.GetParam<double>("Maximum").Value;
 					break;
 				case 5:
 					filterMode = FilteringMode.Between;
-					threshold = subParams.GetDoubleParam("Minimum").Value;
-					threshold2 = subParams.GetDoubleParam("Maximum").Value;
+					threshold = subParams.GetParam<double>("Minimum").Value;
+					threshold2 = subParams.GetParam<double>("Maximum").Value;
 					break;
 				case 6:
 					filterMode = FilteringMode.Outside;
-					threshold = subParams.GetDoubleParam("Minimum").Value;
-					threshold2 = subParams.GetDoubleParam("Maximum").Value;
+					threshold = subParams.GetParam<double>("Minimum").Value;
+					threshold2 = subParams.GetParam<double>("Maximum").Value;
 					break;
 				default:
 					throw new Exception("Should not happen.");
 			}
 			if (modeInd != 0){
-				int gind = modeParam.GetSubParameters().GetSingleChoiceParam("Grouping").Value;
+				int gind = modeParam.GetSubParameters().GetParam<int>("Grouping").Value;
 				string[][] groupCol = mdata.GetCategoryRowAt(gind);
 				NonzeroFilterGroup(minValids, mdata, param, modeInd == 2, threshold, threshold2, filterMode, groupCol);
 			} else{

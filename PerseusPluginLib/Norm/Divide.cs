@@ -30,9 +30,9 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				SingleChoiceParam access = param.GetSingleChoiceParam("Matrix access");
+				Parameter<int> access = param.GetParam<int>("Matrix access");
 			bool rows = access.Value == 0;
-			int what = param.GetSingleChoiceParam("Divide by what").Value;
+			int what = param.GetParam<int>("Divide by what").Value;
 			DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
 			switch (what){
 				case 0:

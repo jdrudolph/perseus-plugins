@@ -41,7 +41,7 @@ namespace PluginProteomicRuler{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			int proteinIdColumnInd = param.GetSingleChoiceParam("Protein IDs").Value;
+				int proteinIdColumnInd = param.GetParam<int>("Protein IDs").Value;
 			string[][] proteinIds = new string[mdata.RowCount][];
 			string[][] leadingIds = new string[mdata.RowCount][];
 			List<string> allIds = new List<string>();
@@ -50,7 +50,7 @@ namespace PluginProteomicRuler{
 				leadingIds[row] = new[]{proteinIds[row][0]};
 				allIds.AddRange(proteinIds[row]);
 			}
-			string fastaFilePath = param.GetFileParam("Fasta file").Value;
+			string fastaFilePath = param.GetParam<string>("Fasta file").Value;
 			Fasta fasta = new Fasta();
 			fasta.ParseFile(fastaFilePath, processInfo);
 			// Text annotations
@@ -210,17 +210,17 @@ namespace PluginProteomicRuler{
 			double minLength =
 				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
 					.GetSubParameters()
-					.GetDoubleParam("Min. peptide length")
+					.GetParam<double>("Min. peptide length")
 					.Value;
 			double maxLength =
 				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
 					.GetSubParameters()
-					.GetDoubleParam("Max. peptide length")
+					.GetParam<double>("Max. peptide length")
 					.Value;
 			bool displayPeptideSequences = annotateLeadingId &&
 				param.GetSingleChoiceWithSubParams("Calculate theoretical peptides")
 					.GetSubParameters()
-					.GetBoolParam("Show sequences")
+					.GetParam<bool>("Show sequences")
 					.Value;
 			foreach (Protease protease in proteases){
 				double[] annotationColumn = new double[mdata.RowCount];
@@ -251,15 +251,15 @@ namespace PluginProteomicRuler{
 			bool normalizeBySequenceLength =
 				param.GetSingleChoiceWithSubParams("Count sequence features")
 					.GetSubParameters()
-					.GetBoolParam("Normalize by sequence length")
+					.GetParam<bool>("Normalize by sequence length")
 					.Value;
-			if (param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetStringParam("Regex").Value !=
+			if (param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetParam<string>("Regex").Value !=
 				""){
 				Regex regex = new Regex("^.*$");
 				try{
 					regex =
 						new Regex(
-							param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetStringParam("Regex").Value);
+							param.GetSingleChoiceWithSubParams("Count sequence features").GetSubParameters().GetParam<string>("Regex").Value);
 				} catch (ArgumentException){
 					processInfo.ErrString = "The regular expression you provided has invalid syntax.";
 					return;

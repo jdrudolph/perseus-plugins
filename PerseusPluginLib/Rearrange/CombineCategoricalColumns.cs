@@ -41,8 +41,8 @@ namespace PerseusPluginLib.Rearrange{
 				processInfo.ErrString = "There are less than two categorical columns available.";
 				return;
 			}
-			int colInd1 = param.GetSingleChoiceParam("First column").Value;
-			int colInd2 = param.GetSingleChoiceParam("Second column").Value;
+			int colInd1 = param.GetParam<int>("First column").Value;
+			int colInd2 = param.GetParam<int>("Second column").Value;
 			string[][] col1 = mdata.GetCategoryColumnAt(colInd1);
 			string[][] col2 = mdata.GetCategoryColumnAt(colInd2);
 			string[][] result = new string[col1.Length][];
