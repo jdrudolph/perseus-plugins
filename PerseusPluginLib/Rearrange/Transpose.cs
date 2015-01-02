@@ -2,7 +2,6 @@
 using System.Drawing;
 using BaseLib.Param;
 using BaseLibS.Param;
-using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -34,7 +33,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int nameCol = param.GetParam<int>("New column names").Value;
+			int nameCol = param.GetParam<int>("New column names").Value;
 			List<string> colNames;
 			if (nameCol >= 0){
 				HashSet<string> taken = new HashSet<string>();
@@ -51,16 +50,18 @@ namespace PerseusPluginLib.Rearrange{
 				}
 			}
 			List<string> rowNames = mdata.ColumnNames;
-			mdata.Values = ArrayUtils.Transpose(mdata.Values);
-			mdata.IsImputed = ArrayUtils.Transpose(mdata.IsImputed);
-			mdata.QualityValues = ArrayUtils.Transpose(mdata.QualityValues);
+			mdata.Values.Transpose();
+			mdata.IsImputed.Transpose();
+			mdata.Quality.Transpose();
 			mdata.SetAnnotationColumns(new List<string>(new[]{"Name"}), new List<string>(new[]{"Name"}),
 				new List<string[]>(new[]{rowNames.ToArray()}), mdata.CategoryRowNames, mdata.CategoryRowDescriptions,
 				GetCategoryRows(mdata), mdata.NumericRowNames, mdata.NumericRowDescriptions, mdata.NumericRows, new List<string>(),
 				new List<string>(), new List<double[][]>());
 			mdata.ColumnNames = colNames;
-			mdata.SetAnnotationRows(mdata.CategoryColumnNames, mdata.CategoryColumnDescriptions, GetCategoryColumns(mdata),
-				mdata.NumericColumnNames, mdata.NumericColumnDescriptions, mdata.NumericColumns);
+			mdata.SetAnnotationRows(mdata.StringColumnNames, mdata.StringColumnDescriptions, mdata.StringColumns,
+				mdata.CategoryColumnNames, mdata.CategoryColumnDescriptions, GetCategoryColumns(mdata), mdata.NumericColumnNames,
+				mdata.NumericColumnDescriptions, mdata.NumericColumns, mdata.MultiNumericColumnNames,
+				mdata.MultiNumericColumnDescriptions, mdata.MultiNumericColumns);
 		}
 
 		private static List<string[][]> GetCategoryRows(IMatrixData mdata){

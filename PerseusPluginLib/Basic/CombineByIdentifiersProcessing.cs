@@ -97,13 +97,13 @@ namespace PerseusPluginLib.Basic{
 			int ncols = mdata.ColumnCount;
 			float[,] expVals = new float[nrows,ncols];
 			for (int j = 0; j < ncols; j++){
-				float[] c = mdata.GetColumn(j);
+				float[] c = mdata.Values.GetColumn(j);
 				for (int i = 0; i < nrows; i++){
 					float[] d = ArrayUtils.SubArray(c, rowInds[i]);
 					expVals[i, j] = Average(d, atype);
 				}
 			}
-			mdata.Values = expVals;
+			mdata.Values.Set(expVals);
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
 				string name = mdata.NumericColumnNames[i];
 				AverageType atype1 = GetAverageType(param.GetParam<int>("Average type for " + name).Value);

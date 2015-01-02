@@ -122,7 +122,7 @@ namespace PerseusPluginLib.Basic{
 			for (int i = 0; i < mdata.RowCount; i++){
 				List<double> v = new List<double>();
 				foreach (int j in useCols){
-					double x = mdata[i, j];
+					double x = mdata.Values[i, j];
 					if (!double.IsNaN(x) && !double.IsInfinity(x)){
 						v.Add(x);
 					}
@@ -137,7 +137,7 @@ namespace PerseusPluginLib.Basic{
 					for (int j = 0; j < colIndsGroups.Length; j++){
 						vg[j] = new List<double>();
 						for (int k = 0; k < colIndsGroups[j].Length; k++){
-							double x = mdata[i, colIndsGroups[j][k]];
+							double x = mdata.Values[i, colIndsGroups[j][k]];
 							if (!double.IsNaN(x) && !double.IsInfinity(x)){
 								vg[j].Add(x);
 							}

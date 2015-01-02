@@ -83,7 +83,7 @@ namespace PerseusPluginLib.Rearrange{
 				entryCount = Math.Max(entryCount, 1);
 				for (int j = 0; j < entryCount; j++){
 					for (int k = 0; k < mdata.ColumnCount; k++){
-						expVals[count + j, k] = mdata[i, k];
+						expVals[count + j, k] = mdata.Values[i, k];
 					}
 					for (int k = 0; k < mdata.NumericColumnCount; k++){
 						numC[k][count + j] = mdata.NumericColumns[k][i];
@@ -133,7 +133,7 @@ namespace PerseusPluginLib.Rearrange{
 				numC.Add(Transform(d));
 			}
 			mdata.ColumnNames = mdata.ColumnNames;
-			mdata.Values = expVals;
+			mdata.Values.Set(expVals);
 			mdata.SetAnnotationColumns( mdata.StringColumnNames, stringC, mdata.CategoryColumnNames, catC,
 				new List<string>(ArrayUtils.Concat(mdata.NumericColumnNames,
 					ArrayUtils.SubList(mdata.MultiNumericColumnNames, multiNumCols))), numC,

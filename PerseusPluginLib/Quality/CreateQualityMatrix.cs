@@ -54,7 +54,7 @@ namespace PerseusPluginLib.Quality{
 					q[i, j] = (float) w[i];
 				}
 			}
-			mdata.QualityValues = q;
+			mdata.Quality.Set(q);
 			mdata.QualityBiggerIsBetter = false;
 		}
 

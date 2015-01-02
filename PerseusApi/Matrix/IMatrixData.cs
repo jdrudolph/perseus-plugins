@@ -7,18 +7,11 @@ namespace PerseusApi.Matrix{
 	///     The interface only serves to encapsulate the complexity of the implementation for the purpose of plugin programming.
 	/// </summary>
 	public interface IMatrixData : IDataWithAnnotationRows, IDataWithAnnotationColumns{
-		float[,] Values { get; set; }
-		float[,] QualityValues { get; set; }
-		bool[,] IsImputed { get; set; }
+		IMatrixIndexer Values { get; }
+		IMatrixIndexer Quality { get; }
+		IBoolMatrixIndexer IsImputed { get; }
 		string QualityName { get; set; }
 		bool QualityBiggerIsBetter { get; set; }
 		bool HasQuality { get; }
-		float this[int i, int j] { get; set; }
-		float[] GetRow(int row);
-		float[] GetColumn(int col);
-		float[] GetQualityRow(int row);
-		float[] GetQualityColumn(int col);
-		bool[] GetIsImputednRow(int row);
-		bool[] GetIsImputedColumn(int col);
 	}
 }

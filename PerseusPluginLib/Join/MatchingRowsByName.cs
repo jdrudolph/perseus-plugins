@@ -178,9 +178,8 @@ namespace PerseusPluginLib.Join{
 					float[,] newQuality = new float[mdata1.RowCount,exCols.Length];
 					bool[,] newIsImputed = new bool[mdata1.RowCount,exCols.Length];
 					string[] newExColNames = new string[exCols.Length];
-					float[,] oldEx = mdata2.Values;
-					float[,] oldQual = mdata2.QualityValues;
-					bool[,] oldImp = mdata2.IsImputed;
+					float[,] oldQual = mdata2.Quality.Get();
+					bool[,] oldImp = mdata2.IsImputed.Get();
 					for (int i = 0; i < exCols.Length; i++){
 						newExColNames[i] = mdata2.ColumnNames[exCols[i]];
 						for (int j = 0; j < mdata1.RowCount; j++){
@@ -189,7 +188,7 @@ namespace PerseusPluginLib.Join{
 							List<double> qual = new List<double>();
 							List<bool> imp = new List<bool>();
 							foreach (int ind in inds){
-								double v = oldEx[ind, exCols[i]];
+								double v = mdata2.Values[ind, exCols[i]];
 								if (!double.IsNaN(v) && !double.IsInfinity(v)){
 									values.Add(v);
 									double qx = oldQual[ind, exCols[i]];
@@ -424,8 +423,8 @@ namespace PerseusPluginLib.Join{
 			bool[,] newImp = new bool[data.RowCount,data.ColumnCount + vals.GetLength(1)];
 			for (int i = 0; i < data.RowCount; i++){
 				for (int j = 0; j < data.ColumnCount; j++){
-					newVals[i, j] = data[i, j];
-					newQual[i, j] = data.QualityValues[i, j];
+					newVals[i, j] = data.Values[i, j];
+					newQual[i, j] = data.Quality[i, j];
 					newImp[i, j] = data.IsImputed[i, j];
 				}
 				for (int j = 0; j < vals.GetLength(1); j++){
@@ -434,9 +433,9 @@ namespace PerseusPluginLib.Join{
 					newImp[i, data.ColumnCount + j] = imp[i, j];
 				}
 			}
-			data.Values = newVals;
-			data.QualityValues = newQual;
-			data.IsImputed = newImp;
+			data.Values.Set(newVals);
+			data.Quality.Set(newQual);
+			data.IsImputed.Set(newImp);
 			data.ColumnNames.AddRange(names);
 			data.ColumnDescriptions.AddRange(names);
 		}

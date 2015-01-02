@@ -8,7 +8,6 @@ using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PluginProteomicRuler;
 
 namespace PluginProteomicRuler
 {
@@ -64,7 +63,7 @@ namespace PluginProteomicRuler
 				double[] values;
 				if (intensityCols[col] < mdata.ColumnCount)
 				{
-					values = ArrayUtils.ToDoubles(mdata.GetColumn(intensityCols[col]));
+					values = ArrayUtils.ToDoubles(mdata.Values.GetColumn(intensityCols[col]));
 					inputNames[col] = mdata.ColumnNames[intensityCols[col]];
 				}
 				else
@@ -379,7 +378,7 @@ namespace PluginProteomicRuler
 				supplTables = new IMatrixData[1];
 				IMatrixData supplTab = (IMatrixData)mdata.CreateNewInstance();
 				supplTab.ColumnNames = new List<string>();
-				supplTab.Values = new float[totalProteinRow.Length, 0];
+				supplTab.Values.Init(totalProteinRow.Length, 0);
 				supplTab.SetAnnotationColumns(new List<string>() { "Sample", "Input Column" }, new List<string[]>() { sampleNameRow, inputNameRow }, new List<string>() { "Organism" }, new List<string[][]>() { organismRow },
 					new List<string>() { "Total protein [pg/cell]", "Total molecules per cell", "Histone mass [pg/cell]", "Ploidy", "Cell volume [fl]" },
 					new List<double[]>() { totalProteinRow, totalMoleculesRow, histoneMassRow, ploidyRow, cellVolumeRow }, new List<string>(), new List<double[][]>());

@@ -99,13 +99,13 @@ namespace PerseusPluginLib.Join{
 				if (dic1.ContainsKey(expColNames[i])){
 					int ind = dic1[expColNames[i]];
 					for (int j = 0; j < nrows1; j++){
-						ex[j, i] = mdata1[j, ind];
+						ex[j, i] = mdata1.Values[j, ind];
 					}
 				}
 				if (dic2.ContainsKey(expColNames[i])){
 					int ind = dic2[expColNames[i]];
 					for (int j = 0; j < nrows2; j++){
-						ex[nrows1 + j, i] = mdata2[j, ind];
+						ex[nrows1 + j, i] = mdata2.Values[j, ind];
 					}
 				}
 			}
@@ -201,7 +201,7 @@ namespace PerseusPluginLib.Join{
 			IMatrixData result = (IMatrixData) mdata1.CreateNewInstance();
 			result.ColumnNames = new List<string>(expColNames);
 			result.ColumnDescriptions = result.ColumnNames;
-			result.Values = ex;
+			result.Values.Set(ex);
 			result.NumericColumnNames = new List<string>(numColNames);
 			result.NumericColumnDescriptions = result.NumericColumnNames;
 			result.NumericColumns = numCols;

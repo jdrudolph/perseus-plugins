@@ -23,14 +23,11 @@ namespace PerseusPluginLib.Norm{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:Divide"; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return int.MaxValue;
-		}
+		public int GetMaxThreads(Parameters parameters) { return int.MaxValue; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				Parameter<int> access = param.GetParam<int>("Matrix access");
+			Parameter<int> access = param.GetParam<int>("Matrix access");
 			bool rows = access.Value == 0;
 			int what = param.GetParam<int>("Divide by what").Value;
 			DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
@@ -63,40 +60,42 @@ namespace PerseusPluginLib.Norm{
 		private static void Calc1(int i, Func<double[], double> summarize, IMatrixData data){
 			List<double> vals = new List<double>();
 			for (int j = 0; j < data.ColumnCount; j++){
-				double q = data[i, j];
+				double q = data.Values[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double med = summarize(vals.ToArray());
 			for (int j = 0; j < data.ColumnCount; j++){
-				data[i, j] /= (float) med;
+				data.Values[i, j] /= (float) med;
 			}
 		}
 
 		private static void Calc2(int j, Func<double[], double> summarize, IMatrixData data){
 			List<double> vals = new List<double>();
 			for (int i = 0; i < data.RowCount; i++){
-				double q = data[i, j];
+				double q = data.Values[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double med = summarize(vals.ToArray());
 			for (int i = 0; i < data.RowCount; i++){
-				data[i, j] /= (float) med;
+				data.Values[i, j] /= (float) med;
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Matrix access"){
 						Values = new[]{"Rows", "Columns"},
 						Help = "Specifies if the analysis is performed on the rows or the columns of the matrix."
 					},
-					new SingleChoiceParam("Divide by what")
-					{Values = new[]{"Mean", "Median", "Most frequent value", "Tukey's biweight"}, Value = 1}
+					new SingleChoiceParam("Divide by what"){
+						Values = new[]{"Mean", "Median", "Most frequent value", "Tukey's biweight"},
+						Value = 1
+					}
 				});
 		}
 	}

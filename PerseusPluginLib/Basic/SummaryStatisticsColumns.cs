@@ -85,7 +85,7 @@ namespace PerseusPluginLib.Basic{
 			string[] colNames = GetColNames(mdata, cols);
 			mdata.Name = "Summary";
 			mdata.ColumnNames = new List<string>(names.ToArray());
-			mdata.Values = exVals;
+			mdata.Values.Set(exVals);
 			mdata.SetAnnotationColumns( new List<string>(new[]{"Columns"}),
 				new List<string[]>(new[]{colNames}), mdata.CategoryRowNames,
 				TransformCategories(mdata, cols, mdata.ColumnCount), mdata.NumericRowNames,
@@ -157,7 +157,7 @@ namespace PerseusPluginLib.Basic{
 			if (col < mdata.ColumnCount){
 				List<double> v = new List<double>();
 				for (int j = 0; j < mdata.RowCount; j++){
-					double x = mdata[j, col];
+					double x = mdata.Values[j, col];
 					if (!double.IsNaN(x) && !double.IsInfinity(x)){
 						v.Add(x);
 					}

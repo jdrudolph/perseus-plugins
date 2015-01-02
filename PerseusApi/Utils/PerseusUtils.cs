@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BaseLib.Wpf;
+using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
+using PerseusLib.Cols;
 
 namespace PerseusApi.Utils{
 	public static class PerseusUtils{
@@ -230,9 +233,10 @@ namespace PerseusApi.Utils{
 			string[] textColnames = ArrayUtils.SubArray(colNames, textColIndices);
 			matrixData.Name = origin;
 			matrixData.ColumnNames = RemoveQuotes(columnNames);
-			matrixData.Values = expressionValues;
-			matrixData.SetAnnotationColumns(RemoveQuotes(textColnames), stringAnnotation, RemoveQuotes(catColnames), categoryAnnotation,
-				RemoveQuotes(numColnames), numericAnnotation, RemoveQuotes(multiNumColnames), multiNumericAnnotation);
+			matrixData.Values.Set(expressionValues);
+			matrixData.SetAnnotationColumns(RemoveQuotes(textColnames), stringAnnotation, RemoveQuotes(catColnames),
+				categoryAnnotation, RemoveQuotes(numColnames), numericAnnotation, RemoveQuotes(multiNumColnames),
+				multiNumericAnnotation);
 			if (colDescriptions != null){
 				string[] columnDesc = ArrayUtils.SubArray(colDescriptions, expressionColIndices);
 				string[] catColDesc = ArrayUtils.SubArray(colDescriptions, catColIndices);
@@ -459,6 +463,278 @@ namespace PerseusApi.Utils{
 			int num;
 			bool succ = int.TryParse(s1, out num);
 			return succ;
+		}
+
+		public static string[][] GetAvailableAnnots(out string[] baseNames, out string[] files){
+			AnnotType[][] types;
+			return GetAvailableAnnots(out baseNames, out types, out files);
+		}
+
+		public static string[][] GetAvailableAnnots(out string[] baseNames, out AnnotType[][] types, out string[] files){
+			files = GetAnnotFiles();
+			baseNames = new string[files.Length];
+			types = new AnnotType[files.Length][];
+			string[][] names = new string[files.Length][];
+			for (int i = 0; i < names.Length; i++){
+				names[i] = GetAvailableAnnots(files[i], out baseNames[i], out types[i]);
+			}
+			return names;
+		}
+
+		private static string[] GetAvailableAnnots(string file, out string baseName, out AnnotType[] types){
+			StreamReader reader = FileUtils.GetReader(file);
+			string line = reader.ReadLine();
+			string[] header = line.Split('\t');
+			line = reader.ReadLine();
+			string[] desc = line.Split('\t');
+			reader.Close();
+			baseName = header[0];
+			string[] result = ArrayUtils.SubArray(header, 1, header.Length);
+			types = new AnnotType[desc.Length - 1];
+			for (int i = 0; i < types.Length; i++){
+				types[i] = FromString1(desc[i + 1]);
+			}
+			return result;
+		}
+
+		private static AnnotType FromString1(string s){
+			switch (s){
+				case "Text":
+					return AnnotType.Text;
+				case "Categorical":
+					return AnnotType.Categorical;
+				case "Numerical":
+					return AnnotType.Numerical;
+				default:
+					return AnnotType.Categorical;
+			}
+		}
+
+		private static string[] GetAnnotFiles(){
+			string folder = FileUtils.executablePath + "\\conf\\annotations";
+			string[] files = Directory.GetFiles(folder);
+			List<string> result = new List<string>();
+			foreach (string file in files){
+				string fileLow = file.ToLower();
+				if (fileLow.EndsWith(".txt.gz") || fileLow.EndsWith(".txt")){
+					result.Add(file);
+				}
+			}
+			return result.ToArray();
+		}
+
+		public static bool ProcessDataAddAnnotation(int nrows, Parameters para, string[] baseIds,
+			ProcessInfo processInfo, out string[] name, out int[] catColInds, out int[] textColInds, out int[] numColInds,
+			out string[][][] catCols, out string[][] textCols, out double[][] numCols){
+			string[] baseNames;
+			AnnotType[][] types;
+			string[] files;
+			string[][] names = GetAvailableAnnots(out baseNames, out types, out files);
+			ParameterWithSubParams<int> spd = para.GetParamWithSubParams<int>("Source");
+			int ind = spd.Value;
+			Parameters param = spd.GetSubParameters();
+			AnnotType[] type = types[ind];
+			name = names[ind];
+			int[] addtlSources = para.GetParam<int[]>("Additional sources").Value;
+			addtlSources = ArrayUtils.Remove(addtlSources, ind);
+			foreach (int addtlSource in addtlSources){
+				AnnotType[] type1 = types[addtlSource];
+				string[] name1 = names[addtlSource];
+				if (!ArrayUtils.EqualArrays(type, type1)){
+					processInfo.ErrString = "Additional annotation file does not have the same column structure.";
+					catColInds = new int[]{};
+					textColInds = new int[]{};
+					numColInds = new int[]{};
+					catCols = new string[][][]{};
+					textCols = new string[][]{};
+					numCols = new double[][]{};
+					return false;
+				}
+				if (!ArrayUtils.EqualArrays(name, name1)){
+					processInfo.ErrString = "Additional annotation file does not have the same column structure.";
+					catColInds = new int[]{};
+					textColInds = new int[]{};
+					numColInds = new int[]{};
+					catCols = new string[][][]{};
+					textCols = new string[][]{};
+					numCols = new double[][]{};
+					return false;
+				}
+			}
+			int[] selection = param.GetParam<int[]>("Annotations to be added").Value;
+			type = ArrayUtils.SubArray(type, selection);
+			name = ArrayUtils.SubArray(name, selection);
+			const bool deHyphenate = true;
+			HashSet<string> allIds = GetAllIds(baseIds, deHyphenate);
+			Dictionary<string, string[]> mapping = ReadMapping(allIds, files[ind], selection);
+			foreach (int addtlSource in addtlSources){
+				Dictionary<string, string[]> mapping1 = ReadMapping(allIds, files[addtlSource], selection);
+				foreach (string key in mapping1.Keys.Where(key => !mapping.ContainsKey(key))){
+					mapping.Add(key, mapping1[key]);
+				}
+			}
+			SplitIds(type, out textColInds, out catColInds, out numColInds);
+			catCols = new string[catColInds.Length][][];
+			for (int i = 0; i < catCols.Length; i++){
+				catCols[i] = new string[nrows][];
+			}
+			textCols = new string[textColInds.Length][];
+			for (int i = 0; i < textCols.Length; i++){
+				textCols[i] = new string[nrows];
+			}
+			numCols = new double[numColInds.Length][];
+			for (int i = 0; i < numCols.Length; i++){
+				numCols[i] = new double[nrows];
+			}
+			for (int i = 0; i < nrows; i++){
+				string[] ids = baseIds[i].Length > 0 ? baseIds[i].Split(';') : new string[0];
+				HashSet<string>[] catVals = new HashSet<string>[catCols.Length];
+				for (int j = 0; j < catVals.Length; j++){
+					catVals[j] = new HashSet<string>();
+				}
+				HashSet<string>[] textVals = new HashSet<string>[textCols.Length];
+				for (int j = 0; j < textVals.Length; j++){
+					textVals[j] = new HashSet<string>();
+				}
+				List<double>[] numVals = new List<double>[numCols.Length];
+				for (int j = 0; j < numVals.Length; j++){
+					numVals[j] = new List<double>();
+				}
+				foreach (string id in ids){
+					if (mapping.ContainsKey(id)){
+						string[] values = mapping[id];
+						AddCatVals(ArrayUtils.SubArray(values, catColInds), catVals);
+						AddTextVals(ArrayUtils.SubArray(values, textColInds), textVals);
+						AddNumVals(ArrayUtils.SubArray(values, numColInds), numVals);
+					} else if (id.Contains("-")){
+						string q = id.Substring(0, id.IndexOf('-'));
+						if (mapping.ContainsKey(q)){
+							string[] values = mapping[q];
+							AddCatVals(ArrayUtils.SubArray(values, catColInds), catVals);
+							AddTextVals(ArrayUtils.SubArray(values, textColInds), textVals);
+							AddNumVals(ArrayUtils.SubArray(values, numColInds), numVals);
+						}
+					}
+				}
+				for (int j = 0; j < catVals.Length; j++){
+					string[] q = ArrayUtils.ToArray(catVals[j]);
+					Array.Sort(q);
+					catCols[j][i] = q;
+				}
+				for (int j = 0; j < textVals.Length; j++){
+					string[] q = ArrayUtils.ToArray(textVals[j]);
+					Array.Sort(q);
+					textCols[j][i] = StringUtils.Concat(";", q);
+				}
+				for (int j = 0; j < numVals.Length; j++){
+					numCols[j][i] = ArrayUtils.Median(numVals[j]);
+				}
+			}
+			return true;
+		}
+
+		private static void AddCatVals(IList<string> values, IList<HashSet<string>> catVals){
+			for (int i = 0; i < values.Count; i++){
+				AddCatVals(values[i], catVals[i]);
+			}
+		}
+
+		private static void AddTextVals(IList<string> values, IList<HashSet<string>> textVals){
+			for (int i = 0; i < values.Count; i++){
+				AddTextVals(values[i], textVals[i]);
+			}
+		}
+
+		private static void AddNumVals(IList<string> values, IList<List<double>> numVals){
+			for (int i = 0; i < values.Count; i++){
+				AddNumVals(values[i], numVals[i]);
+			}
+		}
+
+		private static void AddCatVals(string value, ISet<string> catVals){
+			string[] q = value.Length > 0 ? value.Split(';') : new string[0];
+			foreach (string s in q){
+				catVals.Add(s);
+			}
+		}
+
+		private static void AddTextVals(string value, ISet<string> textVals){
+			string[] q = value.Length > 0 ? value.Split(';') : new string[0];
+			foreach (string s in q){
+				textVals.Add(s);
+			}
+		}
+
+		private static void AddNumVals(string value, ICollection<double> numVals){
+			string[] q = value.Length > 0 ? value.Split(';') : new string[0];
+			foreach (string s in q){
+				numVals.Add(double.Parse(s));
+			}
+		}
+
+		private static void SplitIds(IList<AnnotType> types, out int[] textCols, out int[] catCols, out int[] numCols){
+			List<int> tc = new List<int>();
+			List<int> cc = new List<int>();
+			List<int> nc = new List<int>();
+			for (int i = 0; i < types.Count; i++){
+				switch (types[i]){
+					case AnnotType.Categorical:
+						cc.Add(i);
+						break;
+					case AnnotType.Text:
+						tc.Add(i);
+						break;
+					case AnnotType.Numerical:
+						nc.Add(i);
+						break;
+					default:
+						throw new Exception("Never get here.");
+				}
+			}
+			textCols = tc.ToArray();
+			catCols = cc.ToArray();
+			numCols = nc.ToArray();
+		}
+
+		private static Dictionary<string, string[]> ReadMapping(ICollection<string> allIds, string file, IList<int> selection){
+			for (int i = 0; i < selection.Count; i++){
+				selection[i]++;
+			}
+			StreamReader reader = FileUtils.GetReader(file);
+			reader.ReadLine();
+			reader.ReadLine();
+			string line;
+			Dictionary<string, string[]> result = new Dictionary<string, string[]>();
+			while ((line = reader.ReadLine()) != null){
+				string[] q = line.Split('\t');
+				string w = q[0];
+				string[] ids = w.Length > 0 ? w.Split(';') : new string[0];
+				string[] value = ArrayUtils.SubArray(q, selection);
+				foreach (string id in ids){
+					if (!allIds.Contains(id)){
+						continue;
+					}
+					if (!result.ContainsKey(id)){
+						result.Add(id, value);
+					}
+				}
+			}
+			return result;
+		}
+
+		private static HashSet<string> GetAllIds(IEnumerable<string> x, bool deHyphenate){
+			HashSet<string> result = new HashSet<string>();
+			foreach (string y in x){
+				string[] z = y.Length > 0 ? y.Split(';') : new string[0];
+				foreach (string q in z){
+					result.Add(q);
+					if (deHyphenate && q.Contains("-")){
+						string r = q.Substring(0, q.IndexOf("-", StringComparison.InvariantCulture));
+						result.Add(r);
+					}
+				}
+			}
+			return result;
 		}
 	}
 }

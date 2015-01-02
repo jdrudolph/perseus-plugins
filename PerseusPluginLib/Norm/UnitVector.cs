@@ -52,24 +52,24 @@ namespace PerseusPluginLib.Norm{
 				for (int i = 0; i < data.RowCount; i++){
 					double len = 0;
 					for (int j = 0; j < data.ColumnCount; j++){
-						double q = data[i, j];
+						double q = data.Values[i, j];
 						len += q*q;
 					}
 					len = Math.Sqrt(len);
 					for (int j = 0; j < data.ColumnCount; j++){
-						data[i, j] /= (float) len;
+						data.Values[i, j] /= (float)len;
 					}
 				}
 			} else{
 				for (int j = 0; j < data.ColumnCount; j++){
 					double len = 0;
 					for (int i = 0; i < data.RowCount; i++){
-						double q = data[i, j];
+						double q = data.Values[i, j];
 						len += q*q;
 					}
 					len = Math.Sqrt(len);
 					for (int i = 0; i < data.RowCount; i++){
-						data[i, j] /= (float) len;
+						data.Values[i, j] /= (float)len;
 					}
 				}
 			}

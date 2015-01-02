@@ -45,8 +45,8 @@ namespace PerseusPluginLib.Impute{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				double width = param.GetParam<double>("Width").Value;
-				double shift = param.GetParam<double>("Down shift").Value;
+			double width = param.GetParam<double>("Width").Value;
+			double shift = param.GetParam<double>("Down shift").Value;
 			bool separateColumns = param.GetParam<int>("Mode").Value == 1;
 			int[] cols = param.GetParam<int[]>("Columns").Value;
 			if (separateColumns){
@@ -71,9 +71,7 @@ namespace PerseusPluginLib.Impute{
 								" standard deviation of the valid data."
 					},
 					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}},
-					new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount)){
-						Values = mdata.ColumnNames
-					}
+					new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount)){Values = mdata.ColumnNames}
 				});
 		}
 
@@ -86,7 +84,7 @@ namespace PerseusPluginLib.Impute{
 		private static void ReplaceMissingsByGaussianForOneColumn(double width, double shift, IMatrixData data, int colInd){
 			List<float> allValues = new List<float>();
 			for (int i = 0; i < data.RowCount; i++){
-				float x = data[i, colInd];
+				float x = data.Values[i, colInd];
 				if (!float.IsNaN(x) && !float.IsInfinity(x)){
 					allValues.Add(x);
 				}
@@ -97,8 +95,8 @@ namespace PerseusPluginLib.Impute{
 			double s = stddev*width;
 			Random2 r = new Random2();
 			for (int i = 0; i < data.RowCount; i++){
-				if (float.IsNaN(data[i, colInd]) || float.IsInfinity(data[i, colInd])){
-					data[i, colInd] = (float) r.NextGaussian(m, s);
+				if (float.IsNaN(data.Values[i, colInd]) || float.IsInfinity(data.Values[i, colInd])){
+					data.Values[i, colInd] = (float) r.NextGaussian(m, s);
 					data.IsImputed[i, colInd] = true;
 				}
 			}
@@ -108,7 +106,7 @@ namespace PerseusPluginLib.Impute{
 			List<float> allValues = new List<float>();
 			for (int i = 0; i < data.RowCount; i++){
 				foreach (int t in colInds){
-					float x = data[i, t];
+					float x = data.Values[i, t];
 					if (!float.IsNaN(x) && !float.IsInfinity(x)){
 						allValues.Add(x);
 					}
@@ -121,8 +119,8 @@ namespace PerseusPluginLib.Impute{
 			Random2 r = new Random2();
 			for (int i = 0; i < data.RowCount; i++){
 				foreach (int t in colInds){
-					if (float.IsNaN(data[i, t]) || float.IsInfinity(data[i, t])){
-						data[i, t] = (float) r.NextGaussian(m, s);
+					if (float.IsNaN(data.Values[i, t]) || float.IsInfinity(data.Values[i, t])){
+						data.Values[i, t] = (float) r.NextGaussian(m, s);
 						data.IsImputed[i, t] = true;
 					}
 				}

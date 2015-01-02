@@ -66,7 +66,7 @@ namespace PerseusPluginLib.Significance{
 					throw new Exception("Never get here.");
 			}
 			foreach (int col in cols){
-				float[] r = mdata.GetColumn(col);
+				float[] r = mdata.Values.GetColumn(col);
 				double[] pvals = CalcSignificanceA(r, side);
 				string[][] fdr;
 				switch (truncation){

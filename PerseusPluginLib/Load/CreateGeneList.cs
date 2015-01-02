@@ -40,7 +40,7 @@ namespace PerseusPluginLib.Load{
 			}
 			matrixData.Name = "Gene list";
 			matrixData.ColumnNames = new List<string>();
-			matrixData.Values = new float[stringCols[0].Length,0];
+			matrixData.Values.Init(stringCols[0].Length,0);
 			matrixData.SetAnnotationColumns(stringColnames, stringCols,
 				new List<string>(), new List<string[][]>(), new List<string>(), new List<double[]>(), new List<string>(),
 				new List<double[][]>());

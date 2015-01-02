@@ -73,7 +73,7 @@ namespace PerseusPluginLib.Basic{
 
 		private static double[] GetValues(IMatrixData mdata, int colInd){
 			if (colInd < mdata.ColumnCount){
-				return ArrayUtils.ToDoubles(mdata.GetColumn(colInd));
+				return ArrayUtils.ToDoubles(mdata.Values.GetColumn(colInd));
 			}
 			colInd -= mdata.ColumnCount;
 			return mdata.NumericColumns[colInd];

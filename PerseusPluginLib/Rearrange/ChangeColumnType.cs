@@ -332,13 +332,13 @@ namespace PerseusPluginLib.Rearrange{
 					newEx[j][i] = (float) num[j][i];
 				}
 			}
-			var newExp = new float[mdata.RowCount,mdata.ColumnCount + num.Length];
-			var newQual = new float[mdata.RowCount,mdata.ColumnCount + num.Length];
-			var newIsImputed = new bool[mdata.RowCount,mdata.ColumnCount + num.Length];
+			float[,] newExp = new float[mdata.RowCount,mdata.ColumnCount + num.Length];
+			float[,] newQual = new float[mdata.RowCount,mdata.ColumnCount + num.Length];
+			bool[,] newIsImputed = new bool[mdata.RowCount,mdata.ColumnCount + num.Length];
 			for (int i = 0; i < mdata.RowCount; i++){
 				for (int j = 0; j < mdata.ColumnCount; j++){
-					newExp[i, j] = mdata[i, j];
-					newQual[i, j] = mdata.QualityValues[i, j];
+					newExp[i, j] = mdata.Values[i, j];
+					newQual[i, j] = mdata.Quality[i, j];
 					newIsImputed[i, j] = mdata.IsImputed[i, j];
 				}
 				for (int j = 0; j < newEx.Length; j++){
@@ -347,9 +347,9 @@ namespace PerseusPluginLib.Rearrange{
 					newIsImputed[i, j + mdata.ColumnCount] = false;
 				}
 			}
-			mdata.Values = newExp;
-			mdata.QualityValues = newQual;
-			mdata.IsImputed = newIsImputed;
+			mdata.Values.Set(newExp);
+			mdata.Quality.Set(newQual);
+			mdata.IsImputed.Set(newIsImputed);
 			mdata.ColumnNames.AddRange(names);
 			mdata.ColumnDescriptions.AddRange(descriptions);
 			mdata.NumericColumns = ArrayUtils.SubList(mdata.NumericColumns, inds);
@@ -377,13 +377,13 @@ namespace PerseusPluginLib.Rearrange{
 					newEx[j][i] = success ? f : float.NaN;
 				}
 			}
-			var newExp = new float[mdata.RowCount,mdata.ColumnCount + str.Length];
-			var newQual = new float[mdata.RowCount,mdata.ColumnCount + str.Length];
-			var newIsImputed = new bool[mdata.RowCount,mdata.ColumnCount + str.Length];
+			float[,] newExp = new float[mdata.RowCount,mdata.ColumnCount + str.Length];
+			float[,] newQual = new float[mdata.RowCount,mdata.ColumnCount + str.Length];
+			bool[,] newIsImputed = new bool[mdata.RowCount,mdata.ColumnCount + str.Length];
 			for (int i = 0; i < mdata.RowCount; i++){
 				for (int j = 0; j < mdata.ColumnCount; j++){
-					newExp[i, j] = mdata[i, j];
-					newQual[i, j] = mdata.QualityValues[i, j];
+					newExp[i, j] = mdata.Values[i, j];
+					newQual[i, j] = mdata.Quality[i, j];
 					newIsImputed[i, j] = mdata.IsImputed[i, j];
 				}
 				for (int j = 0; j < newEx.Length; j++){
@@ -392,9 +392,9 @@ namespace PerseusPluginLib.Rearrange{
 					newIsImputed[i, j + mdata.ColumnCount] = false;
 				}
 			}
-			mdata.Values = newExp;
-			mdata.QualityValues = newQual;
-			mdata.IsImputed = newIsImputed;
+			mdata.Values.Set(newExp);
+			mdata.Quality.Set(newQual);
+			mdata.IsImputed.Set(newIsImputed);
 			mdata.ColumnNames.AddRange(names);
 			mdata.ColumnDescriptions.AddRange(descriptions);
 			mdata.StringColumns = ArrayUtils.SubList(mdata.StringColumns, inds);
@@ -411,7 +411,7 @@ namespace PerseusPluginLib.Rearrange{
 		private static void ExpressionToNumeric(IList<int> colInds, IMatrixData mdata){
 			int[] remainingInds = ArrayUtils.Complement(colInds, mdata.ColumnCount);
 			foreach (int colInd in colInds){
-				double[] d = ArrayUtils.ToDoubles(mdata.GetColumn(colInd));
+				double[] d = ArrayUtils.ToDoubles(mdata.Values.GetColumn(colInd));
 				mdata.AddNumericColumn(mdata.ColumnNames[colInd], mdata.ColumnDescriptions[colInd], d);
 			}
 			mdata.ExtractColumns(remainingInds);

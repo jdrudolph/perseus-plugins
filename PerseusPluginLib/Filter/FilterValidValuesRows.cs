@@ -33,7 +33,13 @@ namespace PerseusPluginLib.Filter{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Filterrows:FilterValidValuesRows"; } }
+
+		public string Url{
+			get{
+				return
+					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Filterrows:FilterValidValuesRows";
+			}
+		}
 
 		public string Description{
 			get{
@@ -115,7 +121,7 @@ namespace PerseusPluginLib.Filter{
 			for (int i = 0; i < mdata.RowCount; i++){
 				int[] counts = new int[groupVals.Length];
 				for (int j = 0; j < mdata.ColumnCount; j++){
-					if (Valid(mdata[i, j], threshold, threshold2, filterMode)){
+					if (Valid(mdata.Values[i, j], threshold, threshold2, filterMode)){
 						for (int k = 0; k < groupInds[j].Length; k++){
 							if (groupInds[j][k] >= 0){
 								counts[groupInds[j][k]]++;
@@ -148,7 +154,7 @@ namespace PerseusPluginLib.Filter{
 				for (int i = 0; i < mdata.RowCount; i++){
 					int count = 0;
 					for (int j = 0; j < mdata.ColumnCount; j++){
-						if (Valid(mdata[i, j], threshold, threshold2, filterMode)){
+						if (Valid(mdata.Values[i, j], threshold, threshold2, filterMode)){
 							count++;
 						}
 					}
@@ -162,7 +168,7 @@ namespace PerseusPluginLib.Filter{
 				for (int j = 0; j < mdata.ColumnCount; j++){
 					int count = 0;
 					for (int i = 0; i < mdata.RowCount; i++){
-						if (Valid(mdata[i, j], threshold, threshold2, filterMode)){
+						if (Valid(mdata.Values[i, j], threshold, threshold2, filterMode)){
 							count++;
 						}
 					}

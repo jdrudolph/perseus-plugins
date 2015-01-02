@@ -100,24 +100,24 @@ namespace PerseusPluginLib.Norm{
 		private static void Calc1(int i, IMatrixData data, IList<double> means, IList<double> stddevs){
 			double[] vals = new double[data.ColumnCount];
 			for (int j = 0; j < data.ColumnCount; j++){
-				vals[j] = data[i, j];
+				vals[j] = data.Values[i, j];
 			}
 			double stddev = stddevs[i];
 			double mean = means[i];
 			for (int j = 0; j < data.ColumnCount; j++){
-				data[i, j] = (float) ((data[i, j]*stddev) + mean);
+				data.Values[i, j] = (float)((data.Values[i, j] * stddev) + mean);
 			}
 		}
 
 		private static void Calc2(int j, IMatrixData data, IList<double> means, IList<double> stddevs){
 			double[] vals = new double[data.RowCount];
 			for (int i = 0; i < data.RowCount; i++){
-				vals[i] = data[i, j];
+				vals[i] = data.Values[i, j];
 			}
 			double stddev = stddevs[j];
 			double mean = means[j];
 			for (int i = 0; i < data.RowCount; i++){
-				data[i, j] = (float) ((data[i, j]*stddev) + mean);
+				data.Values[i, j] = (float)((data.Values[i, j] * stddev) + mean);
 			}
 		}
 	}

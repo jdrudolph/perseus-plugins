@@ -31,7 +31,7 @@ namespace PerseusPluginLib.Rearrange{
 				int ind = param.GetParam<int>("Column").Value;
 			bool descending = param.GetParam<bool>("Descending").Value;
 			if (ind < mdata.ColumnCount){
-				float[] v = mdata.GetColumn(ind);
+				float[] v = mdata.Values.GetColumn(ind);
 				int[] o = ArrayUtils.Order(v);
 				if (descending){
 					ArrayUtils.Revert(o);

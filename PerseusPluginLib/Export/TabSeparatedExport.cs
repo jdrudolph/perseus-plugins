@@ -123,7 +123,7 @@ namespace PerseusPluginLib.Export{
 			for (int j = 0; j < data.RowCount; j++){
 				words = new List<string>();
 				for (int i = 0; i < data.ColumnCount; i++){
-					words.Add(Trunc("" + data[j, i]));
+					words.Add(Trunc("" + data.Values[j, i]));
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
 					string[] q = data.GetCategoryColumnEntryAt(i, j) ?? new string[0];

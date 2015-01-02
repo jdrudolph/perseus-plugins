@@ -51,7 +51,7 @@ namespace PerseusPluginLib.Basic{
 			foreach (int scoreColumn in scoreColumns){
 				double[] vals = scoreColumn < data.NumericColumnCount
 					? data.NumericColumns[scoreColumn]
-					: ArrayUtils.ToDoubles(data.GetColumn(scoreColumn - data.NumericColumnCount));
+					: ArrayUtils.ToDoubles(data.Values.GetColumn(scoreColumn - data.NumericColumnCount));
 				string name = scoreColumn < data.NumericColumnCount
 					? data.NumericColumnNames[scoreColumn] : data.ColumnNames[scoreColumn - data.NumericColumnCount];
 				int[] order = GetOrder(vals, largeIsGood);
@@ -59,7 +59,7 @@ namespace PerseusPluginLib.Basic{
 			}
 			float[,] expData = ToMatrix(expCols);
 			data.ColumnNames = expColNames;
-			data.Values = expData;
+			data.Values.Set(expData);
 			data.SetAnnotationColumns( new List<string>(), new List<string[]>(), new List<string>(),
 				new List<string[][]>(), new List<string>(), new List<double[]>(), new List<string>(), new List<double[][]>());
 		}

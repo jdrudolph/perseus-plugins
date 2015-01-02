@@ -105,7 +105,7 @@ namespace PerseusPluginLib.Load{
 			}
 			mdata.Name = "Random matrix";
 			mdata.ColumnNames = exprColumnNames;
-			mdata.Values = m;
+			mdata.Values.Set(m);
 			mdata.SetAnnotationColumns( new List<string>(), new List<string[]>(), catColNames, catCols,
 				new List<string>(), new List<double[]>(), new List<string>(), new List<double[][]>());
 			mdata.Origin = "Random matrix";

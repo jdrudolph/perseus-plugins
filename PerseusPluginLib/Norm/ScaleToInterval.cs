@@ -20,24 +20,28 @@ namespace PerseusPluginLib.Norm{
 		public int NumSupplTables { get { return 0; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:ScaleToInterval"; } }
-		public string Description
-		{
+
+		public string Url{
+			get{
+				return
+					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:ScaleToInterval";
+			}
+		}
+
+		public string Description{
 			get{
 				return "A linear transformation is applied to the values in each row/column such that the minima " +
 					"and maxima coincide with the specified values.";
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters){
-			return int.MaxValue;
-		}
+		public int GetMaxThreads(Parameters parameters) { return int.MaxValue; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				bool rows = param.GetParam<int>("Matrix access").Value == 0;
-				double min = param.GetParam<double>("Minimum").Value;
-				double max = param.GetParam<double>("Maximum").Value;
+			bool rows = param.GetParam<int>("Matrix access").Value == 0;
+			double min = param.GetParam<double>("Minimum").Value;
+			double max = param.GetParam<double>("Maximum").Value;
 			MapToInterval1(rows, mdata, min, max, processInfo.NumThreads);
 		}
 
@@ -63,7 +67,7 @@ namespace PerseusPluginLib.Norm{
 		private static void Calc1(int i, IMatrixData data, double min, double max){
 			List<double> vals = new List<double>();
 			for (int j = 0; j < data.ColumnCount; j++){
-				double q = data[i, j];
+				double q = data.Values[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
@@ -72,14 +76,14 @@ namespace PerseusPluginLib.Norm{
 			double maxd;
 			ArrayUtils.MinMax(vals, out mind, out maxd);
 			for (int j = 0; j < data.ColumnCount; j++){
-				data[i, j] = (float) (min + (max - min)/(maxd - mind)*(data[i, j] - mind));
+				data.Values[i, j] = (float) (min + (max - min)/(maxd - mind)*(data.Values[i, j] - mind));
 			}
 		}
 
 		private static void Calc2(int j, IMatrixData data, double min, double max){
 			List<double> vals = new List<double>();
 			for (int i = 0; i < data.RowCount; i++){
-				double q = data[i, j];
+				double q = data.Values[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
@@ -88,7 +92,7 @@ namespace PerseusPluginLib.Norm{
 			double maxd;
 			ArrayUtils.MinMax(vals, out mind, out maxd);
 			for (int i = 0; i < data.RowCount; i++){
-				data[i, j] = (float) (min + (max - min)/(maxd - mind)*(data[i, j] - mind));
+				data.Values[i, j] = (float) (min + (max - min)/(maxd - mind)*(data.Values[i, j] - mind));
 			}
 		}
 	}

@@ -22,19 +22,16 @@ namespace PerseusPluginLib.Norm{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:Rank"; } }
-
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				Parameter<int> access = param.GetParam<int>("Matrix access");
+			Parameter<int> access = param.GetParam<int>("Matrix access");
 			bool rows = access.Value == 0;
 			Rank1(rows, mdata);
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("Matrix access"){
@@ -50,7 +47,7 @@ namespace PerseusPluginLib.Norm{
 					List<double> vals = new List<double>();
 					List<int> indices = new List<int>();
 					for (int j = 0; j < data.ColumnCount; j++){
-						double q = data[i, j];
+						double q = data.Values[i, j];
 						if (!double.IsNaN(q)){
 							vals.Add(q);
 							indices.Add(j);
@@ -58,10 +55,10 @@ namespace PerseusPluginLib.Norm{
 					}
 					double[] ranks = ArrayUtils.Rank(vals);
 					for (int j = 0; j < data.ColumnCount; j++){
-						data[i, j] = float.NaN;
+						data.Values[i, j] = float.NaN;
 					}
 					for (int j = 0; j < ranks.Length; j++){
-						data[i, indices[j]] = (float) ranks[j];
+						data.Values[i, indices[j]] = (float) ranks[j];
 					}
 				}
 			} else{
@@ -69,7 +66,7 @@ namespace PerseusPluginLib.Norm{
 					List<double> vals = new List<double>();
 					List<int> indices = new List<int>();
 					for (int i = 0; i < data.RowCount; i++){
-						double q = data[i, j];
+						double q = data.Values[i, j];
 						if (!double.IsNaN(q)){
 							vals.Add(q);
 							indices.Add(i);
@@ -77,10 +74,10 @@ namespace PerseusPluginLib.Norm{
 					}
 					double[] ranks = ArrayUtils.Rank(vals);
 					for (int i = 0; i < data.RowCount; i++){
-						data[i, j] = float.NaN;
+						data.Values[i, j] = float.NaN;
 					}
 					for (int i = 0; i < ranks.Length; i++){
-						data[indices[i], j] = (float) ranks[i];
+						data.Values[indices[i], j] = (float) ranks[i];
 					}
 				}
 			}

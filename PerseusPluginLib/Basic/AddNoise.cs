@@ -29,7 +29,7 @@ namespace PerseusPluginLib.Basic{
 			double std = param.GetParam<double>("Standard deviation").Value;
 			for (int i = 0; i < mdata.RowCount; i++){
 				for (int j = 0; j < mdata.ColumnCount; j++){
-					mdata[i, j] += (float) rand.NextGaussian(0, std);
+					mdata.Values[i, j] += (float) rand.NextGaussian(0, std);
 				}
 			}
 		}

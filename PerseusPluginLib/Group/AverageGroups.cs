@@ -105,7 +105,7 @@ namespace PerseusPluginLib.Group{
 					List<double> vals = new List<double>();
 					List<bool> imps = new List<bool>();
 					foreach (int ind in colInds[j]){
-						double val = mdata[i, ind];
+						double val = mdata.Values[i, ind];
 						if (!double.IsNaN(val) && !double.IsInfinity(val)){
 							vals.Add(val);
 							imps.Add(mdata.IsImputed[i, ind]);
@@ -124,9 +124,9 @@ namespace PerseusPluginLib.Group{
 			}
 			mdata.ColumnNames = new List<string>(groupNames);
 			mdata.ColumnDescriptions = GetEmpty(groupNames);
-			mdata.Values = newExCols;
-			mdata.QualityValues = newQuality;
-			mdata.IsImputed = newImputed;
+			mdata.Values.Set(newExCols);
+			mdata.Quality.Set(newQuality);
+			mdata.IsImputed.Set(newImputed);
 			mdata.RemoveCategoryRowAt(groupColInd);
 			for (int i = 0; i < mdata.CategoryRowCount; i++){
 				mdata.SetCategoryRowAt(AverageCategoryRow(mdata.GetCategoryRowAt(i), colInds), i);
@@ -156,7 +156,7 @@ namespace PerseusPluginLib.Group{
 				for (int j = 0; j < groupNames.Length; j++){
 					List<double> vals = new List<double>();
 					foreach (int ind in colInds[j]){
-						double val = mdata[i, ind];
+						double val = mdata.Values[i, ind];
 						if (!double.IsNaN(val) && !double.IsInfinity(val)){
 							vals.Add(val);
 						}
@@ -190,7 +190,7 @@ namespace PerseusPluginLib.Group{
 				for (int j = 0; j < groupNames.Length; j++){
 					List<double> vals = new List<double>();
 					foreach (int ind in colInds[j]){
-						double val = mdata[i, ind];
+						double val = mdata.Values[i, ind];
 						if (!double.IsNaN(val) && !double.IsInfinity(val)){
 							vals.Add(val);
 						}

@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using BaseLib.Param;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -38,7 +37,7 @@ namespace PerseusPluginLib.Impute{
 			for (int i = 0; i < data.RowCount; i++){
 				for (int j = 0; j < data.ColumnCount; j++){
 					if (data.IsImputed[i, j]){
-						data[i, j] = float.NaN;
+						data.Values[i, j] = float.NaN;
 					}
 				}
 			}

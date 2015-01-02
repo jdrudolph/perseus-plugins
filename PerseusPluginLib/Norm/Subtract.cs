@@ -65,12 +65,12 @@ namespace PerseusPluginLib.Norm{
 			for (int i = 0; i < data.RowCount; i++){
 				double[] vals = new double[inds.Count];
 				for (int j = 0; j < inds.Count; j++){
-					double q = data[i, inds[j]];
+					double q = data.Values[i, inds[j]];
 					vals[j] = q;
 				}
 				double mean = func(vals);
 				foreach (int t in inds){
-					data[i, t] = (float) ((data[i, t] - mean));
+					data.Values[i, t] = (float)((data.Values[i, t] - mean));
 				}
 			}
 		}
@@ -123,28 +123,28 @@ namespace PerseusPluginLib.Norm{
 		private static void Calc1(int i, Func<double[], double> summarize, IMatrixData data){
 			List<double> vals = new List<double>();
 			for (int j = 0; j < data.ColumnCount; j++){
-				double q = data[i, j];
+				double q = data.Values[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double med = summarize(vals.ToArray());
 			for (int j = 0; j < data.ColumnCount; j++){
-				data[i, j] -= (float) med;
+				data.Values[i, j] -= (float)med;
 			}
 		}
 
 		private static void Calc2(int j, Func<double[], double> summarize, IMatrixData data){
 			List<double> vals = new List<double>();
 			for (int i = 0; i < data.RowCount; i++){
-				double q = data[i, j];
+				double q = data.Values[i, j];
 				if (!double.IsNaN(q) && !double.IsInfinity(q)){
 					vals.Add(q);
 				}
 			}
 			double med = summarize(vals.ToArray());
 			for (int i = 0; i < data.RowCount; i++){
-				data[i, j] -= (float) med;
+				data.Values[i, j] -= (float)med;
 			}
 		}
 	}

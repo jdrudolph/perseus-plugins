@@ -102,7 +102,7 @@ namespace PerseusPluginLib.Annot{
 			}
 			data.Name = "Count";
 			data.ColumnNames = new List<string>();
-			data.Values = ex;
+			data.Values.Set(ex);
 			data.SetAnnotationColumns(  new List<string>(), new List<string[]>(), catColNames, catCols,
 				numColNames, numCols, new List<string>(), new List<double[][]>());
 		}

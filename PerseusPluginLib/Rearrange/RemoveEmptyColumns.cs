@@ -21,11 +21,13 @@ namespace PerseusPluginLib.Rearrange{
 		public string Description { get { return "Columns containing no values or only invalid values will be removed."; } }
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:RemoveEmptyColumns"; } }
 
-		public int GetMaxThreads(Parameters parameters) {
-			return 1;
-		}
+		public string Url { get{
+			return
+				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:RemoveEmptyColumns";
+		} }
+
+		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -102,7 +104,7 @@ namespace PerseusPluginLib.Rearrange{
 		private static int[] GetValidExCols(IMatrixData data){
 			List<int> valids = new List<int>();
 			for (int i = 0; i < data.ColumnCount; i++){
-				if (!IsInvalidExColumn(data.GetColumn(i))){
+				if (!IsInvalidExColumn(data.Values.GetColumn(i))){
 					valids.Add(i);
 				}
 			}
@@ -154,8 +156,6 @@ namespace PerseusPluginLib.Rearrange{
 			return true;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			return new Parameters();
-		}
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString) { return new Parameters(); }
 	}
 }

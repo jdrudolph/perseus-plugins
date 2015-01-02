@@ -67,7 +67,7 @@ namespace PerseusPluginLib.Load{
 				lines.Add(line);
 			}
 			reader.Close();
-			mdata.Values = new float[lines.Count,0];
+			mdata.Values.Init(lines.Count,0);
 			mdata.SetAnnotationColumns(new List<string>(new[]{"All data"}), new List<string>(new[]{"Complete file in one text column."}),
 				new List<string[]>(new[]{lines.ToArray()}), new List<string>(), new List<string>(), new List<string[][]>(),
 				new List<string>(), new List<string>(), new List<double[]>(), new List<string>(), new List<string>(),
@@ -82,7 +82,7 @@ namespace PerseusPluginLib.Load{
 			string[][] cols = TabSep.GetColumns(colNames, filename, 0, PerseusUtils.commentPrefix,
 				PerseusUtils.commentPrefixExceptions, separator);
 			int nrows = TabSep.GetRowCount(filename);
-			mdata.Values = new float[nrows,0];
+			mdata.Values.Init(nrows,0);
 			mdata.SetAnnotationColumns(new List<string>(colNames), new List<string>(colNames), new List<string[]>(cols), new List<string>(),
 				new List<string>(), new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>(),
 				new List<string>(), new List<string>(), new List<double[][]>());

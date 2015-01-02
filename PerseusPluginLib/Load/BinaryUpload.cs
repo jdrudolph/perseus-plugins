@@ -55,7 +55,7 @@ namespace PerseusPluginLib.Load{
 				hexLines.Add(ToHex(y));
 				charLines.Add(ToChar(y));
 			}
-			mdata.Values = new float[hexLines.Count,0];
+			mdata.Values.Init(hexLines.Count,0);
 			mdata.SetAnnotationColumns(new List<string>(new[]{"Hex", "Char"}), new List<string>(new[]{"Hex", "Char"}),
 				new List<string[]>(new[]{hexLines.ToArray(), charLines.ToArray()}), new List<string>(), new List<string>(),
 				new List<string[][]>(), new List<string>(), new List<string>(), new List<double[]>(), new List<string>(),
