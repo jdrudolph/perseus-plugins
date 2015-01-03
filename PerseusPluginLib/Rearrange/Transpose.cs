@@ -50,9 +50,9 @@ namespace PerseusPluginLib.Rearrange{
 				}
 			}
 			List<string> rowNames = mdata.ColumnNames;
-			mdata.Values.Transpose();
+			mdata.Values.TransposeInPlace();
 			mdata.IsImputed.Transpose();
-			mdata.Quality.Transpose();
+			mdata.Quality.TransposeInPlace();
 			mdata.SetAnnotationColumns(new List<string>(new[]{"Name"}), new List<string>(new[]{"Name"}),
 				new List<string[]>(new[]{rowNames.ToArray()}), mdata.CategoryRowNames, mdata.CategoryRowDescriptions,
 				GetCategoryRows(mdata), mdata.NumericRowNames, mdata.NumericRowDescriptions, mdata.NumericRows, new List<string>(),
