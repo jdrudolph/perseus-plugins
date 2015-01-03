@@ -4,6 +4,7 @@ using System.Drawing;
 using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Num.Test;
+using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
@@ -44,7 +45,7 @@ namespace PerseusPluginLib.Significance{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int[] rcols = param.GetParam<int[]>("Ratio columns").Value;
+			int[] rcols = param.GetParam<int[]>("Ratio columns").Value;
 			int[] icols = param.GetParam<int[]>("Intensity columns").Value;
 			if (rcols.Length == 0){
 				processInfo.ErrString = "Please specify some ratio columns.";
@@ -75,10 +76,10 @@ namespace PerseusPluginLib.Significance{
 					throw new Exception("Never get here.");
 			}
 			for (int i = 0; i < rcols.Length; i++){
-				float[] r = mdata.Values.GetColumn(rcols[i]);
-				float[] intens = icols[i] < mdata.ColumnCount
+				BaseVector r = mdata.Values.GetColumn(rcols[i]);
+				BaseVector intens = icols[i] < mdata.ColumnCount
 					? mdata.Values.GetColumn(icols[i])
-					: ArrayUtils.ToFloats(mdata.NumericColumns[icols[i] - mdata.ColumnCount]);
+					: new DoubleArrayVector(mdata.NumericColumns[icols[i] - mdata.ColumnCount]);
 				double[] pvals = CalcSignificanceB(r, intens, side);
 				string[][] fdr;
 				switch (truncation){
@@ -96,7 +97,7 @@ namespace PerseusPluginLib.Significance{
 			}
 		}
 
-		public static double[] CalcSignificanceB(float[] ratios, float[] intens, TestSide side){
+		public static double[] CalcSignificanceB(BaseVector ratios, BaseVector intens, TestSide side){
 			double[] result = new double[ratios.Length];
 			for (int i = 0; i < result.Length; i++){
 				result[i] = 1;
@@ -105,7 +106,7 @@ namespace PerseusPluginLib.Significance{
 			List<double> lIntensity = new List<double>();
 			List<int> indices = new List<int>();
 			for (int i = 0; i < ratios.Length; i++){
-				if (!float.IsNaN(ratios[i]) && !double.IsInfinity(ratios[i]) && !float.IsNaN(intens[i]) &&
+				if (!double.IsNaN(ratios[i]) && !double.IsInfinity(ratios[i]) && !double.IsNaN(intens[i]) &&
 					!double.IsInfinity(intens[i])){
 					lRatio.Add(ratios[i]);
 					lIntensity.Add(intens[i]);

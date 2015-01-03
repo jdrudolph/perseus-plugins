@@ -136,7 +136,7 @@ namespace PerseusPluginLib.Basic{
 
 		private static float[] GetColumn(IMatrixData matrixData, int ind){
 			if (ind < matrixData.ColumnCount){
-				return matrixData.Values.GetColumn(ind);
+				return ArrayUtils.ToFloats(matrixData.Values.GetColumn(ind));
 			}
 			double[] x = matrixData.NumericColumns[ind - matrixData.ColumnCount];
 			float[] f = new float[x.Length];

@@ -147,9 +147,9 @@ namespace PerseusPluginLib.Rearrange{
 			return true;
 		}
 
-		private static bool IsInvalidExColumn(IEnumerable<float> expressionColumn){
-			foreach (float d in expressionColumn){
-				if (!float.IsNaN(d) && !float.IsInfinity(d)){
+		private static bool IsInvalidExColumn(IEnumerable<double> expressionColumn){
+			foreach (double d in expressionColumn){
+				if (!double.IsNaN(d) && !double.IsInfinity(d)){
 					return false;
 				}
 			}

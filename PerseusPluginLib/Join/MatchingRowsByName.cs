@@ -178,8 +178,6 @@ namespace PerseusPluginLib.Join{
 					float[,] newQuality = new float[mdata1.RowCount,exCols.Length];
 					bool[,] newIsImputed = new bool[mdata1.RowCount,exCols.Length];
 					string[] newExColNames = new string[exCols.Length];
-					float[,] oldQual = mdata2.Quality.Get();
-					bool[,] oldImp = mdata2.IsImputed.Get();
 					for (int i = 0; i < exCols.Length; i++){
 						newExColNames[i] = mdata2.ColumnNames[exCols[i]];
 						for (int j = 0; j < mdata1.RowCount; j++){
@@ -191,11 +189,11 @@ namespace PerseusPluginLib.Join{
 								double v = mdata2.Values[ind, exCols[i]];
 								if (!double.IsNaN(v) && !double.IsInfinity(v)){
 									values.Add(v);
-									double qx = oldQual[ind, exCols[i]];
+									double qx = mdata2.Quality[ind, exCols[i]];
 									if (!double.IsNaN(qx) && !double.IsInfinity(qx)){
 										qual.Add(qx);
 									}
-									bool isi = oldImp[ind, exCols[i]];
+									bool isi = mdata2.IsImputed[ind, exCols[i]];
 									imp.Add(isi);
 								}
 							}

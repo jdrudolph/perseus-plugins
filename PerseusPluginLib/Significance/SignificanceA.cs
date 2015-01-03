@@ -4,6 +4,7 @@ using System.Drawing;
 using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Num.Test;
+using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -66,7 +67,7 @@ namespace PerseusPluginLib.Significance{
 					throw new Exception("Never get here.");
 			}
 			foreach (int col in cols){
-				float[] r = mdata.Values.GetColumn(col);
+				BaseVector r = mdata.Values.GetColumn(col);
 				double[] pvals = CalcSignificanceA(r, side);
 				string[][] fdr;
 				switch (truncation){
@@ -84,16 +85,16 @@ namespace PerseusPluginLib.Significance{
 			}
 		}
 
-		private static double[] CalcSignificanceA(IList<float> ratios, TestSide side){
-			double[] result = new double[ratios.Count];
+		private static double[] CalcSignificanceA(BaseVector ratios, TestSide side){
+			double[] result = new double[ratios.Length];
 			for (int i = 0; i < result.Length; i++){
 				result[i] = 1;
 			}
 			List<double> lRatio = new List<double>();
 			List<double> lIntensity = new List<double>();
 			List<int> indices = new List<int>();
-			for (int i = 0; i < ratios.Count; i++){
-				if (!float.IsNaN(ratios[i]) && !double.IsInfinity(ratios[i])){
+			for (int i = 0; i < ratios.Length; i++){
+				if (!double.IsNaN(ratios[i]) && !double.IsInfinity(ratios[i])){
 					lRatio.Add(ratios[i]);
 					lIntensity.Add(0);
 					indices.Add(i);

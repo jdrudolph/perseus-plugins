@@ -80,7 +80,6 @@
     <Compile Include="Generic\IProcessing.cs" />
     <Compile Include="Generic\IToMatrix.cs" />
     <Compile Include="Generic\IUpload.cs" />
-    <Compile Include="Matrix\IBoolMatrixIndexer.cs" />
     <Compile Include="Matrix\IMatrixMultiProcessing.cs" />
     <Compile Include="Matrix\IMatrixActivity.cs" />
     <Compile Include="Matrix\IMatrixAnalysis.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="Matrix\IMatrixUpload.cs" />
     <Compile Include="Generic\IVisualization.cs" />
     <Compile Include="Generic\ProcessInfo.cs" />
-    <Compile Include="Matrix\IMatrixIndexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Generic\Settings.cs" />
     <Compile Include="Utils\PerseusUtils.cs" />

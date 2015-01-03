@@ -1,5 +1,6 @@
 using System.Drawing;
 using BaseLib.Param;
+using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
@@ -31,7 +32,7 @@ namespace PerseusPluginLib.Rearrange{
 				int ind = param.GetParam<int>("Column").Value;
 			bool descending = param.GetParam<bool>("Descending").Value;
 			if (ind < mdata.ColumnCount){
-				float[] v = mdata.Values.GetColumn(ind);
+				BaseVector v = mdata.Values.GetColumn(ind);
 				int[] o = ArrayUtils.Order(v);
 				if (descending){
 					ArrayUtils.Revert(o);
