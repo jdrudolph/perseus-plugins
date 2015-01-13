@@ -64,7 +64,7 @@ namespace PerseusPluginLib.Rearrange{
 				mdata.MultiNumericColumnDescriptions, mdata.MultiNumericColumns);
 		}
 
-		private static List<string[][]> GetCategoryRows(IMatrixData mdata){
+		private static List<string[][]> GetCategoryRows(IDataWithAnnotationRows mdata){
 			List<string[][]> result = new List<string[][]>();
 			for (int i = 0; i < mdata.CategoryRowCount; i++){
 				result.Add(mdata.GetCategoryRowAt(i));
@@ -72,7 +72,7 @@ namespace PerseusPluginLib.Rearrange{
 			return result;
 		}
 
-		private static List<string[][]> GetCategoryColumns(IMatrixData mdata){
+		private static List<string[][]> GetCategoryColumns(IDataWithAnnotationColumns mdata){
 			List<string[][]> result = new List<string[][]>();
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
 				result.Add(mdata.GetCategoryColumnAt(i));

@@ -1,6 +1,6 @@
 using System.Drawing;
 using BaseLib.Param;
-using BaseLibS.Num.Vector;
+using BaseLibS.Api;
 using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
