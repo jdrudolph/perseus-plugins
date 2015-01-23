@@ -234,6 +234,8 @@ namespace PerseusApi.Utils{
 			matrixData.Name = origin;
 			matrixData.ColumnNames = RemoveQuotes(columnNames);
 			matrixData.Values.Set(expressionValues);
+			matrixData.Quality.Set(new float[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
+			matrixData.IsImputed.Set(new bool[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
 			matrixData.SetAnnotationColumns(RemoveQuotes(textColnames), stringAnnotation, RemoveQuotes(catColnames),
 				categoryAnnotation, RemoveQuotes(numColnames), numericAnnotation, RemoveQuotes(multiNumColnames),
 				multiNumericAnnotation);
@@ -523,13 +525,14 @@ namespace PerseusApi.Utils{
 			return result.ToArray();
 		}
 
-		public static bool ProcessDataAddAnnotation(int nrows, Parameters para, string[] baseIds,
-			ProcessInfo processInfo, out string[] name, out int[] catColInds, out int[] textColInds, out int[] numColInds,
-			out string[][][] catCols, out string[][] textCols, out double[][] numCols){
+		public static bool ProcessDataAddAnnotation(int nrows, Parameters para, string[] baseIds, ProcessInfo processInfo,
+			out string[] name, out int[] catColInds, out int[] textColInds, out int[] numColInds, out string[][][] catCols,
+			out string[][] textCols, out double[][] numCols){
 			string[] baseNames;
 			AnnotType[][] types;
 			string[] files;
 			string[][] names = GetAvailableAnnots(out baseNames, out types, out files);
+			bool deHyphenate = para.GetParam<bool>("De-hyphenate IDs").Value;
 			ParameterWithSubParams<int> spd = para.GetParamWithSubParams<int>("Source");
 			int ind = spd.Value;
 			Parameters param = spd.GetSubParameters();
@@ -564,7 +567,6 @@ namespace PerseusApi.Utils{
 			int[] selection = param.GetParam<int[]>("Annotations to be added").Value;
 			type = ArrayUtils.SubArray(type, selection);
 			name = ArrayUtils.SubArray(name, selection);
-			const bool deHyphenate = true;
 			HashSet<string> allIds = GetAllIds(baseIds, deHyphenate);
 			Dictionary<string, string[]> mapping = ReadMapping(allIds, files[ind], selection);
 			foreach (int addtlSource in addtlSources){
