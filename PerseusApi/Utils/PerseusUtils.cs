@@ -532,7 +532,7 @@ namespace PerseusApi.Utils{
 			AnnotType[][] types;
 			string[] files;
 			string[][] names = GetAvailableAnnots(out baseNames, out types, out files);
-			bool deHyphenate = para.GetParam<bool>("De-hyphenate IDs").Value;
+			const bool deHyphenate = true;
 			ParameterWithSubParams<int> spd = para.GetParamWithSubParams<int>("Source");
 			int ind = spd.Value;
 			Parameters param = spd.GetSubParameters();
