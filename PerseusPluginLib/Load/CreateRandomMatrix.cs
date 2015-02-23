@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using BaseLib.Param;
 using BaseLibS.Num;
@@ -31,9 +32,11 @@ namespace PerseusPluginLib.Load{
 
 		public void LoadData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables, ref IDocumentData[] documents,
 			ProcessInfo processInfo){
-				int nrows = param.GetParam<int>("Number of rows").Value;
+			int nrows = param.GetParam<int>("Number of rows").Value;
 			int ncols = param.GetParam<int>("Number of columns").Value;
 			int missingPerc = param.GetParam<int>("Percentage of missing values").Value;
+			int ngroups = param.GetParam<int>("Number of groups").Value;
+			ngroups = Math.Min(ngroups, ncols);
 			Random2 randy = new Random2();
 			float[,] m = new float[nrows,ncols];
 			ParameterWithSubParams<int> x = param.GetParamWithSubParams<int>("Mode");
@@ -53,7 +56,7 @@ namespace PerseusPluginLib.Load{
 					}
 					break;
 				case 1:
-					float dist = (float)subParams.GetParam<double>("Distance").Value;
+					float dist = (float) subParams.GetParam<double>("Distance").Value;
 					string[][] col = new string[m.GetLength(0)][];
 					for (int i = 0; i < m.GetLength(0); i++){
 						bool which = randy.NextDouble() < 0.5;
@@ -106,8 +109,10 @@ namespace PerseusPluginLib.Load{
 			mdata.Name = "Random matrix";
 			mdata.ColumnNames = exprColumnNames;
 			mdata.Values.Set(m);
-			mdata.SetAnnotationColumns( new List<string>(), new List<string[]>(), catColNames, catCols,
-				new List<string>(), new List<double[]>(), new List<string>(), new List<double[][]>());
+			mdata.Quality.Set(new float[m.GetLength(0),m.GetLength(1)]);
+			mdata.IsImputed.Set(new bool[m.GetLength(0),m.GetLength(1)]);
+			mdata.SetAnnotationColumns(new List<string>(), new List<string[]>(), catColNames, catCols, new List<string>(),
+				new List<double[]>(), new List<string>(), new List<double[][]>());
 			mdata.Origin = "Random matrix";
 			string[] names = new string[mdata.RowCount];
 			for (int i = 0; i < names.Length; i++){
@@ -115,11 +120,9 @@ namespace PerseusPluginLib.Load{
 			}
 			mdata.AddStringColumn("Name", "Name", names);
 			string[][] grouping = new string[ncols][];
-			for (int i = 0; i < ncols/2; i++){
-				grouping[i] = new[]{"Group1"};
-			}
-			for (int i = ncols/2; i < ncols; i++){
-				grouping[i] = new[]{"Group2"};
+			for (int i = 0; i < ncols; i++){
+				int ig = (i * ngroups) / ncols + 1;
+				grouping[i] = new[]{"Group" + ig};
 			}
 			mdata.AddCategoryRow("Grouping", "Grouping", grouping);
 		}
@@ -131,12 +134,13 @@ namespace PerseusPluginLib.Load{
 				new Parameters(new Parameter[]{new IntParam("How many", 3), new DoubleParam("Box size", 2)});
 			return
 				new Parameters(new Parameter[]{
-					new IntParam("Number of rows", 100), new IntParam("Number of columns", 10),
+					new IntParam("Number of rows", 100), new IntParam("Number of columns", 15),
 					new IntParam("Percentage of missing values", 0),
 					new SingleChoiceWithSubParams("Mode"){
 						Values = new[]{"One normal distribution", "Two normal distributions", "Many normal distributions"},
 						SubParams = new[]{oneNormalSubParams, twoNormalSubParams, manyNormalSubParams}
-					}
+					},
+					new IntParam("Number of groups", 3)
 				});
 		}
 	}
