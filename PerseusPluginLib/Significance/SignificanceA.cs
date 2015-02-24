@@ -45,7 +45,7 @@ namespace PerseusPluginLib.Significance{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int[] cols = param.GetParam<int[]>("Columns").Value;
+			int[] cols = param.GetParam<int[]>("Columns").Value;
 			int truncIndex = param.GetParam<int>("Use for truncation").Value;
 			TestTruncation truncation = truncIndex == 0
 				? TestTruncation.Pvalue
@@ -75,7 +75,7 @@ namespace PerseusPluginLib.Significance{
 						fdr = PerseusPluginUtils.CalcPvalueSignificance(pvals, threshold);
 						break;
 					case TestTruncation.BenjaminiHochberg:
-						fdr = PerseusPluginUtils.CalcBenjaminiHochbergFdr(pvals, threshold);
+						fdr = PerseusPluginUtils.CalcBenjaminiHochbergFdr(pvals, threshold, pvals.Length);
 						break;
 					default:
 						throw new Exception("Never get here.");

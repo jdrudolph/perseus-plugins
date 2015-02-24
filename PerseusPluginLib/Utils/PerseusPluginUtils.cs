@@ -267,8 +267,7 @@ namespace PerseusPluginLib.Utils{
 			return result;
 		}
 
-		public static string[][] CalcBenjaminiHochbergFdr(double[] pvals, double threshold){
-			int n = pvals.Length;
+		public static string[][] CalcBenjaminiHochbergFdr(double[] pvals, double threshold,int n){
 			int[] o = ArrayUtils.Order(pvals);
 			int lastind = -1;
 			for (int i = 0; i < n; i++){

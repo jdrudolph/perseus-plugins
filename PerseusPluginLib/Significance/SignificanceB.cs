@@ -88,7 +88,7 @@ namespace PerseusPluginLib.Significance{
 						fdr = PerseusPluginUtils.CalcPvalueSignificance(pvals, threshold);
 						break;
 					case TestTruncation.BenjaminiHochberg:
-						fdr = PerseusPluginUtils.CalcBenjaminiHochbergFdr(pvals, threshold);
+						fdr = PerseusPluginUtils.CalcBenjaminiHochbergFdr(pvals, threshold, pvals.Length);
 						break;
 					default:
 						throw new Exception("Never get here.");
