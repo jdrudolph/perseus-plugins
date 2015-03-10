@@ -8,8 +8,9 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Utils{
 	public static class PerseusPluginUtils{
 		public static SingleChoiceParam GetFilterModeParam(bool column){
-			return new SingleChoiceParam("Filter mode")
-			{Values = new[]{"Reduce matrix", column ? "Add categorical column" : "Add categorical row"}};
+			return new SingleChoiceParam("Filter mode"){
+				Values = new[]{"Reduce matrix", column ? "Add categorical column" : "Add categorical row"}
+			};
 		}
 
 		private static SingleChoiceParam GetModeParam1(){
@@ -54,9 +55,7 @@ namespace PerseusPluginLib.Utils{
 			}
 		}
 
-		private static bool GetReduceMatrix(Parameters parameters){
-			return parameters.GetParam<int>("Filter mode").Value == 0;
-		}
+		private static bool GetReduceMatrix(Parameters parameters) { return parameters.GetParam<int>("Filter mode").Value == 0; }
 
 		public static void FilterColumns(IMatrixData mdata, Parameters parameters, int[] cols){
 			bool reduceMatrix = GetReduceMatrix(parameters);
@@ -267,11 +266,13 @@ namespace PerseusPluginLib.Utils{
 			return result;
 		}
 
-		public static string[][] CalcBenjaminiHochbergFdr(double[] pvals, double threshold,int n){
+		public static string[][] CalcBenjaminiHochbergFdr(double[] pvals, double threshold, int n, out double[] fdrs){
+			fdrs = new double[pvals.Length];
 			int[] o = ArrayUtils.Order(pvals);
 			int lastind = -1;
 			for (int i = 0; i < n; i++){
 				double fdr = Math.Min(1, pvals[o[i]]*n/(1.0 + i));
+				fdrs[o[i]] = fdr;
 				if (fdr <= threshold){
 					lastind = i;
 				}
