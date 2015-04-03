@@ -18,7 +18,7 @@ namespace PerseusPluginLib.Load{
 
 		public PerseusLoadMatrixControl(IList<string> items, string filename){
 			InitializeComponent();
-			MultiListSelector1.Init(items, new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"});
+			MultiListSelector1.Init(items, new[]{"Main columns", "Numerical", "Categorical", "Text", "Multi-numerical"});
 			if (!string.IsNullOrEmpty(filename)){
 				UpdateFile(filename);
 			}
