@@ -107,7 +107,7 @@ namespace PerseusPluginLib.Annot{
 				numColNames, numCols, new List<string>(), new List<double[][]>());
 		}
 
-		public static CountingResult CountCategories(IMatrixData data, bool[] selection, int selCol, int[] catIndices){
+		private static CountingResult CountCategories(IMatrixData data, bool[] selection, int selCol, IEnumerable<int> catIndices){
 			CountingResult result = new CountingResult();
 			foreach (int i in catIndices.Where(i => i != selCol)){
 				CountTerms(data.CategoryColumnNames[i], data.GetCategoryColumnAt(i), result, selection);
