@@ -8,8 +8,8 @@ namespace PerseusApi.Matrix{
 	///     The interface only serves to encapsulate the complexity of the implementation for the purpose of plugin programming.
 	/// </summary>
 	public interface IMatrixData : IDataWithAnnotationRows, IDataWithAnnotationColumns{
-		IMatrixIndexer Values { get; }
-		IMatrixIndexer Quality { get; }
+		IMatrixIndexer Values { get; set; }
+		IMatrixIndexer Quality { get; set; }
 		IBoolMatrixIndexer IsImputed { get; }
 		string QualityName { get; set; }
 		bool QualityBiggerIsBetter { get; set; }
