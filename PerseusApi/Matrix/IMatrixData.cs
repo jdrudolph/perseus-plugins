@@ -10,7 +10,7 @@ namespace PerseusApi.Matrix{
 	public interface IMatrixData : IDataWithAnnotationRows, IDataWithAnnotationColumns{
 		IMatrixIndexer Values { get; set; }
 		IMatrixIndexer Quality { get; set; }
-		IBoolMatrixIndexer IsImputed { get; }
+		IBoolMatrixIndexer IsImputed { get; set; }
 		string QualityName { get; set; }
 		bool QualityBiggerIsBetter { get; set; }
 		bool HasQuality { get; }

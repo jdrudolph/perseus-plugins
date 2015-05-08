@@ -12,35 +12,84 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Join{
 	public class MatchingRowsByName : IMatrixMultiProcessing{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.combineButton_Image; } }
-		public string Name { get { return "Matching rows by name"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -5; } }
-		public string HelpOutput { get { return ""; } }
+		public bool HasButton{
+			get { return true; }
+		}
+
+		public Bitmap DisplayImage{
+			get { return Resources.combineButton_Image; }
+		}
+
+		public string Name{
+			get { return "Matching rows by name"; }
+		}
+
+		public bool IsActive{
+			get { return true; }
+		}
+
+		public float DisplayRank{
+			get { return -5; }
+		}
+
+		public string HelpOutput{
+			get { return ""; }
+		}
 
 		public string Description{
 			get{
 				return
 					"The base matrix is copied. Rows of the second matrix are associated with rows of the base matrix via matching " +
-						"expressions in a textual column from each matrix. Selected columns of the second matrix are attached to the " +
-						"first matrix. If exactly one row of the second matrix corresponds to a row of the base matrix, values are " +
-						"just copied. If more than one row of the second matrix matches to a row of the first matrix, the corresponding " +
-						"values are averaged (actually the median is taken) for numerical and expression columns and concatenated " +
-						"for textual and categorical columns.";
+					"expressions in a textual column from each matrix. Selected columns of the second matrix are attached to the " +
+					"first matrix. If exactly one row of the second matrix corresponds to a row of the base matrix, values are " +
+					"just copied. If more than one row of the second matrix matches to a row of the first matrix, the corresponding " +
+					"values are averaged (actually the median is taken) for numerical and expression columns and concatenated " +
+					"for textual and categorical columns.";
 			}
 		}
 
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int MinNumInput { get { return 2; } }
-		public int MaxNumInput { get { return 2; } }
-		public string Heading { get { return "Basic"; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingRowsByName"; } }
-		public string GetInputName(int index) { return index == 0 ? "Base matrix" : "Other matrix"; }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public string[] HelpSupplTables{
+			get { return new string[0]; }
+		}
+
+		public int NumSupplTables{
+			get { return 0; }
+		}
+
+		public string[] HelpDocuments{
+			get { return new string[0]; }
+		}
+
+		public int NumDocuments{
+			get { return 0; }
+		}
+
+		public int MinNumInput{
+			get { return 2; }
+		}
+
+		public int MaxNumInput{
+			get { return 2; }
+		}
+
+		public string Heading{
+			get { return "Basic"; }
+		}
+
+		public string Url{
+			get{
+				return
+					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingRowsByName";
+			}
+		}
+
+		public string GetInputName(int index){
+			return index == 0 ? "Base matrix" : "Other matrix";
+		}
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public Parameters GetParameters(IMatrixData[] inputData, ref string errString){
 			IMatrixData matrixData1 = inputData[0];
@@ -84,7 +133,7 @@ namespace PerseusPluginLib.Join{
 					new BoolParam("Indicator"){
 						Help =
 							"If checked, a categorical column will be added in which it is indicated by a '+' if at least one row of the second " +
-								"matrix matches."
+							"matrix matches."
 					},
 					new MultiChoiceParam("Expression columns"){
 						Value = exSel,
@@ -95,7 +144,7 @@ namespace PerseusPluginLib.Join{
 						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
 						Help =
 							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
-								"expression values be combined?"
+							"expression values be combined?"
 					},
 					new MultiChoiceParam("Categorical columns"){
 						Values = catCol,
@@ -116,7 +165,7 @@ namespace PerseusPluginLib.Join{
 						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum", "Keep separate"},
 						Help =
 							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
-								"numerical values be combined?"
+							"numerical values be combined?"
 					}
 				});
 		}
@@ -174,36 +223,38 @@ namespace PerseusPluginLib.Join{
 			}
 				{
 					int[] exCols = parameters.GetParam<int[]>("Expression columns").Value;
-					float[,] newExColumns = new float[mdata1.RowCount,exCols.Length];
-					float[,] newQuality = new float[mdata1.RowCount,exCols.Length];
-					bool[,] newIsImputed = new bool[mdata1.RowCount,exCols.Length];
-					string[] newExColNames = new string[exCols.Length];
-					for (int i = 0; i < exCols.Length; i++){
-						newExColNames[i] = mdata2.ColumnNames[exCols[i]];
-						for (int j = 0; j < mdata1.RowCount; j++){
-							int[] inds = indexMap[j];
-							List<double> values = new List<double>();
-							List<double> qual = new List<double>();
-							List<bool> imp = new List<bool>();
-							foreach (int ind in inds){
-								double v = mdata2.Values[ind, exCols[i]];
-								if (!double.IsNaN(v) && !double.IsInfinity(v)){
-									values.Add(v);
-									double qx = mdata2.Quality[ind, exCols[i]];
-									if (!double.IsNaN(qx) && !double.IsInfinity(qx)){
-										qual.Add(qx);
+					if (exCols.Length > 0){
+						float[,] newExColumns = new float[mdata1.RowCount, exCols.Length];
+						float[,] newQuality = new float[mdata1.RowCount, exCols.Length];
+						bool[,] newIsImputed = new bool[mdata1.RowCount, exCols.Length];
+						string[] newExColNames = new string[exCols.Length];
+						for (int i = 0; i < exCols.Length; i++) {
+							newExColNames[i] = mdata2.ColumnNames[exCols[i]];
+							for (int j = 0; j < mdata1.RowCount; j++) {
+								int[] inds = indexMap[j];
+								List<double> values = new List<double>();
+								List<double> qual = new List<double>();
+								List<bool> imp = new List<bool>();
+								foreach (int ind in inds) {
+									double v = mdata2.Values[ind, exCols[i]];
+									if (!double.IsNaN(v) && !double.IsInfinity(v)) {
+										values.Add(v);
+										double qx = mdata2.Quality[ind, exCols[i]];
+										if (!double.IsNaN(qx) && !double.IsInfinity(qx)) {
+											qual.Add(qx);
+										}
+										bool isi = mdata2.IsImputed[ind, exCols[i]];
+										imp.Add(isi);
 									}
-									bool isi = mdata2.IsImputed[ind, exCols[i]];
-									imp.Add(isi);
 								}
+								newExColumns[j, i] = values.Count == 0 ? float.NaN : (float)avExpression(values.ToArray());
+								newQuality[j, i] = qual.Count == 0 ? float.NaN : (float)avExpression(qual.ToArray());
+								newIsImputed[j, i] = imp.Count != 0 && AvImp(imp.ToArray());
 							}
-							newExColumns[j, i] = values.Count == 0 ? float.NaN : (float) avExpression(values.ToArray());
-							newQuality[j, i] = qual.Count == 0 ? float.NaN : (float) avExpression(qual.ToArray());
-							newIsImputed[j, i] = imp.Count != 0 && AvImp(imp.ToArray());
 						}
+						MakeNewNames(newExColNames, result.ColumnNames);
+						AddExpressionColumns(result, newExColNames, newExColumns, newQuality, newIsImputed);
 					}
-					MakeNewNames(newExColNames, result.ColumnNames);
-					AddExpressionColumns(result, newExColNames, newExColumns, newQuality, newIsImputed);
 				}
 				{
 					int[] numCols = parameters.GetParam<int[]>("Numerical columns").Value;
@@ -271,8 +322,8 @@ namespace PerseusPluginLib.Join{
 								}
 							}
 							newCatColumns[i][j] = values.Count == 0
-								? new string[0]
-								: ArrayUtils.UniqueValues(ArrayUtils.Concat(values.ToArray()));
+													? new string[0]
+													: ArrayUtils.UniqueValues(ArrayUtils.Concat(values.ToArray()));
 						}
 					}
 					for (int i = 0; i < catCols.Length; i++){
