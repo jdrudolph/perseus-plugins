@@ -65,11 +65,14 @@ namespace PerseusPluginLib.Basic{
 				DensityEstimation.CalcRanges(xvals1, yvals1, out xmin, out xmax, out ymin, out ymax);
 				float[,] values = DensityEstimation.GetValuesOnGrid(xvals1, xmin, (xmax - xmin)/points, points, yvals1, ymin,
 					(ymax - ymin)/points, points);
-				if (typeInd == 1 || typeInd == 3){
+				if (typeInd == 1){
 					MakeConditional1(values);
 				}
-				if (typeInd == 2 || typeInd == 3){
+				if (typeInd == 2) {
 					MakeConditional2(values);
+				}
+				if (typeInd == 3) {
+					MakeConditional3(values);
 				}
 				DensityEstimation.DivideByMaximum(values);
 				double[] xmat = new double[points];
@@ -130,6 +133,22 @@ namespace PerseusPluginLib.Basic{
 			for (int i = 0; i < m.Length; i++){
 				for (int j = 0; j < values.GetLength(0); j++){
 					values[j, i] /= m[i];
+				}
+			}
+		}
+
+		private static void MakeConditional3(float[,] values) {
+			float[] m1 = new float[values.GetLength(0)];
+			float[] m2 = new float[values.GetLength(2)];
+			for (int i = 0; i < m1.Length; i++) {
+				for (int j = 0; j < values.GetLength(1); j++) {
+					m1[i] += values[i, j];
+					m2[j] += values[i, j];
+				}
+			}
+			for (int i = 0; i < m1.Length; i++) {
+				for (int j = 0; j < values.GetLength(1); j++) {
+					values[i, j] /= m1[i]*m2[j];
 				}
 			}
 		}
