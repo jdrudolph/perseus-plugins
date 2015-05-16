@@ -10,17 +10,43 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return BaseLib.Properties.Resources.save2; } }
-		public string Description { get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; } }
-		public string Name { get { return "Generic matrix export"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixExport:TabSeparatedExport"; } }
+		public bool HasButton{
+			get { return true; }
+		}
+
+		public Bitmap DisplayImage{
+			get { return BaseLib.Properties.Resources.save2; }
+		}
+
+		public string Description{
+			get { return "Save the matrix to a tab-separated text file. Information on column types will be retained."; }
+		}
+
+		public string Name{
+			get { return "Generic matrix export"; }
+		}
+
+		public bool IsActive{
+			get { return true; }
+		}
+
+		public float DisplayRank{
+			get { return 0; }
+		}
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
+
+		public string Url{
+			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixExport:TabSeparatedExport"; }
+		}
 
 		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
 			string filename = parameters.GetParam<string>("File name").Value;
+			bool addtlMatrices = parameters.GetParam<bool>("Write quality and imputed matrices").Value;
+			addtlMatrices = addtlMatrices && data.IsImputed != null && data.Quality != null && data.IsImputed.IsInitialized() &&
+							data.Quality.IsInitialized();
 			StreamWriter writer;
 			try{
 				writer = new StreamWriter(filename);
@@ -30,37 +56,37 @@ namespace PerseusPluginLib.Export{
 			}
 			List<string> words = new List<string>();
 			for (int i = 0; i < data.ColumnCount; i++){
-				words.Add(Trunc(data.ColumnNames[i]));
+				words.Add(data.ColumnNames[i]);
 			}
 			for (int i = 0; i < data.CategoryColumnCount; i++){
-				words.Add(Trunc(data.CategoryColumnNames[i]));
+				words.Add(data.CategoryColumnNames[i]);
 			}
 			for (int i = 0; i < data.NumericColumnCount; i++){
-				words.Add(Trunc(data.NumericColumnNames[i]));
+				words.Add(data.NumericColumnNames[i]);
 			}
 			for (int i = 0; i < data.StringColumnCount; i++){
-				words.Add(Trunc(data.StringColumnNames[i]));
+				words.Add(data.StringColumnNames[i]);
 			}
 			for (int i = 0; i < data.MultiNumericColumnCount; i++){
-				words.Add(Trunc(data.MultiNumericColumnNames[i]));
+				words.Add(data.MultiNumericColumnNames[i]);
 			}
 			writer.WriteLine(StringUtils.Concat("\t", words));
 			if (HasAnyDescription(data)){
 				words = new List<string>();
 				for (int i = 0; i < data.ColumnCount; i++){
-					words.Add(Trunc(data.ColumnDescriptions[i] ?? ""));
+					words.Add(data.ColumnDescriptions[i] ?? "");
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
-					words.Add(Trunc(data.CategoryColumnDescriptions[i] ?? ""));
+					words.Add(data.CategoryColumnDescriptions[i] ?? "");
 				}
 				for (int i = 0; i < data.NumericColumnCount; i++){
-					words.Add(Trunc(data.NumericColumnDescriptions[i] ?? ""));
+					words.Add(data.NumericColumnDescriptions[i] ?? "");
 				}
 				for (int i = 0; i < data.StringColumnCount; i++){
-					words.Add(Trunc(data.StringColumnDescriptions[i] ?? ""));
+					words.Add(data.StringColumnDescriptions[i] ?? "");
 				}
 				for (int i = 0; i < data.MultiNumericColumnCount; i++){
-					words.Add(Trunc(data.MultiNumericColumnDescriptions[i] ?? ""));
+					words.Add(data.MultiNumericColumnDescriptions[i] ?? "");
 				}
 				writer.WriteLine("#!{Description}" + StringUtils.Concat("\t", words));
 			}
@@ -123,24 +149,27 @@ namespace PerseusPluginLib.Export{
 			for (int j = 0; j < data.RowCount; j++){
 				words = new List<string>();
 				for (int i = 0; i < data.ColumnCount; i++){
-					words.Add(Trunc("" + data.Values[j, i]));
+					string s1 = "" + data.Values[j, i];
+					if (addtlMatrices){
+						s1 += ";" + data.IsImputed[j, i] + ";" + data.Quality[j, i];
+					}
+					words.Add(s1);
 				}
 				for (int i = 0; i < data.CategoryColumnCount; i++){
 					string[] q = data.GetCategoryColumnEntryAt(i, j) ?? new string[0];
-					words.Add(Trunc((q.Length > 0 ? StringUtils.Concat(";", q) : "")));
+					words.Add((q.Length > 0 ? StringUtils.Concat(";", q) : ""));
 				}
 				for (int i = 0; i < data.NumericColumnCount; i++){
-					words.Add(Trunc("" + data.NumericColumns[i][j]));
+					words.Add("" + data.NumericColumns[i][j]);
 				}
 				for (int i = 0; i < data.StringColumnCount; i++){
-					words.Add(Trunc(data.StringColumns[i][j]));
+					words.Add(data.StringColumns[i][j]);
 				}
 				for (int i = 0; i < data.MultiNumericColumnCount; i++){
 					double[] q = data.MultiNumericColumns[i][j];
-					words.Add(Trunc((q.Length > 0 ? StringUtils.Concat(";", q) : "")));
+					words.Add((q.Length > 0 ? StringUtils.Concat(";", q) : ""));
 				}
 				string s = StringUtils.Concat("\t", words);
-				s = s.Replace("\"", "");
 				writer.WriteLine(s);
 			}
 			writer.Close();
@@ -177,10 +206,10 @@ namespace PerseusPluginLib.Export{
 
 		public Parameters GetParameters(IMatrixData matrixData, ref string errorString){
 			return
-				new Parameters(new Parameter[]{new FileParam("File name"){Filter = "Tab separated file (*.txt)|*.txt", Save = true}});
+				new Parameters(new Parameter[]{
+					new FileParam("File name"){Filter = "Tab separated file (*.txt)|*.txt", Save = true},
+					new BoolParam("Write quality and imputed matrices", false)
+				});
 		}
-
-		private const int maxlen = 30000;
-		private static string Trunc(string s) { return s == null ? "" : s.Length <= maxlen ? s : s.Substring(0, maxlen); }
 	}
 }

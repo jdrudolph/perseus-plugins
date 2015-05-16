@@ -61,10 +61,10 @@ namespace PerseusApi.Utils{
 				"identified ms/ms / s", "ms/ms identification rate [%]", "mass fractional part", "mass deficit",
 				"mass precision [ppm]", "max intensity m/z 1", "retention length (fwhm)", "min scan number", "max scan number",
 				"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count", "jitter",
-				"closest known m/z", "delta [ppm]", "delta [mda]", "q-value","number of frames","min frame number","max frame number",
-				"ion mobility index","ion mobility index length","ion mobility index length (fwhm)", "isotope correlation",
-				"peptides", "razor + unique peptides", "unique peptides", "sequence coverage [%]", "unique sequence coverage [%]", 
-				"unique + razor sequence coverage [%]", "mol. weight [kda]"
+				"closest known m/z", "delta [ppm]", "delta [mda]", "q-value", "number of frames", "min frame number",
+				"max frame number", "ion mobility index", "ion mobility index length", "ion mobility index length (fwhm)",
+				"isotope correlation", "peptides", "razor + unique peptides", "unique peptides", "sequence coverage [%]",
+				"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]"
 			});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames =
@@ -75,7 +75,7 @@ namespace PerseusApi.Utils{
 		public static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 
 		public static void LoadMatrixData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
-			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, TextReader reader,
+			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,
 			int nrows, string origin, char separator, bool shortenExpressionNames){
 			string[] colDescriptions = null;
 			string[] colTypes = null;
@@ -119,28 +119,35 @@ namespace PerseusApi.Utils{
 		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions,
 			IList<int> expressionColIndices, IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices,
 			IList<int> multiNumColIndices, string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows,
-			Action<int> progress, Action<string> status, char separator, TextReader reader, int nrows,
+			Action<int> progress, Action<string> status, char separator, StreamReader reader, int nrows,
 			bool shortenExpressionNames){
 			Dictionary<string, string[]> catAnnotatRows;
 			Dictionary<string, string[]> numAnnotatRows;
 			status("Reading data");
 			SplitAnnotRows(annotationRows, out catAnnotatRows, out numAnnotatRows);
-			float[,] expressionValues = new float[nrows,expressionColIndices.Count];
 			List<string[][]> categoryAnnotation = new List<string[][]>();
-			foreach (int t in catColIndices){
+			for (int i = 0; i < catColIndices.Count; i++){
 				categoryAnnotation.Add(new string[nrows][]);
 			}
 			List<double[]> numericAnnotation = new List<double[]>();
-			foreach (int t in numColIndices){
+			for (int i = 0; i < numColIndices.Count; i++){
 				numericAnnotation.Add(new double[nrows]);
 			}
 			List<double[][]> multiNumericAnnotation = new List<double[][]>();
-			foreach (int t in multiNumColIndices){
+			for (int i = 0; i < multiNumColIndices.Count; i++){
 				multiNumericAnnotation.Add(new double[nrows][]);
 			}
 			List<string[]> stringAnnotation = new List<string[]>();
-			foreach (int t in textColIndices){
+			for (int i = 0; i < textColIndices.Count; i++){
 				stringAnnotation.Add(new string[nrows]);
+			}
+			float[,] expressionValues = new float[nrows,expressionColIndices.Count];
+			float[,] qualityValues = null;
+			bool[,] isImputedValues = null;
+			bool hasAddtlMatrices = GetHasAddtlMatrices(reader, expressionColIndices, separator);
+			if (hasAddtlMatrices){
+				qualityValues = new float[nrows,expressionColIndices.Count];
+				isImputedValues = new bool[nrows,expressionColIndices.Count];
 			}
 			reader.ReadLine();
 			int count = 0;
@@ -156,9 +163,13 @@ namespace PerseusApi.Utils{
 						expressionValues[count, i] = float.NaN;
 					} else{
 						string s = StringUtils.RemoveWhitespace(w[expressionColIndices[i]]);
-						bool success = float.TryParse(s, out expressionValues[count, i]);
-						if (!success){
-							expressionValues[count, i] = float.NaN;
+						if (hasAddtlMatrices){
+							ParseExp(s, out expressionValues[count, i], out isImputedValues[count, i], out qualityValues[count, i]);
+						} else{
+							bool success = float.TryParse(s, out expressionValues[count, i]);
+							if (!success){
+								expressionValues[count, i] = float.NaN;
+							}
 						}
 					}
 				}
@@ -237,8 +248,13 @@ namespace PerseusApi.Utils{
 			matrixData.Name = origin;
 			matrixData.ColumnNames = RemoveQuotes(columnNames);
 			matrixData.Values.Set(expressionValues);
-			matrixData.Quality.Set(new float[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
-			matrixData.IsImputed.Set(new bool[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
+			if (hasAddtlMatrices){
+				matrixData.Quality.Set(qualityValues);
+				matrixData.IsImputed.Set(isImputedValues);
+			} else{
+				matrixData.Quality.Set(new float[expressionValues.GetLength(0),expressionValues.GetLength(1)]);
+				matrixData.IsImputed.Set(new bool[expressionValues.GetLength(0),expressionValues.GetLength(1)]);
+			}
 			matrixData.SetAnnotationColumns(RemoveQuotes(textColnames), stringAnnotation, RemoveQuotes(catColnames),
 				categoryAnnotation, RemoveQuotes(numColnames), numericAnnotation, RemoveQuotes(multiNumColnames),
 				multiNumericAnnotation);
@@ -287,6 +303,55 @@ namespace PerseusApi.Utils{
 			matrixData.Origin = origin;
 			progress(0);
 			status("");
+		}
+
+		private static void ParseExp(string s, out float expressionValue, out bool isImputedValue, out float qualityValue){
+			string[] w = s.Split(';');
+			expressionValue = float.NaN;
+			isImputedValue = false;
+			qualityValue = float.NaN;
+			if (w.Length > 0){
+				bool success = float.TryParse(w[0], out expressionValue);
+				if (!success){
+					expressionValue = float.NaN;
+				}
+			}
+			if (w.Length > 1){
+				bool success = bool.TryParse(w[1], out isImputedValue);
+				if (!success){
+					isImputedValue = false;
+				}
+			}
+			if (w.Length > 2){
+				bool success = float.TryParse(w[2], out qualityValue);
+				if (!success){
+					qualityValue = float.NaN;
+				}
+			}
+		}
+
+		private static bool GetHasAddtlMatrices(StreamReader reader, IList<int> expressionColIndices, char separator){
+			if (expressionColIndices.Count == 0){
+				return false;
+			}
+			int expressionColIndex = expressionColIndices[0];
+
+			reader.ReadLine();
+			string line;
+			bool hasAddtl = false;
+			while ((line = reader.ReadLine()) != null){
+				if (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){
+					continue;
+				}
+				string[] w = SplitLine(line, separator);
+				if (expressionColIndex < w.Length){
+					string s = StringUtils.RemoveWhitespace(w[expressionColIndex]);
+					hasAddtl = s.Contains(";");
+					break;
+				}
+			}
+			reader.BaseStream.Position = 0;
+			return hasAddtl;
 		}
 
 		private static string RemoveSplitWhitespace(string s){

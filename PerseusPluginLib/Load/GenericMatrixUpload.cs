@@ -12,27 +12,58 @@ using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Load{
 	public class GenericMatrixUpload : IMatrixUpload{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return BaseLib.Properties.Resources.upload64; } }
-		public string Name { get { return "Generic matrix upload"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 0; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:GenericMatrixUpload"; } }
+		public bool HasButton{
+			get { return true; }
+		}
+
+		public Bitmap DisplayImage{
+			get { return BaseLib.Properties.Resources.upload64; }
+		}
+
+		public string Name{
+			get { return "Generic matrix upload"; }
+		}
+
+		public bool IsActive{
+			get { return true; }
+		}
+
+		public float DisplayRank{
+			get { return 0; }
+		}
+
+		public string[] HelpSupplTables{
+			get { return new string[0]; }
+		}
+
+		public int NumSupplTables{
+			get { return 0; }
+		}
+
+		public string[] HelpDocuments{
+			get { return new string[0]; }
+		}
+
+		public int NumDocuments{
+			get { return 0; }
+		}
+
+		public string Url{
+			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:GenericMatrixUpload"; }
+		}
 
 		public string Description{
 			get{
 				return
 					"Load data from a tab-separated file. The first row should contain the column names, also separated by tab characters. " +
-						"All following rows contain the tab-separated values. Such a file can for instance be generated from an excel sheet by " +
-						"using the export as a tab-separated .txt file.";
+					"All following rows contain the tab-separated values. Such a file can for instance be generated from an excel sheet by " +
+					"using the export as a tab-separated .txt file.";
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public Parameters GetParameters(ref string errorString){
 			return
@@ -68,7 +99,6 @@ namespace PerseusPluginLib.Load{
 				processInfo.ErrString = "Could not open the file '" + filename + "'. It is probably opened in another program.";
 				return;
 			}
-			TextReader reader = FileUtils.GetReader(filename);
 			int nrows = TabSep.GetRowCount(filename, 0, PerseusUtils.commentPrefix, PerseusUtils.commentPrefixExceptions);
 			string origin = filename;
 			int[] eInds = par.ExpressionColumnIndices;
@@ -76,6 +106,7 @@ namespace PerseusPluginLib.Load{
 			int[] nInds = par.NumericalColumnIndices;
 			int[] tInds = par.TextColumnIndices;
 			int[] mInds = par.MultiNumericalColumnIndices;
+			StreamReader reader = FileUtils.GetReader(filename);
 			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader,
 				nrows, origin, separator, par.ShortenExpressionColumnNames);
 			GC.Collect();
