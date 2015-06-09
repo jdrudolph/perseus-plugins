@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using BaseLib.Wpf;
 using BaseLibS.Param;
 using BaseLibS.Parse;
@@ -149,7 +150,8 @@ namespace PerseusApi.Utils{
 				qualityValues = new float[nrows,expressionColIndices.Count];
 				isImputedValues = new bool[nrows,expressionColIndices.Count];
 			}
-			reader.BaseStream.Position = 0;
+			reader.BaseStream.Seek(0, SeekOrigin.Begin);
+			reader.DiscardBufferedData();
 			reader.ReadLine();
 			int count = 0;
 			string line;
