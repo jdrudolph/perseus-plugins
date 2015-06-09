@@ -149,6 +149,7 @@ namespace PerseusApi.Utils{
 				qualityValues = new float[nrows,expressionColIndices.Count];
 				isImputedValues = new bool[nrows,expressionColIndices.Count];
 			}
+			reader.BaseStream.Position = 0;
 			reader.ReadLine();
 			int count = 0;
 			string line;
@@ -166,9 +167,11 @@ namespace PerseusApi.Utils{
 						if (hasAddtlMatrices){
 							ParseExp(s, out expressionValues[count, i], out isImputedValues[count, i], out qualityValues[count, i]);
 						} else{
-							bool success = float.TryParse(s, out expressionValues[count, i]);
-							if (!success){
-								expressionValues[count, i] = float.NaN;
+							if(count<expressionValues.GetLength(0)){
+								bool success = float.TryParse(s, out expressionValues[count, i]);
+								if (!success) {
+									expressionValues[count, i] = float.NaN;
+								}
 							}
 						}
 					}
@@ -214,7 +217,9 @@ namespace PerseusApi.Utils{
 						}
 						ww = ArrayUtils.SubArray(ww, valids);
 						Array.Sort(ww);
-						categoryAnnotation[i][count] = ww;
+						if (categoryAnnotation[i].Length>count){
+							categoryAnnotation[i][count] = ww;
+						}
 					}
 				}
 				for (int i = 0; i < numColIndices.Count; i++){
@@ -223,7 +228,9 @@ namespace PerseusApi.Utils{
 					} else{
 						double q;
 						bool success = double.TryParse(w[numColIndices[i]].Trim(), out q);
-						numericAnnotation[i][count] = success ? q : double.NaN;
+						if (numericAnnotation[i].Length > count) {
+							numericAnnotation[i][count] = success ? q : double.NaN;
+						}
 					}
 				}
 				for (int i = 0; i < textColIndices.Count; i++){
@@ -231,7 +238,9 @@ namespace PerseusApi.Utils{
 						stringAnnotation[i][count] = "";
 					} else{
 						string q = w[textColIndices[i]].Trim();
-						stringAnnotation[i][count] = RemoveSplitWhitespace(RemoveQuotes(q));
+						if (stringAnnotation[i].Length > count) {
+							stringAnnotation[i][count] = RemoveSplitWhitespace(RemoveQuotes(q));
+						}
 					}
 				}
 				count++;
@@ -335,7 +344,7 @@ namespace PerseusApi.Utils{
 				return false;
 			}
 			int expressionColIndex = expressionColIndices[0];
-
+			reader.BaseStream.Position = 0;
 			reader.ReadLine();
 			string line;
 			bool hasAddtl = false;
