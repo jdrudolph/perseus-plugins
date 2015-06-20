@@ -46,7 +46,7 @@ namespace PerseusApi.Utils{
 				"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number"
 				, "dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
 				"dp cluster size reverse", "dp peptide length difference", "dn score", "dn normalized score", "dn nterm mass",
-				"dn cterm mass", "dn score diff", "views", "estimated minutes watched", "average view duration",
+				"dn cterm mass", "dn missing mass", "dn score diff", "views", "estimated minutes watched", "average view duration",
 				"average percentage viewed", "subscriber views", "subscriber minutes watched", "clicks", "clickable impressions",
 				"click through rate", "closes", "closable impressions", "close rate", "impressions", "likes", "likes added",
 				"likes removed", "dislikes", "dislikes added", "dislikes removed", "shares", "comments", "favorites",
