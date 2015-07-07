@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Windows;
 using BaseLib.Forms.Table;
 using BaseLibS.Num;
+using BaseLibS.Table;
 using BaseLibS.Util;
 using PerseusApi.Matrix;
 
@@ -77,22 +77,19 @@ namespace PerseusPluginLib.Manual{
 		public void CreateColumns(){
 			for (int i = 0; i < mdata.ColumnCount; i++){
 				string s = mdata.ColumnNames[i];
-				AddColumn(s, 60, ColumnType.Numeric, mdata.ColumnDescriptions[i], Visibility.Visible);
+				AddColumn(s, 60, ColumnType.Numeric, mdata.ColumnDescriptions[i]);
 			}
 			for (int i = 0; i < mdata.CategoryColumnCount; i++){
-				AddColumn(mdata.CategoryColumnNames[i], 60, ColumnType.Categorical, mdata.CategoryColumnDescriptions[i],
-					Visibility.Visible);
+				AddColumn(mdata.CategoryColumnNames[i], 60, ColumnType.Categorical, mdata.CategoryColumnDescriptions[i]);
 			}
 			for (int i = 0; i < mdata.NumericColumnCount; i++){
-				AddColumn(mdata.NumericColumnNames[i], 60, ColumnType.Numeric, mdata.NumericColumnDescriptions[i],
-					Visibility.Visible);
+				AddColumn(mdata.NumericColumnNames[i], 60, ColumnType.Numeric, mdata.NumericColumnDescriptions[i]);
 			}
 			for (int i = 0; i < mdata.StringColumnCount; i++){
-				AddColumn(mdata.StringColumnNames[i], 60, ColumnType.Text, mdata.StringColumnDescriptions[i], Visibility.Visible);
+				AddColumn(mdata.StringColumnNames[i], 60, ColumnType.Text, mdata.StringColumnDescriptions[i]);
 			}
 			for (int i = 0; i < mdata.MultiNumericColumnCount; i++){
-				AddColumn(mdata.MultiNumericColumnNames[i], 60, ColumnType.MultiNumeric, mdata.MultiNumericColumnDescriptions[i],
-					Visibility.Visible);
+				AddColumn(mdata.MultiNumericColumnNames[i], 60, ColumnType.MultiNumeric, mdata.MultiNumericColumnDescriptions[i]);
 			}
 		}
 	}
