@@ -56,6 +56,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Document\IDocumentMultiAnalysis.cs" />
     <Compile Include="Document\IDocumentToMatrix.cs" />
     <Compile Include="Document\IDocumentFromMatrix.cs" />
     <Compile Include="Document\IDocumentMultiProcessing.cs" />
@@ -76,10 +77,12 @@
     <Compile Include="Generic\IDataWithAnnotationRows.cs" />
     <Compile Include="Generic\IExport.cs" />
     <Compile Include="Generic\IFromMatrix.cs" />
+    <Compile Include="Generic\IMultiAnalysis.cs" />
     <Compile Include="Generic\IMultiProcessing.cs" />
     <Compile Include="Generic\IProcessing.cs" />
     <Compile Include="Generic\IToMatrix.cs" />
     <Compile Include="Generic\IUpload.cs" />
+    <Compile Include="Matrix\IMatrixMultiAnalysis.cs" />
     <Compile Include="Matrix\IMatrixMultiProcessing.cs" />
     <Compile Include="Matrix\IMatrixActivity.cs" />
     <Compile Include="Matrix\IMatrixAnalysis.cs" />
