@@ -8,7 +8,6 @@ using BaseLibS.Parse;
 using BaseLibS.Util;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
-using PerseusLib.Cols;
 
 namespace PerseusApi.Utils{
 	public static class PerseusUtils{

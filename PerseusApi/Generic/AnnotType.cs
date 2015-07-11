@@ -1,4 +1,4 @@
-﻿namespace PerseusLib.Cols{
+﻿namespace PerseusApi.Generic{
 	public enum AnnotType{
 		Categorical,
 		Text,
