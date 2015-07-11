@@ -4,9 +4,5 @@
 	/// automatically. They may do so interactively. 
 	/// </summary>
 	public interface IAnalysis : IActivityWithHeading {
-		/// <summary>
-		/// Does it make sense for this analysis to start it without any data. The scatter plot is one example where it does.
-		/// </summary>
-		bool CanStartWithEmptyData { get; }
 	}
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using BaseLibS.Param;
+﻿using BaseLibS.Param;
 using PerseusApi.Generic;
 
 namespace PerseusApi.Document {
 	public interface IDocumentAnalysis : IDocumentActivity, IAnalysis {
-		Tuple<IDocumentProcessing, Func<Parameters, IDocumentData, Parameters, string>>[] Replacements { get; }
 		IAnalysisResult AnalyzeData(IDocumentData mdata, Parameters param, ProcessInfo processInfo);
 
 		/// <summary>
