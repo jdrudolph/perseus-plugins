@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using BaseLib.Param;
+using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;

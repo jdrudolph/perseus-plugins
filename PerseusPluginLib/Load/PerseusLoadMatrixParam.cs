@@ -1,4 +1,5 @@
 using System;
+using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
 

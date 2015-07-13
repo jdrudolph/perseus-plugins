@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using BaseLibS.Num;
 using BaseLibS.Param;
-using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;

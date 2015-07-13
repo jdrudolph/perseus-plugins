@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BaseLib.Wpf;
+using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;

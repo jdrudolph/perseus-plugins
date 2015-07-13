@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using BaseLib.Wpf;
-using BaseLibS.Util;
+using BaseLibS.Num;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 

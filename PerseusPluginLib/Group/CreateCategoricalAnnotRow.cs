@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
+using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
