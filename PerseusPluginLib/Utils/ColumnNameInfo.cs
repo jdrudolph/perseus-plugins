@@ -9,7 +9,10 @@ namespace PerseusPluginLib.Utils{
 		public int NameColumnIndex { get; set; }
 		public int Name2ColumnIndex { get; set; }
 		private readonly IMatrixData mdata;
-		public ColumnNameInfo(IMatrixData mdata) { this.mdata = mdata; }
+
+		public ColumnNameInfo(IMatrixData mdata){
+			this.mdata = mdata;
+		}
 
 		public string[] GetRowNames(){
 			string[] result = new string[mdata.ColumnCount];
@@ -19,7 +22,9 @@ namespace PerseusPluginLib.Utils{
 			return result;
 		}
 
-		public string[] GetNameSelection() { return ArrayUtils.Concat(new[]{"Name"}, ArrayUtils.Concat(mdata.CategoryRowNames, mdata.NumericRowNames)); }
+		public string[] GetNameSelection(){
+			return ArrayUtils.Concat(new[]{"Name"}, ArrayUtils.Concat(mdata.CategoryRowNames, mdata.NumericRowNames));
+		}
 
 		public string GetRowName(int ind, int nameColumnIndex, bool cutNames){
 			if (ind < 0){
@@ -54,8 +59,16 @@ namespace PerseusPluginLib.Utils{
 			return "";
 		}
 
-		public string GetRowName(int ind) { return GetRowName(ind, NameColumnIndex, CutNames); }
-		public string GetRowName2(int ind) { return GetRowName(ind, Name2ColumnIndex, CutNames2); }
-		public string GetRowDescription(int ind) { return GetRowName(ind, Name2ColumnIndex, CutNames2); }
+		public string GetRowName(int ind){
+			return GetRowName(ind, NameColumnIndex, CutNames);
+		}
+
+		public string GetRowName2(int ind){
+			return GetRowName(ind, Name2ColumnIndex, CutNames2);
+		}
+
+		public string GetRowDescription(int ind){
+			return GetRowName(ind, Name2ColumnIndex, CutNames2);
+		}
 	}
 }

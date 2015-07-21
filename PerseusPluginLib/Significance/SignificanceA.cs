@@ -20,9 +20,9 @@ namespace PerseusPluginLib.Significance{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Significance A"; } }
-		public string Heading { get { return "Basic"; } }
+		public string Heading { get { return "Outliers"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 100; } }
+		public float DisplayRank { get { return 0; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SignificanceA"; } }
 
 		public string Description{

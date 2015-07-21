@@ -121,15 +121,30 @@ namespace PerseusPluginLib.Join{
 			int[] exSel = new int[0];
 			return
 				new Parameters(new Parameter[]{
-					new SingleChoiceParam("Matching column 1"){
+					new SingleChoiceParam("Matching column in matrix 1"){
 						Values = controlChoice1,
 						Value = index1,
 						Help = "The column in the first matrix that is used for matching rows."
 					},
-					new SingleChoiceParam("Matching column 2"){
+					new SingleChoiceParam("Matching column in matrix 2"){
 						Values = controlChoice2,
 						Value = index2,
 						Help = "The column in the second matrix that is used for matching rows."
+					},
+					new BoolWithSubParams("Use additional column pair"){
+						SubParamsTrue =
+							new Parameters(new Parameter[]{
+								new SingleChoiceParam("Additional column in matrix 1"){
+									Values = controlChoice1,
+									Value = index1,
+									Help = "Additional column in the first matrix that is used for matching rows."
+								},
+								new SingleChoiceParam("Additional column in matrix 2"){
+									Values = controlChoice2,
+									Value = index2,
+									Help = "Additional column in the second matrix that is used for matching rows."
+								}
+							})
 					},
 					new BoolParam("Indicator"){
 						Help =
@@ -173,190 +188,268 @@ namespace PerseusPluginLib.Join{
 
 		public IMatrixData ProcessData(IMatrixData[] inputData, Parameters parameters, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
+			const string separator = "!§$%";
 			IMatrixData mdata1 = inputData[0];
 			IMatrixData mdata2 = inputData[1];
+			int[][] indexMap = GetIndexMap(mdata1, mdata2, parameters, separator);
+			IMatrixData result = GetResult(mdata1, mdata2, parameters, indexMap);
+			AddMainColumns(mdata1, mdata2, parameters, indexMap, result);
+			AddNumericColumns(mdata1, mdata2, parameters, indexMap, result);
+			AddCategoricalColumns(mdata1, mdata2, parameters, indexMap, result);
+			AddStringColumns(mdata1, mdata2, parameters, indexMap, result);
+			return result;
+		}
+
+		private static IMatrixData GetResult(IDataWithAnnotationRows mdata1, IDataWithAnnotationRows mdata2,
+			Parameters parameters, IList<int[]> indexMap){
+			IMatrixData result = (IMatrixData) mdata1.Clone();
+			SetAnnotationRows(result, mdata1, mdata2);
 			bool indicator = parameters.GetParam<bool>("Indicator").Value;
-			int otherCol = parameters.GetParam<int>("Matching column 2").Value;
+			if (indicator){
+				string[][] indicatorCol = new string[indexMap.Count][];
+				for (int i = 0; i < indexMap.Count; i++){
+					indicatorCol[i] = indexMap[i].Length > 0 ? new[]{"+"} : new string[0];
+				}
+				result.AddCategoryColumn(mdata2.Name, "", indicatorCol);
+			}
+			result.Origin = "Combination";
+			return result;
+		}
+
+		private static void AddMainColumns(IDataWithAnnotationColumns mdata1, IMatrixData mdata2, Parameters parameters,
+			IList<int[]> indexMap, IMatrixData result){
 			Func<double[], double> avExpression = GetAveraging(parameters.GetParam<int>("Combine expression values").Value);
+			int[] exColInds = parameters.GetParam<int[]>("Expression columns").Value;
+			if (exColInds.Length > 0){
+				float[,] newExColumns = new float[mdata1.RowCount,exColInds.Length];
+				float[,] newQuality = new float[mdata1.RowCount,exColInds.Length];
+				bool[,] newIsImputed = new bool[mdata1.RowCount,exColInds.Length];
+				string[] newExColNames = new string[exColInds.Length];
+				for (int i = 0; i < exColInds.Length; i++){
+					newExColNames[i] = mdata2.ColumnNames[exColInds[i]];
+					for (int j = 0; j < mdata1.RowCount; j++){
+						int[] inds = indexMap[j];
+						List<double> values = new List<double>();
+						List<double> qual = new List<double>();
+						List<bool> imp = new List<bool>();
+						foreach (int ind in inds){
+							double v = mdata2.Values[ind, exColInds[i]];
+							if (!double.IsNaN(v) && !double.IsInfinity(v)){
+								values.Add(v);
+								double qx = mdata2.Quality[ind, exColInds[i]];
+								if (!double.IsNaN(qx) && !double.IsInfinity(qx)){
+									qual.Add(qx);
+								}
+								bool isi = mdata2.IsImputed[ind, exColInds[i]];
+								imp.Add(isi);
+							}
+						}
+						newExColumns[j, i] = values.Count == 0 ? float.NaN : (float) avExpression(values.ToArray());
+						newQuality[j, i] = qual.Count == 0 ? float.NaN : (float) avExpression(qual.ToArray());
+						newIsImputed[j, i] = imp.Count != 0 && AvImp(imp.ToArray());
+					}
+				}
+				MakeNewNames(newExColNames, result.ColumnNames);
+				AddMainColumns(result, newExColNames, newExColumns, newQuality, newIsImputed);
+			}
+		}
+
+		private static void AddNumericColumns(IDataWithAnnotationColumns mdata1, IDataWithAnnotationColumns mdata2,
+			Parameters parameters, IList<int[]> indexMap, IDataWithAnnotationColumns result){
 			Func<double[], double> avNumerical = GetAveraging(parameters.GetParam<int>("Combine numerical values").Value);
-			string[] q = mdata2.StringColumns[otherCol];
-			string[][] w = new string[q.Length][];
-			for (int i = 0; i < q.Length; i++){
-				string r = q[i].Trim();
+			int[] numCols = parameters.GetParam<int[]>("Numerical columns").Value;
+			if (avNumerical != null){
+				double[][] newNumericalColumns = new double[numCols.Length][];
+				string[] newNumColNames = new string[numCols.Length];
+				for (int i = 0; i < numCols.Length; i++){
+					double[] oldCol = mdata2.NumericColumns[numCols[i]];
+					newNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
+					newNumericalColumns[i] = new double[mdata1.RowCount];
+					for (int j = 0; j < mdata1.RowCount; j++){
+						int[] inds = indexMap[j];
+						List<double> values = new List<double>();
+						foreach (int ind in inds){
+							double v = oldCol[ind];
+							if (!double.IsNaN(v)){
+								values.Add(v);
+							}
+						}
+						newNumericalColumns[i][j] = values.Count == 0 ? double.NaN : avNumerical(values.ToArray());
+					}
+				}
+				for (int i = 0; i < numCols.Length; i++){
+					result.AddNumericColumn(newNumColNames[i], "", newNumericalColumns[i]);
+				}
+			} else{
+				double[][][] newMultiNumericalColumns = new double[numCols.Length][][];
+				string[] newMultiNumColNames = new string[numCols.Length];
+				for (int i = 0; i < numCols.Length; i++){
+					double[] oldCol = mdata2.NumericColumns[numCols[i]];
+					newMultiNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
+					newMultiNumericalColumns[i] = new double[mdata1.RowCount][];
+					for (int j = 0; j < mdata1.RowCount; j++){
+						int[] inds = indexMap[j];
+						List<double> values = new List<double>();
+						foreach (int ind in inds){
+							double v = oldCol[ind];
+							if (!double.IsNaN(v)){
+								values.Add(v);
+							}
+						}
+						newMultiNumericalColumns[i][j] = values.ToArray();
+					}
+				}
+				for (int i = 0; i < numCols.Length; i++){
+					result.AddMultiNumericColumn(newMultiNumColNames[i], "", newMultiNumericalColumns[i]);
+				}
+			}
+		}
+
+		private static void AddCategoricalColumns(IDataWithAnnotationColumns mdata1, IDataWithAnnotationColumns mdata2,
+			Parameters parameters, IList<int[]> indexMap, IDataWithAnnotationColumns result){
+			int[] catCols = parameters.GetParam<int[]>("Categorical columns").Value;
+			string[][][] newCatColumns = new string[catCols.Length][][];
+			string[] newCatColNames = new string[catCols.Length];
+			for (int i = 0; i < catCols.Length; i++){
+				string[][] oldCol = mdata2.GetCategoryColumnAt(catCols[i]);
+				newCatColNames[i] = mdata2.CategoryColumnNames[catCols[i]];
+				newCatColumns[i] = new string[mdata1.RowCount][];
+				for (int j = 0; j < mdata1.RowCount; j++){
+					int[] inds = indexMap[j];
+					List<string[]> values = new List<string[]>();
+					foreach (int ind in inds){
+						string[] v = oldCol[ind];
+						if (v.Length > 0){
+							values.Add(v);
+						}
+					}
+					newCatColumns[i][j] = values.Count == 0
+											? new string[0]
+											: ArrayUtils.UniqueValues(ArrayUtils.Concat(values.ToArray()));
+				}
+			}
+			for (int i = 0; i < catCols.Length; i++){
+				result.AddCategoryColumn(newCatColNames[i], "", newCatColumns[i]);
+			}
+		}
+
+		private static void AddStringColumns(IDataWithAnnotationColumns mdata1, IDataWithAnnotationColumns mdata2,
+			Parameters parameters, IList<int[]> indexMap, IDataWithAnnotationColumns result){
+			int[] stringCols = parameters.GetParam<int[]>("Text columns").Value;
+			string[][] newStringColumns = new string[stringCols.Length][];
+			string[] newStringColNames = new string[stringCols.Length];
+			for (int i = 0; i < stringCols.Length; i++){
+				string[] oldCol = mdata2.StringColumns[stringCols[i]];
+				newStringColNames[i] = mdata2.StringColumnNames[stringCols[i]];
+				newStringColumns[i] = new string[mdata1.RowCount];
+				for (int j = 0; j < mdata1.RowCount; j++){
+					int[] inds = indexMap[j];
+					List<string> values = new List<string>();
+					foreach (int ind in inds){
+						string v = oldCol[ind];
+						if (v.Length > 0){
+							values.Add(v);
+						}
+					}
+					newStringColumns[i][j] = values.Count == 0 ? "" : StringUtils.Concat(";", values.ToArray());
+				}
+			}
+			for (int i = 0; i < stringCols.Length; i++){
+				result.AddStringColumn(newStringColNames[i], "", newStringColumns[i]);
+			}
+		}
+
+		private static string[][] GetColumnSplitBySemicolon(IDataWithAnnotationColumns mdata, Parameters parameters,
+			string colName){
+			string[] matchingColumn2 = mdata.StringColumns[parameters.GetParam<int>(colName).Value];
+			string[][] w = new string[matchingColumn2.Length][];
+			for (int i = 0; i < matchingColumn2.Length; i++){
+				string r = matchingColumn2[i].Trim();
 				w[i] = r.Length == 0 ? new string[0] : r.Split(';');
 				w[i] = ArrayUtils.UniqueValues(w[i]);
 			}
-			Dictionary<string, List<int>> id2Cols = new Dictionary<string, List<int>>();
-			for (int i = 0; i < w.Length; i++){
-				foreach (string s in w[i]){
-					if (!id2Cols.ContainsKey(s)){
-						id2Cols.Add(s, new List<int>());
+			return w;
+		}
+
+		private static Dictionary<string, List<int>> GetIdToColsSingle(IDataWithAnnotationColumns mdata2,
+			Parameters parameters){
+			string[][] matchCol2 = GetColumnSplitBySemicolon(mdata2, parameters, "Matching column in matrix 2");
+			Dictionary<string, List<int>> idToCols2 = new Dictionary<string, List<int>>();
+			for (int i = 0; i < matchCol2.Length; i++){
+				foreach (string s in matchCol2[i]){
+					if (!idToCols2.ContainsKey(s)){
+						idToCols2.Add(s, new List<int>());
 					}
-					id2Cols[s].Add(i);
+					idToCols2[s].Add(i);
 				}
 			}
-			int pgCol = parameters.GetParam<int>("Matching column 1").Value;
-			string[] d = mdata1.StringColumns[pgCol];
-			string[][] x = new string[d.Length][];
-			for (int i = 0; i < d.Length; i++){
-				string r = d[i].Trim();
-				x[i] = r.Length == 0 ? new string[0] : r.Split(';');
-				x[i] = ArrayUtils.UniqueValues(x[i]);
+			return idToCols2;
+		}
+
+		private static Dictionary<string, List<int>> GetIdToColsPair(IDataWithAnnotationColumns mdata2, Parameters parameters,
+			Parameters subPar, string separator){
+			string[][] matchCol = GetColumnSplitBySemicolon(mdata2, parameters, "Matching column in matrix 2");
+			string[][] matchColAddtl = GetColumnSplitBySemicolon(mdata2, subPar, "Additional column in matrix 2");
+			Dictionary<string, List<int>> idToCols2 = new Dictionary<string, List<int>>();
+			for (int i = 0; i < matchCol.Length; i++){
+				foreach (string s1 in matchCol[i]){
+					foreach (string s2 in matchColAddtl[i]){
+						string id = s1 + separator + s2;
+						if (!idToCols2.ContainsKey(id)){
+							idToCols2.Add(id, new List<int>());
+						}
+						idToCols2[id].Add(i);
+					}
+				}
 			}
-			int[][] indexMap = new int[x.Length][];
-			string[][] indicatorCol = new string[x.Length][];
-			for (int i = 0; i < indexMap.Length; i++){
-				List<int> qwer = new List<int>();
-				foreach (string s in x[i]){
-					if (id2Cols.ContainsKey(s)){
-						List<int> en = id2Cols[s];
-						qwer.AddRange(en);
+			return idToCols2;
+		}
+
+		private static int[][] GetIndexMap(IDataWithAnnotationColumns mdata1, IDataWithAnnotationColumns mdata2,
+			Parameters parameters, string separator){
+			ParameterWithSubParams<bool> p = parameters.GetParamWithSubParams<bool>("Use additional column pair");
+			bool addtlCol = p.Value;
+			Dictionary<string, List<int>> idToCols2 = addtlCol
+														? GetIdToColsPair(mdata2, parameters, p.GetSubParameters(), separator)
+														: GetIdToColsSingle(mdata2, parameters);
+
+
+			string[][] matchCol1 = addtlCol
+										? GetColumnPair(mdata1, parameters, p.GetSubParameters(), separator)
+										: GetColumnSplitBySemicolon(mdata1, parameters, "Matching column in matrix 1");
+			int[][] indexMap = new int[matchCol1.Length][];
+			for (int i = 0; i < matchCol1.Length; i++){
+				List<int> q = new List<int>();
+				foreach (string s in matchCol1[i]){
+					if (idToCols2.ContainsKey(s)){
+						q.AddRange(idToCols2[s]);
 					}
 				}
-				indexMap[i] = qwer.ToArray();
-				indexMap[i] = ArrayUtils.UniqueValues(indexMap[i]);
-				indicatorCol[i] = indexMap[i].Length > 0 ? new[]{"+"} : new string[0];
+				indexMap[i] = ArrayUtils.UniqueValues(q.ToArray());
 			}
-			IMatrixData result = (IMatrixData) mdata1.Clone();
-			SetAnnotationRows(result, mdata1, mdata2);
-			if (indicator){
-				result.AddCategoryColumn(mdata2.Name, "", indicatorCol);
+			return indexMap;
+		}
+
+		private static string[][] GetColumnPair(IDataWithAnnotationColumns mdata1, Parameters parameters, Parameters subPar,
+			string separator){
+			string[][] matchCol = GetColumnSplitBySemicolon(mdata1, parameters, "Matching column in matrix 1");
+			string[][] matchColAddtl = GetColumnSplitBySemicolon(mdata1, subPar, "Additional column in matrix 1");
+			string[][] result = new string[matchCol.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = Combine(matchCol[i], matchColAddtl[i], separator);
 			}
-				{
-					int[] exCols = parameters.GetParam<int[]>("Expression columns").Value;
-					if (exCols.Length > 0){
-						float[,] newExColumns = new float[mdata1.RowCount, exCols.Length];
-						float[,] newQuality = new float[mdata1.RowCount, exCols.Length];
-						bool[,] newIsImputed = new bool[mdata1.RowCount, exCols.Length];
-						string[] newExColNames = new string[exCols.Length];
-						for (int i = 0; i < exCols.Length; i++) {
-							newExColNames[i] = mdata2.ColumnNames[exCols[i]];
-							for (int j = 0; j < mdata1.RowCount; j++) {
-								int[] inds = indexMap[j];
-								List<double> values = new List<double>();
-								List<double> qual = new List<double>();
-								List<bool> imp = new List<bool>();
-								foreach (int ind in inds) {
-									double v = mdata2.Values[ind, exCols[i]];
-									if (!double.IsNaN(v) && !double.IsInfinity(v)) {
-										values.Add(v);
-										double qx = mdata2.Quality[ind, exCols[i]];
-										if (!double.IsNaN(qx) && !double.IsInfinity(qx)) {
-											qual.Add(qx);
-										}
-										bool isi = mdata2.IsImputed[ind, exCols[i]];
-										imp.Add(isi);
-									}
-								}
-								newExColumns[j, i] = values.Count == 0 ? float.NaN : (float)avExpression(values.ToArray());
-								newQuality[j, i] = qual.Count == 0 ? float.NaN : (float)avExpression(qual.ToArray());
-								newIsImputed[j, i] = imp.Count != 0 && AvImp(imp.ToArray());
-							}
-						}
-						MakeNewNames(newExColNames, result.ColumnNames);
-						AddExpressionColumns(result, newExColNames, newExColumns, newQuality, newIsImputed);
-					}
-				}
-				{
-					int[] numCols = parameters.GetParam<int[]>("Numerical columns").Value;
-					if (avNumerical != null){
-						double[][] newNumericalColumns = new double[numCols.Length][];
-						string[] newNumColNames = new string[numCols.Length];
-						for (int i = 0; i < numCols.Length; i++){
-							double[] oldCol = mdata2.NumericColumns[numCols[i]];
-							newNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
-							newNumericalColumns[i] = new double[mdata1.RowCount];
-							for (int j = 0; j < mdata1.RowCount; j++){
-								int[] inds = indexMap[j];
-								List<double> values = new List<double>();
-								foreach (int ind in inds){
-									double v = oldCol[ind];
-									if (!double.IsNaN(v)){
-										values.Add(v);
-									}
-								}
-								newNumericalColumns[i][j] = values.Count == 0 ? double.NaN : avNumerical(values.ToArray());
-							}
-						}
-						for (int i = 0; i < numCols.Length; i++){
-							result.AddNumericColumn(newNumColNames[i], "", newNumericalColumns[i]);
-						}
-					} else{
-						double[][][] newMultiNumericalColumns = new double[numCols.Length][][];
-						string[] newMultiNumColNames = new string[numCols.Length];
-						for (int i = 0; i < numCols.Length; i++){
-							double[] oldCol = mdata2.NumericColumns[numCols[i]];
-							newMultiNumColNames[i] = mdata2.NumericColumnNames[numCols[i]];
-							newMultiNumericalColumns[i] = new double[mdata1.RowCount][];
-							for (int j = 0; j < mdata1.RowCount; j++){
-								int[] inds = indexMap[j];
-								List<double> values = new List<double>();
-								foreach (int ind in inds){
-									double v = oldCol[ind];
-									if (!double.IsNaN(v)){
-										values.Add(v);
-									}
-								}
-								newMultiNumericalColumns[i][j] = values.ToArray();
-							}
-						}
-						for (int i = 0; i < numCols.Length; i++){
-							result.AddMultiNumericColumn(newMultiNumColNames[i], "", newMultiNumericalColumns[i]);
-						}
-					}
-				}
-				{
-					int[] catCols = parameters.GetParam<int[]>("Categorical columns").Value;
-					string[][][] newCatColumns = new string[catCols.Length][][];
-					string[] newCatColNames = new string[catCols.Length];
-					for (int i = 0; i < catCols.Length; i++){
-						string[][] oldCol = mdata2.GetCategoryColumnAt(catCols[i]);
-						newCatColNames[i] = mdata2.CategoryColumnNames[catCols[i]];
-						newCatColumns[i] = new string[mdata1.RowCount][];
-						for (int j = 0; j < mdata1.RowCount; j++){
-							int[] inds = indexMap[j];
-							List<string[]> values = new List<string[]>();
-							foreach (int ind in inds){
-								string[] v = oldCol[ind];
-								if (v.Length > 0){
-									values.Add(v);
-								}
-							}
-							newCatColumns[i][j] = values.Count == 0
-													? new string[0]
-													: ArrayUtils.UniqueValues(ArrayUtils.Concat(values.ToArray()));
-						}
-					}
-					for (int i = 0; i < catCols.Length; i++){
-						result.AddCategoryColumn(newCatColNames[i], "", newCatColumns[i]);
-					}
-				}
-				{
-					int[] stringCols = parameters.GetParam<int[]>("Text columns").Value;
-					string[][] newStringColumns = new string[stringCols.Length][];
-					string[] newStringColNames = new string[stringCols.Length];
-					for (int i = 0; i < stringCols.Length; i++){
-						string[] oldCol = mdata2.StringColumns[stringCols[i]];
-						newStringColNames[i] = mdata2.StringColumnNames[stringCols[i]];
-						newStringColumns[i] = new string[mdata1.RowCount];
-						for (int j = 0; j < mdata1.RowCount; j++){
-							int[] inds = indexMap[j];
-							List<string> values = new List<string>();
-							foreach (int ind in inds){
-								string v = oldCol[ind];
-								if (v.Length > 0){
-									values.Add(v);
-								}
-							}
-							newStringColumns[i][j] = values.Count == 0 ? "" : StringUtils.Concat(";", values.ToArray());
-						}
-					}
-					for (int i = 0; i < stringCols.Length; i++){
-						result.AddStringColumn(newStringColNames[i], "", newStringColumns[i]);
-					}
-				}
-			result.Origin = "Combination";
 			return result;
+		}
+
+		private static string[] Combine(IEnumerable<string> s1, IEnumerable<string> s2, string separator){
+			List<string> result = new List<string>();
+			foreach (string t1 in s1){
+				foreach (string t2 in s2){
+					result.Add(t1 + separator + t2);
+				}
+			}
+			result.Sort();
+			return result.ToArray();
 		}
 
 		private static bool AvImp(IEnumerable<bool> b){
@@ -368,7 +461,8 @@ namespace PerseusPluginLib.Join{
 			return false;
 		}
 
-		private static void SetAnnotationRows(IMatrixData result, IMatrixData mdata1, IMatrixData mdata2){
+		private static void SetAnnotationRows(IDataWithAnnotationRows result, IDataWithAnnotationRows mdata1,
+			IDataWithAnnotationRows mdata2){
 			result.CategoryRowNames.Clear();
 			result.CategoryRowDescriptions.Clear();
 			result.ClearCategoryRows();
@@ -467,7 +561,7 @@ namespace PerseusPluginLib.Join{
 			}
 		}
 
-		public static void AddExpressionColumns(IMatrixData data, string[] names, float[,] vals, float[,] qual, bool[,] imp){
+		private static void AddMainColumns(IMatrixData data, string[] names, float[,] vals, float[,] qual, bool[,] imp){
 			float[,] newVals = new float[data.RowCount,data.ColumnCount + vals.GetLength(1)];
 			float[,] newQual = new float[data.RowCount,data.ColumnCount + vals.GetLength(1)];
 			bool[,] newImp = new bool[data.RowCount,data.ColumnCount + vals.GetLength(1)];

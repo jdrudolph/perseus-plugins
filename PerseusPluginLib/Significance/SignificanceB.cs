@@ -7,7 +7,6 @@ using BaseLibS.Num;
 using BaseLibS.Num.Test;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
-using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -22,9 +21,9 @@ namespace PerseusPluginLib.Significance{
 		public string[] HelpSupplTables { get { return new string[0]; } }
 		public int NumSupplTables { get { return 0; } }
 		public string Name { get { return "Significance B"; } }
-		public string Heading { get { return "Basic"; } }
+		public string Heading { get { return "Outliers"; } }
 		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 101; } }
+		public float DisplayRank { get { return 1; } }
 		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SignificanceB"; } }
 
 		public string Description{
