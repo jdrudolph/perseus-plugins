@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 using BaseLib.Param;
 using BaseLibS.Num;
@@ -676,8 +677,8 @@ namespace PluginProteomicRuler
 					}
 				}
 			}
-			Organism[] organisms = ArrayUtils.GetKeys(histoneHits);
-			int[] counts = ArrayUtils.GetValues(histoneHits);
+			Organism[] organisms = histoneHits.Keys.ToArray();
+			int[] counts = histoneHits.Values.ToArray();
 			if (ArrayUtils.Max(counts) == 0)
 				return new Organism();
 			return organisms[ArrayUtils.Order(counts)[counts.Length - 1]];

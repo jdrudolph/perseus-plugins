@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using BaseLibS.Num;
-using BaseLibS.Util;
 
 namespace PerseusPluginLib.Annot{
 	public class CountingResult{
@@ -8,7 +7,10 @@ namespace PerseusPluginLib.Annot{
 		private IList<string> allCategory1 = new List<string>();
 		private IList<int> allTotalCount = new List<int>();
 		private IList<int> selectCount = new List<int>();
-		public int Count { get { return allCategoryType1.Count; } }
+
+		public int Count{
+			get { return allCategoryType1.Count; }
+		}
 
 		public void Sort(){
 			int[] o = ArrayUtils.Order(allTotalCount);
@@ -19,10 +21,21 @@ namespace PerseusPluginLib.Annot{
 			selectCount = ArrayUtils.SubArray(selectCount, o);
 		}
 
-		public string GetType1At(int i) { return allCategoryType1[i]; }
-		public string GetName1At(int i) { return allCategory1[i]; }
-		public int GetTotalCountAt(int i) { return allTotalCount[i]; }
-		public int GetSelectCountAt(int i) { return selectCount[i]; }
+		public string GetType1At(int i){
+			return allCategoryType1[i];
+		}
+
+		public string GetName1At(int i){
+			return allCategory1[i];
+		}
+
+		public int GetTotalCountAt(int i){
+			return allTotalCount[i];
+		}
+
+		public int GetSelectCountAt(int i){
+			return selectCount[i];
+		}
 
 		public void Add(string categoryName1, string[] allTerms, int[] allTotal, int[] selectTotal){
 			for (int i = 0; i < allTerms.Length; i++){

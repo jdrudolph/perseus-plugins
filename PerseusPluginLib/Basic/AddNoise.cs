@@ -3,7 +3,6 @@ using System.Drawing;
 using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Param;
-using BaseLibS.Util;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -73,7 +72,7 @@ namespace PerseusPluginLib.Basic{
 			int[] inds = param.GetParam<int[]>("Columns").Value;
 			List<int> mainInds = new List<int>();
 			List<int> numInds = new List<int>();
-			foreach (var ind in inds){
+			foreach (int ind in inds){
 				if (ind < mdata.ColumnCount){
 					mainInds.Add(ind);
 				} else{

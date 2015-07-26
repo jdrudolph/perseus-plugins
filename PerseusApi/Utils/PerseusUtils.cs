@@ -280,7 +280,7 @@ namespace PerseusApi.Utils{
 				matrixData.StringColumnDescriptions = new List<string>(textColDesc);
 				matrixData.MultiNumericColumnDescriptions = new List<string>(multiNumColDesc);
 			}
-			foreach (string key in ArrayUtils.GetKeys(catAnnotatRows)){
+			foreach (string key in catAnnotatRows.Keys){
 				string name = key;
 				string[] svals = ArrayUtils.SubArray(catAnnotatRows[key], expressionColIndices);
 				string[][] cat = new string[svals.Length][];
@@ -299,7 +299,7 @@ namespace PerseusApi.Utils{
 				}
 				matrixData.AddCategoryRow(name, name, cat);
 			}
-			foreach (string key in ArrayUtils.GetKeys(numAnnotatRows)){
+			foreach (string key in numAnnotatRows.Keys){
 				string name = key;
 				string[] svals = ArrayUtils.SubArray(numAnnotatRows[key], expressionColIndices);
 				double[] num = new double[svals.Length];
@@ -379,7 +379,7 @@ namespace PerseusApi.Utils{
 			out Dictionary<string, string[]> catAnnotRows, out Dictionary<string, string[]> numAnnotRows){
 			catAnnotRows = new Dictionary<string, string[]>();
 			numAnnotRows = new Dictionary<string, string[]>();
-			foreach (string name in ArrayUtils.GetKeys(annotRows)){
+			foreach (string name in annotRows.Keys){
 				if (name.StartsWith("N:")){
 					numAnnotRows.Add(name.Substring(2), annotRows[name]);
 				} else if (name.StartsWith("C:")){

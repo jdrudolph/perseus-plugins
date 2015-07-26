@@ -8,18 +8,53 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Norm{
 	public class UnitVector : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:UnitVector"; } }
-		public string Name { get { return "Unit vectors"; } }
-		public string Heading { get { return "Normalization"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -8; } }
+		public bool HasButton{
+			get { return false; }
+		}
+
+		public Bitmap DisplayImage{
+			get { return null; }
+		}
+
+		public string HelpOutput{
+			get { return "Normalized expression matrix."; }
+		}
+
+		public string[] HelpSupplTables{
+			get { return new string[0]; }
+		}
+
+		public int NumSupplTables{
+			get { return 0; }
+		}
+
+		public string[] HelpDocuments{
+			get { return new string[0]; }
+		}
+
+		public int NumDocuments{
+			get { return 0; }
+		}
+
+		public string Url{
+			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:UnitVector"; }
+		}
+
+		public string Name{
+			get { return "Unit vectors"; }
+		}
+
+		public string Heading{
+			get { return "Normalization"; }
+		}
+
+		public bool IsActive{
+			get { return true; }
+		}
+
+		public float DisplayRank{
+			get { return -8; }
+		}
 
 		public string Description{
 			get{
@@ -28,11 +63,13 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				Parameter<int> access = param.GetParam<int>("Matrix access");
+			Parameter<int> access = param.GetParam<int>("Matrix access");
 			bool rows = access.Value == 0;
 			UnitVectors(rows, mdata);
 		}
@@ -57,7 +94,7 @@ namespace PerseusPluginLib.Norm{
 					}
 					len = Math.Sqrt(len);
 					for (int j = 0; j < data.ColumnCount; j++){
-						data.Values[i, j] /= (float)len;
+						data.Values[i, j] /= (float) len;
 					}
 				}
 			} else{
@@ -69,7 +106,7 @@ namespace PerseusPluginLib.Norm{
 					}
 					len = Math.Sqrt(len);
 					for (int i = 0; i < data.RowCount; i++){
-						data.Values[i, j] /= (float)len;
+						data.Values[i, j] /= (float) len;
 					}
 				}
 			}
