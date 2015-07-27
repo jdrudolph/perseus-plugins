@@ -1,4 +1,4 @@
-using BaseLibS.Api;
+using BaseLibS.Num.Matrix;
 using PerseusApi.Generic;
 
 namespace PerseusApi.Matrix{
@@ -8,8 +8,8 @@ namespace PerseusApi.Matrix{
 	///     The interface only serves to encapsulate the complexity of the implementation for the purpose of plugin programming.
 	/// </summary>
 	public interface IMatrixData : IDataWithAnnotationRows, IDataWithAnnotationColumns{
-		IMatrixIndexer Values { get; set; }
-		IMatrixIndexer Quality { get; set; }
+		MatrixIndexer Values { get; set; }
+		MatrixIndexer Quality { get; set; }
 		IBoolMatrixIndexer IsImputed { get; set; }
 		string QualityName { get; set; }
 		bool QualityBiggerIsBetter { get; set; }

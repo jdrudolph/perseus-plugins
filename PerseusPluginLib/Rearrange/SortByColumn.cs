@@ -1,7 +1,7 @@
 using System.Drawing;
 using BaseLib.Param;
-using BaseLibS.Api;
 using BaseLibS.Num;
+using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,27 +9,65 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class SortByColumn : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Simple sorting by a column."; } }
-		public string HelpOutput { get { return "The same matrix but sorted by the specified column."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Sort by column"; } }
-		public string Heading { get { return "Rearrange"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 6; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:SortByColumn"; } }
+		public bool HasButton{
+			get { return false; }
+		}
 
-		public int GetMaxThreads(Parameters parameters) {
+		public Bitmap DisplayImage{
+			get { return null; }
+		}
+
+		public string Description{
+			get { return "Simple sorting by a column."; }
+		}
+
+		public string HelpOutput{
+			get { return "The same matrix but sorted by the specified column."; }
+		}
+
+		public string[] HelpSupplTables{
+			get { return new string[0]; }
+		}
+
+		public int NumSupplTables{
+			get { return 0; }
+		}
+
+		public string Name{
+			get { return "Sort by column"; }
+		}
+
+		public string Heading{
+			get { return "Rearrange"; }
+		}
+
+		public bool IsActive{
+			get { return true; }
+		}
+
+		public float DisplayRank{
+			get { return 6; }
+		}
+
+		public string[] HelpDocuments{
+			get { return new string[0]; }
+		}
+
+		public int NumDocuments{
+			get { return 0; }
+		}
+
+		public string Url{
+			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:SortByColumn"; }
+		}
+
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int ind = param.GetParam<int>("Column").Value;
+			int ind = param.GetParam<int>("Column").Value;
 			bool descending = param.GetParam<bool>("Descending").Value;
 			if (ind < mdata.ColumnCount){
 				BaseVector v = mdata.Values.GetColumn(ind);
@@ -48,7 +86,7 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] choice = ArrayUtils.Concat(mdata.ColumnNames, mdata.NumericColumnNames);
 			return
 				new Parameters(new Parameter[]{
