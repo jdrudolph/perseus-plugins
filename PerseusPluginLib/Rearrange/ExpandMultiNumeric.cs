@@ -10,6 +10,7 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class ExpandMultiNumeric : IMatrixProcessing{
+		//TODO: optionally distribute values into multiple columns.
 		public bool HasButton { get { return false; } }
 		public Bitmap DisplayImage { get { return null; } }
 

@@ -12,18 +12,53 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Norm{
 	public class ZScore : IMatrixProcessing{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.zscoreButton_Image; } }
-		public string Name { get { return "Z-score"; } }
-		public string Heading { get { return "Normalization"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -10; } }
-		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:ZScore"; } }
+		public bool HasButton{
+			get { return true; }
+		}
+
+		public Bitmap DisplayImage{
+			get { return Resources.zscoreButton_Image; }
+		}
+
+		public string Name{
+			get { return "Z-score"; }
+		}
+
+		public string Heading{
+			get { return "Normalization"; }
+		}
+
+		public bool IsActive{
+			get { return true; }
+		}
+
+		public float DisplayRank{
+			get { return -10; }
+		}
+
+		public string HelpOutput{
+			get { return "Normalized expression matrix."; }
+		}
+
+		public string[] HelpSupplTables{
+			get { return new string[0]; }
+		}
+
+		public int NumSupplTables{
+			get { return 0; }
+		}
+
+		public string[] HelpDocuments{
+			get { return new string[0]; }
+		}
+
+		public int NumDocuments{
+			get { return 0; }
+		}
+
+		public string Url{
+			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:ZScore"; }
+		}
 
 		public string Description{
 			get{
@@ -32,7 +67,9 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public int GetMaxThreads(Parameters parameters) { return int.MaxValue; }
+		public int GetMaxThreads(Parameters parameters){
+			return int.MaxValue;
+		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters rowParams =
@@ -57,7 +94,7 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				ParameterWithSubParams<int> access = param.GetParamWithSubParams<int>("Matrix access");
+			ParameterWithSubParams<int> access = param.GetParamWithSubParams<int>("Matrix access");
 			bool rows = access.Value == 0;
 			int groupInd;
 			if (rows){
@@ -135,7 +172,7 @@ namespace PerseusPluginLib.Norm{
 			double stddev;
 			double mean = ArrayUtils.MeanAndStddev(vals, out stddev, median);
 			foreach (int t in inds){
-				data.Values[i, t] = (float)((data.Values[i, t] - mean) / stddev);
+				data.Values[i, t] = (float) ((data.Values[i, t] - mean)/stddev);
 			}
 			if (report){
 				means[i] = mean;
@@ -173,8 +210,7 @@ namespace PerseusPluginLib.Norm{
 				}
 				double[] doubles = means;
 				double[] stddevs1 = stddevs;
-				new ThreadDistributor(nthreads, data.ColumnCount, j => Calc2(j, data, doubles, stddevs1, report, median))
-					.Start();
+				new ThreadDistributor(nthreads, data.ColumnCount, j => Calc2(j, data, doubles, stddevs1, report, median)).Start();
 			}
 		}
 
@@ -187,7 +223,7 @@ namespace PerseusPluginLib.Norm{
 			double stddev;
 			double mean = ArrayUtils.MeanAndStddev(vals, out stddev, median);
 			for (int j = 0; j < data.ColumnCount; j++){
-				data.Values[i, j] = (float)((data.Values[i, j] - mean) / stddev);
+				data.Values[i, j] = (float) ((data.Values[i, j] - mean)/stddev);
 			}
 			if (report){
 				means[i] = mean;
@@ -204,7 +240,7 @@ namespace PerseusPluginLib.Norm{
 			double stddev;
 			double mean = ArrayUtils.MeanAndStddev(vals, out stddev, median);
 			for (int i = 0; i < data.RowCount; i++){
-				data.Values[i, j] = (float)((data.Values[i, j] - mean) / stddev);
+				data.Values[i, j] = (float) ((data.Values[i, j] - mean)/stddev);
 			}
 			if (report){
 				means[j] = mean;

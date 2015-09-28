@@ -79,7 +79,6 @@ namespace PerseusApi.Utils{
 			int nrows, string origin, char separator, bool shortenExpressionNames){
 			string[] colDescriptions = null;
 			string[] colTypes = null;
-			bool[] colVisible = null;
 			if (annotationRows.ContainsKey("Description")){
 				colDescriptions = annotationRows["Description"];
 				annotationRows.Remove("Description");
@@ -87,14 +86,6 @@ namespace PerseusApi.Utils{
 			if (annotationRows.ContainsKey("Type")){
 				colTypes = annotationRows["Type"];
 				annotationRows.Remove("Type");
-			}
-			if (annotationRows.ContainsKey("Visible")){
-				string[] colVis = annotationRows["Visible"];
-				colVisible = new bool[colVis.Length];
-				for (int i = 0; i < colVisible.Length; i++){
-					colVisible[i] = bool.Parse(colVis[i]);
-				}
-				annotationRows.Remove("Visible");
 			}
 			int[] allInds = ArrayUtils.Concat(new[]{eInds, cInds, nInds, tInds, mInds});
 			Array.Sort(allInds);
