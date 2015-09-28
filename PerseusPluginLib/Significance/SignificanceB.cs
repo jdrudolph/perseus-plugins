@@ -24,7 +24,7 @@ namespace PerseusPluginLib.Significance{
 		public string Heading { get { return "Outliers"; } }
 		public bool IsActive { get { return true; } }
 		public float DisplayRank { get { return 1; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SignificanceB"; } }
+		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Outliers:SignificanceB"; } }
 
 		public string Description{
 			get{
