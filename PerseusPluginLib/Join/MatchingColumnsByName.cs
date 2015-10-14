@@ -10,68 +10,25 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Join{
 	public class MatchingColumnsByName : IMatrixMultiProcessing{
-		public bool HasButton{
-			get { return true; }
-		}
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.combineButton_Image;
+		public string Name => "Matching columns by name";
+		public bool IsActive => true;
+		public float DisplayRank => -4;
+		public string HelpOutput => "";
+		public string Description => "Two matrices are merged by matching columns by their names.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public int MinNumInput => 2;
+		public int MaxNumInput => 2;
+		public string Heading => "Basic";
 
-		public Bitmap DisplayImage{
-			get { return Resources.combineButton_Image; }
-		}
-
-		public string Name{
-			get { return "Matching columns by name"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return -4; }
-		}
-
-		public string HelpOutput{
-			get { return ""; }
-		}
-
-		public string Description{
-			get { return "Two matrices are merged by matching columns by their names."; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public int MinNumInput{
-			get { return 2; }
-		}
-
-		public int MaxNumInput{
-			get { return 2; }
-		}
-
-		public string Heading{
-			get { return "Basic"; }
-		}
-
-		public string Url{
-			get{
-				return
-					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName";
-			}
-		}
+		public string Url
+			=>
+				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName"
+			;
 
 		public string GetInputName(int index){
 			return index == 0 ? "Base matrix" : "Other matrix";
@@ -138,7 +95,7 @@ namespace PerseusPluginLib.Join{
 			Dictionary<string, int> dic1;
 			Dictionary<string, int> dic2;
 			string[] expColNames = SpecialSort(mdata1.ColumnNames, mdata2.ColumnNames, out dic1, out dic2);
-			float[,] ex = new float[nrows,expColNames.Length];
+			float[,] ex = new float[nrows, expColNames.Length];
 			for (int i = 0; i < ex.GetLength(0); i++){
 				for (int j = 0; j < ex.GetLength(1); j++){
 					ex[i, j] = float.NaN;

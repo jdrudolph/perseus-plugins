@@ -8,36 +8,32 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Norm{
 	public class WidthAdjustment : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public string Description{
-			get{
-				return "The first, second and third quartile (q1, q2, q3) are calculated from the " +
-					"distribution of all values. The second quartile (which is the median) is subtracted from each value " +
-					"to center the distribution. Then we divide by the width in an asymmetric way. All values that are " +
-					"positive after subtraction of the median are divided by q3 – q2 while all negative values are divided by q2 – q1.";
-			}
+		public string Description
+			=>
+				"The first, second and third quartile (q1, q2, q3) are calculated from the " +
+				"distribution of all values. The second quartile (which is the median) is subtracted from each value " +
+				"to center the distribution. Then we divide by the width in an asymmetric way. All values that are " +
+				"positive after subtraction of the median are divided by q3 – q2 while all negative values are divided by q2 – q1.";
+
+		public string HelpOutput => "";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Width adjustment";
+		public string Heading => "Normalization";
+		public bool IsActive => true;
+		public float DisplayRank => -7;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:WidthAdjustment";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
-
-		public string HelpOutput { get { return ""; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Width adjustment"; } }
-		public string Heading { get { return "Normalization"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -7; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-
-		public string Url{
-			get{
-				return
-					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:WidthAdjustment";
-			}
-		}
-
-		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -45,9 +41,9 @@ namespace PerseusPluginLib.Norm{
 			double[] dp = new double[mdata.ColumnCount];
 			for (int i = 0; i < mdata.ColumnCount; i++){
 				List<float> v = new List<float>();
-				foreach (float f in mdata.Values.GetColumn(i)){
-					if (!float.IsNaN(f) && !float.IsInfinity(f)){
-						v.Add(f);
+				foreach (double f in mdata.Values.GetColumn(i)){
+					if (!double.IsNaN(f) && !double.IsInfinity(f)){
+						v.Add((float) f);
 					}
 				}
 				float[] d = v.ToArray();
@@ -71,6 +67,8 @@ namespace PerseusPluginLib.Norm{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) { return new Parameters(new Parameter[0]); }
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			return new Parameters(new Parameter[0]);
+		}
 	}
 }

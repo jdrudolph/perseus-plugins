@@ -10,32 +10,37 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Basic{
 	public class Quantiles : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return Resources.quantiles; } }
-		public string Name { get { return "Quantiles"; } }
-		public string Heading { get { return "Basic"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -4; } }
-		public string HelpOutput { get { return "For each selected expression coulumn a categorical column is added containing the quantile information."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:Quantiles"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => Resources.quantiles;
+		public string Name => "Quantiles";
+		public string Heading => "Basic";
+		public bool IsActive => true;
+		public float DisplayRank => -4;
 
-		public string Description{
-			get{
-				return
-					"Expression columns are transformed into quantiles. These can then, for instance, be used in a subsequent enrichment analysis.";
-			}
+		public string HelpOutput
+			=> "For each selected expression coulumn a categorical column is added containing the quantile information.";
+
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:Quantiles";
+
+		public string Description
+			=>
+				"Expression columns are transformed into quantiles. These can then, for instance, be used in a subsequent enrichment analysis."
+			;
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
-
-		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int numQuantiles = param.GetParam<int>("Number of quantiles").Value;
-				int[] colInds = param.GetParam<int[]>("Columns").Value;
+			int numQuantiles = param.GetParam<int>("Number of quantiles").Value;
+			int[] colInds = param.GetParam<int[]>("Columns").Value;
 			foreach (int colInd in colInds){
 				double[] vals = GetValues(mdata, colInd);
 				List<int> v = new List<int>();
@@ -57,8 +62,7 @@ namespace PerseusPluginLib.Basic{
 					catCol[o[i]] = new[]{"Q" + catVal};
 				}
 				string name = GetName(mdata, colInd) + "_q";
-				string desc = "The column " + mdata.ColumnNames[colInd] + " has been divided into " + numQuantiles +
-					" quantiles.";
+				string desc = "The column " + mdata.ColumnNames[colInd] + " has been divided into " + numQuantiles + " quantiles.";
 				mdata.AddCategoryColumn(name, desc, catCol);
 			}
 		}

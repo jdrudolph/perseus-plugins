@@ -399,7 +399,7 @@ namespace PerseusApi.Utils{
 		}
 
 		private static string[] SplitLine(string line, char separator){
-			line = line.Trim(new[]{' '});
+			line = line.Trim(' ');
 			bool inQuote = false;
 			List<int> sepInds = new List<int>();
 			for (int i = 0; i < line.Length; i++){

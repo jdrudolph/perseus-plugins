@@ -48,10 +48,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		private void UpdateFile(string filename){
-			if (control == null){
-				return;
-			}
-			control.UpdateFile(filename);
+			control?.UpdateFile(filename);
 		}
 
 		public override float Height{

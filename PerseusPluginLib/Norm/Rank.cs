@@ -9,20 +9,25 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Norm{
 	internal class Rank : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "The values in each row/column are replaced by ranks."; } }
-		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Rank"; } }
-		public string Heading { get { return "Normalization"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -9; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:Rank"; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "The values in each row/column are replaced by ranks.";
+		public string HelpOutput => "Normalized expression matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Rank";
+		public string Heading => "Normalization";
+		public bool IsActive => true;
+		public float DisplayRank => -9;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Normalization:Rank";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){

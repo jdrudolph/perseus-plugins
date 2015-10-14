@@ -7,10 +7,7 @@ namespace PerseusPluginLib.Annot{
 		private IList<string> allCategory1 = new List<string>();
 		private IList<int> allTotalCount = new List<int>();
 		private IList<int> selectCount = new List<int>();
-
-		public int Count{
-			get { return allCategoryType1.Count; }
-		}
+		public int Count => allCategoryType1.Count;
 
 		public void Sort(){
 			int[] o = ArrayUtils.Order(allTotalCount);

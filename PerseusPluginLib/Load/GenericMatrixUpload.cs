@@ -12,54 +12,24 @@ using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Load{
 	public class GenericMatrixUpload : IMatrixUpload{
-		public bool HasButton{
-			get { return true; }
-		}
+		public bool HasButton => true;
+		public Bitmap DisplayImage => BaseLib.Properties.Resources.upload64;
+		public string Name => "Generic matrix upload";
+		public bool IsActive => true;
+		public float DisplayRank => 0;
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public Bitmap DisplayImage{
-			get { return BaseLib.Properties.Resources.upload64; }
-		}
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:GenericMatrixUpload";
 
-		public string Name{
-			get { return "Generic matrix upload"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 0; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:GenericMatrixUpload"; }
-		}
-
-		public string Description{
-			get{
-				return
-					"Load data from a tab-separated file. The first row should contain the column names, also separated by tab characters. " +
-					"All following rows contain the tab-separated values. Such a file can for instance be generated from an excel sheet by " +
-					"using the export as a tab-separated .txt file.";
-			}
-		}
+		public string Description
+			=>
+				"Load data from a tab-separated file. The first row should contain the column names, also separated by tab characters. " +
+				"All following rows contain the tab-separated values. Such a file can for instance be generated from an excel sheet by " +
+				"using the export as a tab-separated .txt file.";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

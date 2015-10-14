@@ -6,7 +6,7 @@ using BaseLibS.Util;
 namespace PerseusApi.Generic{
 	public class ProcessInfo{
 		private readonly int numThreads;
-		public Settings Settings { get; private set; }
+		public Settings Settings { get; }
 		public Action<string> Status { get; private set; }
 		public Action<int> Progress { get; private set; }
 		public Action<int> ReduceThreads { get; private set; }
@@ -22,7 +22,7 @@ namespace PerseusApi.Generic{
 			ReduceThreads = reduceThreads;
 		}
 
-		public int NumThreads { get { return Math.Min(numThreads, Settings.Nthreads); } }
+		public int NumThreads => Math.Min(numThreads, Settings.Nthreads);
 
 		public void Abort(){
 			foreach (

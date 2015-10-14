@@ -6,26 +6,29 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Impute{
 	public class ReplaceImputedByNan : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Replaces all values that have been imputed with NaN."; } }
-		public string HelpOutput { get { return "Same matrix but with imputed values deleted."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Replace imputed values by NaN"; } }
-		public string Heading { get { return "Imputation"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 1; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Imputation:ReplaceImputedByNan"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "Replaces all values that have been imputed with NaN.";
+		public string HelpOutput => "Same matrix but with imputed values deleted.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Replace imputed values by NaN";
+		public string Heading => "Imputation";
+		public bool IsActive => true;
+		public float DisplayRank => 1;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public int GetMaxThreads(Parameters parameters) {
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Imputation:ReplaceImputedByNan"
+			;
+
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
-			return new Parameters(new Parameter[] { });
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			return new Parameters(new Parameter[]{});
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,

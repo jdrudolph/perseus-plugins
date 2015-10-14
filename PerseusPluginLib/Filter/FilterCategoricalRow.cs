@@ -9,20 +9,30 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Filter{
 	public class FilterCategoricalRow : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Those columns are kept or removed that have the specified value in the selected categorical row."; } }
-		public string HelpOutput { get { return "The filtered matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Filter columns based on categorical row"; } }
-		public string Heading { get { return "Filter columns"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Filtercolumns:FilterCategoricalRow"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+
+		public string Description
+			=> "Those columns are kept or removed that have the specified value in the selected categorical row.";
+
+		public string HelpOutput => "The filtered matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Filter columns based on categorical row";
+		public string Heading => "Filter columns";
+		public bool IsActive => true;
+		public float DisplayRank => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
+
+		public string Url
+			=>
+				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Filtercolumns:FilterCategoricalRow"
+			;
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			Parameters[] subParams = new Parameters[mdata.CategoryRowCount];
@@ -50,7 +60,7 @@ namespace PerseusPluginLib.Filter{
 						Values = new[]{"Remove matching columns", "Keep matching columns"},
 						Help =
 							"If 'Remove matching columns' is selected, rows having the values specified above will be removed while " +
-								"all other rows will be kept. If 'Keep matching columns' is selected, the opposite will happen."
+							"all other rows will be kept. If 'Keep matching columns' is selected, the opposite will happen."
 					},
 					PerseusPluginUtils.GetFilterModeParam(false)
 				});
@@ -58,7 +68,7 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				ParameterWithSubParams<int> p = param.GetParamWithSubParams<int>("Row");
+			ParameterWithSubParams<int> p = param.GetParamWithSubParams<int>("Row");
 			int colInd = p.Value;
 			if (colInd < 0){
 				processInfo.ErrString = "No categorical rows available.";

@@ -6,40 +6,20 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Manual{
 	public class SelectRowsManually : IMatrixAnalysis{
-		public string Description{
-			get{
-				return
-					"Rows can be selected interactively and a new matrix can be produced which contains only the selected rows or only the unselected rows.";
-			}
-		}
+		public string Description
+			=>
+				"Rows can be selected interactively and a new matrix can be produced which contains only the selected rows or only the unselected rows."
+			;
 
-		public bool HasButton{
-			get { return true; }
-		}
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.hand;
+		public string Heading => null;
+		public string Name => "Select rows manually";
+		public bool IsActive => true;
+		public float DisplayRank => 2;
 
-		public Bitmap DisplayImage{
-			get { return Resources.hand; }
-		}
-
-		public string Heading{
-			get { return null; }
-		}
-
-		public string Name{
-			get { return "Select rows manually"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 2; }
-		}
-
-		public string Url{
-			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixAnalysis:Misc:SelectRowsManually"; }
-		}
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixAnalysis:Misc:SelectRowsManually";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

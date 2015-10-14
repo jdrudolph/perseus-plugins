@@ -8,21 +8,26 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class RenameColumns : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "New names can be specified for each expression column. The new names are typed in explicitly."; } }
-		public string HelpOutput { get { return "Same matrix but with the new expression column names."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Rename columns"; } }
-		public string Heading { get { return "Rearrange"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:RenameColumns"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public int GetMaxThreads(Parameters parameters) {
+		public string Description
+			=> "New names can be specified for each expression column. The new names are typed in explicitly.";
+
+		public string HelpOutput => "Same matrix but with the new expression column names.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Rename columns";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:RenameColumns";
+
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
@@ -90,27 +95,27 @@ namespace PerseusPluginLib.Rearrange{
 			mdata.MultiNumericColumnNames = multiNumericColumnNames;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			List<Parameter> par = new List<Parameter>();
 			foreach (string t in mdata.ColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParam(t) { Value = t, Help = help });
+				par.Add(new StringParam(t){Value = t, Help = help});
 			}
 			foreach (string t in mdata.NumericColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParam(t) { Value = t, Help = help });
+				par.Add(new StringParam(t){Value = t, Help = help});
 			}
 			foreach (string t in mdata.CategoryColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParam(t) { Value = t, Help = help });
+				par.Add(new StringParam(t){Value = t, Help = help});
 			}
 			foreach (string t in mdata.StringColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParam(t) { Value = t, Help = help });
+				par.Add(new StringParam(t){Value = t, Help = help});
 			}
 			foreach (string t in mdata.MultiNumericColumnNames){
 				string help = "Specify the new name for the column '" + t + "'.";
-				par.Add(new StringParam(t) { Value = t, Help = help });
+				par.Add(new StringParam(t){Value = t, Help = help});
 			}
 			return new Parameters(par);
 		}
