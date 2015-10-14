@@ -10,19 +10,19 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Basic{
 	public class PerformanceCurves : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Name { get { return "Performance curves"; } }
-        public string Heading { get { return "Basic"; } }
-		public string HelpOutput { get { return ""; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Description { get { return "Calculation of predictive performance measures like precision-recall or ROC curves."; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 10; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:PerformanceCurves"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Name => "Performance curves";
+		public string Heading => "Basic";
+		public string HelpOutput => "";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Description => "Calculation of predictive performance measures like precision-recall or ROC curves.";
+		public bool IsActive => true;
+		public float DisplayRank => 10;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:PerformanceCurves";
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

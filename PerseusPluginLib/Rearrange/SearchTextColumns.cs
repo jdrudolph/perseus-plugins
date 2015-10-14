@@ -7,25 +7,30 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class SearchTextColumns : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "A new categorical column is generated representing search results in a text column."; } }
-		public string HelpOutput { get { return ""; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Search text column"; } }
-		public string Heading { get { return "Rearrange"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 23; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:SearchTextColumns"; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "A new categorical column is generated representing search results in a text column.";
+		public string HelpOutput => "";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Search text column";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 23;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:SearchTextColumns";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				string word = param.GetParam<string>("Find what").Value;
-				int colInd = param.GetParam<int>("Look in").Value;
+			string word = param.GetParam<string>("Find what").Value;
+			int colInd = param.GetParam<int>("Look in").Value;
 			bool matchCase = param.GetParam<bool>("Match case").Value;
 			bool matchWholeWord = param.GetParam<bool>("Match whole word").Value;
 			string scolName = mdata.StringColumnNames[colInd];
