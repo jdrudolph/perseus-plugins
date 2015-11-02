@@ -75,7 +75,7 @@ namespace PerseusApi.Utils{
 		public static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 
 		public static void LoadMatrixData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
-			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,
+			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,string filename,
 			int nrows, string origin, char separator, bool shortenExpressionNames){
 			string[] colDescriptions = null;
 			string[] colTypes = null;
@@ -104,13 +104,13 @@ namespace PerseusApi.Utils{
 				}
 			}
 			LoadMatrixData(colNames, colDescriptions, eInds, cInds, nInds, tInds, mInds, origin, mdata, annotationRows,
-				processInfo.Progress, processInfo.Status, separator, reader, nrows, shortenExpressionNames);
+				processInfo.Progress, processInfo.Status, separator, reader, filename, nrows, shortenExpressionNames);
 		}
 
 		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions,
 			IList<int> expressionColIndices, IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices,
 			IList<int> multiNumColIndices, string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows,
-			Action<int> progress, Action<string> status, char separator, StreamReader reader, int nrows,
+			Action<int> progress, Action<string> status, char separator, StreamReader reader, string filename, int nrows,
 			bool shortenExpressionNames){
 			Dictionary<string, string[]> catAnnotatRows;
 			Dictionary<string, string[]> numAnnotatRows;
@@ -135,13 +135,14 @@ namespace PerseusApi.Utils{
 			float[,] expressionValues = new float[nrows,expressionColIndices.Count];
 			float[,] qualityValues = null;
 			bool[,] isImputedValues = null;
-			bool hasAddtlMatrices = GetHasAddtlMatrices(reader, expressionColIndices, separator);
+			bool hasAddtlMatrices = false;
+			if (!string.IsNullOrEmpty(filename)){
+				hasAddtlMatrices = GetHasAddtlMatrices(filename, expressionColIndices, separator);
+			}
 			if (hasAddtlMatrices){
 				qualityValues = new float[nrows,expressionColIndices.Count];
 				isImputedValues = new bool[nrows,expressionColIndices.Count];
 			}
-			reader.BaseStream.Seek(0, SeekOrigin.Begin);
-			reader.DiscardBufferedData();
 			reader.ReadLine();
 			int count = 0;
 			string line;
@@ -306,7 +307,7 @@ namespace PerseusApi.Utils{
 			status("");
 		}
 
-		private static void ParseExp(string s, out float expressionValue, out bool isImputedValue, out float qualityValue){
+		public static void ParseExp(string s, out float expressionValue, out bool isImputedValue, out float qualityValue){
 			string[] w = s.Split(';');
 			expressionValue = float.NaN;
 			isImputedValue = false;
@@ -331,12 +332,12 @@ namespace PerseusApi.Utils{
 			}
 		}
 
-		private static bool GetHasAddtlMatrices(StreamReader reader, IList<int> expressionColIndices, char separator){
+		public static bool GetHasAddtlMatrices(string filename, IList<int> expressionColIndices, char separator){
 			if (expressionColIndices.Count == 0){
 				return false;
 			}
+			StreamReader reader = new StreamReader(filename);
 			int expressionColIndex = expressionColIndices[0];
-			reader.BaseStream.Position = 0;
 			reader.ReadLine();
 			string line;
 			bool hasAddtl = false;
@@ -351,11 +352,11 @@ namespace PerseusApi.Utils{
 					break;
 				}
 			}
-			reader.BaseStream.Position = 0;
+			reader.Close();
 			return hasAddtl;
 		}
 
-		private static string RemoveSplitWhitespace(string s){
+		public static string RemoveSplitWhitespace(string s){
 			if (!s.Contains(";")){
 				return s.Trim();
 			}
@@ -366,7 +367,7 @@ namespace PerseusApi.Utils{
 			return StringUtils.Concat(";", q);
 		}
 
-		private static void SplitAnnotRows(IDictionary<string, string[]> annotRows,
+		public static void SplitAnnotRows(IDictionary<string, string[]> annotRows,
 			out Dictionary<string, string[]> catAnnotRows, out Dictionary<string, string[]> numAnnotRows){
 			catAnnotRows = new Dictionary<string, string[]>();
 			numAnnotRows = new Dictionary<string, string[]>();
@@ -379,14 +380,14 @@ namespace PerseusApi.Utils{
 			}
 		}
 
-		private static string RemoveQuotes(string name){
+		public static string RemoveQuotes(string name){
 			if (name.Length > 2 && name.StartsWith("\"") && name.EndsWith("\"")){
 				return name.Substring(1, name.Length - 2);
 			}
 			return name;
 		}
 
-		private static List<string> RemoveQuotes(IEnumerable<string> names){
+		public static List<string> RemoveQuotes(IEnumerable<string> names){
 			List<string> result = new List<string>();
 			foreach (string name in names){
 				if (name.Length > 2 && name.StartsWith("\"") && name.EndsWith("\"")){
@@ -398,7 +399,7 @@ namespace PerseusApi.Utils{
 			return result;
 		}
 
-		private static string[] SplitLine(string line, char separator){
+		public static string[] SplitLine(string line, char separator){
 			line = line.Trim(' ');
 			bool inQuote = false;
 			List<int> sepInds = new List<int>();
