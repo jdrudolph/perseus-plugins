@@ -35,7 +35,7 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int[] exColInds = param.GetParam<int[]>("Expression columns").Value;
+				int[] exColInds = param.GetParam<int[]>("Main columns").Value;
 				int[] numColInds = param.GetParam<int[]>("Numerical columns").Value;
 				int[] multiNumColInds = param.GetParam<int[]>("Multi-numerical columns").Value;
 				int[] catColInds = param.GetParam<int[]>("Categorical columns").Value;
@@ -63,10 +63,10 @@ namespace PerseusPluginLib.Rearrange{
 			List<string> textCols = mdata.StringColumnNames;
 			return
 				new Parameters(new Parameter[]{
-					new MultiChoiceParam("Expression columns"){
+					new MultiChoiceParam("Main columns"){
 						Value = ArrayUtils.ConsecutiveInts(exCols.Count),
 						Values = exCols,
-						Help = "Specify here the new order in which the expression columns should appear."
+						Help = "Specify here the new order in which the main columns should appear."
 					},
 					new MultiChoiceParam("Numerical columns"){
 						Value = ArrayUtils.ConsecutiveInts(numCols.Count),
