@@ -36,10 +36,10 @@ namespace PerseusPluginLib.Norm{
 				case 0:
 					DivideImpl(rows, ArrayUtils.Sum, mdata, processInfo.NumThreads);
 					break;
-                case 1:
-                    DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
-                    break;
-                case 2:
+				case 1:
+					DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
+					break;
+				case 2:
 					DivideImpl(rows, ArrayUtils.Median, mdata, processInfo.NumThreads);
 					break;
 				case 3:
