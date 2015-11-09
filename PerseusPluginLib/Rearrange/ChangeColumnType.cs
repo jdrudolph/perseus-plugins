@@ -97,7 +97,7 @@ namespace PerseusPluginLib.Rearrange{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			var choice = new[]{"Expression", "Numerical", "Categorical", "Text", "Multi-numerical"};
+			var choice = new[]{"Main", "Numerical", "Categorical", "Text", "Multi-numerical"};
 			var subParams = new List<Parameters>{
 				GetSubParams(mdata.ColumnNames, GetExpressionSelection()),
 				GetSubParams(mdata.NumericColumnNames, GetNumericSelection()),
@@ -451,10 +451,10 @@ namespace PerseusPluginLib.Rearrange{
 				});
 		}
 
-		private static string[] GetStringSelection() { return new[]{"Categorical", "Expression", "Numerical", "Multi numerical"}; }
+		private static string[] GetStringSelection() { return new[]{"Categorical", "Main", "Numerical", "Multi numerical"}; }
 		private static string[] GetCategoricalSelection() { return new[]{"Numerical", "Text"}; }
 		private static string[] GetExpressionSelection() { return new[]{"Numerical"}; }
-		private static string[] GetNumericSelection() { return new[]{"Categorical", "Expression", "Text"}; }
+		private static string[] GetNumericSelection() { return new[]{"Categorical", "Main", "Text"}; }
 		private static string[] GetMultiNumericSelection() { return new[]{"Text"}; }
 	}
 }
