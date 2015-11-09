@@ -34,15 +34,18 @@ namespace PerseusPluginLib.Norm{
 			DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
 			switch (what){
 				case 0:
-					DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
+					DivideImpl(rows, ArrayUtils.Sum, mdata, processInfo.NumThreads);
 					break;
-				case 1:
+                case 1:
+                    DivideImpl(rows, ArrayUtils.Mean, mdata, processInfo.NumThreads);
+                    break;
+                case 2:
 					DivideImpl(rows, ArrayUtils.Median, mdata, processInfo.NumThreads);
 					break;
-				case 2:
+				case 3:
 					DivideImpl(rows, ArrayUtils.MostFrequentValue, mdata, processInfo.NumThreads);
 					break;
-				case 3:
+				case 4:
 					DivideImpl(rows, ArrayUtils.TukeyBiweight, mdata, processInfo.NumThreads);
 					break;
 				default:
@@ -94,8 +97,8 @@ namespace PerseusPluginLib.Norm{
 						Help = "Specifies if the analysis is performed on the rows or the columns of the matrix."
 					},
 					new SingleChoiceParam("Divide by what"){
-						Values = new[]{"Mean", "Median", "Most frequent value", "Tukey's biweight"},
-						Value = 1
+						Values = new[]{"Sum", "Mean", "Median", "Most frequent value", "Tukey's biweight"},
+						Value = 2
 					}
 				});
 		}
