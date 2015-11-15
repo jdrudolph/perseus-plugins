@@ -24,12 +24,13 @@ namespace PerseusPluginLib.Load{
 			}
 		}
 
-		public string Filename { get { return TextBox1.Text; } }
-		public int[] ExpressionColumnIndices { get { return MultiListSelector1.GetSelectedIndices(0); } }
-		public int[] NumericalColumnIndices { get { return MultiListSelector1.GetSelectedIndices(1); } }
-		public int[] CategoryColumnIndices { get { return MultiListSelector1.GetSelectedIndices(2); } }
-		public int[] TextColumnIndices { get { return MultiListSelector1.GetSelectedIndices(3); } }
-		public int[] MultiNumericalColumnIndices { get { return MultiListSelector1.GetSelectedIndices(4); } }
+		public string Filename => TextBox1.Text;
+		public int[] ExpressionColumnIndices => MultiListSelector1.GetSelectedIndices(0);
+		public int[] NumericalColumnIndices => MultiListSelector1.GetSelectedIndices(1);
+		public int[] CategoryColumnIndices => MultiListSelector1.GetSelectedIndices(2);
+		public int[] TextColumnIndices => MultiListSelector1.GetSelectedIndices(3);
+		public int[] MultiNumericalColumnIndices => MultiListSelector1.GetSelectedIndices(4);
+
 		public string[] Value{
 			get{
 				string[] result = new string[8];

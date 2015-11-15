@@ -9,63 +9,29 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Basic{
 	public class DensityEstimationProcessing : IMatrixProcessing{
-		public string Name{
-			get { return "Density estimation"; }
-		}
+		public string Name => "Density estimation";
+		public float DisplayRank => -3;
+		public bool IsActive => true;
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.density_Image;
+		public string Heading => "Basic";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public float DisplayRank{
-			get { return -3; }
-		}
+		public string Url
+			=>
+				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:DensityEstimationProcessing"
+			;
 
-		public bool IsActive{
-			get { return true; }
-		}
+		public string Description
+			=>
+				"The density of data points in two dimensions is calculated. Each data point is smoothed out" +
+				" by a suitable Gaussian kernel.";
 
-		public bool HasButton{
-			get { return true; }
-		}
-
-		public Bitmap DisplayImage{
-			get { return Resources.density_Image; }
-		}
-
-		public string Heading{
-			get { return "Basic"; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get{
-				return
-					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:DensityEstimationProcessing";
-			}
-		}
-
-		public string Description{
-			get{
-				return "The density of data points in two dimensions is calculated. Each data point is smoothed out" +
-						" by a suitable Gaussian kernel.";
-			}
-		}
-
-		public string HelpOutput{
-			get { return "A copy of the input matrix with two numerical columns added containing the density information."; }
-		}
+		public string HelpOutput
+			=> "A copy of the input matrix with two numerical columns added containing the density information.";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
@@ -200,8 +166,8 @@ namespace PerseusPluginLib.Basic{
 
 		private static string GetColumnName(IMatrixData matrixData, int ind){
 			return ind < matrixData.ColumnCount
-						? matrixData.ColumnNames[ind]
-						: matrixData.NumericColumnNames[ind - matrixData.ColumnCount];
+				? matrixData.ColumnNames[ind]
+				: matrixData.NumericColumnNames[ind - matrixData.ColumnCount];
 		}
 
 		private static float[,] CalcExcludedPercentage(float[,] values){
@@ -227,7 +193,7 @@ namespace PerseusPluginLib.Basic{
 			foreach (float t in v){
 				total += t;
 			}
-			float[,] result = new float[n0,n1];
+			float[,] result = new float[n0, n1];
 			double sum = 0;
 			for (int i = 0; i < v.Length; i++){
 				result[ind0[i], ind1[i]] = (float) (sum/total);
@@ -247,8 +213,7 @@ namespace PerseusPluginLib.Basic{
 						Repeats = true,
 						Help =
 							"Colums for the first dimension. Multiple choices can be made leading to the creation of multiple density maps."
-					}
-					,
+					},
 					new MultiChoiceParam("y", sel2){
 						Values = vals,
 						Repeats = true,

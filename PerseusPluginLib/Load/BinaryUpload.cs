@@ -14,17 +14,17 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Load{
 	public class BinaryUpload : IMatrixUpload{
 		private const string hexAlphabet = "0123456789ABCDEF";
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.binary; } }
-		public string Name { get { return "Binary upload"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 12; } }
-		public string Description { get { return "Load all bytes from a binary file and display them as hexadecimal numbers."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:BinaryUpload"; } }
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.binary;
+		public string Name => "Binary upload";
+		public bool IsActive => true;
+		public float DisplayRank => 12;
+		public string Description => "Load all bytes from a binary file and display them as hexadecimal numbers.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:BinaryUpload";
 		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public Parameters GetParameters(ref string errString){

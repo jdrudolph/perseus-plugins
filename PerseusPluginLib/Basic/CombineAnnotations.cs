@@ -10,7 +10,7 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Basic{
 	public class CombineAnnotations : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
+		public bool HasButton => false;
 		public Bitmap DisplayImage { get { return null; } }
 		public string Description { get { return "Search multiple categorical or string columns for the occurence of a set of terms."; } }
 		public string HelpOutput { get { return "A new categorical column is generated indicating the presence of any of these terms."; } }

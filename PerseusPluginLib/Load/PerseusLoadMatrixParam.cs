@@ -24,9 +24,7 @@ namespace PerseusPluginLib.Load{
 			set { Value = value.Split(';'); }
 		}
 
-		public override bool IsDropTarget{
-			get { return true; }
-		}
+		public override bool IsDropTarget => true;
 
 		public override void Drop(string x){
 			UpdateFile(x);
@@ -51,9 +49,7 @@ namespace PerseusPluginLib.Load{
 			control?.UpdateFile(filename);
 		}
 
-		public override float Height{
-			get { return 790; }
-		}
+		public override float Height => 790;
 
 		public override object CreateControl(){
 			string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
@@ -61,17 +57,9 @@ namespace PerseusPluginLib.Load{
 			return control;
 		}
 
-		public string Filename{
-			get { return Value[0]; }
-		}
-
-		public string[] Items{
-			get { return Value[1].Length > 0 ? Value[1].Split(';') : new string[0]; }
-		}
-
-		public override bool IsModified{
-			get { return !ArrayUtils.EqualArrays(Default, Value); }
-		}
+		public string Filename => Value[0];
+		public string[] Items => Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
+		public override bool IsModified => !ArrayUtils.EqualArrays(Default, Value);
 
 		private int[] GetIntValues(int i){
 			string x = Value[i + 2];
@@ -83,29 +71,12 @@ namespace PerseusPluginLib.Load{
 			return result;
 		}
 
-		public int[] ExpressionColumnIndices{
-			get { return GetIntValues(0); }
-		}
-
-		public int[] NumericalColumnIndices{
-			get { return GetIntValues(1); }
-		}
-
-		public int[] CategoryColumnIndices{
-			get { return GetIntValues(2); }
-		}
-
-		public int[] TextColumnIndices{
-			get { return GetIntValues(3); }
-		}
-
-		public int[] MultiNumericalColumnIndices{
-			get { return GetIntValues(4); }
-		}
-
-		public bool ShortenExpressionColumnNames{
-			get { return bool.Parse(Value[7]); }
-		}
+		public int[] ExpressionColumnIndices => GetIntValues(0);
+		public int[] NumericalColumnIndices => GetIntValues(1);
+		public int[] CategoryColumnIndices => GetIntValues(2);
+		public int[] TextColumnIndices => GetIntValues(3);
+		public int[] MultiNumericalColumnIndices => GetIntValues(4);
+		public bool ShortenExpressionColumnNames => bool.Parse(Value[7]);
 
 		public override object Clone(){
 			return new PerseusLoadMatrixParam(Name){

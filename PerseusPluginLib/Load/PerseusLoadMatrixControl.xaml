@@ -25,7 +25,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <CheckBox VerticalAlignment="Center" IsChecked="False" x:Name="ShortenCheckBox">Shorten expression column names</CheckBox>
+            <CheckBox VerticalAlignment="Center" IsChecked="False" x:Name="ShortenCheckBox">Shorten main column names</CheckBox>
         </Grid>
     </Grid>
 </UserControl>

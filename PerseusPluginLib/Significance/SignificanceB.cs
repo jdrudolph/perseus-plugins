@@ -13,34 +13,31 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Significance{
 	public class SignificanceB : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Significance B"; } }
-		public string Heading { get { return "Outliers"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 1; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Outliers:SignificanceB"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Significance B";
+		public string Heading => "Outliers";
+		public bool IsActive => true;
+		public float DisplayRank => 1;
 
-		public string Description{
-			get{
-				return
-					"Same as Significance A, but intensity-dependent. For details see Cox and Mann (2008) Nat. Biotech. 26, 1367-72.";
-			}
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Outliers:SignificanceB";
+
+		public string Description
+			=> "Same as Significance A, but intensity-dependent. For details see Cox and Mann (2008) Nat. Biotech. 26, 1367-72.";
+
+		public string HelpOutput
+			=>
+				"A numerical column is added containing the significance A value. Furthermore, a categorical column is added " +
+				"indicating by '+' if a row is significant.";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
-
-		public string HelpOutput{
-			get{
-				return
-					"A numerical column is added containing the significance A value. Furthermore, a categorical column is added " +
-						"indicating by '+' if a row is significant.";
-			}
-		}
-
-		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -138,19 +135,19 @@ namespace PerseusPluginLib.Significance{
 						Values = new[]{"both", "right", "left"},
 						Help =
 							"'Both' stands for the two-sided test in which the the null hypothesis can be rejected regardless of the direction" +
-								" of the effect. 'Left' and 'right' are the respective one sided tests."
+							" of the effect. 'Left' and 'right' are the respective one sided tests."
 					},
 					new SingleChoiceParam("Use for truncation"){
 						Values = new[]{"P value", "Benjamini-Hochberg FDR"},
 						Value = 1,
 						Help =
 							"Choose here whether the truncation should be based on the p values or if the Benjamini Hochberg correction for " +
-								"multiple hypothesis testing should be applied."
+							"multiple hypothesis testing should be applied."
 					},
 					new DoubleParam("Threshold value", 0.05){
 						Help =
 							"Rows with a test result below this value are reported as significant. Depending on the choice made above this " +
-								"threshold value is applied to the p value or to the Benjamini Hochberg FDR."
+							"threshold value is applied to the p value or to the Benjamini Hochberg FDR."
 					}
 				});
 		}

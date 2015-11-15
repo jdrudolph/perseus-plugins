@@ -19,13 +19,13 @@ namespace PerseusPluginLib.Basic{
 		//Trimmed mean
 		//Pearson's skewness coefficients
 		//Quantile based skewness measures
-		internal static Tuple<string, Func<IList<double>, double>, string>[] procs = new[]{
+		internal static Tuple<string, Func<IList<double>, double>, string>[] procs = {
 			new Tuple<string, Func<IList<double>, double>, string>("Sum", ArrayUtils.Sum, "Sum of all values."),
 			new Tuple<string, Func<IList<double>, double>, string>("Mean", ArrayUtils.Mean,
 				"Sum of all values divided by the number of values."),
 			new Tuple<string, Func<IList<double>, double>, string>("Median", ArrayUtils.Median,
 				"For an odd number of values the middle value is taken. For an even number of values the average of the two values in " +
-					"the middle is calculated."),
+				"the middle is calculated."),
 			new Tuple<string, Func<IList<double>, double>, string>("Tukey biweight", ArrayUtils.TukeyBiweight, ""),
 			//new Tuple<string, Func<IList<double>, double>, string>("Tukey biweight se", ArrayUtils.TukeyBiweightSe, ""),
 			new Tuple<string, Func<IList<double>, double>, string>("Standard deviation", ArrayUtils.StandardDeviation, ""),
@@ -44,6 +44,7 @@ namespace PerseusPluginLib.Basic{
 			new Tuple<string, Func<IList<double>, double>, string>("Skewness", ArrayUtils.Skewness, ""),
 			new Tuple<string, Func<IList<double>, double>, string>("Kurtosis", ArrayUtils.Kurtosis, "")
 		};
+
 		internal static string[] procNames;
 
 		static SummaryStatisticsRows(){
@@ -53,39 +54,36 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Name { get { return "Summary statistics (rows)"; } }
-		public string Heading { get { return "Basic"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -5; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SummaryStatisticsRows"; } }
-		public string Description
-		{
-			get
-			{
-			return
-				"A set of simple descriptive quantities are calculated that help summarizing the expression data in each row.";
-		} }
-		public string HelpOutput{
-			get{
-				return
-					"For each selected summary statistic, a numerical column is added containing the specific quantitiy for each row of " +
-						"expression values. 'NaN' and 'Infinity' values are ignored for all calculations.";
-			}
-		}
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Name => "Summary statistics (rows)";
+		public string Heading => "Basic";
+		public bool IsActive => true;
+		public float DisplayRank => -5;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public int GetMaxThreads(Parameters parameters) {
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SummaryStatisticsRows";
+
+		public string Description
+			=> "A set of simple descriptive quantities are calculated that help summarizing the expression data in each row.";
+
+		public string HelpOutput
+			=>
+				"For each selected summary statistic, a numerical column is added containing the specific quantitiy for each row of " +
+				"expression values. 'NaN' and 'Infinity' values are ignored for all calculations.";
+
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				ParameterWithSubParams<int> xp = param.GetParamWithSubParams<int>("Expression column selection");
+			ParameterWithSubParams<int> xp = param.GetParamWithSubParams<int>("Expression column selection");
 			bool groups = xp.Value == 2;
 			string[] groupNames = null;
 			int[][] colIndsGroups = null;
@@ -164,7 +162,7 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new List<Parameter>{
 					new SingleChoiceWithSubParams("Expression column selection"){
@@ -172,8 +170,10 @@ namespace PerseusPluginLib.Basic{
 						SubParams =
 							new[]{
 								new Parameters(),
-								new Parameters(new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount))
-								{Values = mdata.ColumnNames, Repeats = false}),
+								new Parameters(new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount)){
+									Values = mdata.ColumnNames,
+									Repeats = false
+								}),
 								new Parameters(new SingleChoiceParam("Group"){Values = mdata.CategoryRowNames})
 							},
 						ParamNameWidth = 136,
