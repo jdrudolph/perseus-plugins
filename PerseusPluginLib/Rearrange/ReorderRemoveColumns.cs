@@ -10,36 +10,38 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Rearrange{
 	public class ReorderRemoveColumns : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string HelpOutput { get { return "Same matrix but with columns in the new order."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Heading { get { return "Rearrange"; } }
-		public string Name { get { return "Reorder/remove columns"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 3; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:ReorderRemoveColumns"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string HelpOutput => "Same matrix but with columns in the new order.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Heading => "Rearrange";
+		public string Name => "Reorder/remove columns";
+		public bool IsActive => true;
+		public float DisplayRank => 3;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public string Description{
-			get{
-				return
-					"The order of the columns as they appear in the matrix can be changed. Columns can also be omitted. For example, " +
-						"this can be useful for displaying columns in a specific order in a heat map.";
-			}
+		public string Url
+			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:ReorderRemoveColumns"
+			;
+
+		public string Description
+			=>
+				"The order of the columns as they appear in the matrix can be changed. Columns can also be omitted. For example, " +
+				"this can be useful for displaying columns in a specific order in a heat map.";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
-
-		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int[] exColInds = param.GetParam<int[]>("Main columns").Value;
-				int[] numColInds = param.GetParam<int[]>("Numerical columns").Value;
-				int[] multiNumColInds = param.GetParam<int[]>("Multi-numerical columns").Value;
-				int[] catColInds = param.GetParam<int[]>("Categorical columns").Value;
-				int[] textColInds = param.GetParam<int[]>("Text columns").Value;
+			int[] exColInds = param.GetParam<int[]>("Main columns").Value;
+			int[] numColInds = param.GetParam<int[]>("Numerical columns").Value;
+			int[] multiNumColInds = param.GetParam<int[]>("Multi-numerical columns").Value;
+			int[] catColInds = param.GetParam<int[]>("Categorical columns").Value;
+			int[] textColInds = param.GetParam<int[]>("Text columns").Value;
 			data.ExtractColumns(exColInds);
 			data.NumericColumns = ArrayUtils.SubList(data.NumericColumns, numColInds);
 			data.NumericColumnNames = ArrayUtils.SubList(data.NumericColumnNames, numColInds);
