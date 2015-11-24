@@ -27,7 +27,7 @@ namespace PerseusPluginLib.Join{
 
 		public string Url
 			=>
-				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName"
+				"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixMultiProcessing:Basic:MatchingColumnsByName"
 			;
 
 		public string GetInputName(int index){

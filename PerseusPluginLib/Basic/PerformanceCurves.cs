@@ -22,7 +22,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayRank => 10;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
-		public string Url => "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:PerformanceCurves";
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Basic:PerformanceCurves";
 
 		public int GetMaxThreads(Parameters parameters) {
 			return 1;

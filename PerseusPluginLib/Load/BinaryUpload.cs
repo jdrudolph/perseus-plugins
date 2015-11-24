@@ -24,7 +24,7 @@ namespace PerseusPluginLib.Load{
 		public int NumSupplTables => 0;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
-		public string Url => "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:BinaryUpload";
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:BinaryUpload";
 		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public Parameters GetParameters(ref string errString){

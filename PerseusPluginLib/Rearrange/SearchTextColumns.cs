@@ -21,7 +21,7 @@ namespace PerseusPluginLib.Rearrange{
 		public int NumDocuments => 0;
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:SearchTextColumns";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:SearchTextColumns";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

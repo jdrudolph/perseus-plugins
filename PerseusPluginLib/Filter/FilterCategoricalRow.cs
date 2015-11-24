@@ -31,7 +31,7 @@ namespace PerseusPluginLib.Filter{
 
 		public string Url
 			=>
-				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Filtercolumns:FilterCategoricalRow"
+				"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filtercolumns:FilterCategoricalRow"
 			;
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){

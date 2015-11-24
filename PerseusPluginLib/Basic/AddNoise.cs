@@ -27,7 +27,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:AddNoise";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Basic:AddNoise";
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){

@@ -25,7 +25,7 @@ namespace PerseusPluginLib.Export{
 		}
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixExport:TabSeparatedExport";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixExport:TabSeparatedExport";
 
 		public void Export(Parameters parameters, IMatrixData data, ProcessInfo processInfo){
 			string filename = parameters.GetParam<string>("File name").Value;

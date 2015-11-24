@@ -23,7 +23,7 @@ namespace PerseusPluginLib.Load{
 		public int NumDocuments => 0;
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixUpload:GenericMatrixUpload";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:GenericMatrixUpload";
 
 		public string Description
 			=>

@@ -25,7 +25,7 @@ namespace PerseusPluginLib.Significance{
 		public float DisplayRank => 1;
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Outliers:SignificanceB";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Outliers:SignificanceB";
 
 		public string Description
 			=> "Same as Significance A, but intensity-dependent. For details see Cox and Mann (2008) Nat. Biotech. 26, 1367-72.";

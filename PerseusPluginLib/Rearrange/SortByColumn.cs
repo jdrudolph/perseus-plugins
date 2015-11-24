@@ -58,7 +58,7 @@ namespace PerseusPluginLib.Rearrange{
 		}
 
 		public string Url{
-			get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Rearrange:SortByColumn"; }
+			get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:SortByColumn"; }
 		}
 
 		public int GetMaxThreads(Parameters parameters){

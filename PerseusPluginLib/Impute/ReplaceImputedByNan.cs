@@ -20,7 +20,7 @@ namespace PerseusPluginLib.Impute{
 		public int NumDocuments => 0;
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Imputation:ReplaceImputedByNan"
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Imputation:ReplaceImputedByNan"
 			;
 
 		public int GetMaxThreads(Parameters parameters){

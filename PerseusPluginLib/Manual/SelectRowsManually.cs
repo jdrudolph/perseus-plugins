@@ -19,7 +19,7 @@ namespace PerseusPluginLib.Manual{
 		public float DisplayRank => 2;
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixAnalysis:Misc:SelectRowsManually";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixAnalysis:Misc:SelectRowsManually";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

@@ -22,7 +22,7 @@ namespace PerseusPluginLib.Basic{
 
 		public string Url
 			=>
-				"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:DensityEstimationProcessing"
+				"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Basic:DensityEstimationProcessing"
 			;
 
 		public string Description

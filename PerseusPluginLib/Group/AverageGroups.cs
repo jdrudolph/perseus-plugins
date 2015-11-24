@@ -24,7 +24,7 @@ namespace PerseusPluginLib.Group{
 		public string[] HelpDocuments { get { return new string[0]; } }
 		public int NumDocuments { get { return 0; } }
 		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Annotrows:AverageGroups"; } }
+		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotrows:AverageGroups"; } }
 
 		public string Description{
 			get{

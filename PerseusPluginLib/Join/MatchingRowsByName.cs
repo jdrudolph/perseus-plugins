@@ -80,7 +80,7 @@ namespace PerseusPluginLib.Join{
 		public string Url{
 			get{
 				return
-					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixMultiProcessing:Basic:MatchingRowsByName";
+					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixMultiProcessing:Basic:MatchingRowsByName";
 			}
 		}
 

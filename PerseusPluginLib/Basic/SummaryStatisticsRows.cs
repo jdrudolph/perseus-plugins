@@ -64,7 +64,7 @@ namespace PerseusPluginLib.Basic{
 		public int NumDocuments => 0;
 
 		public string Url
-			=> "http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Basic:SummaryStatisticsRows";
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Basic:SummaryStatisticsRows";
 
 		public string Description
 			=> "A set of simple descriptive quantities are calculated that help summarizing the expression data in each row.";

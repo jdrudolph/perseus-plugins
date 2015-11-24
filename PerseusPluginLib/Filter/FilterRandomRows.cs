@@ -65,7 +65,7 @@ namespace PerseusPluginLib.Filter{
 		public string Url{
 			get{
 				return
-					"http://141.61.102.17/perseus_doku/doku.php?id=perseus:activities:MatrixProcessing:Filterrows:FilterRandomRows";
+					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filterrows:FilterRandomRows";
 			}
 		}
 
