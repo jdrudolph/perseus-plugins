@@ -133,14 +133,12 @@ namespace PerseusPluginLib.Filter{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			Parameters[] subParams = new Parameters[1];
-			subParams[0] = new Parameters(new Parameter[0]);
 			return
 				new Parameters(new Parameter[]{
 					new IntParam("Min. number of values", 3){
-						Help = "If a row/column has less than the specified number of valid values it will be discarded in the output."
+						Help = "If a column has less than the specified number of valid values it will be discarded in the output."
 					},
-					new SingleChoiceWithSubParams("Mode"){Values = new[]{"In total"}, SubParams = subParams},
+					new SingleChoiceWithSubParams("Mode"){Values = new[]{"In total"}, SubParams ={new Parameters(new Parameter[0])}},
 					PerseusPluginUtils.GetValuesShouldBeParam(), PerseusPluginUtils.GetFilterModeParam(true)
 				});
 		}

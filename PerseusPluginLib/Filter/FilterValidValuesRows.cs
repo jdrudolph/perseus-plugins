@@ -140,18 +140,18 @@ namespace PerseusPluginLib.Filter{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			Parameters[] subParams = new Parameters[3];
-			subParams[0] = new Parameters(new Parameter[0]);
-			subParams[1] = new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}});
-			subParams[2] = new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}});
 			return
 				new Parameters(new Parameter[]{
 					new IntParam("Min. number of values", 3){
-						Help = "If a row/column has less than the specified number of valid values it will be discarded in the output."
+						Help = "If a row has less than the specified number of valid values it will be discarded in the output."
 					},
 					new SingleChoiceWithSubParams("Mode"){
 						Values = new[]{"In total", "In each group", "In at least one group"},
-						SubParams = subParams
+						SubParams ={
+							new Parameters(new Parameter[0]),
+							new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}}),
+							new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}})
+						}
 					},
 					PerseusPluginUtils.GetValuesShouldBeParam(), PerseusPluginUtils.GetFilterModeParam(false)
 				});
