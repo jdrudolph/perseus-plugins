@@ -4,6 +4,7 @@ using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Matrix;
+using PerseusPluginLib.Filter;
 
 namespace PerseusPluginLib.Utils{
 	public static class PerseusPluginUtils{
@@ -18,7 +19,7 @@ namespace PerseusPluginLib.Utils{
 				Values = new[]{"Remove matching rows", "Keep matching rows"},
 				Help =
 					"If 'Remove matching rows' is selected, rows having the value specified above will be removed while " +
-						"all other rows will be kept. If 'Keep matching rows' is selected, the opposite will happen."
+					"all other rows will be kept. If 'Keep matching rows' is selected, the opposite will happen."
 			};
 		}
 
@@ -27,7 +28,7 @@ namespace PerseusPluginLib.Utils{
 				Values = new[]{"Mark matching rows", "Mark non-matching rows"},
 				Help =
 					"If 'Mark matching rows' is selected, rows having the value specified above will be indicated with a '+' in the output column. " +
-						"If 'Keep matching rows' is selected, the opposite will happen."
+					"If 'Keep matching rows' is selected, the opposite will happen."
 			};
 		}
 
@@ -55,7 +56,9 @@ namespace PerseusPluginLib.Utils{
 			}
 		}
 
-		private static bool GetReduceMatrix(Parameters parameters) { return parameters.GetParam<int>("Filter mode").Value == 0; }
+		private static bool GetReduceMatrix(Parameters parameters){
+			return parameters.GetParam<int>("Filter mode").Value == 0;
+		}
 
 		public static void FilterColumns(IMatrixData mdata, Parameters parameters, int[] cols){
 			bool reduceMatrix = GetReduceMatrix(parameters);
@@ -70,6 +73,94 @@ namespace PerseusPluginLib.Utils{
 				}
 				mdata.AddCategoryRow("Filter", "", row);
 			}
+		}
+
+		internal static void ReadValuesShouldBeParams(Parameters param, out FilteringMode filterMode, out double threshold,
+			out double threshold2){
+			ParameterWithSubParams<int> x = param.GetParamWithSubParams<int>("Values should be");
+			Parameters subParams = x.GetSubParameters();
+			int shouldBeIndex = x.Value;
+			threshold = double.NaN;
+			threshold2 = double.NaN;
+			switch (shouldBeIndex){
+				case 0:
+					filterMode = FilteringMode.Valid;
+					break;
+				case 1:
+					filterMode = FilteringMode.GreaterThan;
+					threshold = subParams.GetParam<double>("Minimum").Value;
+					break;
+				case 2:
+					filterMode = FilteringMode.GreaterEqualThan;
+					threshold = subParams.GetParam<double>("Minimum").Value;
+					break;
+				case 3:
+					filterMode = FilteringMode.LessThan;
+					threshold = subParams.GetParam<double>("Maximum").Value;
+					break;
+				case 4:
+					filterMode = FilteringMode.LessEqualThan;
+					threshold = subParams.GetParam<double>("Maximum").Value;
+					break;
+				case 5:
+					filterMode = FilteringMode.Between;
+					threshold = subParams.GetParam<double>("Minimum").Value;
+					threshold2 = subParams.GetParam<double>("Maximum").Value;
+					break;
+				case 6:
+					filterMode = FilteringMode.Outside;
+					threshold = subParams.GetParam<double>("Minimum").Value;
+					threshold2 = subParams.GetParam<double>("Maximum").Value;
+					break;
+				default:
+					throw new Exception("Should not happen.");
+			}
+		}
+
+		public static SingleChoiceWithSubParams GetValuesShouldBeParam(){
+			return new SingleChoiceWithSubParams("Values should be"){
+				Values = new[]{"Valid", "Greater than", "Greater or equal", "Less than", "Less or equal", "Between", "Outside"},
+				SubParams =
+					new[]{
+						new Parameters(new Parameter[0]),
+						new Parameters(new Parameter[]
+						{new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+						new Parameters(new Parameter[]
+						{new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+						new Parameters(new Parameter[]
+						{new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+						new Parameters(new Parameter[]
+						{new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}}),
+						new Parameters(new Parameter[]{
+							new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
+							new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
+						}),
+						new Parameters(new Parameter[]{
+							new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
+							new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
+						})
+					}
+			};
+		}
+
+		internal static bool IsValid(double data, double threshold, double threshold2, FilteringMode filterMode){
+			switch (filterMode){
+				case FilteringMode.Valid:
+					return !double.IsNaN(data) && !double.IsNaN(data);
+				case FilteringMode.GreaterThan:
+					return data > threshold;
+				case FilteringMode.GreaterEqualThan:
+					return data >= threshold;
+				case FilteringMode.LessThan:
+					return data < threshold;
+				case FilteringMode.LessEqualThan:
+					return data <= threshold;
+				case FilteringMode.Between:
+					return data >= threshold && data <= threshold2;
+				case FilteringMode.Outside:
+					return data < threshold || data > threshold2;
+			}
+			throw new Exception("Never get here.");
 		}
 
 		public static string[][] CollapseCatCol(string[][] catCol, int[][] collapse){
