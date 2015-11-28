@@ -163,8 +163,8 @@ namespace PerseusPluginLib.Utils{
 			throw new Exception("Never get here.");
 		}
 
-		internal static void NonzeroFilter1(bool rows, int minValids, IMatrixData mdata, Parameters param, double threshold,
-			double threshold2, FilteringMode filterMode){
+		internal static void NonzeroFilter1(bool rows, int minValids, bool percentage, IMatrixData mdata, Parameters param,
+			double threshold, double threshold2, FilteringMode filterMode){
 			if (rows){
 				List<int> valids = new List<int>();
 				for (int i = 0; i < mdata.RowCount; i++){
@@ -174,7 +174,7 @@ namespace PerseusPluginLib.Utils{
 							count++;
 						}
 					}
-					if (count >= minValids){
+					if (Valid(count, minValids, percentage, mdata.ColumnCount)){
 						valids.Add(i);
 					}
 				}
@@ -188,7 +188,7 @@ namespace PerseusPluginLib.Utils{
 							count++;
 						}
 					}
-					if (count >= minValids){
+					if (Valid(count, minValids, percentage, mdata.RowCount)){
 						valids.Add(j);
 					}
 				}
@@ -196,7 +196,33 @@ namespace PerseusPluginLib.Utils{
 			}
 		}
 
+		internal static bool Valid(int count, int minValids, bool percentage, int total){
+			if (percentage){
+				return count*100 >= minValids*total;
+			}
+			return count >= minValids;
+		}
+
 		public static Parameter GetMinValuesParam(bool rows){
+			return new SingleChoiceWithSubParams("Min. valids"){
+				Values = new[]{"Number", "Percentage"},
+				SubParams =
+					new[]{
+						new Parameters(new IntParam("Min. number of values", 3){
+							Help =
+								"If a " + (rows ? "row" : "column") +
+								" has less than the specified number of valid values it will be discarded in the output."
+						}),
+						new Parameters(new IntParam("Min. percentage of values", 3){
+							Help =
+								"If a " + (rows ? "row" : "column") +
+								" has less than the specified percentage of valid values it will be discarded in the output."
+						}),
+					}
+			};
+		}
+
+		public static Parameter GetMinValuesParamOld(bool rows){
 			return new IntParam("Min. number of values", 3){
 				Help =
 					"If a " + (rows ? "row" : "column") +
@@ -204,8 +230,10 @@ namespace PerseusPluginLib.Utils{
 			};
 		}
 
-		public static int GetMinValids(Parameters param){
-			return param.GetParam<int>("Min. number of values").Value;
+		public static int GetMinValids(Parameters param, out bool percentage){
+			ParameterWithSubParams<int> p = param.GetParamWithSubParams<int>("Min. valids");
+			percentage = p.Value == 1;
+			return p.GetSubParameters().GetParam<int>(percentage ? "Min. percentage of values" : "Min. number of values").Value;
 		}
 
 		public static string[][] CollapseCatCol(string[][] catCol, int[][] collapse){
