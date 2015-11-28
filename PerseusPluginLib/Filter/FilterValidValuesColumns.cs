@@ -40,7 +40,7 @@ namespace PerseusPluginLib.Filter{
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
 			const bool rows = false;
-			int minValids = param.GetParam<int>("Min. number of values").Value;
+			int minValids = PerseusPluginUtils.GetMinValids(param);
 			ParameterWithSubParams<int> modeParam = param.GetParamWithSubParams<int>("Mode");
 			int modeInd = modeParam.Value;
 			if (modeInd != 0 && mdata.CategoryRowNames.Count == 0){
@@ -60,7 +60,7 @@ namespace PerseusPluginLib.Filter{
 				string[][] groupCol = mdata.GetCategoryRowAt(gind);
 				NonzeroFilterGroup(minValids, mdata, param, modeInd == 2, threshold, threshold2, filterMode, groupCol);
 			} else{
-				NonzeroFilter1(rows, minValids, mdata, param, threshold, threshold2, filterMode);
+				PerseusPluginUtils.NonzeroFilter1(rows, minValids, mdata, param, threshold, threshold2, filterMode);
 			}
 		}
 
@@ -99,45 +99,10 @@ namespace PerseusPluginLib.Filter{
 			return result;
 		}
 
-		private static void NonzeroFilter1(bool rows, int minValids, IMatrixData mdata, Parameters param, double threshold,
-			double threshold2, FilteringMode filterMode){
-			if (rows){
-				List<int> valids = new List<int>();
-				for (int i = 0; i < mdata.RowCount; i++){
-					int count = 0;
-					for (int j = 0; j < mdata.ColumnCount; j++){
-						if (PerseusPluginUtils.IsValid(mdata.Values[i, j], threshold, threshold2, filterMode)){
-							count++;
-						}
-					}
-					if (count >= minValids){
-						valids.Add(i);
-					}
-				}
-				PerseusPluginUtils.FilterRows(mdata, param, valids.ToArray());
-			} else{
-				List<int> valids = new List<int>();
-				for (int j = 0; j < mdata.ColumnCount; j++){
-					int count = 0;
-					for (int i = 0; i < mdata.RowCount; i++){
-						if (PerseusPluginUtils.IsValid(mdata.Values[i, j], threshold, threshold2, filterMode)){
-							count++;
-						}
-					}
-					if (count >= minValids){
-						valids.Add(j);
-					}
-				}
-				PerseusPluginUtils.FilterColumns(mdata, param, valids.ToArray());
-			}
-		}
-
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
-				new Parameters(new Parameter[]{
-					new IntParam("Min. number of values", 3){
-						Help = "If a column has less than the specified number of valid values it will be discarded in the output."
-					},
+				new Parameters(new[]{
+					PerseusPluginUtils.GetMinValuesParam(false),
 					new SingleChoiceWithSubParams("Mode"){Values = new[]{"In total"}, SubParams ={new Parameters(new Parameter[0])}},
 					PerseusPluginUtils.GetValuesShouldBeParam(), PerseusPluginUtils.GetFilterModeParam(true)
 				});

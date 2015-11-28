@@ -163,6 +163,51 @@ namespace PerseusPluginLib.Utils{
 			throw new Exception("Never get here.");
 		}
 
+		internal static void NonzeroFilter1(bool rows, int minValids, IMatrixData mdata, Parameters param, double threshold,
+			double threshold2, FilteringMode filterMode){
+			if (rows){
+				List<int> valids = new List<int>();
+				for (int i = 0; i < mdata.RowCount; i++){
+					int count = 0;
+					for (int j = 0; j < mdata.ColumnCount; j++){
+						if (IsValid(mdata.Values[i, j], threshold, threshold2, filterMode)){
+							count++;
+						}
+					}
+					if (count >= minValids){
+						valids.Add(i);
+					}
+				}
+				FilterRows(mdata, param, valids.ToArray());
+			} else{
+				List<int> valids = new List<int>();
+				for (int j = 0; j < mdata.ColumnCount; j++){
+					int count = 0;
+					for (int i = 0; i < mdata.RowCount; i++){
+						if (IsValid(mdata.Values[i, j], threshold, threshold2, filterMode)){
+							count++;
+						}
+					}
+					if (count >= minValids){
+						valids.Add(j);
+					}
+				}
+				FilterColumns(mdata, param, valids.ToArray());
+			}
+		}
+
+		public static Parameter GetMinValuesParam(bool rows){
+			return new IntParam("Min. number of values", 3){
+				Help =
+					"If a " + (rows ? "row" : "column") +
+					" has less than the specified number of valid values it will be discarded in the output."
+			};
+		}
+
+		public static int GetMinValids(Parameters param){
+			return param.GetParam<int>("Min. number of values").Value;
+		}
+
 		public static string[][] CollapseCatCol(string[][] catCol, int[][] collapse){
 			string[][] result = new string[collapse.Length][];
 			for (int i = 0; i < collapse.Length; i++){
