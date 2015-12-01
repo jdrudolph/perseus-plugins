@@ -61,9 +61,10 @@ namespace PerseusPluginLib.Basic{
 					int catVal = (i*numQuantiles)/o.Length + 1;
 					catCol[o[i]] = new[]{"Q" + catVal};
 				}
-				string name = GetName(mdata, colInd) + "_q";
-				string desc = "The column " + mdata.ColumnNames[colInd] + " has been divided into " + numQuantiles + " quantiles.";
-				mdata.AddCategoryColumn(name, desc, catCol);
+				string name = GetName(mdata, colInd);
+				string nameq = name + "_q";
+				string desc = "The column " + name + " has been divided into " + numQuantiles + " quantiles.";
+				mdata.AddCategoryColumn(nameq, desc, catCol);
 			}
 		}
 
