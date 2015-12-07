@@ -118,12 +118,12 @@ namespace PerseusPluginLib.Filter{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			return
-				new Parameters(new[]{
+            return
+				new Parameters(new []{
 					PerseusPluginUtils.GetMinValuesParam(true),
 					new SingleChoiceWithSubParams("Mode"){
 						Values = new[]{"In total", "In each group", "In at least one group"},
-						SubParams ={
+						SubParams =new[]{
 							new Parameters(new Parameter[0]),
 							new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}}),
 							new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}})

@@ -213,7 +213,7 @@ namespace PerseusPluginLib.Utils{
 								"If a " + (rows ? "row" : "column") +
 								" has less than the specified number of valid values it will be discarded in the output."
 						}),
-						new Parameters(new IntParam("Min. percentage of values", 3){
+						new Parameters(new IntParam("Min. percentage of values", 70){
 							Help =
 								"If a " + (rows ? "row" : "column") +
 								" has less than the specified percentage of valid values it will be discarded in the output."
