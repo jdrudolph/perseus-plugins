@@ -13,6 +13,7 @@ namespace PerseusApi.Generic{
 		public string ErrString { get; set; }
 		public List<ThreadDistributor> threadDistributors = new List<ThreadDistributor>();
 
+
 		public ProcessInfo(Settings settings, Action<string> status, Action<int> progress, int numThreads,
 			Action<int> reduceThreads){
 			Settings = settings;
