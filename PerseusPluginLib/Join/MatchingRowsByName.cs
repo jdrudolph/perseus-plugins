@@ -13,76 +13,32 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Join{
 	public class MatchingRowsByName : IMatrixMultiProcessing{
-		public bool HasButton{
-			get { return true; }
-		}
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.combineButton_Image;
+		public string Name => "Matching rows by name";
+		public bool IsActive => true;
+		public float DisplayRank => -5;
+		public string HelpOutput => "";
 
-		public Bitmap DisplayImage{
-			get { return Resources.combineButton_Image; }
-		}
+		public string Description
+			=>
+				"The base matrix is copied. Rows of the second matrix are associated with rows of the base matrix via matching " +
+				"expressions in a textual column from each matrix. Selected columns of the second matrix are attached to the " +
+				"first matrix. If exactly one row of the second matrix corresponds to a row of the base matrix, values are " +
+				"just copied. If more than one row of the second matrix matches to a row of the first matrix, the corresponding " +
+				"values are averaged (actually the median is taken) for numerical and expression columns and concatenated " +
+				"for textual and categorical columns.";
 
-		public string Name{
-			get { return "Matching rows by name"; }
-		}
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public int MinNumInput => 2;
+		public int MaxNumInput => 2;
+		public string Heading => "Basic";
 
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return -5; }
-		}
-
-		public string HelpOutput{
-			get { return ""; }
-		}
-
-		public string Description{
-			get{
-				return
-					"The base matrix is copied. Rows of the second matrix are associated with rows of the base matrix via matching " +
-					"expressions in a textual column from each matrix. Selected columns of the second matrix are attached to the " +
-					"first matrix. If exactly one row of the second matrix corresponds to a row of the base matrix, values are " +
-					"just copied. If more than one row of the second matrix matches to a row of the first matrix, the corresponding " +
-					"values are averaged (actually the median is taken) for numerical and expression columns and concatenated " +
-					"for textual and categorical columns.";
-			}
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public int MinNumInput{
-			get { return 2; }
-		}
-
-		public int MaxNumInput{
-			get { return 2; }
-		}
-
-		public string Heading{
-			get { return "Basic"; }
-		}
-
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixMultiProcessing:Basic:MatchingRowsByName";
-			}
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixMultiProcessing:Basic:MatchingRowsByName";
 
 		public string GetInputName(int index){
 			return index == 0 ? "Base matrix" : "Other matrix";
@@ -221,9 +177,9 @@ namespace PerseusPluginLib.Join{
 			Func<double[], double> avExpression = GetAveraging(parameters.GetParam<int>("Combine expression values").Value);
 			int[] exColInds = parameters.GetParam<int[]>("Expression columns").Value;
 			if (exColInds.Length > 0){
-				float[,] newExColumns = new float[mdata1.RowCount,exColInds.Length];
-				float[,] newQuality = new float[mdata1.RowCount,exColInds.Length];
-				bool[,] newIsImputed = new bool[mdata1.RowCount,exColInds.Length];
+				float[,] newExColumns = new float[mdata1.RowCount, exColInds.Length];
+				float[,] newQuality = new float[mdata1.RowCount, exColInds.Length];
+				bool[,] newIsImputed = new bool[mdata1.RowCount, exColInds.Length];
 				string[] newExColNames = new string[exColInds.Length];
 				for (int i = 0; i < exColInds.Length; i++){
 					newExColNames[i] = mdata2.ColumnNames[exColInds[i]];
@@ -324,8 +280,8 @@ namespace PerseusPluginLib.Join{
 						}
 					}
 					newCatColumns[i][j] = values.Count == 0
-											? new string[0]
-											: ArrayUtils.UniqueValues(ArrayUtils.Concat(values.ToArray()));
+						? new string[0]
+						: ArrayUtils.UniqueValues(ArrayUtils.Concat(values.ToArray()));
 				}
 			}
 			for (int i = 0; i < catCols.Length; i++){
@@ -410,13 +366,11 @@ namespace PerseusPluginLib.Join{
 			ParameterWithSubParams<bool> p = parameters.GetParamWithSubParams<bool>("Use additional column pair");
 			bool addtlCol = p.Value;
 			Dictionary<string, List<int>> idToCols2 = addtlCol
-														? GetIdToColsPair(mdata2, parameters, p.GetSubParameters(), separator)
-														: GetIdToColsSingle(mdata2, parameters);
-
-
+				? GetIdToColsPair(mdata2, parameters, p.GetSubParameters(), separator)
+				: GetIdToColsSingle(mdata2, parameters);
 			string[][] matchCol1 = addtlCol
-										? GetColumnPair(mdata1, parameters, p.GetSubParameters(), separator)
-										: GetColumnSplitBySemicolon(mdata1, parameters, "Matching column in matrix 1");
+				? GetColumnPair(mdata1, parameters, p.GetSubParameters(), separator)
+				: GetColumnSplitBySemicolon(mdata1, parameters, "Matching column in matrix 1");
 			int[][] indexMap = new int[matchCol1.Length][];
 			for (int i = 0; i < matchCol1.Length; i++){
 				List<int> q = new List<int>();
@@ -562,9 +516,9 @@ namespace PerseusPluginLib.Join{
 		}
 
 		private static void AddMainColumns(IMatrixData data, string[] names, float[,] vals, float[,] qual, bool[,] imp){
-			float[,] newVals = new float[data.RowCount,data.ColumnCount + vals.GetLength(1)];
-			float[,] newQual = new float[data.RowCount,data.ColumnCount + vals.GetLength(1)];
-			bool[,] newImp = new bool[data.RowCount,data.ColumnCount + vals.GetLength(1)];
+			float[,] newVals = new float[data.RowCount, data.ColumnCount + vals.GetLength(1)];
+			float[,] newQual = new float[data.RowCount, data.ColumnCount + vals.GetLength(1)];
+			bool[,] newImp = new bool[data.RowCount, data.ColumnCount + vals.GetLength(1)];
 			for (int i = 0; i < data.RowCount; i++){
 				for (int j = 0; j < data.ColumnCount; j++){
 					newVals[i, j] = data.Values[i, j];
