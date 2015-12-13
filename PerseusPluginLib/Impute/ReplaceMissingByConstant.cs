@@ -9,67 +9,28 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingByConstant : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "Replaces all missing values in expression columns with a constant.";
+		public string HelpOutput => "Same matrix but with missing values replaced.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Replace missing values by constant";
+		public string Heading => "Imputation";
+		public bool IsActive => true;
+		public float DisplayRank => 1;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
-
-		public string Description{
-			get { return "Replaces all missing values in expression columns with a constant."; }
-		}
-
-		public string HelpOutput{
-			get { return "Same matrix but with missing values replaced."; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string Name{
-			get { return "Replace missing values by constant"; }
-		}
-
-		public string Heading{
-			get { return "Imputation"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 1; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Imputation:ReplaceMissingByConstant";
-			}
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Imputation:ReplaceMissingByConstant";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
-		                        ref IDocumentData[] documents, ProcessInfo processInfo){
+			ref IDocumentData[] documents, ProcessInfo processInfo){
 			float value = (float) param.GetParam<double>("Value").Value;
 			int[] inds = param.GetParam<int[]>("Columns").Value;
 			List<int> mainInds = new List<int>();
@@ -95,7 +56,7 @@ namespace PerseusPluginLib.Impute{
 		}
 
 		private static void ReplaceMissingsByVal(float value, IMatrixData data, IEnumerable<int> mainInds,
-		                                         IEnumerable<int> numInds){
+			IEnumerable<int> numInds){
 			foreach (int j in mainInds){
 				for (int i = 0; i < data.RowCount; i++){
 					if (float.IsNaN(data.Values[i, j])){
