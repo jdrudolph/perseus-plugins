@@ -12,26 +12,29 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.average; } }
-		public string HelpOutput { get { return "Averaged expression matrix containing as many columns as there were groups defined."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Average groups"; } }
-		public string Heading { get { return "Annot. rows"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 3; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotrows:AverageGroups"; } }
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.average;
+		public string HelpOutput => "Averaged expression matrix containing as many columns as there were groups defined.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Average groups";
+		public string Heading => "Annot. rows";
+		public bool IsActive => true;
+		public float DisplayRank => 3;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public string Description{
-			get{
-				return
-					"Expression columns are averaged over groups. This requires that at least one categorical annotation row is defined.";
-			}
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
+
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotrows:AverageGroups"
+			;
+
+		public string Description
+			=>
+				"Expression columns are averaged over groups. This requires that at least one categorical annotation row is defined."
+			;
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			if (mdata.CategoryRowCount == 0){
@@ -55,7 +58,7 @@ namespace PerseusPluginLib.Group{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int avType = param.GetParam<int>("Average type").Value;
+			int avType = param.GetParam<int>("Average type").Value;
 			if (mdata.CategoryRowCount == 0){
 				processInfo.ErrString = "No category rows were loaded.";
 				return;
@@ -97,9 +100,9 @@ namespace PerseusPluginLib.Group{
 			string[][] groupCol = mdata.GetCategoryRowAt(groupColInd);
 			string[] groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
 			int[][] colInds = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
-			float[,] newExCols = new float[mdata.RowCount,groupNames.Length];
-			float[,] newQuality = new float[mdata.RowCount,groupNames.Length];
-			bool[,] newImputed = new bool[mdata.RowCount,groupNames.Length];
+			float[,] newExCols = new float[mdata.RowCount, groupNames.Length];
+			float[,] newQuality = new float[mdata.RowCount, groupNames.Length];
+			bool[,] newImputed = new bool[mdata.RowCount, groupNames.Length];
 			for (int i = 0; i < newExCols.GetLength(0); i++){
 				for (int j = 0; j < newExCols.GetLength(1); j++){
 					List<double> vals = new List<double>();
