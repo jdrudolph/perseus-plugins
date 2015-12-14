@@ -8,31 +8,34 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Group{
 	public class CreateNumericalAnnotRow : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public string Description{
-			get{
-				return "Add or edit numerical annotation rows. This could for instance " +
-					"define the times of samples for time series data.";
-			}
+		public string Description
+			=>
+				"Add or edit numerical annotation rows. This could for instance " +
+				"define the times of samples for time series data.";
+
+		public string HelpOutput => "Same matrix with numerical annotation row added or modified.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Numerical annotation rows";
+		public string Heading => "Annot. rows";
+		public bool IsActive => true;
+		public float DisplayRank => 2;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotrows:CreateNumericalAnnotRow";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
-
-		public string HelpOutput { get { return "Same matrix with numerical annotation row added or modified."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Numerical annotation rows"; } }
-		public string Heading { get { return "Annot. rows"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 2; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotrows:CreateNumericalAnnotRow"; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				ParameterWithSubParams<int> scwsp = param.GetParamWithSubParams<int>("Action");
+			ParameterWithSubParams<int> scwsp = param.GetParamWithSubParams<int>("Action");
 			Parameters spar = scwsp.GetSubParameters();
 			switch (scwsp.Value){
 				case 0:
