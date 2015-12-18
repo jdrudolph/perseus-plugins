@@ -10,37 +10,32 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingFromGaussian : IMatrixProcessing{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.histo; } }
-		public string HelpOutput { get { return ""; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public string Name { get { return "Replace missing values from normal distribution"; } }
-		public string Heading { get { return "Imputation"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.histo;
+		public string HelpOutput => "";
+		public int NumSupplTables => 0;
+		public string[] HelpSupplTables => new string[0];
+		public string Name => "Replace missing values from normal distribution";
+		public string Heading => "Imputation";
+		public bool IsActive => true;
+		public float DisplayRank => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Imputation:ReplaceMissingFromGaussian";
-			}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Imputation:ReplaceMissingFromGaussian";
+
+		public string Description
+			=>
+				"Missing values will be replaced by random numbers that are drawn from a normal distribution. The parameters of this" +
+				" distribution can be optimized to simulate a typical abundance region that the missing values would have if they " +
+				"had been measured. In the absence of any a priori knowledge, the distribution of random numbers should be " +
+				"similar to the valid values. Often, missing values represent low abundance measurements. The default " +
+				"values are chosen to mimic this case.";
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
-
-		public string Description{
-			get{
-				return
-					"Missing values will be replaced by random numbers that are drawn from a normal distribution. The parameters of this" +
-						" distribution can be optimized to simulate a typical abundance region that the missing values would have if they " +
-						"had been measured. In the absence of any a priori knowledge, the distribution of random numbers should be " +
-						"similar to the valid values. Often, missing values represent low abundance measurements. The default " +
-						"values are chosen to mimic this case.";
-			}
-		}
-
-		public int GetMaxThreads(Parameters parameters) { return 1; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -61,13 +56,13 @@ namespace PerseusPluginLib.Impute{
 					new DoubleParam("Width", 0.3){
 						Help =
 							"The width of the gaussian distibution relative to the standard deviation of measured values. A value of 0.5 " +
-								"would mean that the width of the distribution used for drawing random numbers is half of the standard " +
-								"deviation of the data."
+							"would mean that the width of the distribution used for drawing random numbers is half of the standard " +
+							"deviation of the data."
 					},
 					new DoubleParam("Down shift", 1.8){
 						Help =
 							"The amount by which the distribution used for the random numbers is shifted downward. This is in units of the" +
-								" standard deviation of the valid data."
+							" standard deviation of the valid data."
 					},
 					new SingleChoiceParam("Mode", 1){Values = new[]{"Total matrix", "Separately for each column"}},
 					new MultiChoiceParam("Columns", ArrayUtils.ConsecutiveInts(mdata.ColumnCount)){Values = mdata.ColumnNames}
