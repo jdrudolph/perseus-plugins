@@ -811,6 +811,18 @@ namespace PerseusApi.Utils{
 			return result;
 		}
 
+		public static Parameter[] GetMultiNumFilterParams(string[] selection){
+			return new Parameter[]{};
+		}
+
+		public static Parameter[] GetTextFilterParams(string[] selection){
+			return new Parameter[]{};
+		}
+
+		public static Parameter[] GetCatFilterParams(string[] selection){
+			return new Parameter[]{};
+		}
+
 		public static Parameter[] GetNumFilterParams(string[] selection){
 			return new[]{
 				GetColumnSelectionParameter(selection), GetRelationsParameter(),

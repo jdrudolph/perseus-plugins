@@ -19,7 +19,7 @@ namespace PerseusPluginLib.Load{
 
 		public PerseusLoadMatrixControl(IList<string> items, string filename){
 			InitializeComponent();
-			MultiListSelector1.Init(items, new[]{"Main columns", "Numerical", "Categorical", "Text", "Multi-numerical"},
+			MultiListSelector1.Init(items, new[]{"Main", "Numerical", "Categorical", "Text", "Multi-numerical"},
 				new[]{
 					new Parameters(PerseusUtils.GetNumFilterParams(new string[0])),
 					new Parameters(PerseusUtils.GetNumFilterParams(new string[0])), null, null, null

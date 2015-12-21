@@ -9,24 +9,32 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Filter{
 	public class FilterTextualColumn : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Only those rows are kept that have a value in the textual column that matches the search string."; } }
-		public string HelpOutput { get { return "The filtered matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Filter rows based on text column"; } }
-		public string Heading { get { return "Filter rows"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 2; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filterrows:FilterTextualColumn"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+
+		public string Description
+			=> "Only those rows are kept that have a value in the textual column that matches the search string.";
+
+		public string HelpOutput => "The filtered matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Filter rows based on text column";
+		public string Heading => "Filter rows";
+		public bool IsActive => true;
+		public float DisplayRank => 2;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
+
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filterrows:FilterTextualColumn";
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int colInd = param.GetParam<int>("Column").Value;
+			int colInd = param.GetParam<int>("Column").Value;
 			string searchString = param.GetParam<string>("Search string").Value;
 			if (string.IsNullOrEmpty(searchString)){
 				processInfo.ErrString = "Please provide a search string";
@@ -84,7 +92,7 @@ namespace PerseusPluginLib.Filter{
 						Values = new[]{"Remove matching rows", "Keep matching rows"},
 						Help =
 							"If 'Remove matching rows' is selected, rows matching the criteria will be removed while " +
-								"all other rows will be kept. If 'Keep matching rows' is selected, the opposite will happen.",
+							"all other rows will be kept. If 'Keep matching rows' is selected, the opposite will happen.",
 						Value = 0
 					},
 					PerseusPluginUtils.GetFilterModeParam(true)
