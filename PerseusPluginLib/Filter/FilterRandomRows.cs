@@ -10,64 +10,25 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Filter{
 	public class FilterRandomRows : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
-
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
-
-		public string Description{
-			get { return "A given number of rows is kept based on random decisions."; }
-		}
-
-		public string HelpOutput{
-			get { return "The filtered matrix."; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string Name{
-			get { return "Filter rows based on random sampling"; }
-		}
-
-		public string Heading{
-			get { return "Filter rows"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 10; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "A given number of rows is kept based on random decisions.";
+		public string HelpOutput => "The filtered matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Filter rows based on random sampling";
+		public string Heading => "Filter rows";
+		public bool IsActive => true;
+		public float DisplayRank => 10;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filterrows:FilterRandomRows";
-			}
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filterrows:FilterRandomRows";
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
