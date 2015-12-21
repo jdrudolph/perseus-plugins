@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
 using Microsoft.Win32;
@@ -13,12 +14,16 @@ namespace PerseusPluginLib.Load{
 	/// </summary>
 	public partial class PerseusLoadMatrixControl{
 		public string Filter { get; set; }
-		public PerseusLoadMatrixControl() : this(new string[0]) {}
-		public PerseusLoadMatrixControl(IList<string> items) : this(items, null) {}
+		public PerseusLoadMatrixControl() : this(new string[0]){}
+		public PerseusLoadMatrixControl(IList<string> items) : this(items, null){}
 
 		public PerseusLoadMatrixControl(IList<string> items, string filename){
 			InitializeComponent();
-			MultiListSelector1.Init(items, new[]{"Main columns", "Numerical", "Categorical", "Text", "Multi-numerical"});
+			MultiListSelector1.Init(items, new[]{"Main columns", "Numerical", "Categorical", "Text", "Multi-numerical"},
+				new[]{
+					new Parameters(PerseusUtils.GetNumFilterParams(new string[0])),
+					new Parameters(PerseusUtils.GetNumFilterParams(new string[0])), null, null, null
+				});
 			if (!string.IsNullOrEmpty(filename)){
 				UpdateFile(filename);
 			}
@@ -57,7 +62,11 @@ namespace PerseusPluginLib.Load{
 				}
 			}
 		}
-		public string Text { get { return TextBox1.Text; } set { TextBox1.Text = value; } }
+
+		public string Text{
+			get { return TextBox1.Text; }
+			set { TextBox1.Text = value; }
+		}
 
 		private static IEnumerable<int> GetIndices(string s){
 			string[] q = s.Length > 0 ? s.Split(';') : new string[0];
@@ -113,7 +122,7 @@ namespace PerseusPluginLib.Load{
 			}
 		}
 
-		private void SelectButton_OnClick(object sender, RoutedEventArgs e) {
+		private void SelectButton_OnClick(object sender, RoutedEventArgs e){
 			OpenFileDialog ofd = new OpenFileDialog();
 			if (Filter != null && !Filter.Equals("")){
 				ofd.Filter = Filter;

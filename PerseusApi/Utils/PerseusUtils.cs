@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BaseLib.Param;
 using BaseLib.Wpf;
 using BaseLibS.Num;
 using BaseLibS.Param;
@@ -15,9 +16,9 @@ namespace PerseusApi.Utils{
 		public static readonly HashSet<string> categoricalColDefaultNames =
 			new HashSet<string>(new[]{
 				"pfam names", "gocc names", "gomf names", "gobp names", "kegg pathway names", "chromosome", "strand",
-				"interpro name", "prints name", "prosite name", "smart name", "sequence motifs", "reactome", "transcription factors"
-				, "microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact"
-				, "corum", "motifs", "best motif", "reverse", "contaminant", "potential contaminant", "only identified by site",
+				"interpro name", "prints name", "prosite name", "smart name", "sequence motifs", "reactome", "transcription factors",
+				"microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact",
+				"corum", "motifs", "best motif", "reverse", "contaminant", "potential contaminant", "only identified by site",
 				"type", "amino acid", "raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy",
 				"dp modification", "fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography",
 				"geography id", "identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
@@ -44,8 +45,8 @@ namespace PerseusApi.Utils{
 				"retention time calibration", "match time difference", "match q-value", "match score", "number of data points",
 				"number of scans", "number of isotopic peaks", "pif", "fraction of total spectrum", "base peak fraction",
 				"ms/ms count", "ms/ms m/z", "md base scan number", "md mass error", "md time difference", "dp mass difference",
-				"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number"
-				, "dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
+				"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number",
+				"dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
 				"dp cluster size reverse", "dp peptide length difference", "dn score", "dn normalized score", "dn nterm mass",
 				"dn cterm mass", "dn missing mass", "dn score diff", "views", "estimated minutes watched", "average view duration",
 				"average percentage viewed", "subscriber views", "subscriber minutes watched", "clicks", "clickable impressions",
@@ -76,8 +77,8 @@ namespace PerseusApi.Utils{
 		public static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[]{"#N/A", "#n/a"});
 
 		public static void LoadMatrixData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
-			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,string filename,
-			int nrows, string origin, char separator, bool shortenExpressionNames){
+			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,
+			string filename, int nrows, string origin, char separator, bool shortenExpressionNames){
 			string[] colDescriptions = null;
 			string[] colTypes = null;
 			if (annotationRows.ContainsKey("Description")){
@@ -133,7 +134,7 @@ namespace PerseusApi.Utils{
 			for (int i = 0; i < textColIndices.Count; i++){
 				stringAnnotation.Add(new string[nrows]);
 			}
-			float[,] expressionValues = new float[nrows,expressionColIndices.Count];
+			float[,] expressionValues = new float[nrows, expressionColIndices.Count];
 			float[,] qualityValues = null;
 			bool[,] isImputedValues = null;
 			bool hasAddtlMatrices = false;
@@ -141,8 +142,8 @@ namespace PerseusApi.Utils{
 				hasAddtlMatrices = GetHasAddtlMatrices(filename, expressionColIndices, separator);
 			}
 			if (hasAddtlMatrices){
-				qualityValues = new float[nrows,expressionColIndices.Count];
-				isImputedValues = new bool[nrows,expressionColIndices.Count];
+				qualityValues = new float[nrows, expressionColIndices.Count];
+				isImputedValues = new bool[nrows, expressionColIndices.Count];
 			}
 			reader.ReadLine();
 			int count = 0;
@@ -161,9 +162,9 @@ namespace PerseusApi.Utils{
 						if (hasAddtlMatrices){
 							ParseExp(s, out expressionValues[count, i], out isImputedValues[count, i], out qualityValues[count, i]);
 						} else{
-							if(count<expressionValues.GetLength(0)){
+							if (count < expressionValues.GetLength(0)){
 								bool success = float.TryParse(s, out expressionValues[count, i]);
-								if (!success) {
+								if (!success){
 									expressionValues[count, i] = float.NaN;
 								}
 							}
@@ -211,7 +212,7 @@ namespace PerseusApi.Utils{
 						}
 						ww = ArrayUtils.SubArray(ww, valids);
 						Array.Sort(ww);
-						if (categoryAnnotation[i].Length>count){
+						if (categoryAnnotation[i].Length > count){
 							categoryAnnotation[i][count] = ww;
 						}
 					}
@@ -222,7 +223,7 @@ namespace PerseusApi.Utils{
 					} else{
 						double q;
 						bool success = double.TryParse(w[numColIndices[i]].Trim(), out q);
-						if (numericAnnotation[i].Length > count) {
+						if (numericAnnotation[i].Length > count){
 							numericAnnotation[i][count] = success ? q : double.NaN;
 						}
 					}
@@ -232,7 +233,7 @@ namespace PerseusApi.Utils{
 						stringAnnotation[i][count] = "";
 					} else{
 						string q = w[textColIndices[i]].Trim();
-						if (stringAnnotation[i].Length > count) {
+						if (stringAnnotation[i].Length > count){
 							stringAnnotation[i][count] = RemoveSplitWhitespace(RemoveQuotes(q));
 						}
 					}
@@ -255,8 +256,8 @@ namespace PerseusApi.Utils{
 				matrixData.Quality.Set(qualityValues);
 				matrixData.IsImputed.Set(isImputedValues);
 			} else{
-				matrixData.Quality.Set(new float[expressionValues.GetLength(0),expressionValues.GetLength(1)]);
-				matrixData.IsImputed.Set(new bool[expressionValues.GetLength(0),expressionValues.GetLength(1)]);
+				matrixData.Quality.Set(new float[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
+				matrixData.IsImputed.Set(new bool[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
 			}
 			matrixData.SetAnnotationColumns(RemoveQuotes(textColnames), stringAnnotation, RemoveQuotes(catColnames),
 				categoryAnnotation, RemoveQuotes(numColnames), numericAnnotation, RemoveQuotes(multiNumColnames),
@@ -808,6 +809,60 @@ namespace PerseusApi.Utils{
 				}
 			}
 			return result;
+		}
+
+		public static Parameter[] GetNumFilterParams(string[] selection){
+			return new[]{
+				GetColumnSelectionParameter(selection), GetRelationsParameter(),
+				new SingleChoiceParam("Combine through", 0){Values = new[]{"intersection", "union"}}
+			};
+		}
+
+		private static Parameter GetColumnSelectionParameter(string[] selection){
+			const int maxCols = 5;
+			string[] values = new string[maxCols];
+			Parameters[] subParams = new Parameters[maxCols];
+			for (int i = 1; i <= maxCols; i++){
+				values[i - 1] = "" + i;
+				Parameter[] px = new Parameter[i];
+				for (int j = 0; j < i; j++){
+					px[j] = new SingleChoiceParam(GetVariableName(j), j){Values = selection};
+				}
+				Parameters p = new Parameters(px);
+				subParams[i - 1] = p;
+			}
+			return new SingleChoiceWithSubParams("Number of columns", 0){
+				Values = values,
+				SubParams = subParams,
+				ParamNameWidth = 120,
+				TotalWidth = 800
+			};
+		}
+
+		public static string GetVariableName(int i){
+			const string x = "xyzabc";
+			return "" + x[i];
+		}
+
+		private static Parameter GetRelationsParameter(){
+			const int maxCols = 5;
+			string[] values = new string[maxCols];
+			Parameters[] subParams = new Parameters[maxCols];
+			for (int i = 1; i <= maxCols; i++){
+				values[i - 1] = "" + i;
+				Parameter[] px = new Parameter[i];
+				for (int j = 0; j < i; j++){
+					px[j] = new StringParam("Relation " + (j + 1));
+				}
+				Parameters p = new Parameters(px);
+				subParams[i - 1] = p;
+			}
+			return new SingleChoiceWithSubParams("Number of relations", 0){
+				Values = values,
+				SubParams = subParams,
+				ParamNameWidth = 120,
+				TotalWidth = 800
+			};
 		}
 	}
 }
