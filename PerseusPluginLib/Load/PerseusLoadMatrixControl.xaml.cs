@@ -129,5 +129,9 @@ namespace PerseusPluginLib.Load{
 			UpdateFile(filename);
 			TextBox1.Focus();
 		}
+
+		public IList<Parameters[]> GetSubParameterValues(){
+			return MultiListSelector1.GetSubParameterValues();
+		}
 	}
 }
