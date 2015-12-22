@@ -46,6 +46,9 @@
     <Reference Include="BaseLibS">
       <HintPath>..\DLLs\BaseLibS.dll</HintPath>
     </Reference>
+    <Reference Include="Calc">
+      <HintPath>..\DLLs\Calc.dll</HintPath>
+    </Reference>
     <Reference Include="NumPluginSvm">
       <HintPath>..\DLLs\NumPluginSvm.dll</HintPath>
     </Reference>
@@ -65,6 +68,7 @@
     <Compile Include="Basic\CombineAnnotations.cs" />
     <Compile Include="Basic\CombineByIdentifiersProcessing.cs" />
     <Compile Include="Basic\AddNoise.cs" />
+    <Compile Include="Filter\FilterNumericalColumn.cs" />
     <Compile Include="Load\CreateGeneList.cs" />
     <Compile Include="Load\CreateRandomMatrix.cs" />
     <Compile Include="Manual\SelectRowsManuallyControl1.xaml.cs">

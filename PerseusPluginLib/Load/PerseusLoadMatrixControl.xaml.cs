@@ -30,7 +30,7 @@ namespace PerseusPluginLib.Load{
 		}
 
 		public string Filename => TextBox1.Text;
-		public int[] ExpressionColumnIndices => MultiListSelector1.GetSelectedIndices(0);
+		public int[] MainColumnIndices => MultiListSelector1.GetSelectedIndices(0);
 		public int[] NumericalColumnIndices => MultiListSelector1.GetSelectedIndices(1);
 		public int[] CategoryColumnIndices => MultiListSelector1.GetSelectedIndices(2);
 		public int[] TextColumnIndices => MultiListSelector1.GetSelectedIndices(3);
@@ -41,7 +41,7 @@ namespace PerseusPluginLib.Load{
 				string[] result = new string[8];
 				result[0] = Filename;
 				result[1] = StringUtils.Concat(";", MultiListSelector1.items);
-				result[2] = StringUtils.Concat(";", ExpressionColumnIndices);
+				result[2] = StringUtils.Concat(";", MainColumnIndices);
 				result[3] = StringUtils.Concat(";", NumericalColumnIndices);
 				result[4] = StringUtils.Concat(";", CategoryColumnIndices);
 				result[5] = StringUtils.Concat(";", TextColumnIndices);
