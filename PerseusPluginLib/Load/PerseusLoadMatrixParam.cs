@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
@@ -8,6 +9,7 @@ namespace PerseusPluginLib.Load{
 	public class PerseusLoadMatrixParam : Parameter<string[]>{
 		public string Filter { get; set; }
 		[NonSerialized] private PerseusLoadMatrixControl control;
+		public IList<Parameters[]> FilterParameterValues { get; set; }
 
 		public PerseusLoadMatrixParam(string name) : base(name){
 			Value = new string[8];
@@ -32,6 +34,7 @@ namespace PerseusPluginLib.Load{
 
 		public override void SetValueFromControl(){
 			Value = control.Value;
+			FilterParameterValues = control.GetSubParameterValues();
 		}
 
 		public override void UpdateControlFromValue(){
@@ -77,6 +80,26 @@ namespace PerseusPluginLib.Load{
 		public int[] TextColumnIndices => GetIntValues(3);
 		public int[] MultiNumericalColumnIndices => GetIntValues(4);
 		public bool ShortenExpressionColumnNames => bool.Parse(Value[7]);
+
+		public Parameters MainFilterParameters{
+			get{
+				Parameters[] p = FilterParameterValues[0];
+				if (p != null && p.Length > 0){
+					return p[0];
+				}
+				return null;
+			}
+		}
+
+		public Parameters NumericalFilterParameters{
+			get{
+				Parameters[] p = FilterParameterValues[0];
+				if (p != null && p.Length > 1){
+					return p[1];
+				}
+				return null;
+			}
+		}
 
 		public override object Clone(){
 			return new PerseusLoadMatrixParam(Name){

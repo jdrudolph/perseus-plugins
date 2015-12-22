@@ -105,11 +105,10 @@ namespace PerseusApi.Utils{
 				processInfo.Progress, processInfo.Status, separator, reader, filename, nrows, shortenExpressionNames);
 		}
 
-		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions,
-			IList<int> expressionColIndices, IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices,
-			IList<int> multiNumColIndices, string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows,
-			Action<int> progress, Action<string> status, char separator, StreamReader reader, string filename, int nrows,
-			bool shortenExpressionNames){
+		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions, IList<int> mainColIndices,
+			IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices, IList<int> multiNumColIndices,
+			string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows, Action<int> progress,
+			Action<string> status, char separator, StreamReader reader, string filename, int nrows, bool shortenExpressionNames){
 			Dictionary<string, string[]> catAnnotatRows;
 			Dictionary<string, string[]> numAnnotatRows;
 			status("Reading data");
@@ -130,40 +129,51 @@ namespace PerseusApi.Utils{
 			for (int i = 0; i < textColIndices.Count; i++){
 				stringAnnotation.Add(new string[nrows]);
 			}
-			float[,] expressionValues = new float[nrows, expressionColIndices.Count];
+			float[,] mainValues = new float[nrows, mainColIndices.Count];
 			float[,] qualityValues = null;
 			bool[,] isImputedValues = null;
 			bool hasAddtlMatrices = false;
 			if (!string.IsNullOrEmpty(filename)){
-				hasAddtlMatrices = GetHasAddtlMatrices(filename, expressionColIndices, separator);
+				hasAddtlMatrices = GetHasAddtlMatrices(filename, mainColIndices, separator);
 			}
 			if (hasAddtlMatrices){
-				qualityValues = new float[nrows, expressionColIndices.Count];
-				isImputedValues = new bool[nrows, expressionColIndices.Count];
+				qualityValues = new float[nrows, mainColIndices.Count];
+				isImputedValues = new bool[nrows, mainColIndices.Count];
 			}
 			reader.ReadLine();
 			int count = 0;
 			string line;
 			while ((line = reader.ReadLine()) != null){
-				progress((100*(count + 1))/nrows);
+				progress(100*(count + 1)/nrows);
 				if (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){
 					continue;
 				}
 				string[] w = SplitLine(line, separator);
-				for (int i = 0; i < expressionColIndices.Count; i++){
-					if (expressionColIndices[i] >= w.Length){
-						expressionValues[count, i] = float.NaN;
+				for (int i = 0; i < mainColIndices.Count; i++){
+					if (mainColIndices[i] >= w.Length){
+						mainValues[count, i] = float.NaN;
 					} else{
-						string s = StringUtils.RemoveWhitespace(w[expressionColIndices[i]]);
+						string s = StringUtils.RemoveWhitespace(w[mainColIndices[i]]);
 						if (hasAddtlMatrices){
-							ParseExp(s, out expressionValues[count, i], out isImputedValues[count, i], out qualityValues[count, i]);
+							ParseExp(s, out mainValues[count, i], out isImputedValues[count, i], out qualityValues[count, i]);
 						} else{
-							if (count < expressionValues.GetLength(0)){
-								bool success = float.TryParse(s, out expressionValues[count, i]);
+							if (count < mainValues.GetLength(0)){
+								bool success = float.TryParse(s, out mainValues[count, i]);
 								if (!success){
-									expressionValues[count, i] = float.NaN;
+									mainValues[count, i] = float.NaN;
 								}
 							}
+						}
+					}
+				}
+				for (int i = 0; i < numColIndices.Count; i++){
+					if (numColIndices[i] >= w.Length){
+						numericAnnotation[i][count] = double.NaN;
+					} else{
+						double q;
+						bool success = double.TryParse(w[numColIndices[i]].Trim(), out q);
+						if (numericAnnotation[i].Length > count){
+							numericAnnotation[i][count] = success ? q : double.NaN;
 						}
 					}
 				}
@@ -213,17 +223,6 @@ namespace PerseusApi.Utils{
 						}
 					}
 				}
-				for (int i = 0; i < numColIndices.Count; i++){
-					if (numColIndices[i] >= w.Length){
-						numericAnnotation[i][count] = double.NaN;
-					} else{
-						double q;
-						bool success = double.TryParse(w[numColIndices[i]].Trim(), out q);
-						if (numericAnnotation[i].Length > count){
-							numericAnnotation[i][count] = success ? q : double.NaN;
-						}
-					}
-				}
 				for (int i = 0; i < textColIndices.Count; i++){
 					if (textColIndices[i] >= w.Length){
 						stringAnnotation[i][count] = "";
@@ -237,7 +236,7 @@ namespace PerseusApi.Utils{
 				count++;
 			}
 			reader.Close();
-			string[] columnNames = ArrayUtils.SubArray(colNames, expressionColIndices);
+			string[] columnNames = ArrayUtils.SubArray(colNames, mainColIndices);
 			if (shortenExpressionNames){
 				columnNames = StringUtils.RemoveCommonSubstrings(columnNames);
 			}
@@ -247,19 +246,19 @@ namespace PerseusApi.Utils{
 			string[] textColnames = ArrayUtils.SubArray(colNames, textColIndices);
 			matrixData.Name = origin;
 			matrixData.ColumnNames = RemoveQuotes(columnNames);
-			matrixData.Values.Set(expressionValues);
+			matrixData.Values.Set(mainValues);
 			if (hasAddtlMatrices){
 				matrixData.Quality.Set(qualityValues);
 				matrixData.IsImputed.Set(isImputedValues);
 			} else{
-				matrixData.Quality.Set(new float[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
-				matrixData.IsImputed.Set(new bool[expressionValues.GetLength(0), expressionValues.GetLength(1)]);
+				matrixData.Quality.Set(new float[mainValues.GetLength(0), mainValues.GetLength(1)]);
+				matrixData.IsImputed.Set(new bool[mainValues.GetLength(0), mainValues.GetLength(1)]);
 			}
 			matrixData.SetAnnotationColumns(RemoveQuotes(textColnames), stringAnnotation, RemoveQuotes(catColnames),
 				categoryAnnotation, RemoveQuotes(numColnames), numericAnnotation, RemoveQuotes(multiNumColnames),
 				multiNumericAnnotation);
 			if (colDescriptions != null){
-				string[] columnDesc = ArrayUtils.SubArray(colDescriptions, expressionColIndices);
+				string[] columnDesc = ArrayUtils.SubArray(colDescriptions, mainColIndices);
 				string[] catColDesc = ArrayUtils.SubArray(colDescriptions, catColIndices);
 				string[] numColDesc = ArrayUtils.SubArray(colDescriptions, numColIndices);
 				string[] multiNumColDesc = ArrayUtils.SubArray(colDescriptions, multiNumColIndices);
@@ -272,7 +271,7 @@ namespace PerseusApi.Utils{
 			}
 			foreach (string key in catAnnotatRows.Keys){
 				string name = key;
-				string[] svals = ArrayUtils.SubArray(catAnnotatRows[key], expressionColIndices);
+				string[] svals = ArrayUtils.SubArray(catAnnotatRows[key], mainColIndices);
 				string[][] cat = new string[svals.Length][];
 				for (int i = 0; i < cat.Length; i++){
 					string s = svals[i].Trim();
@@ -291,7 +290,7 @@ namespace PerseusApi.Utils{
 			}
 			foreach (string key in numAnnotatRows.Keys){
 				string name = key;
-				string[] svals = ArrayUtils.SubArray(numAnnotatRows[key], expressionColIndices);
+				string[] svals = ArrayUtils.SubArray(numAnnotatRows[key], mainColIndices);
 				double[] num = new double[svals.Length];
 				for (int i = 0; i < num.Length; i++){
 					string s = svals[i].Trim();
@@ -883,8 +882,13 @@ namespace PerseusApi.Utils{
 		}
 
 		public static Relation[] GetRelationsNumFilter(Parameters param, out string errString, out int[] colInds, out bool and){
-			and = param.GetParam<int>("Combine through").Value == 0;
 			errString = null;
+			if (param == null){
+				colInds = new int[0];
+				and = false;
+				return null;
+			}
+			and = param.GetParam<int>("Combine through").Value == 0;
 			string[] realVariableNames;
 			colInds = GetColIndsNumFilter(param, out realVariableNames);
 			if (colInds == null || colInds.Length == 0){
@@ -931,7 +935,8 @@ namespace PerseusApi.Utils{
 			return result;
 		}
 
-		public static int GetRowCount(StreamReader reader){
+		public static int GetRowCount(StreamReader reader, Relation[] mainFilterRelations, int[] mainFilterColInds,
+			bool mainFilterAnd, Relation[] numFilterRelations, int[] numFilterColInds, bool numFilterAnd){
 			reader.BaseStream.Seek(0, SeekOrigin.Begin);
 			reader.ReadLine();
 			int count = 0;
