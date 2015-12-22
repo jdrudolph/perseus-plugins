@@ -71,7 +71,7 @@ namespace PerseusPluginLib.Load{
 			return result;
 		}
 
-		public int[] ExpressionColumnIndices => GetIntValues(0);
+		public int[] MainColumnIndices => GetIntValues(0);
 		public int[] NumericalColumnIndices => GetIntValues(1);
 		public int[] CategoryColumnIndices => GetIntValues(2);
 		public int[] TextColumnIndices => GetIntValues(3);

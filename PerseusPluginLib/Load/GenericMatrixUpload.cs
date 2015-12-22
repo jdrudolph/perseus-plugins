@@ -68,9 +68,9 @@ namespace PerseusPluginLib.Load{
 				return;
 			}
 			string origin = filename;
-			int[] eInds = par.ExpressionColumnIndices;
-			int[] cInds = par.CategoryColumnIndices;
+			int[] eInds = par.MainColumnIndices;
 			int[] nInds = par.NumericalColumnIndices;
+			int[] cInds = par.CategoryColumnIndices;
 			int[] tInds = par.TextColumnIndices;
 			int[] mInds = par.MultiNumericalColumnIndices;
 			int nrows = GetRowCount(filename);
