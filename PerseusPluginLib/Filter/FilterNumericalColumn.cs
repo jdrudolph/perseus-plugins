@@ -22,8 +22,10 @@ namespace PerseusPluginLib.Filter{
 		public float DisplayRank => 1;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
+
 		public string Url
 			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Filterrows:FilterNumericalColumn";
+
 		public string Description
 			=>
 				"Only those rows are kept that have a value in the numerical column fulfilling the " +
@@ -42,55 +44,37 @@ namespace PerseusPluginLib.Filter{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string[] realVariableNames;
-			int[] colInds = GetColInds(param, out realVariableNames);
-			if (colInds == null || colInds.Length == 0){
-				processInfo.ErrString = "Please specify at least one column.";
+			string errString;
+			int[] colInds;
+			bool and;
+			Relation[] relations = PerseusUtils.GetRelationsNumFilter(param, out errString, out colInds, out and);
+			if (errString != null){
+				processInfo.ErrString = errString;
 				return;
 			}
-			Relation[] relations = PerseusUtils.GetRelations(param, realVariableNames);
-			foreach (Relation relation in relations){
-				if (relation == null){
-					processInfo.ErrString = "Could not parse relations";
-					return;
+			PerseusPluginUtils.FilterRows(mdata, param, GetValids(mdata, colInds, relations, and));
+		}
+
+		private static int[] GetValids(IMatrixData mdata, int[] colInds, Relation[] relations, bool and){
+			double[][] rows = GetRows(mdata, colInds);
+			List<int> valids = new List<int>();
+			for (int i = 0; i < rows.Length; i++){
+				bool valid = PerseusUtils.IsValidRowNumFilter(rows[i], relations, and);
+				if (valid){
+					valids.Add(i);
 				}
 			}
+			return valids.ToArray();
+		}
+
+		private static double[][] GetRows(IMatrixData mdata, int[] colInds){
 			double[][] cols = new double[colInds.Length][];
 			for (int i = 0; i < cols.Length; i++){
 				cols[i] = colInds[i] < mdata.NumericColumnCount
 					? mdata.NumericColumns[colInds[i]]
 					: ArrayUtils.ToDoubles(mdata.Values.GetColumn(colInds[i] - mdata.NumericColumnCount));
 			}
-			bool and = param.GetParam<int>("Combine through").Value == 0;
-			List<int> valids = new List<int>();
-			for (int i = 0; i < cols[0].Length; i++){
-				Dictionary<int, double> vars = new Dictionary<int, double>();
-				for (int j = 0; j < cols.Length; j++){
-					vars.Add(j, cols[j][i]);
-				}
-				bool[] results = new bool[relations.Length];
-				for (int j = 0; j < relations.Length; j++){
-					results[j] = relations[j].NumEvaluateDouble(vars);
-				}
-				bool valid = and ? ArrayUtils.And(results) : ArrayUtils.Or(results);
-				if (valid){
-					valids.Add(i);
-				}
-			}
-			PerseusPluginUtils.FilterRows(mdata, param, valids.ToArray());
-		}
-
-		private static int[] GetColInds(Parameters parameters, out string[] realVariableNames){
-			ParameterWithSubParams<int> sp = parameters.GetParamWithSubParams<int>("Number of columns");
-			int ncols = sp.Value + 1;
-			int[] result = new int[ncols];
-			realVariableNames = new string[ncols];
-			Parameters param = sp.GetSubParameters();
-			for (int j = 0; j < ncols; j++){
-				realVariableNames[j] = PerseusUtils.GetVariableName(j);
-				result[j] = param.GetParam<int>(realVariableNames[j]).Value;
-			}
-			return result;
+			return ArrayUtils.Transpose(cols);
 		}
 	}
 }

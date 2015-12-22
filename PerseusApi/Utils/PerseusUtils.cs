@@ -870,7 +870,38 @@ namespace PerseusApi.Utils{
 			};
 		}
 
-		public static Relation[] GetRelations(Parameters parameters, string[] realVariableNames){
+		public static bool IsValidRowNumFilter(double[] row, Relation[] relations, bool and){
+			Dictionary<int, double> vars = new Dictionary<int, double>();
+			for (int j = 0; j < row.Length; j++){
+				vars.Add(j, row[j]);
+			}
+			bool[] results = new bool[relations.Length];
+			for (int j = 0; j < relations.Length; j++){
+				results[j] = relations[j].NumEvaluateDouble(vars);
+			}
+			return and ? ArrayUtils.And(results) : ArrayUtils.Or(results);
+		}
+
+		public static Relation[] GetRelationsNumFilter(Parameters param, out string errString, out int[] colInds, out bool and){
+			and = param.GetParam<int>("Combine through").Value == 0;
+			errString = null;
+			string[] realVariableNames;
+			colInds = GetColIndsNumFilter(param, out realVariableNames);
+			if (colInds == null || colInds.Length == 0){
+				errString = "Please specify at least one column.";
+				return null;
+			}
+			Relation[] relations = GetRelations(param, realVariableNames);
+			foreach (Relation relation in relations){
+				if (relation == null){
+					errString = "Could not parse relations";
+					return null;
+				}
+			}
+			return relations;
+		}
+
+		private static Relation[] GetRelations(Parameters parameters, string[] realVariableNames){
 			ParameterWithSubParams<int> sp = parameters.GetParamWithSubParams<int>("Number of relations");
 			int nrel = sp.Value + 1;
 			List<Relation> result = new List<Relation>();
@@ -885,6 +916,19 @@ namespace PerseusApi.Utils{
 				result.Add(r);
 			}
 			return result.ToArray();
+		}
+
+		private static int[] GetColIndsNumFilter(Parameters parameters, out string[] realVariableNames){
+			ParameterWithSubParams<int> sp = parameters.GetParamWithSubParams<int>("Number of columns");
+			int ncols = sp.Value + 1;
+			int[] result = new int[ncols];
+			realVariableNames = new string[ncols];
+			Parameters param = sp.GetSubParameters();
+			for (int j = 0; j < ncols; j++){
+				realVariableNames[j] = GetVariableName(j);
+				result[j] = param.GetParam<int>(realVariableNames[j]).Value;
+			}
+			return result;
 		}
 	}
 }
