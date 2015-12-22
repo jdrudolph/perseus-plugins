@@ -21,9 +21,7 @@ namespace PerseusPluginLib.Load{
 		public int NumSupplTables => 0;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
-
-		public string Url
-			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:GenericMatrixUpload";
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:GenericMatrixUpload";
 
 		public string Description
 			=>
@@ -69,17 +67,24 @@ namespace PerseusPluginLib.Load{
 				processInfo.ErrString = "Could not open the file '" + filename + "'. It is probably opened in another program.";
 				return;
 			}
-			int nrows = TabSep.GetRowCount(filename, 0, PerseusUtils.commentPrefix, PerseusUtils.commentPrefixExceptions);
 			string origin = filename;
 			int[] eInds = par.ExpressionColumnIndices;
 			int[] cInds = par.CategoryColumnIndices;
 			int[] nInds = par.NumericalColumnIndices;
 			int[] tInds = par.TextColumnIndices;
 			int[] mInds = par.MultiNumericalColumnIndices;
+			int nrows = GetRowCount(filename);
 			StreamReader reader = FileUtils.GetReader(filename);
-			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader, filename,
-				nrows, origin, separator, par.ShortenExpressionColumnNames);
+			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader,
+				filename, nrows, origin, separator, par.ShortenExpressionColumnNames);
 			GC.Collect();
+		}
+
+		private static int GetRowCount(string filename){
+			StreamReader reader = FileUtils.GetReader(filename);
+			int count = PerseusUtils.GetRowCount(reader);
+			reader.Close();
+			return count;
 		}
 	}
 }

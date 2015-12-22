@@ -930,5 +930,19 @@ namespace PerseusApi.Utils{
 			}
 			return result;
 		}
+
+		public static int GetRowCount(StreamReader reader){
+			reader.BaseStream.Seek(0, SeekOrigin.Begin);
+			reader.ReadLine();
+			int count = 0;
+			string line;
+			while ((line = reader.ReadLine()) != null){
+				while (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){
+					line = reader.ReadLine();
+				}
+				count++;
+			}
+			return count;
+		}
 	}
 }
