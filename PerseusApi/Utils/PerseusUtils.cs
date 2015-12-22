@@ -8,6 +8,7 @@ using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
+using Calc;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 
@@ -80,14 +81,9 @@ namespace PerseusApi.Utils{
 			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,
 			string filename, int nrows, string origin, char separator, bool shortenExpressionNames){
 			string[] colDescriptions = null;
-			string[] colTypes = null;
 			if (annotationRows.ContainsKey("Description")){
 				colDescriptions = annotationRows["Description"];
 				annotationRows.Remove("Description");
-			}
-			if (annotationRows.ContainsKey("Type")){
-				colTypes = annotationRows["Type"];
-				annotationRows.Remove("Type");
 			}
 			int[] allInds = ArrayUtils.Concat(new[]{eInds, cInds, nInds, tInds, mInds});
 			Array.Sort(allInds);
@@ -872,6 +868,23 @@ namespace PerseusApi.Utils{
 				ParamNameWidth = 120,
 				TotalWidth = 800
 			};
+		}
+
+		public static Relation[] GetRelations(Parameters parameters, string[] realVariableNames){
+			ParameterWithSubParams<int> sp = parameters.GetParamWithSubParams<int>("Number of relations");
+			int nrel = sp.Value + 1;
+			List<Relation> result = new List<Relation>();
+			Parameters param = sp.GetSubParameters();
+			for (int j = 0; j < nrel; j++){
+				string rel = param.GetParam<string>("Relation " + (j + 1)).Value;
+				if (rel.StartsWith(">") || rel.StartsWith("<") || rel.StartsWith("=")){
+					rel = "x" + rel;
+				}
+				string err1;
+				Relation r = Relation.CreateFromString(rel, realVariableNames, new string[0], out err1);
+				result.Add(r);
+			}
+			return result.ToArray();
 		}
 	}
 }

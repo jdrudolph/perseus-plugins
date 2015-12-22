@@ -48,7 +48,7 @@ namespace PerseusPluginLib.Filter{
 				processInfo.ErrString = "Please specify at least one column.";
 				return;
 			}
-			Relation[] relations = GetRelations(param, realVariableNames);
+			Relation[] relations = PerseusUtils.GetRelations(param, realVariableNames);
 			foreach (Relation relation in relations){
 				if (relation == null){
 					processInfo.ErrString = "Could not parse relations";
@@ -78,23 +78,6 @@ namespace PerseusPluginLib.Filter{
 				}
 			}
 			PerseusPluginUtils.FilterRows(mdata, param, valids.ToArray());
-		}
-
-		private static Relation[] GetRelations(Parameters parameters, string[] realVariableNames){
-			ParameterWithSubParams<int> sp = parameters.GetParamWithSubParams<int>("Number of relations");
-			int nrel = sp.Value + 1;
-			List<Relation> result = new List<Relation>();
-			Parameters param = sp.GetSubParameters();
-			for (int j = 0; j < nrel; j++){
-				string rel = param.GetParam<string>("Relation " + (j + 1)).Value;
-				if (rel.StartsWith(">") || rel.StartsWith("<") || rel.StartsWith("=")){
-					rel = "x" + rel;
-				}
-				string err1;
-				Relation r = Relation.CreateFromString(rel, realVariableNames, new string[0], out err1);
-				result.Add(r);
-			}
-			return result.ToArray();
 		}
 
 		private static int[] GetColInds(Parameters parameters, out string[] realVariableNames){

@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLLs\BaseLibS.dll</HintPath>
     </Reference>
+    <Reference Include="Calc">
+      <HintPath>..\DLLs\Calc.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
