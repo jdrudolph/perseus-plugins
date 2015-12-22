@@ -434,27 +434,24 @@ namespace PerseusApi.Utils{
 			return w;
 		}
 
-		public static void SelectExact(ICollection<string> colNames, IList<string> colTypes, IList<bool> colVisible,
-			MultiListSelectorControl mls){
+		public static void SelectExact(ICollection<string> colNames, IList<string> colTypes, MultiListSelectorControl mls){
 			for (int i = 0; i < colNames.Count; i++){
-				if (colVisible == null || colVisible[i]){
-					switch (colTypes[i]){
-						case "E":
-							mls.SetSelected(0, i, true);
-							break;
-						case "N":
-							mls.SetSelected(1, i, true);
-							break;
-						case "C":
-							mls.SetSelected(2, i, true);
-							break;
-						case "T":
-							mls.SetSelected(3, i, true);
-							break;
-						case "M":
-							mls.SetSelected(4, i, true);
-							break;
-					}
+				switch (colTypes[i]){
+					case "E":
+						mls.SetSelected(0, i, true);
+						break;
+					case "N":
+						mls.SetSelected(1, i, true);
+						break;
+					case "C":
+						mls.SetSelected(2, i, true);
+						break;
+					case "T":
+						mls.SetSelected(3, i, true);
+						break;
+					case "M":
+						mls.SetSelected(4, i, true);
+						break;
 				}
 			}
 		}

@@ -20,9 +20,9 @@ namespace PerseusPluginLib.Load{
 		public PerseusLoadMatrixControl(IList<string> items, string filename){
 			InitializeComponent();
 			MultiListSelector1.Init(items, new[]{"Main", "Numerical", "Categorical", "Text", "Multi-numerical"},
-				new[]{
-					new Parameters(PerseusUtils.GetNumFilterParams(new string[0])),
-					new Parameters(PerseusUtils.GetNumFilterParams(new string[0])), null, null, null
+				new Func<string[], Parameters>[]{
+					s => new Parameters(PerseusUtils.GetNumFilterParams(s)), s => new Parameters(PerseusUtils.GetNumFilterParams(s)),
+					null, null, null
 				});
 			if (!string.IsNullOrEmpty(filename)){
 				UpdateFile(filename);
@@ -90,24 +90,10 @@ namespace PerseusPluginLib.Load{
 				MessageBox.Show("Could not open the file '" + filename + "'. It is probably opened by another program.");
 				return;
 			}
-			string[] colDescriptions = null;
 			string[] colTypes = null;
-			bool[] colVisible = null;
-			if (annotationRows.ContainsKey("Description")){
-				colDescriptions = annotationRows["Description"];
-				annotationRows.Remove("Description");
-			}
 			if (annotationRows.ContainsKey("Type")){
 				colTypes = annotationRows["Type"];
 				annotationRows.Remove("Type");
-			}
-			if (annotationRows.ContainsKey("Visible")){
-				string[] colVis = annotationRows["Visible"];
-				colVisible = new bool[colVis.Length];
-				for (int i = 0; i < colVisible.Length; i++){
-					colVisible[i] = bool.Parse(colVis[i]);
-				}
-				annotationRows.Remove("Visible");
 			}
 			string msg = TabSep.CanOpen(filename);
 			if (msg != null){
@@ -116,7 +102,7 @@ namespace PerseusPluginLib.Load{
 			}
 			MultiListSelector1.Init(colNames);
 			if (colTypes != null){
-				PerseusUtils.SelectExact(colNames, colTypes, colVisible, MultiListSelector1);
+				PerseusUtils.SelectExact(colNames, colTypes, MultiListSelector1);
 			} else{
 				PerseusUtils.SelectHeuristic(colNames, MultiListSelector1);
 			}
@@ -127,7 +113,8 @@ namespace PerseusPluginLib.Load{
 			if (Filter != null && !Filter.Equals("")){
 				ofd.Filter = Filter;
 			}
-			if (!ofd.ShowDialog().Value){
+			bool? showDialog = ofd.ShowDialog();
+			if (showDialog != null && !showDialog.Value){
 				return;
 			}
 			string filename = ofd.FileName;
