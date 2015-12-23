@@ -12,60 +12,21 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Annot{
 	public class CategoryCounting : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "For each term in a categorical column one counts the number of occurrences.";
+		public string HelpOutput => "";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Category counting";
+		public string Heading => "Annot. columns";
+		public bool IsActive => true;
+		public float DisplayRank => 3;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
-
-		public string Description{
-			get { return "For each term in a categorical column one counts the number of occurrences."; }
-		}
-
-		public string HelpOutput{
-			get { return ""; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string Name{
-			get { return "Category counting"; }
-		}
-
-		public string Heading{
-			get { return "Annot. columns"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 3; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotcolumns:CategoryCounting";
-			}
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Annotcolumns:CategoryCounting";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
@@ -129,7 +90,7 @@ namespace PerseusPluginLib.Annot{
 					selPerc.Add(Math.Round(1000.0*c1/c)/10.0);
 				}
 			}
-			float[,] ex = new float[type.Count,0];
+			float[,] ex = new float[type.Count, 0];
 			List<string[][]> catCols = new List<string[][]>{type.ToArray(), name.ToArray()};
 			List<string> catColNames = new List<string>(new[]{"Type", "Name"});
 			List<double[]> numCols = new List<double[]>{count.ToArray(), percOfTotal.ToArray()};
