@@ -20,33 +20,31 @@ namespace PerseusPluginLib.Basic{
 	}
 
 	public class CombineByIdentifiersProcessing : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public string Description{
-			get{
-				return "Collapses multiple rows with same identifiers in the specified identifier column " +
-					"into a single row. For numeric rows it can be specified how muliple values should be summarized, e.g. by mean or median.";
-			}
+		public string Description
+			=>
+				"Collapses multiple rows with same identifiers in the specified identifier column " +
+				"into a single row. For numeric rows it can be specified how muliple values should be summarized, e.g. by mean or median."
+			;
+
+		public string HelpOutput => "Matrix with respective rows collapsed.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Combine rows by identifiers";
+		public string Heading => "Basic";
+		public bool IsActive => true;
+		public float DisplayRank => 20;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
 
-		public string HelpOutput { get { return "Matrix with respective rows collapsed."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Combine rows by identifiers"; } }
-		public string Heading { get { return "Basic"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 20; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Basic:CombineByIdentifiersProcessing";
-			}
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Basic:CombineByIdentifiersProcessing";
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] averageTypeChoice = new[]{"Sum", "Mean", "Median", "Maximum", "Minimum"};
@@ -61,7 +59,7 @@ namespace PerseusPluginLib.Basic{
 					Value = 2,
 					Help =
 						"Here it is specified how numeric values should be combined for expression columns " +
-							"in those cases where multiple rows are collapsed."
+						"in those cases where multiple rows are collapsed."
 				}
 			};
 			foreach (string n in mdata.NumericColumnNames){
@@ -70,7 +68,7 @@ namespace PerseusPluginLib.Basic{
 					Value = 2,
 					Help =
 						"Here it is specified how numeric values should be combined for the specific numeric column " +
-							"in those cases where multiple rows are collapsed."
+						"in those cases where multiple rows are collapsed."
 				});
 			}
 			return new Parameters(parameters);
@@ -78,9 +76,9 @@ namespace PerseusPluginLib.Basic{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				bool keepEmpty = param.GetParam<bool>("Keep rows without ID").Value;
-				AverageType atype = GetAverageType(param.GetParam<int>("Average type for expression columns").Value);
-				string[] ids2 = mdata.StringColumns[param.GetParam<int>("ID column").Value];
+			bool keepEmpty = param.GetParam<bool>("Keep rows without ID").Value;
+			AverageType atype = GetAverageType(param.GetParam<int>("Average type for expression columns").Value);
+			string[] ids2 = mdata.StringColumns[param.GetParam<int>("ID column").Value];
 			string[][] ids = SplitIds(ids2);
 			int[] present;
 			int[] absent;
@@ -96,12 +94,12 @@ namespace PerseusPluginLib.Basic{
 			}
 			int nrows = rowInds.Length;
 			int ncols = mdata.ColumnCount;
-			float[,] expVals = new float[nrows,ncols];
+			float[,] expVals = new float[nrows, ncols];
 			for (int j = 0; j < ncols; j++){
 				double[] c = ArrayUtils.ToDoubles(mdata.Values.GetColumn(j));
 				for (int i = 0; i < nrows; i++){
 					double[] d = ArrayUtils.SubArray(c, rowInds[i]);
-					expVals[i, j] = (float)Average(d, atype);
+					expVals[i, j] = (float) Average(d, atype);
 				}
 			}
 			mdata.Values.Set(expVals);
@@ -145,7 +143,9 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		private static double[] Average(IList<double[]> d) { return d.Count == 0 ? new double[0] : d[0]; }
+		private static double[] Average(IList<double[]> d){
+			return d.Count == 0 ? new double[0] : d[0];
+		}
 
 		private static string Average(IList<string> s){
 			if (s.Count == 0){
@@ -168,7 +168,9 @@ namespace PerseusPluginLib.Basic{
 			return StringUtils.Concat(";", w);
 		}
 
-		private static string[] Average(IList<string[]> s) { return ArrayUtils.UniqueValues(ArrayUtils.Concat(s)); }
+		private static string[] Average(IList<string[]> s){
+			return ArrayUtils.UniqueValues(ArrayUtils.Concat(s));
+		}
 
 		private static double Average(IEnumerable<double> c, AverageType atype){
 			List<double> g = new List<double>();

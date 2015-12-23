@@ -53,7 +53,7 @@ namespace PerseusPluginLib.Group{
 			}
 		}
 
-		private static void ProcessDataRename(IMatrixData mdata, Parameters param){
+		private static void ProcessDataRename(IDataWithAnnotationRows mdata, Parameters param){
 			int groupColInd = param.GetParam<int>("Numerical row").Value;
 			string newName = param.GetParam<string>("New name").Value;
 			string newDescription = param.GetParam<string>("New description").Value;
@@ -61,14 +61,14 @@ namespace PerseusPluginLib.Group{
 			mdata.NumericRowDescriptions[groupColInd] = newDescription;
 		}
 
-		private static void ProcessDataDelete(IMatrixData mdata, Parameters param){
+		private static void ProcessDataDelete(IDataWithAnnotationRows mdata, Parameters param){
 			int groupColInd = param.GetParam<int>("Numerical row").Value;
 			mdata.NumericRows.RemoveAt(groupColInd);
 			mdata.NumericRowNames.RemoveAt(groupColInd);
 			mdata.NumericRowDescriptions.RemoveAt(groupColInd);
 		}
 
-		private static void ProcessDataEdit(IMatrixData mdata, Parameters param){
+		private static void ProcessDataEdit(IDataWithAnnotationRows mdata, Parameters param){
 			ParameterWithSubParams<int> s = param.GetParamWithSubParams<int>("Numerical row");
 			int groupColInd = s.Value;
 			Parameters sp = s.GetSubParameters();
@@ -104,7 +104,7 @@ namespace PerseusPluginLib.Group{
 			return new Parameters(par);
 		}
 
-		private static void ProcessDataCreate(IMatrixData mdata, Parameters param){
+		private static void ProcessDataCreate(IDataWithAnnotationRows mdata, Parameters param){
 			string name = param.GetParam<string>("Row name").Value;
 			double[] groupCol = new double[mdata.ColumnCount];
 			for (int i = 0; i < mdata.ColumnCount; i++){
