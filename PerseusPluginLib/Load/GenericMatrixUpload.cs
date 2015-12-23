@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
@@ -75,40 +74,35 @@ namespace PerseusPluginLib.Load{
 			int[] cInds = par.CategoryColumnIndices;
 			int[] tInds = par.TextColumnIndices;
 			int[] mInds = par.MultiNumericalColumnIndices;
-			Parameters mainFilterParams = par.MainFilterParameters;
+			List<Tuple<Relation[], int[], bool>> filters = new List<Tuple<Relation[], int[], bool>>();
 			string errString;
-			int[] mainFilterColInds;
-			bool mainFilterAnd;
-			Relation[] mainFilterRelations = PerseusUtils.GetRelationsNumFilter(mainFilterParams, out errString,
-				out mainFilterColInds, out mainFilterAnd);
-			if (errString != null){
-				processInfo.ErrString = errString;
-				return;
+			foreach (Parameters p in par.MainFilterParameters){
+				PerseusUtils.AddFilter(filters, p, eInds, out errString);
+				if (errString != null){
+					processInfo.ErrString = errString;
+					return;
+				}
 			}
-			mainFilterColInds = ArrayUtils.SubArray(eInds, mainFilterColInds);
-			Parameters numFilterParams = par.NumericalFilterParameters;
-			int[] numFilterColInds;
-			bool numFilterAnd;
-			Relation[] numFilterRelations = PerseusUtils.GetRelationsNumFilter(numFilterParams, out errString,
-				out numFilterColInds, out numFilterAnd);
-			if (errString != null){
-				processInfo.ErrString = errString;
-				return;
+			foreach (Parameters p in par.NumericalFilterParameters){
+				PerseusUtils.AddFilter(filters, p, nInds, out errString);
+				if (errString != null){
+					processInfo.ErrString = errString;
+					return;
+				}
 			}
-			numFilterColInds = ArrayUtils.SubArray(nInds, numFilterColInds);
-			int nrows = GetRowCount(filename, mainFilterRelations, mainFilterColInds, mainFilterAnd, numFilterRelations,
-				numFilterColInds, numFilterAnd);
+			int nrows = GetRowCount(filename, eInds, filters, separator);
 			StreamReader reader = FileUtils.GetReader(filename);
+			StreamReader auxReader = FileUtils.GetReader(filename);
 			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader,
-				filename, nrows, origin, separator, par.ShortenExpressionColumnNames);
+				auxReader, nrows, origin, separator, par.ShortenExpressionColumnNames, filters);
 			GC.Collect();
 		}
 
-		private static int GetRowCount(string filename, Relation[] mainFilterRelations, int[] mainFilterColInds,
-			bool mainFilterAnd, Relation[] numFilterRelations, int[] numFilterColInds, bool numFilterAnd){
+		private static int GetRowCount(string filename, int[] mainColIndices, List<Tuple<Relation[], int[], bool>> filters,
+			char separator){
 			StreamReader reader = FileUtils.GetReader(filename);
-			int count = PerseusUtils.GetRowCount(reader, mainFilterRelations, mainFilterColInds, mainFilterAnd,
-				numFilterRelations, numFilterColInds, numFilterAnd);
+			StreamReader auxReader = FileUtils.GetReader(filename);
+			int count = PerseusUtils.GetRowCount(reader, auxReader, mainColIndices, filters, separator);
 			reader.Close();
 			return count;
 		}

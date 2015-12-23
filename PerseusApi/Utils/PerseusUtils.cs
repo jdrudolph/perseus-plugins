@@ -79,7 +79,8 @@ namespace PerseusApi.Utils{
 
 		public static void LoadMatrixData(IDictionary<string, string[]> annotationRows, int[] eInds, int[] cInds, int[] nInds,
 			int[] tInds, int[] mInds, ProcessInfo processInfo, IList<string> colNames, IMatrixData mdata, StreamReader reader,
-			string filename, int nrows, string origin, char separator, bool shortenExpressionNames){
+			StreamReader auxReader, int nrows, string origin, char separator, bool shortenExpressionNames,
+			List<Tuple<Relation[], int[], bool>> filters){
 			string[] colDescriptions = null;
 			if (annotationRows.ContainsKey("Description")){
 				colDescriptions = annotationRows["Description"];
@@ -102,13 +103,14 @@ namespace PerseusApi.Utils{
 				}
 			}
 			LoadMatrixData(colNames, colDescriptions, eInds, cInds, nInds, tInds, mInds, origin, mdata, annotationRows,
-				processInfo.Progress, processInfo.Status, separator, reader, filename, nrows, shortenExpressionNames);
+				processInfo.Progress, processInfo.Status, separator, reader, auxReader, nrows, shortenExpressionNames, filters);
 		}
 
 		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions, IList<int> mainColIndices,
 			IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices, IList<int> multiNumColIndices,
 			string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows, Action<int> progress,
-			Action<string> status, char separator, StreamReader reader, string filename, int nrows, bool shortenExpressionNames){
+			Action<string> status, char separator, TextReader reader, StreamReader auxReader, int nrows, bool shortenExpressionNames,
+			List<Tuple<Relation[], int[], bool>> filters){
 			Dictionary<string, string[]> catAnnotatRows;
 			Dictionary<string, string[]> numAnnotatRows;
 			status("Reading data");
@@ -132,10 +134,7 @@ namespace PerseusApi.Utils{
 			float[,] mainValues = new float[nrows, mainColIndices.Count];
 			float[,] qualityValues = null;
 			bool[,] isImputedValues = null;
-			bool hasAddtlMatrices = false;
-			if (!string.IsNullOrEmpty(filename)){
-				hasAddtlMatrices = GetHasAddtlMatrices(filename, mainColIndices, separator);
-			}
+			bool hasAddtlMatrices = GetHasAddtlMatrices(auxReader, mainColIndices, separator);
 			if (hasAddtlMatrices){
 				qualityValues = new float[nrows, mainColIndices.Count];
 				isImputedValues = new bool[nrows, mainColIndices.Count];
@@ -148,7 +147,10 @@ namespace PerseusApi.Utils{
 				if (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){
 					continue;
 				}
-				string[] w = SplitLine(line, separator);
+				string[] w;
+				if (!IsValidLine(line, separator, filters, out w, hasAddtlMatrices)){
+					continue;
+				}
 				for (int i = 0; i < mainColIndices.Count; i++){
 					if (mainColIndices[i] >= w.Length){
 						mainValues[count, i] = float.NaN;
@@ -329,11 +331,10 @@ namespace PerseusApi.Utils{
 			}
 		}
 
-		public static bool GetHasAddtlMatrices(string filename, IList<int> expressionColIndices, char separator){
+		public static bool GetHasAddtlMatrices(StreamReader reader, IList<int> expressionColIndices, char separator){
 			if (expressionColIndices.Count == 0){
 				return false;
 			}
-			StreamReader reader = new StreamReader(filename);
 			int expressionColIndex = expressionColIndices[0];
 			reader.ReadLine();
 			string line;
@@ -935,19 +936,88 @@ namespace PerseusApi.Utils{
 			return result;
 		}
 
-		public static int GetRowCount(StreamReader reader, Relation[] mainFilterRelations, int[] mainFilterColInds,
-			bool mainFilterAnd, Relation[] numFilterRelations, int[] numFilterColInds, bool numFilterAnd){
+		public static int GetRowCount(StreamReader reader, StreamReader auxReader, int[] mainColIndices,
+			List<Tuple<Relation[], int[], bool>> filters, char separator){
 			reader.BaseStream.Seek(0, SeekOrigin.Begin);
 			reader.ReadLine();
 			int count = 0;
+			bool hasAddtlMatrices = GetHasAddtlMatrices(auxReader, mainColIndices, separator);
 			string line;
 			while ((line = reader.ReadLine()) != null){
 				while (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){
 					line = reader.ReadLine();
 				}
-				count++;
+				if (IsValidLine(line, separator, filters, hasAddtlMatrices)){
+					count++;
+				}
 			}
 			return count;
+		}
+
+		private static bool IsValidLine(string line, char separator, List<Tuple<Relation[], int[], bool>> filters,
+			out string[] split, bool hasAddtlMatrices){
+			if (filters == null || filters.Count == 0){
+				split = null;
+				return true;
+			}
+			split = SplitLine(line, separator);
+			foreach (Tuple<Relation[], int[], bool> filter in filters){
+				if (
+					!IsValidRowNumFilter(ToDoubles(ArrayUtils.SubArray(split, filter.Item2), hasAddtlMatrices), filter.Item1,
+						filter.Item3)){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static bool IsValidLine(string line, char separator, List<Tuple<Relation[], int[], bool>> filters,
+			bool hasAddtlMatrices){
+			if (filters == null || filters.Count == 0){
+				return true;
+			}
+			string[] w = SplitLine(line, separator);
+			foreach (Tuple<Relation[], int[], bool> filter in filters){
+				if (
+					!IsValidRowNumFilter(ToDoubles(ArrayUtils.SubArray(w, filter.Item2), hasAddtlMatrices), filter.Item1, filter.Item3)){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static double[] ToDoubles(string[] s1, bool hasAddtlMatrices){
+			double[] result = new double[s1.Length];
+			for (int i = 0; i < s1.Length; i++){
+				string s = StringUtils.RemoveWhitespace(s1[i]);
+				if (hasAddtlMatrices){
+					bool isImputed;
+					float quality;
+					float f;
+					ParseExp(s, out f, out isImputed, out quality);
+					result[i] = f;
+				} else{
+					bool success = double.TryParse(s, out result[i]);
+					if (!success){
+						result[i] = double.NaN;
+					}
+				}
+			}
+			return result;
+		}
+
+		public static void AddFilter(List<Tuple<Relation[], int[], bool>> filters, Parameters p, int[] inds,
+			out string errString){
+			int[] colInds;
+			bool and;
+			Relation[] relations = GetRelationsNumFilter(p, out errString, out colInds, out and);
+			if (errString != null){
+				return;
+			}
+			colInds = ArrayUtils.SubArray(inds, colInds);
+			if (relations != null){
+				filters.Add(new Tuple<Relation[], int[], bool>(relations, colInds, and));
+			}
 		}
 	}
 }

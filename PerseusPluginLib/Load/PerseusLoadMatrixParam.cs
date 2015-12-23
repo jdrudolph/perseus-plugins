@@ -80,26 +80,8 @@ namespace PerseusPluginLib.Load{
 		public int[] TextColumnIndices => GetIntValues(3);
 		public int[] MultiNumericalColumnIndices => GetIntValues(4);
 		public bool ShortenExpressionColumnNames => bool.Parse(Value[7]);
-
-		public Parameters MainFilterParameters{
-			get{
-				Parameters[] p = FilterParameterValues[0];
-				if (p != null && p.Length > 0){
-					return p[0];
-				}
-				return null;
-			}
-		}
-
-		public Parameters NumericalFilterParameters{
-			get{
-				Parameters[] p = FilterParameterValues[0];
-				if (p != null && p.Length > 1){
-					return p[1];
-				}
-				return null;
-			}
-		}
+		public Parameters[] MainFilterParameters => FilterParameterValues[0] ?? new Parameters[0];
+		public Parameters[] NumericalFilterParameters => FilterParameterValues[1] ?? new Parameters[0];
 
 		public override object Clone(){
 			return new PerseusLoadMatrixParam(Name){
