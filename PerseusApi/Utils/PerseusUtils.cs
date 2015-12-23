@@ -957,7 +957,7 @@ namespace PerseusApi.Utils{
 		private static bool IsValidLine(string line, char separator, List<Tuple<Relation[], int[], bool>> filters,
 			out string[] split, bool hasAddtlMatrices){
 			if (filters == null || filters.Count == 0){
-				split = null;
+				split = SplitLine(line, separator);
 				return true;
 			}
 			split = SplitLine(line, separator);

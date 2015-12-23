@@ -198,32 +198,6 @@ namespace PerseusPluginLib.Basic{
 			}
 		}
 
-		private static float Average(IEnumerable<float> c, AverageType atype){
-			List<float> g = new List<float>();
-			foreach (float f in c){
-				if (!float.IsNaN(f) && !float.IsInfinity(f)){
-					g.Add(f);
-				}
-			}
-			if (g.Count == 0){
-				return float.NaN;
-			}
-			switch (atype){
-				case AverageType.Mean:
-					return (float) ArrayUtils.Mean(g);
-				case AverageType.Maximum:
-					return ArrayUtils.Max(g);
-				case AverageType.Median:
-					return ArrayUtils.Median(g);
-				case AverageType.Minimum:
-					return ArrayUtils.Min(g);
-				case AverageType.Sum:
-					return (float) ArrayUtils.Sum(g);
-				default:
-					throw new Exception("Never get here.");
-			}
-		}
-
 		private static int[][] ProlongRowInds(IList<int[]> rowInds, IList<int> absent){
 			int[][] result = new int[rowInds.Count + absent.Count][];
 			for (int i = 0; i < rowInds.Count; i++){
