@@ -11,24 +11,29 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CombineAnnotations : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Search multiple categorical or string columns for the occurence of a set of terms."; } }
-		public string HelpOutput { get { return "A new categorical column is generated indicating the presence of any of these terms."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Combine annotations"; } }
-		public string Heading { get { return "Rearrange"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 3; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:CombineAnnotations"; } }
+		public Bitmap DisplayImage => null;
+		public string Description => "Search multiple categorical or string columns for the occurence of a set of terms.";
+		public string HelpOutput => "A new categorical column is generated indicating the presence of any of these terms.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Combine annotations";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 3;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
+
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:CombineAnnotations";
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				string colName = param.GetParam<string>("Name of new column").Value;
-				int[] columns = param.GetParam<int[]>("Categories").Value;
+			string colName = param.GetParam<string>("Name of new column").Value;
+			int[] columns = param.GetParam<int[]>("Categories").Value;
 			bool inverse = param.GetParam<bool>("Inverse").Value;
 			int[] catCols;
 			int[] stringCols;
