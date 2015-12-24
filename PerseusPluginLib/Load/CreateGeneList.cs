@@ -12,17 +12,17 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Load{
 	public class CreateGeneList : IMatrixUpload{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.list; } }
-		public string Description { get { return "Start with a list of all protein-coding genes from an organism."; } }
-		public string Name { get { return "Create gene list"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 4; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:CreateGeneList"; } }
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.list;
+		public string Description => "Start with a list of all protein-coding genes from an organism.";
+		public string Name => "Create gene list";
+		public bool IsActive => true;
+		public float DisplayRank => 4;
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:CreateGeneList";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
