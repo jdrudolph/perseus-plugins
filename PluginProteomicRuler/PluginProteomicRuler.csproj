@@ -44,10 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotateSequences.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="CopyNumbers.cs" />
     <Compile Include="EstimateAccuracy.cs" />
     <Compile Include="Fasta.cs" />
+    <Compile Include="PeptideSequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protease.cs" />
+    <Compile Include="ProteinSequence.cs" />
     <Compile Include="ProteomicRulerUtils.cs" />
   </ItemGroup>
   <ItemGroup>
