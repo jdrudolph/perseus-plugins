@@ -32,7 +32,7 @@ namespace PerseusApi.Utils{
 				"ensp", "enst", "mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name",
 				"names", "proteins", "positions within proteins", "leading proteins", "md sequence", "md proteins", "md gene names",
 				"md protein names", "dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names",
-				"name", "dn sequence", "title", "volume", "number", "pages", "modified sequence"
+				"name", "dn sequence", "title", "volume", "number", "pages", "modified sequence", "formula", "formula2"
 			});
 
 		public static readonly HashSet<string> numericColDefaultNames =
@@ -67,7 +67,8 @@ namespace PerseusApi.Utils{
 				"closest known m/z", "delta [ppm]", "delta [mda]", "q-value", "number of frames", "min frame number",
 				"max frame number", "ion mobility index", "ion mobility index length", "ion mobility index length (fwhm)",
 				"isotope correlation", "peptides", "razor + unique peptides", "unique peptides", "sequence coverage [%]",
-				"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]"
+				"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]", "dm [mda]", "dm [ppm]","time [sec]",
+				"du"
 			});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames =
@@ -109,8 +110,8 @@ namespace PerseusApi.Utils{
 		private static void LoadMatrixData(IList<string> colNames, IList<string> colDescriptions, IList<int> mainColIndices,
 			IList<int> catColIndices, IList<int> numColIndices, IList<int> textColIndices, IList<int> multiNumColIndices,
 			string origin, IMatrixData matrixData, IDictionary<string, string[]> annotationRows, Action<int> progress,
-			Action<string> status, char separator, TextReader reader, StreamReader auxReader, int nrows, bool shortenExpressionNames,
-			List<Tuple<Relation[], int[], bool>> filters){
+			Action<string> status, char separator, TextReader reader, StreamReader auxReader, int nrows,
+			bool shortenExpressionNames, List<Tuple<Relation[], int[], bool>> filters){
 			Dictionary<string, string[]> catAnnotatRows;
 			Dictionary<string, string[]> numAnnotatRows;
 			status("Reading data");
