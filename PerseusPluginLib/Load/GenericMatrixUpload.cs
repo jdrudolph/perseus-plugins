@@ -38,7 +38,7 @@ namespace PerseusPluginLib.Load{
 			return
 				new Parameters(new Parameter[]{
 					new PerseusLoadMatrixParam("File"){
-						Filter = "Text (Tab delimited) (*.txt)|*.txt;*.txt.gz|CSV (Comma delimited) (*.csv)|*.csv;*.csv.gz",
+						Filter = "Text (Tab delimited) (*.txt;*.tsv)|*.txt;*.txt.gz;*.tsv;*.tsv.gz|CSV (Comma delimited) (*.csv)|*.csv;*.csv.gz",
 						Help = "Please specify here the name of the file to be uploaded including its full path."
 					}
 				});
