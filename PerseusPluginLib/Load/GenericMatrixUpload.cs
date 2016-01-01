@@ -95,6 +95,8 @@ namespace PerseusPluginLib.Load{
 			StreamReader auxReader = FileUtils.GetReader(filename);
 			PerseusUtils.LoadMatrixData(annotationRows, eInds, cInds, nInds, tInds, mInds, processInfo, colNames, mdata, reader,
 				auxReader, nrows, origin, separator, par.ShortenExpressionColumnNames, filters);
+			reader.Close();
+			auxReader.Close();
 			GC.Collect();
 		}
 
