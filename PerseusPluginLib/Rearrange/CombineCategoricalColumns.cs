@@ -9,25 +9,27 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class CombineCategoricalColumns : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Combine the terms in two categorical columns to form a new categorical column."; } }
-		public string HelpOutput { get { return "A new categorical column is generated with combined terms."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Combine categorical columns"; } }
-		public string Heading { get { return "Rearrange"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 17.5f; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:CombineCategoricalColumns"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "Combine the terms in two categorical columns to form a new categorical column.";
+		public string HelpOutput => "A new categorical column is generated with combined terms.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Combine categorical columns";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 17.5f;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public int GetMaxThreads(Parameters parameters) {
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:CombineCategoricalColumns";
+
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceParam("First column", 0){Values = mdata.CategoryColumnNames},
