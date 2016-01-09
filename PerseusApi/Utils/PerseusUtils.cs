@@ -135,7 +135,7 @@ namespace PerseusApi.Utils{
 			float[,] mainValues = new float[nrows, mainColIndices.Count];
 			float[,] qualityValues = null;
 			bool[,] isImputedValues = null;
-			bool hasAddtlMatrices = GetHasAddtlMatrices(auxReader, mainColIndices, separator);
+			bool hasAddtlMatrices = auxReader!= null && GetHasAddtlMatrices(auxReader, mainColIndices, separator);
 			if (hasAddtlMatrices){
 				qualityValues = new float[nrows, mainColIndices.Count];
 				isImputedValues = new bool[nrows, mainColIndices.Count];
@@ -942,7 +942,7 @@ namespace PerseusApi.Utils{
 			reader.BaseStream.Seek(0, SeekOrigin.Begin);
 			reader.ReadLine();
 			int count = 0;
-			bool hasAddtlMatrices = GetHasAddtlMatrices(auxReader, mainColIndices, separator);
+			bool hasAddtlMatrices = auxReader != null && GetHasAddtlMatrices(auxReader, mainColIndices, separator);
 			string line;
 			while ((line = reader.ReadLine()) != null){
 				while (TabSep.IsCommentLine(line, commentPrefix, commentPrefixExceptions)){

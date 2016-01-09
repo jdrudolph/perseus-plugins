@@ -6,6 +6,7 @@ using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
+using PerseusApi.Utils;
 using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Impute{
@@ -70,12 +71,19 @@ namespace PerseusPluginLib.Impute{
 		}
 
 		public static void ReplaceMissingsByGaussianByColumn(double width, double shift, IMatrixData data, int[] colInds){
+			List<int> valid = new List<int>();
 			foreach (int colInd in colInds){
-				ReplaceMissingsByGaussianForOneColumn(width, shift, data, colInd);
+				bool success = ReplaceMissingsByGaussianForOneColumn(width, shift, data, colInd);
+				if (success){
+					valid.Add(colInd);
+				}
+			}
+			if (valid.Count != data.ColumnCount){
+				data.ExtractColumns(valid.ToArray());
 			}
 		}
 
-		private static void ReplaceMissingsByGaussianForOneColumn(double width, double shift, IMatrixData data, int colInd){
+		private static bool ReplaceMissingsByGaussianForOneColumn(double width, double shift, IMatrixData data, int colInd){
 			List<float> allValues = new List<float>();
 			for (int i = 0; i < data.RowCount; i++){
 				float x = data.Values[i, colInd];
@@ -85,6 +93,9 @@ namespace PerseusPluginLib.Impute{
 			}
 			double stddev;
 			double mean = ArrayUtils.MeanAndStddev(allValues.ToArray(), out stddev);
+			if (double.IsNaN(mean) || double.IsInfinity(mean) || double.IsNaN(stddev) || double.IsInfinity(stddev)){
+				return false;
+			}
 			double m = mean - shift*stddev;
 			double s = stddev*width;
 			Random2 r = new Random2();
@@ -94,6 +105,7 @@ namespace PerseusPluginLib.Impute{
 					data.IsImputed[i, colInd] = true;
 				}
 			}
+			return true;
 		}
 
 		public static void ReplaceMissingsByGaussianWholeMatrix(double width, double shift, IMatrixData data, int[] colInds){
