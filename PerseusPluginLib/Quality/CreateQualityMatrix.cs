@@ -9,27 +9,30 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Quality{
 	public class CreateQualityMatrix : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public string Description{
-			get{
-				return "Create a matrix of quality values from a set of numerical columns. There has to " +
-					"be one numerical column per expression column.";
-			}
+		public string Description
+			=>
+				"Create a matrix of quality values from a set of numerical columns. There has to " +
+				"be one numerical column per expression column.";
+
+		public string HelpOutput => "";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Create quality matrix";
+		public string Heading => "Quality";
+		public bool IsActive => true;
+		public float DisplayRank => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
 		}
 
-		public string HelpOutput { get { return ""; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Create quality matrix"; } }
-		public string Heading { get { return "Quality"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Quality:CreateQualityMatrix"; } }
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Quality:CreateQualityMatrix";
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			string[] reducedExpColNames = ReduceNames(mdata.ColumnNames);
@@ -46,7 +49,7 @@ namespace PerseusPluginLib.Quality{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			float[,] q = new float[mdata.RowCount,mdata.ColumnCount];
+			float[,] q = new float[mdata.RowCount, mdata.ColumnCount];
 			for (int j = 0; j < mdata.ColumnCount; j++){
 				int ind = param.GetParam<int>(mdata.ColumnNames[j]).Value;
 				double[] w = mdata.NumericColumns[ind];

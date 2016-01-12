@@ -64,11 +64,12 @@ namespace PerseusApi.Utils{
 				"identified ms/ms / s", "ms/ms identification rate [%]", "mass fractional part", "mass deficit",
 				"mass precision [ppm]", "max intensity m/z 1", "retention length (fwhm)", "min scan number", "max scan number",
 				"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count", "jitter",
-				"closest known m/z", "delta [ppm]", "delta [mda]", "uncalibrated delta [ppm]", "uncalibrated delta [mda]", "q-value",
-				"number of frames", "min frame number", "max frame number", "ion mobility index", "ion mobility index length",
-				"ion mobility index length (fwhm)", "isotope correlation", "peptides", "razor + unique peptides", "unique peptides",
-				"sequence coverage [%]", "unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]",
-				"dm [mda]", "dm [ppm]", "time [sec]", "du"
+				"closest known m/z", "delta [ppm]", "delta [mda]", "uncalibrated delta [ppm]", "uncalibrated delta [mda]",
+				"recalibration curve [ppm]", "recalibration curve [mda]", "q-value", "number of frames", "min frame number",
+				"max frame number", "ion mobility index", "ion mobility index length", "ion mobility index length (fwhm)",
+				"isotope correlation", "peptides", "razor + unique peptides", "unique peptides", "sequence coverage [%]",
+				"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]", "dm [mda]", "dm [ppm]",
+				"time [sec]", "du"
 			});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames =
