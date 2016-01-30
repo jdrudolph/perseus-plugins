@@ -242,7 +242,7 @@ namespace PerseusApi.Utils{
 			reader.Close();
 			string[] columnNames = ArrayUtils.SubArray(colNames, mainColIndices);
 			if (shortenExpressionNames){
-				columnNames = StringUtils.RemoveCommonSubstrings(columnNames);
+				columnNames = StringUtils.RemoveCommonSubstrings(columnNames, true);
 			}
 			string[] catColnames = ArrayUtils.SubArray(colNames, catColIndices);
 			string[] numColnames = ArrayUtils.SubArray(colNames, numColIndices);
