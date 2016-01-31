@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
         <ToolBarTray Grid.Row="0">
             <ToolBar>
-                <Button Width="20" Height="20" ToolTip="RemoveSelectedRows" x:Name="RemoveSelectedRowsButton" Click="RemoveSelectedRowsButton_OnClick"></Button>
-                <Button Width="20" Height="20" ToolTip="KeepSelectedRows" x:Name="KeepSelectedRowsButton" Click="KeepSelectedRowsButton_OnClick"></Button>
+                <Button Width="20" Height="20" ToolTip="Remove selected rows" x:Name="RemoveSelectedRowsButton" Click="RemoveSelectedRowsButton_OnClick"></Button>
+                <Button Width="20" Height="20" ToolTip="Keep selected rows" x:Name="KeepSelectedRowsButton" Click="KeepSelectedRowsButton_OnClick"></Button>
             </ToolBar>
         </ToolBarTray>
         <wpf:TableView Grid.Row="1" x:Name="TableView"></wpf:TableView>
