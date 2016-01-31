@@ -107,16 +107,16 @@ namespace PerseusPluginLib.Join{
 							"If checked, a categorical column will be added in which it is indicated by a '+' if at least one row of the second " +
 							"matrix matches."
 					},
-					new MultiChoiceParam("Expression columns"){
+					new MultiChoiceParam("Main columns"){
 						Value = exSel,
 						Values = exCol,
-						Help = "Expression columns of the second matrix that should be added to the first matrix."
+						Help = "Main columns of the second matrix that should be added to the first matrix."
 					},
-					new SingleChoiceParam("Combine expression values"){
+					new SingleChoiceParam("Combine main values"){
 						Values = new[]{"Median", "Mean", "Minimum", "Maximum", "Sum"},
 						Help =
 							"In case multiple rows of the second matrix match to a row of the first matrix, how should multiple " +
-							"expression values be combined?"
+							"values be combined?"
 					},
 					new MultiChoiceParam("Categorical columns"){
 						Values = catCol,
@@ -174,8 +174,8 @@ namespace PerseusPluginLib.Join{
 
 		private static void AddMainColumns(IDataWithAnnotationColumns mdata1, IMatrixData mdata2, Parameters parameters,
 			IList<int[]> indexMap, IMatrixData result){
-			Func<double[], double> avExpression = GetAveraging(parameters.GetParam<int>("Combine expression values").Value);
-			int[] exColInds = parameters.GetParam<int[]>("Expression columns").Value;
+			Func<double[], double> avExpression = GetAveraging(parameters.GetParam<int>("Combine main values").Value);
+			int[] exColInds = parameters.GetParam<int[]>("Main columns").Value;
 			if (exColInds.Length > 0){
 				float[,] newExColumns = new float[mdata1.RowCount, exColInds.Length];
 				float[,] newQuality = new float[mdata1.RowCount, exColInds.Length];
@@ -538,8 +538,8 @@ namespace PerseusPluginLib.Join{
 			data.ColumnDescriptions.AddRange(names);
 		}
 
-		private static void MakeNewNames(IList<string> newExColNames, IEnumerable<string> expressionColumnNames){
-			HashSet<string> taken = new HashSet<string>(expressionColumnNames);
+		private static void MakeNewNames(IList<string> newExColNames, IEnumerable<string> mainColumnNames){
+			HashSet<string> taken = new HashSet<string>(mainColumnNames);
 			for (int i = 0; i < newExColNames.Count; i++){
 				if (taken.Contains(newExColNames[i])){
 					string n1 = PerseusUtils.GetNextAvailableName(newExColNames[i], taken);
