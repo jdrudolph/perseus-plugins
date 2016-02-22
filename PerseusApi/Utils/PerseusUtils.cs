@@ -30,9 +30,10 @@ namespace PerseusApi.Utils{
 			new HashSet<string>(new[]{
 				"protein ids", "protein", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl", "ensg",
 				"ensp", "enst", "mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name",
-				"names", "proteins", "positions within proteins", "leading proteins", "md sequence", "md proteins", "md gene names",
-				"md protein names", "dp base sequence", "dp probabilities", "dp proteins", "dp gene names", "dp protein names",
-				"name", "dn sequence", "title", "volume", "number", "pages", "modified sequence", "formula", "formula2"
+				"names", "proteins", "positions within proteins", "leading proteins", "leading razor protein", "md sequence",
+				"md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities", "dp proteins",
+				"dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number", "pages",
+				"modified sequence", "formula", "formula2"
 			});
 
 		public static readonly HashSet<string> numericColDefaultNames =
