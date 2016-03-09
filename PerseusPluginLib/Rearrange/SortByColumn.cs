@@ -9,57 +9,19 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class SortByColumn : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
-
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
-
-		public string Description{
-			get { return "Simple sorting by a column."; }
-		}
-
-		public string HelpOutput{
-			get { return "The same matrix but sorted by the specified column."; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string Name{
-			get { return "Sort by column"; }
-		}
-
-		public string Heading{
-			get { return "Rearrange"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 6; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:SortByColumn"; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "Simple sorting by a column.";
+		public string HelpOutput => "The same matrix but sorted by the specified column.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Sort by column";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 6;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:SortByColumn";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

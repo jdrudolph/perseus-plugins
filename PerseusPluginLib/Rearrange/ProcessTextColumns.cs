@@ -8,60 +8,21 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class ProcessTextColumns : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "Values in string columns can be manipulated according to a regular expression.";
+		public string HelpOutput => "";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Process text column";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 22;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
-
-		public string Description{
-			get { return "Values in string columns can be manipulated according to a regular expression."; }
-		}
-
-		public string HelpOutput{
-			get { return ""; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string Name{
-			get { return "Process text column"; }
-		}
-
-		public string Heading{
-			get { return "Rearrange"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 22; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get{
-				return
-					"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:ProcessTextColumns";
-			}
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:ProcessTextColumns";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
@@ -79,7 +40,8 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		private static void ProcessCol(IDataWithAnnotationColumns mdata, Regex regex, int col, bool keepColumns, bool semicolons){
+		private static void ProcessCol(IDataWithAnnotationColumns mdata, Regex regex, int col, bool keepColumns,
+			bool semicolons){
 			string[] values = new string[mdata.RowCount];
 			for (int row = 0; row < mdata.RowCount; row++){
 				string fullString = mdata.StringColumns[col][row];

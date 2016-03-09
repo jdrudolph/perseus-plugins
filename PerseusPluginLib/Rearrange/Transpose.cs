@@ -9,60 +9,26 @@ using PerseusApi.Utils;
 
 namespace PerseusPluginLib.Rearrange{
 	public class Transpose : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
+		public string Description
+			=> "The matrix of expression values is being transposed, i.e. rows become columns and columns become rows.";
 
-		public string Description{
-			get { return "The matrix of expression values is being transposed, i.e. rows become columns and columns become rows."; }
-		}
+		public string HelpOutput
+			=>
+				"The transpose of the matrix of expression values. One string column can be selected to become the new column names."
+			;
 
-		public string HelpOutput{
-			get{
-				return
-					"The transpose of the matrix of expression values. One string column can be selected to become the new column names.";
-			}
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string Name{
-			get { return "Transpose"; }
-		}
-
-		public string Heading{
-			get { return "Rearrange"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return 5; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:Transpose"; }
-		}
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Transpose";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 5;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:Transpose";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

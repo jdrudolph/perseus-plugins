@@ -9,25 +9,25 @@ using PerseusPluginLib.Utils;
 
 namespace PerseusPluginLib.Rearrange{
 	public class RemoveEmptyColumns : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string HelpOutput { get { return "Same matrix but with empty columns removed."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Heading { get { return "Rearrange"; } }
-		public string Name { get { return "Remove empty columns"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 3.5f; } }
-		public string Description { get { return "Columns containing no values or only invalid values will be removed."; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string HelpOutput => "Same matrix but with empty columns removed.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Heading => "Rearrange";
+		public string Name => "Remove empty columns";
+		public bool IsActive => true;
+		public float DisplayRank => 3.5f;
+		public string Description => "Columns containing no values or only invalid values will be removed.";
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public string Url { get{
-			return
-				"http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:RemoveEmptyColumns";
-		} }
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:RemoveEmptyColumns";
 
-		public int GetMaxThreads(Parameters parameters) { return 1; }
+		public int GetMaxThreads(Parameters parameters){
+			return 1;
+		}
 
 		public void ProcessData(IMatrixData data, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
@@ -156,6 +156,8 @@ namespace PerseusPluginLib.Rearrange{
 			return true;
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) { return new Parameters(); }
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
+			return new Parameters();
+		}
 	}
 }

@@ -23,8 +23,7 @@ namespace PerseusPluginLib.Rearrange{
 		public int NumDocuments => 0;
 
 		public string Url
-			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:ReorderRemoveColumns"
-			;
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:ReorderRemoveColumns";
 
 		public string Description
 			=>

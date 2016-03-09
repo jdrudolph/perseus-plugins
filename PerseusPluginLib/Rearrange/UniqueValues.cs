@@ -10,32 +10,32 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Rearrange{
 	public class UniqueValues : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description{
-			get{
-				return "Values in the selected text columns are made unique. The strings are " +
-					"interpreted as separated by semicolons. These semicolon-separated values are made unique.";
-			}
-		}
-		public string Name { get { return "Unique values"; } }
-		public string Heading { get { return "Rearrange"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 16; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string HelpOutput { get { return ""; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:UniqueValues"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
 
-		public int GetMaxThreads(Parameters parameters) {
+		public string Description
+			=>
+				"Values in the selected text columns are made unique. The strings are " +
+				"interpreted as separated by semicolons. These semicolon-separated values are made unique.";
+
+		public string Name => "Unique values";
+		public string Heading => "Rearrange";
+		public bool IsActive => true;
+		public float DisplayRank => 16;
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string HelpOutput => "";
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Rearrange:UniqueValues";
+
+		public int GetMaxThreads(Parameters parameters){
 			return 1;
 		}
 
 		public void ProcessData(IMatrixData mdata, Parameters param1, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				int[] stringCols = param1.GetParam<int[]>("Text columns").Value;
+			int[] stringCols = param1.GetParam<int[]>("Text columns").Value;
 			if (stringCols.Length == 0){
 				processInfo.ErrString = "Please select some columns.";
 				return;
@@ -53,11 +53,12 @@ namespace PerseusPluginLib.Rearrange{
 			}
 		}
 
-		public Parameters GetParameters(IMatrixData mdata, ref string errorString) {
+		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
 					new MultiChoiceParam("Text columns"){
-						Values = mdata.StringColumnNames, Value = new int[0],
+						Values = mdata.StringColumnNames,
+						Value = new int[0],
 						Help = "Select here the text colums that should be expanded."
 					}
 				});
