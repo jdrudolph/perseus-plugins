@@ -18,7 +18,7 @@ namespace PerseusPluginLib.Rearrange{
 		public string Heading => "Rearrange";
 		public string Name => "Reorder/remove columns";
 		public bool IsActive => true;
-		public float DisplayRank => 3;
+		public float DisplayRank => 2.8f;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
 
