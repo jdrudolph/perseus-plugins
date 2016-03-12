@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Document\IDocumentMultiAnalysis.cs" />
+    <Compile Include="Document\IDocumentMergeWithMatrix.cs" />
     <Compile Include="Document\IDocumentToMatrix.cs" />
     <Compile Include="Document\IDocumentFromMatrix.cs" />
     <Compile Include="Document\IDocumentMultiProcessing.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Generic\IDataWithAnnotationRows.cs" />
     <Compile Include="Generic\IExport.cs" />
     <Compile Include="Generic\IFromMatrix.cs" />
+    <Compile Include="Generic\IMergeWithMatrix.cs" />
     <Compile Include="Generic\IMultiAnalysis.cs" />
     <Compile Include="Generic\IMultiProcessing.cs" />
     <Compile Include="Generic\IProcessing.cs" />
