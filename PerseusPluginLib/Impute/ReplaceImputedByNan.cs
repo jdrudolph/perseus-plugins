@@ -15,7 +15,7 @@ namespace PerseusPluginLib.Impute{
 		public string Name => "Replace imputed values by NaN";
 		public string Heading => "Imputation";
 		public bool IsActive => true;
-		public float DisplayRank => 5;
+		public float DisplayRank => 10;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
 
