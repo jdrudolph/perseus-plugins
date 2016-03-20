@@ -91,7 +91,7 @@ namespace PerseusPluginLib.Basic{
 				int groupRowInd = xp.GetSubParameters().GetParam<int>("Group").Value;
 				string[][] groupCol = mdata.GetCategoryRowAt(groupRowInd);
 				groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
-				colIndsGroups = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
+				colIndsGroups = PerseusPluginUtils.GetMainColIndices(groupCol, groupNames);
 			}
 			int[] useCols = xp.Value == 1
 				? xp.GetSubParameters().GetParam<int[]>("Columns").Value

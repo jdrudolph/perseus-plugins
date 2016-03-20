@@ -292,15 +292,15 @@ namespace PerseusPluginLib.Utils{
 			return y;
 		}
 
-		public static int[][] GetExpressionColIndices(IList<string[]> groupCol, string[] groupNames){
+		public static int[][] GetMainColIndices(IList<string[]> groupCol, string[] groupNames){
 			int[][] colInds = new int[groupNames.Length][];
 			for (int i = 0; i < colInds.Length; i++){
-				colInds[i] = GetExpressionColIndices(groupCol, groupNames[i]);
+				colInds[i] = GetMainColIndices(groupCol, groupNames[i]);
 			}
 			return colInds;
 		}
 
-		private static int[] GetExpressionColIndices(IList<string[]> groupCol, string groupName){
+		private static int[] GetMainColIndices(IList<string[]> groupCol, string groupName){
 			List<int> result = new List<int>();
 			for (int i = 0; i < groupCol.Count; i++){
 				string[] w = groupCol[i];

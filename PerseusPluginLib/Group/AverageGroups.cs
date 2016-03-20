@@ -99,7 +99,7 @@ namespace PerseusPluginLib.Group{
 			Func<IList<double>, double> func){
 			string[][] groupCol = mdata.GetCategoryRowAt(groupColInd);
 			string[] groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
-			int[][] colInds = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
+			int[][] colInds = PerseusPluginUtils.GetMainColIndices(groupCol, groupNames);
 			float[,] newExCols = new float[mdata.RowCount, groupNames.Length];
 			float[,] newQuality = new float[mdata.RowCount, groupNames.Length];
 			bool[,] newImputed = new bool[mdata.RowCount, groupNames.Length];
@@ -150,7 +150,7 @@ namespace PerseusPluginLib.Group{
 		private static void AddStandardDeviation(int groupColInd, int validVals, IMatrixData mdata, int varInd){
 			string[][] groupCol = mdata.GetCategoryRowAt(groupColInd);
 			string[] groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
-			int[][] colInds = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
+			int[][] colInds = PerseusPluginUtils.GetMainColIndices(groupCol, groupNames);
 			double[][] newNumCols = new double[groupNames.Length][];
 			for (int i = 0; i < newNumCols.Length; i++){
 				newNumCols[i] = new double[mdata.RowCount];
@@ -184,7 +184,7 @@ namespace PerseusPluginLib.Group{
 		private static void FillMatrixKeep(int groupColInd, int validVals, IMatrixData mdata, Func<IList<double>, double> func){
 			string[][] groupCol = mdata.GetCategoryRowAt(groupColInd);
 			string[] groupNames = ArrayUtils.UniqueValuesPreserveOrder(groupCol);
-			int[][] colInds = PerseusPluginUtils.GetExpressionColIndices(groupCol, groupNames);
+			int[][] colInds = PerseusPluginUtils.GetMainColIndices(groupCol, groupNames);
 			double[][] newNumCols = new double[groupNames.Length][];
 			for (int i = 0; i < newNumCols.Length; i++){
 				newNumCols[i] = new double[mdata.RowCount];
