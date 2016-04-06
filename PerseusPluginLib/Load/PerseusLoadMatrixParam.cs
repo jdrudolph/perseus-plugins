@@ -82,15 +82,5 @@ namespace PerseusPluginLib.Load{
 		public bool ShortenExpressionColumnNames => bool.Parse(Value[7]);
 		public Parameters[] MainFilterParameters => FilterParameterValues[0] ?? new Parameters[0];
 		public Parameters[] NumericalFilterParameters => FilterParameterValues[1] ?? new Parameters[0];
-
-		public override object Clone(){
-			return new PerseusLoadMatrixParam(Name){
-				Help = Help,
-				Visible = Visible,
-				Filter = Filter,
-				Default = Default,
-				Value = Value
-			};
-		}
 	}
 }
