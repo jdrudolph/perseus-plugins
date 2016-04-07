@@ -21,6 +21,8 @@ namespace PerseusPluginLib.Load{
 			Filter = null;
 		}
 
+		public override ParamType Type => ParamType.Wpf;
+
 		public override string StringValue{
 			get { return StringUtils.Concat(";", Value); }
 			set { Value = value.Split(';'); }
