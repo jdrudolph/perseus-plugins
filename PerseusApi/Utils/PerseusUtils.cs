@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BaseLib.Param;
 using BaseLib.Wpf;
 using BaseLibS.Num;
 using BaseLibS.Param;
