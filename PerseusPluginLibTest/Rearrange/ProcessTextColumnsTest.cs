@@ -5,7 +5,6 @@ using PerseusApi.Document;
 using PerseusApi.Matrix;
 using PerseusLib;
 using PerseusPluginLib.Rearrange;
-using BaseLib.Param;
 
 namespace PerseusPluginLibTest.Rearrange{
 	/// <summary>
@@ -21,8 +20,8 @@ namespace PerseusPluginLibTest.Rearrange{
 		/// </summary>
 		[TestMethod] public void TestOnlyToFirstSemicolon(){
 			const string regexStr = "^([^;]+)";
-			string[] stringsInit = new[]{"just one item", "first item; second item"};
-			string[] stringsExpect = new[]{"just one item", "first item"};
+			string[] stringsInit = {"just one item", "first item; second item"};
+			string[] stringsExpect = {"just one item", "first item"};
 			TestRegex(regexStr, stringsInit, stringsExpect);
 		}
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -127,7 +126,9 @@ namespace PerseusPluginLib.Filter{
 							new Parameters(new Parameter[0]),
 							new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}}),
 							new Parameters(new Parameter[]{new SingleChoiceParam("Grouping"){Values = mdata.CategoryRowNames}})
-						}
+						},
+						ParamNameWidth = 50,
+						TotalWidth = 731
 					},
 					PerseusPluginUtils.GetValuesShouldBeParam(), PerseusPluginUtils.GetFilterModeParam(false)
 				});

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Num.Test;
 using BaseLibS.Num.Vector;

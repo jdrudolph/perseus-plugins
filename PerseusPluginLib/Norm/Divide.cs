@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
@@ -11,19 +10,19 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Norm{
 	public class Divide : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Description { get { return "Divide all values by the specified quantity calculated on each row/column."; } }
-		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string Name { get { return "Divide"; } }
-		public string Heading { get { return "Normalization"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return -5; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:Divide"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Description => "Divide all values by the specified quantity calculated on each row/column.";
+		public string HelpOutput => "Normalized expression matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string Name => "Divide";
+		public string Heading => "Normalization";
+		public bool IsActive => true;
+		public float DisplayRank => -5;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:Divide";
 		public int GetMaxThreads(Parameters parameters) { return int.MaxValue; }
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,

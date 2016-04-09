@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using BaseLib.Param;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;

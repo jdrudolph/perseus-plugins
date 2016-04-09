@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using BaseLib.Param;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
@@ -13,24 +12,20 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Load{
 	public class UnstructuredTxtUpload : IMatrixUpload{
-		public bool HasButton { get { return true; } }
-		public Bitmap DisplayImage { get { return Resources.raw; } }
-		public string Name { get { return "Raw upload"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 10; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.raw;
+		public string Name => "Raw upload";
+		public bool IsActive => true;
+		public float DisplayRank => 10;
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 		public int GetMaxThreads(Parameters parameters) { return 1; }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:UnstructuredTxtUpload"; } }
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixUpload:UnstructuredTxtUpload";
 
-		public string Description{
-			get{
-				return "Load all lines from a text file and put them into a single text column or split them into " +
-					"multiple text columns.";
-			}
-		}
+		public string Description => "Load all lines from a text file and put them into a single text column or split them into " +
+									"multiple text columns.";
 
 		public Parameters GetParameters(ref string errString){
 			return

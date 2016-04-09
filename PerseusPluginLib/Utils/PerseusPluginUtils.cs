@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BaseLib.Param;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Matrix;
@@ -139,7 +138,9 @@ namespace PerseusPluginLib.Utils{
 							new DoubleParam("Minimum", 0){Help = "Value defining which entry is counted as a valid value."},
 							new DoubleParam("Maximum", 0){Help = "Value defining which entry is counted as a valid value."}
 						})
-					}
+					},
+				ParamNameWidth = 50,
+				TotalWidth = 731
 			};
 		}
 
@@ -218,7 +219,9 @@ namespace PerseusPluginLib.Utils{
 								"If a " + (rows ? "row" : "column") +
 								" has less than the specified percentage of valid values it will be discarded in the output."
 						}),
-					}
+					},
+				ParamNameWidth = 50,
+				TotalWidth = 731
 			};
 		}
 

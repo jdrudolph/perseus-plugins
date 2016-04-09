@@ -1,5 +1,4 @@
 using System.Drawing;
-using BaseLib.Param;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -64,7 +63,12 @@ namespace PerseusPluginLib.Filter{
 			return
 				new Parameters(new[]{
 					PerseusPluginUtils.GetMinValuesParam(false),
-					new SingleChoiceWithSubParams("Mode"){Values = new[]{"In total"}, SubParams ={new Parameters(new Parameter[0])}},
+					new SingleChoiceWithSubParams("Mode"){
+						Values = new[]{"In total"},
+						SubParams ={new Parameters(new Parameter[0])},
+						ParamNameWidth = 50,
+						TotalWidth = 731
+					},
 					PerseusPluginUtils.GetValuesShouldBeParam(), PerseusPluginUtils.GetFilterModeParam(true)
 				});
 		}
