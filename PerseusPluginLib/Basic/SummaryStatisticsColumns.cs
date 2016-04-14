@@ -86,10 +86,12 @@ namespace PerseusPluginLib.Basic{
 			string[] colNames = GetColNames(mdata, cols);
 			mdata.Name = "Summary";
 			mdata.ColumnNames = new List<string>(names.ToArray());
+			mdata.ColumnDescriptions = new List<string>(names.ToArray());
 			mdata.Values.Set(exVals);
 			mdata.SetAnnotationColumns(new List<string>(new[]{"Columns"}), new List<string[]>(new[]{colNames}),
 				mdata.CategoryRowNames, TransformCategories(mdata, cols, mdata.ColumnCount), mdata.NumericRowNames,
 				TransformNumeric(mdata.NumericRows, cols, mdata.ColumnCount), new List<string>(), new List<double[][]>());
+			mdata.ClearAnnotationRows();
 		}
 
 		private static List<double[]> TransformNumeric(IEnumerable<double[]> numericRows, IList<int> cols, int n){
