@@ -154,7 +154,6 @@ namespace PerseusPluginLib.Export{
 				writer.Close();
 			} catch (Exception e){
 				processInfo.ErrString = e.Message;
-				return;
 			}
 		}
 
