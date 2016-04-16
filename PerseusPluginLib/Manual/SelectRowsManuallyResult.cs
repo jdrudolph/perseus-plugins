@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
 
@@ -12,10 +11,10 @@ namespace PerseusPluginLib.Manual{
 			this.mdata = mdata;
 		}
 
-		public UIElement CreateUiElement(Action<string> updateStatusLabel, Action<IData> newData){
+		public object CreateUiElement(Action<string> updateStatusLabel, Action<IData> newData){
 			return new SelectRowsManuallyControl1(mdata, newData);
 		}
 
-		public string Heading { get { return "Select rows manually"; } }
+		public string Heading => "Select rows manually";
 	}
 }

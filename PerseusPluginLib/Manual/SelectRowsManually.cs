@@ -17,9 +17,7 @@ namespace PerseusPluginLib.Manual{
 		public string Name => "Select rows manually";
 		public bool IsActive => true;
 		public float DisplayRank => 2;
-
-		public string Url
-			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixAnalysis:Misc:SelectRowsManually";
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixAnalysis:Misc:SelectRowsManually";
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;
@@ -30,7 +28,7 @@ namespace PerseusPluginLib.Manual{
 		}
 
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
-			return new Parameters(new Parameter[]{});
+			return new Parameters();
 		}
 	}
 }
