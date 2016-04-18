@@ -10,6 +10,15 @@ namespace PerseusApi.Generic{
 		/// </summary>
 		/// <returns></returns>
 		string Heading { get; }
+		/// <summary>
+		/// Creates the visual component.
+		/// </summary>
+		/// <param name="updateStatus">Callback for displaying text in the status bar.</param>
+		/// <param name="newData">A new <code>IData</code> can be put here interactively into the workflow.</param>
+		/// <returns>
+		/// The visual component. Usually this is a UIElement from WPF. Return type is object so that this 
+		/// interface can be used on the server side.
+		/// </returns>
 		object CreateUiElement(Action<string> updateStatus, Action<IData> newData);
 	}
 }
