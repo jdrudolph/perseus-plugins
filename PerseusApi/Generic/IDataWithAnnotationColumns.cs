@@ -56,5 +56,7 @@ namespace PerseusApi.Generic{
 			List<double[]> numericColumns, List<string> multiNumericColumnNames, List<string> multiNumericColumnDescriptions,
 			List<double[][]> multiNumericColumns);
 		void ClearAnnotationColumns();
+
+        void Clone(IDataWithAnnotationColumns clone);
 	}
 }
