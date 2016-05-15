@@ -8,25 +8,23 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Norm{
 	public class UnZScore : IMatrixProcessing{
-		public bool HasButton { get { return false; } }
-		public Bitmap DisplayImage { get { return null; } }
-		public string Name { get { return "Un-Z-score"; } }
-		public string Heading { get { return "Normalization"; } }
-		public bool IsActive { get { return true; } }
-		public float DisplayRank { get { return 50; } }
-		public string HelpOutput { get { return "Normalized expression matrix."; } }
-		public string[] HelpSupplTables { get { return new string[0]; } }
-		public int NumSupplTables { get { return 0; } }
-		public string[] HelpDocuments { get { return new string[0]; } }
-		public int NumDocuments { get { return 0; } }
-		public string Url { get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:UnZScore"; } }
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string Name => "Un-Z-score";
+		public string Heading => "Normalization";
+		public bool IsActive => true;
+		public float DisplayRank => 50;
+		public string HelpOutput => "Normalized expression matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:UnZScore";
+
 		public string Description
-		{
-			get{
-				return "Providing the means and standard deviations used in a z-score transformation the data is " +
-					"transformed back to what it was before z-scoring.";
-			}
-		}
+			=>
+				"Providing the means and standard deviations used in a z-score transformation the data is " +
+				"transformed back to what it was before z-scoring.";
 
 		public int GetMaxThreads(Parameters parameters){
 			return int.MaxValue;
@@ -66,7 +64,9 @@ namespace PerseusPluginLib.Norm{
 			return
 				new Parameters(new Parameter[]{
 					new SingleChoiceWithSubParams("Matrix access"){
-						Values = new[]{"Rows", "Columns"}, ParamNameWidth = 136, TotalWidth = 731,
+						Values = new[]{"Rows", "Columns"},
+						ParamNameWidth = 136,
+						TotalWidth = 731,
 						Help = "Specifies if the z-scoring is performed on the rows or the columns of the matrix.",
 						SubParams = new[]{rowSubParams, columnSubParams}
 					}
@@ -75,7 +75,7 @@ namespace PerseusPluginLib.Norm{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-				ParameterWithSubParams<int> access = param.GetParamWithSubParams<int>("Matrix access");
+			ParameterWithSubParams<int> access = param.GetParamWithSubParams<int>("Matrix access");
 			bool rows = access.Value == 0;
 			int meanInd = access.GetSubParameters().GetParam<int>("Mean").Value;
 			int devInd = access.GetSubParameters().GetParam<int>("Std. dev.").Value;
@@ -104,7 +104,7 @@ namespace PerseusPluginLib.Norm{
 			double stddev = stddevs[i];
 			double mean = means[i];
 			for (int j = 0; j < data.ColumnCount; j++){
-				data.Values[i, j] = (float)((data.Values[i, j] * stddev) + mean);
+				data.Values[i, j] = (float) ((data.Values[i, j]*stddev) + mean);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace PerseusPluginLib.Norm{
 			double stddev = stddevs[j];
 			double mean = means[j];
 			for (int i = 0; i < data.RowCount; i++){
-				data.Values[i, j] = (float)((data.Values[i, j] * stddev) + mean);
+				data.Values[i, j] = (float) ((data.Values[i, j]*stddev) + mean);
 			}
 		}
 	}

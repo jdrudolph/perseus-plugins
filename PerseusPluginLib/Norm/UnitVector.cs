@@ -7,60 +7,26 @@ using PerseusApi.Matrix;
 
 namespace PerseusPluginLib.Norm{
 	public class UnitVector : IMatrixProcessing{
-		public bool HasButton{
-			get { return false; }
-		}
+		public bool HasButton => false;
+		public Bitmap DisplayImage => null;
+		public string HelpOutput => "Normalized expression matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
 
-		public Bitmap DisplayImage{
-			get { return null; }
-		}
+		public string Url
+			=> "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:UnitVector";
 
-		public string HelpOutput{
-			get { return "Normalized expression matrix."; }
-		}
+		public string Name => "Unit vectors";
+		public string Heading => "Normalization";
+		public bool IsActive => true;
+		public float DisplayRank => -8;
 
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:UnitVector"; }
-		}
-
-		public string Name{
-			get { return "Unit vectors"; }
-		}
-
-		public string Heading{
-			get { return "Normalization"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return -8; }
-		}
-
-		public string Description{
-			get{
-				return
-					"The rows/columns are regarded as high-dimensional vectors. They are divided by their lengts resulting in a matrix of unit vectors.";
-			}
-		}
+		public string Description
+			=>
+				"The rows/columns are regarded as high-dimensional vectors. They are divided by their lengts resulting in a matrix of unit vectors."
+			;
 
 		public int GetMaxThreads(Parameters parameters){
 			return 1;

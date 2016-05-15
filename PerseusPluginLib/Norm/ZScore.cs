@@ -11,60 +11,23 @@ using PerseusPluginLib.Properties;
 
 namespace PerseusPluginLib.Norm{
 	public class ZScore : IMatrixProcessing{
-		public bool HasButton{
-			get { return true; }
-		}
+		public bool HasButton => true;
+		public Bitmap DisplayImage => Resources.zscoreButton_Image;
+		public string Name => "Z-score";
+		public string Heading => "Normalization";
+		public bool IsActive => true;
+		public float DisplayRank => -10;
+		public string HelpOutput => "Normalized expression matrix.";
+		public string[] HelpSupplTables => new string[0];
+		public int NumSupplTables => 0;
+		public string[] HelpDocuments => new string[0];
+		public int NumDocuments => 0;
+		public string Url => "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:ZScore";
 
-		public Bitmap DisplayImage{
-			get { return Resources.zscoreButton_Image; }
-		}
-
-		public string Name{
-			get { return "Z-score"; }
-		}
-
-		public string Heading{
-			get { return "Normalization"; }
-		}
-
-		public bool IsActive{
-			get { return true; }
-		}
-
-		public float DisplayRank{
-			get { return -10; }
-		}
-
-		public string HelpOutput{
-			get { return "Normalized expression matrix."; }
-		}
-
-		public string[] HelpSupplTables{
-			get { return new string[0]; }
-		}
-
-		public int NumSupplTables{
-			get { return 0; }
-		}
-
-		public string[] HelpDocuments{
-			get { return new string[0]; }
-		}
-
-		public int NumDocuments{
-			get { return 0; }
-		}
-
-		public string Url{
-			get { return "http://coxdocs.org/doku.php?id=perseus:user:activities:MatrixProcessing:Normalization:ZScore"; }
-		}
-
-		public string Description{
-			get{
-				return
-					"The mean of each row/column is subtracted from each value. The result is then divided by the standard deviation of the row/column.";
-			}
-		}
+		public string Description
+			=>
+				"The mean of each row/column is subtracted from each value. The result is then divided by the standard deviation of the row/column."
+			;
 
 		public int GetMaxThreads(Parameters parameters){
 			return int.MaxValue;
