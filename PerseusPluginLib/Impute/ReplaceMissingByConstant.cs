@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingByConstant : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Replaces all missing values in the main columns with a constant.";
 		public string HelpOutput => "Same matrix but with missing values replaced.";
 		public string[] HelpSupplTables => new string[0];

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
@@ -11,7 +12,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class Divide : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Divide all values by the specified quantity calculated on each row/column.";
 		public string HelpOutput => "Normalized expression matrix.";
 		public string[] HelpSupplTables => new string[0];

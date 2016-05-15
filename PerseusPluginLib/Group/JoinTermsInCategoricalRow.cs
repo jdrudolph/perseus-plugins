@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Group{
 	public class JoinTermsInCategoricalRow : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "The selected terms in the categorical row will be joined to one term.";
 		public string HelpOutput => "The filtered matrix.";
 		public string[] HelpSupplTables => new string[0];

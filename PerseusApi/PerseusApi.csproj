@@ -48,7 +48,6 @@
       <HintPath>..\DLLs\Calc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Document\IDocumentMultiAnalysis.cs" />

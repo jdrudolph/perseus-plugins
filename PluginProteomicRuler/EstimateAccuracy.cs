@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -7,7 +8,7 @@ using PerseusApi.Matrix;
 namespace PluginProteomicRuler{
 	public class EstimateAccuracy : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 
 		public string Description
 			=>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -10,7 +11,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CombineAnnotations : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Search multiple categorical or string columns for the occurence of a set of terms.";
 		public string HelpOutput => "A new categorical column is generated indicating the presence of any of these terms.";
 		public string[] HelpSupplTables => new string[0];

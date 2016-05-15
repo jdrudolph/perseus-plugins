@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -8,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class UnitVector : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string HelpOutput => "Normalized expression matrix.";
 		public string[] HelpSupplTables => new string[0];
 		public int NumSupplTables => 0;

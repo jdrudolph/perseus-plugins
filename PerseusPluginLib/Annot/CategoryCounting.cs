@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -12,7 +13,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Annot{
 	public class CategoryCounting : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "For each term in a categorical column one counts the number of occurrences.";
 		public string HelpOutput => "";
 		public string[] HelpSupplTables => new string[0];

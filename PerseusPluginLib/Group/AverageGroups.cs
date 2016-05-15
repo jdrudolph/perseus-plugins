@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -12,7 +13,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Group{
 	public class AverageGroups : IMatrixProcessing{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.average;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.average);
 		public string HelpOutput => "Averaged expression matrix containing as many columns as there were groups defined.";
 		public string[] HelpSupplTables => new string[0];
 		public int NumSupplTables => 0;

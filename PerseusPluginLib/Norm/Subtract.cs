@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
@@ -12,7 +13,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class Subtract : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "The specified quantity calculated on each row/column is subtracted from each value.";
 		public string HelpOutput => "Normalized expression matrix.";
 		public string[] HelpSupplTables => new string[0];

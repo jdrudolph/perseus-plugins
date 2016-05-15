@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
@@ -12,7 +14,7 @@ namespace PerseusPluginLib.Manual{
 			;
 
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.hand;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.hand);
 		public string Heading => null;
 		public string Name => "Select rows manually";
 		public bool IsActive => true;

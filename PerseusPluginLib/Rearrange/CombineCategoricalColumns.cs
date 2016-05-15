@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class CombineCategoricalColumns : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Combine the terms in two categorical columns to form a new categorical column.";
 		public string HelpOutput => "A new categorical column is generated with combined terms.";
 		public string[] HelpSupplTables => new string[0];

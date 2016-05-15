@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -10,7 +12,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Impute{
 	public class ReplaceMissingFromGaussian : IMatrixProcessing{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.histo;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.histo);
 		public string HelpOutput => "";
 		public int NumSupplTables => 0;
 		public string[] HelpSupplTables => new string[0];

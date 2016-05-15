@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Parse;
@@ -15,7 +17,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Group{
 	public class CreateCategoricalAnnotRow : IMatrixProcessing{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.groupButton_Image;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.groupButton_Image);
 
 		public string Description
 			=>

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -9,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class AddNoise : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Modulate the data with Gaussian noise.";
 		public string HelpOutput => "Same as input matrix with random noise added to the expression columns.";
 		public string[] HelpSupplTables => new string[0];

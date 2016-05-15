@@ -1,4 +1,5 @@
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class SortByColumn : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Simple sorting by a column.";
 		public string HelpOutput => "The same matrix but sorted by the specified column.";
 		public string[] HelpSupplTables => new string[0];

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -10,7 +12,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Load{
 	public class CreateRandomMatrix : IMatrixUpload{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => BaseLib.Properties.Resources.dice;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(BaseLib.Properties.Resources.dice);
 		public string Name => "Create random matrix";
 		public bool IsActive => true;
 		public float DisplayRank => 6;

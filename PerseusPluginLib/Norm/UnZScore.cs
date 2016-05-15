@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Document;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class UnZScore : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Name => "Un-Z-score";
 		public string Heading => "Normalization";
 		public bool IsActive => true;

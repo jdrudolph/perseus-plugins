@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -9,7 +10,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Norm{
 	public class SubtractRowCluster : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Subtract the average pattern of the selected rows from all rows.";
 		public string HelpOutput => "Normalized expression matrix.";
 		public string[] HelpSupplTables => new string[0];

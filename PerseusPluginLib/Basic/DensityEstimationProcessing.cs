@@ -1,4 +1,6 @@
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -12,7 +14,7 @@ namespace PerseusPluginLib.Basic{
 		public float DisplayRank => -3;
 		public bool IsActive => true;
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.density_Image;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.density_Image);
 		public string Heading => "Basic";
 		public string[] HelpSupplTables => new string[0];
 		public int NumSupplTables => 0;

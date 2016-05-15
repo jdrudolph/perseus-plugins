@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -10,7 +12,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterCategoricalColumn : IMatrixProcessing{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.filter2;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.filter2);
 
 		public string Description
 			=> "Those rows are kept or removed that have the specified value in the selected categorical column.";

@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -10,7 +11,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Filter{
 	public class FilterRandomRows : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "A given number of rows is kept based on random decisions.";
 		public string HelpOutput => "The filtered matrix.";
 		public string[] HelpSupplTables => new string[0];

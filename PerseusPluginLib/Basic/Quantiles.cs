@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -10,7 +12,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Basic{
 	public class Quantiles : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => Resources.quantiles;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.quantiles);
 		public string Name => "Quantiles";
 		public string Heading => "Basic";
 		public bool IsActive => true;

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Util;
@@ -13,7 +15,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Join{
 	public class MatchingRowsByName : IMatrixMultiProcessing{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.combineButton_Image;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.combineButton_Image);
 		public string Name => "Matching rows by name";
 		public bool IsActive => true;
 		public float DisplayRank => -5;

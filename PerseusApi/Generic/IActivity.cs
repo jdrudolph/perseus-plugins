@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using BaseLibS.Api;
+﻿using BaseLibS.Api;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 
 namespace PerseusApi.Generic{
@@ -28,6 +28,6 @@ namespace PerseusApi.Generic{
 		/// <summary>
 		/// The image for the menu entry and the shortcut button when applicable.
 		/// </summary>
-		Bitmap DisplayImage { get; }
+		Bitmap2 DisplayImage { get; }
 	}
 }

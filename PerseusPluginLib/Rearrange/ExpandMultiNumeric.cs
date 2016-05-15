@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -11,7 +12,7 @@ namespace PerseusPluginLib.Rearrange{
 	public class ExpandMultiNumeric : IMatrixProcessing{
 		//TODO: optionally distribute values into multiple columns.
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 
 		public string Description
 			=>

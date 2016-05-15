@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using BaseLibS.Util;
 using PerseusApi.Generic;
@@ -10,7 +12,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Export{
 	public class TabSeparatedExport : IMatrixExport{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => BaseLib.Properties.Resources.save2;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(BaseLib.Properties.Resources.save2);
 
 		public string Description
 			=> "Save the matrix to a tab-separated text file. Information on column types will be retained.";

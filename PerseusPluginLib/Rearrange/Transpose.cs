@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -9,7 +10,7 @@ using PerseusApi.Utils;
 namespace PerseusPluginLib.Rearrange{
 	public class Transpose : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 
 		public string Description
 			=> "The matrix of expression values is being transposed, i.e. rows become columns and columns become rows.";

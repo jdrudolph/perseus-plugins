@@ -1,4 +1,6 @@
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -7,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Basic{
 	public class CloneProcessing : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => BaseLib.Properties.Resources.sheep;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(BaseLib.Properties.Resources.sheep);
 		public string Description => "A copy of the input matrix is generated.";
 		public string HelpOutput => "Same as input matrix.";
 		public string[] HelpSupplTables => new string[0];

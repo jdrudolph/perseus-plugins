@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -22,7 +24,7 @@ namespace PerseusPluginLib.Filter{
 
 	public class FilterValidValuesRows : IMatrixProcessing{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.missingsButton_Image;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.missingsButton_Image);
 		public string Name => "Filter rows based on valid values";
 		public string Heading => "Filter rows";
 		public bool IsActive => true;

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using BaseLibS.Parse;
 using BaseLibS.Util;
@@ -13,7 +15,7 @@ using PerseusPluginLib.Properties;
 namespace PerseusPluginLib.Load{
 	public class UnstructuredTxtUpload : IMatrixUpload{
 		public bool HasButton => true;
-		public Bitmap DisplayImage => Resources.raw;
+		public Bitmap2 DisplayImage => GraphUtils.ToBitmap2(Resources.raw);
 		public string Name => "Raw upload";
 		public bool IsActive => true;
 		public float DisplayRank => 10;

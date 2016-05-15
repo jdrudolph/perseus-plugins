@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Text.RegularExpressions;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using PerseusApi.Document;
 using PerseusApi.Generic;
@@ -8,7 +9,7 @@ using PerseusApi.Matrix;
 namespace PerseusPluginLib.Rearrange{
 	public class ProcessTextColumns : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Description => "Values in string columns can be manipulated according to a regular expression.";
 		public string HelpOutput => "";
 		public string[] HelpSupplTables => new string[0];

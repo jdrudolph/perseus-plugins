@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Num.Test;
 using BaseLibS.Num.Vector;
@@ -13,7 +14,7 @@ using PerseusPluginLib.Utils;
 namespace PerseusPluginLib.Significance{
 	public class SignificanceA : IMatrixProcessing{
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string[] HelpDocuments => new string[0];
 		public int NumDocuments => 0;
 		public string[] HelpSupplTables => new string[0];

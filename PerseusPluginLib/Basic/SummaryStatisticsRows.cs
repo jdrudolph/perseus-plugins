@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using PerseusApi.Document;
@@ -54,7 +55,7 @@ namespace PerseusPluginLib.Basic{
 		}
 
 		public bool HasButton => false;
-		public Bitmap DisplayImage => null;
+		public Bitmap2 DisplayImage => null;
 		public string Name => "Summary statistics (rows)";
 		public string Heading => "Basic";
 		public bool IsActive => true;
