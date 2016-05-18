@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginProteomicRuler", "Plu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerseusPluginLib.Test", "PerseusPluginLib\PerseusPluginLib.Test\PerseusPluginLib.Test.csproj", "{F4D933E4-65D7-446C-B345-AAF07CFDC70C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerseusApi.Test", "PerseusApi\PerseusApi.Test\PerseusApi.Test.csproj", "{50E989A2-BE98-4AA6-A696-4A863B303EC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F4D933E4-65D7-446C-B345-AAF07CFDC70C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4D933E4-65D7-446C-B345-AAF07CFDC70C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4D933E4-65D7-446C-B345-AAF07CFDC70C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50E989A2-BE98-4AA6-A696-4A863B303EC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E989A2-BE98-4AA6-A696-4A863B303EC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E989A2-BE98-4AA6-A696-4A863B303EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E989A2-BE98-4AA6-A696-4A863B303EC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

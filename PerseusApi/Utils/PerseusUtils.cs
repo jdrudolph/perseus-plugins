@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using BaseLibS.Num;
 using BaseLibS.Param;
 using BaseLibS.Parse;
@@ -9,6 +10,7 @@ using BaseLibS.Util;
 using Calc;
 using PerseusApi.Generic;
 using PerseusApi.Matrix;
+using PerseusApi.Properties;
 
 namespace PerseusApi.Utils{
 	public static class PerseusUtils{
@@ -446,7 +448,9 @@ namespace PerseusApi.Utils{
 			}
 		}
 
-		private static string[] GetAnnotFiles(){
+		private static string[] GetAnnotFiles()
+		{
+		    //var x = Resources.ResourceManager.GetResourceSet(Resources.Culture, false, false);
 			string folder = FileUtils.executablePath + "\\conf\\annotations";
 			string[] files = Directory.GetFiles(folder);
 			List<string> result = new List<string>();
