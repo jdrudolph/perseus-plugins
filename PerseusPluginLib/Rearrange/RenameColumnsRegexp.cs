@@ -33,12 +33,13 @@ namespace PerseusPluginLib.Rearrange{
 
 		public void ProcessData(IMatrixData mdata, Parameters param, ref IMatrixData[] supplTables,
 			ref IDocumentData[] documents, ProcessInfo processInfo){
-			string regexStr = param.GetParam<string>("Regular expression").Value;
-			Regex regex = new Regex(regexStr);
+			string patternStr = param.GetParam<string>("Pattern").Value;
+			string replacementStr = param.GetParam<string>("Replacement").Value;
+			Regex regex = new Regex(patternStr);
 			for (int i = 0; i < mdata.ColumnCount; i++){
-				string newName = regex.Match(mdata.ColumnNames[i]).Groups[1].ToString();
+				string newName = regex.Replace(mdata.ColumnNames[i], replacementStr);
 				if (string.IsNullOrEmpty(newName)){
-					processInfo.ErrString = "Applying parse rule to '" + mdata.ColumnNames[i] + "' results in an empty string.";
+					processInfo.ErrString = $"Applying replacement rule to '{mdata.ColumnNames[i]}' results in an empty string.";
 					return;
 				}
 				mdata.ColumnNames[i] = newName;
@@ -48,12 +49,10 @@ namespace PerseusPluginLib.Rearrange{
 		public Parameters GetParameters(IMatrixData mdata, ref string errorString){
 			return
 				new Parameters(new Parameter[]{
-					new StringParam("Regular expression"){
-						Help =
-							"The regular expression that determines how the new column names are created from the old " +
-							"column names. As an example if you want to transform 'Ratio H/L Normalized Something' " +
-							"into 'Something' the suitable regular expression is 'Ratio H/L Normalized (.*)'"
-					}
+                    new StringParam("Pattern") { Default = "(*.)",
+                        Help = "The regular expression used to match the column names. See help for examples"},
+                    new StringParam("Replacement"){ Default = "$1",
+                        Help = "The replacement pattern. See help for examples"},
 				});
 		}
 	}
